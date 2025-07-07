@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import ScrollUp from "./ScrollUp";
 import {
   Menu,
   X,
@@ -35,6 +34,7 @@ const SubBrand = () => {
       detailedDesc:
         "Comprehensive research and statistical analysis services for businesses, academic institutions, and organizations. We provide data-driven insights to help you make informed decisions and achieve your strategic objectives.",
       icon: <Brain size={60} />,
+      image: "../public/assets/logo/7.png",
       services: [
         "Market Research",
         "Statistical Analysis",
@@ -50,6 +50,7 @@ const SubBrand = () => {
       detailedDesc:
         "Cutting-edge trading tools and analytics designed specifically for Forex traders. Gain a competitive advantage with our proprietary indicators, automated systems, and market analysis tools.",
       icon: <TrendingUp size={60} />,
+      image: "../public/assets/logo/5.png",
       services: [
         "Trading Indicators",
         "Market Analysis",
@@ -57,7 +58,6 @@ const SubBrand = () => {
         "Risk Management Tools",
       ],
     },
-
     {
       id: "concise",
       name: "8ConCise",
@@ -66,6 +66,7 @@ const SubBrand = () => {
       detailedDesc:
         "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
       icon: <Network size={60} />,
+      image: "../public/assets/logo/8.png",
       services: [
         "Networking Events",
         "Business Matching",
@@ -81,6 +82,7 @@ const SubBrand = () => {
       detailedDesc:
         "Professional guidance for academic and career development. From thesis writing support to career transition coaching, we help individuals achieve their educational and professional goals.",
       icon: <Target size={60} />,
+      image: "../public/assets/logo/3.png",
       services: [
         "Thesis Writing Support",
         "Career Coaching",
@@ -96,6 +98,7 @@ const SubBrand = () => {
       detailedDesc:
         "Comprehensive language learning programs designed to enhance communication skills and open global opportunities. Master new languages with our expert instructors and proven methodologies.",
       icon: <Globe size={60} />,
+      image: "../public/assets/logo/4.png",
       services: [
         "English Proficiency",
         "Business Communication",
@@ -111,6 +114,7 @@ const SubBrand = () => {
       detailedDesc:
         "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
       icon: <Network size={60} />,
+      image: "../public/assets/logo/1.png",
       services: [
         "Networking Events",
         "Business Matching",
@@ -126,6 +130,7 @@ const SubBrand = () => {
       detailedDesc:
         "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
       icon: <Award size={60} />,
+      image: "../public/assets/logo/2.png",
       services: [
         "Full Scholarships",
         "Skills Training",
@@ -141,6 +146,7 @@ const SubBrand = () => {
       detailedDesc:
         "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
       icon: <Award size={60} />,
+      image: "../public/assets/logo/6.png",
       services: [
         "Full Scholarships",
         "Skills Training",
@@ -156,6 +162,7 @@ const SubBrand = () => {
       detailedDesc:
         "A dynamic, productivity-driven space for freelancers, entrepreneurs, online professionals, and students. Whether you're building a startup or finishing your research, 8ConSpace gives you a professional and collaborative environment to grow and execute.",
       icon: <Users size={60} />,
+      image: "../public/assets/logo/10.png",
       services: [
         "Flexible Desk Rentals",
         "Virtual Office Solutions",
@@ -171,6 +178,7 @@ const SubBrand = () => {
       detailedDesc:
         "A consultation arm powered by real-world experience in entrepreneurship. Spearheaded by Sir Nigel Santos, this service provides personalized startup coaching and business model refinement to help entrepreneurs thrive.",
       icon: <BookOpen size={60} />,
+      image: "../public/assets/logo/9.png",
       services: [
         "Startup Coaching",
         "Business Model Analysis",
@@ -202,7 +210,7 @@ const SubBrand = () => {
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100); // Delay to ensure the element is rendered
+        }, 100);
       }
     }
   }, [location]);
@@ -222,7 +230,7 @@ const SubBrand = () => {
       navigate(brand.route);
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 100); // small delay to allow the route to change
+      }, 100);
     } else {
       console.log(
         `Learn more about ${brandName} - Component not yet available`
@@ -232,10 +240,8 @@ const SubBrand = () => {
 
   const handleDropdownNavigation = (brand, action = "scroll") => {
     if (action === "navigate" && brand.route) {
-      // Navigate to the component page
       navigate(brand.route);
     } else {
-      // Scroll to section on current page
       scrollToSection(brand.id);
     }
     setMobileMenuOpen(false);
@@ -243,52 +249,33 @@ const SubBrand = () => {
     setMobileSubBrandsDropdownOpen(false);
   };
 
+  // New scroll-based animation effect
   useEffect(() => {
-    const icons = document.querySelectorAll(".tilt-icon");
+    const animatedImages = document.querySelectorAll(".animated-image");
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const el = entry.target;
-          const icon = el.querySelector(".icon-wrapper");
-
           if (entry.isIntersecting) {
-            el.classList.add("visible");
-            icon.style.transform = "rotateX(0deg) rotateY(0deg) translateY(0)";
+            entry.target.classList.add("visible");
           } else {
-            el.classList.remove("visible");
-            icon.style.transform = "translateY(100px)";
+            entry.target.classList.remove("visible");
           }
         });
       },
       {
-        threshold: 0.8, // ✅ wait until 80% of the section is in view
+        threshold: 0.3,
+        rootMargin: "0px 0px -100px 0px",
       }
     );
 
-    icons.forEach((icon) => observer.observe(icon));
-
-    const handleMouseMove = (e) => {
-      icons.forEach((el) => {
-        if (!el.classList.contains("visible")) return;
-
-        const icon = el.querySelector(".icon-wrapper");
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        const rotateX = (-y / 20).toFixed(2);
-        const rotateY = (x / 20).toFixed(2);
-        icon.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
+    animatedImages.forEach((img) => observer.observe(img));
 
     return () => {
-      icons.forEach((icon) => observer.unobserve(icon));
-      window.removeEventListener("mousemove", handleMouseMove);
+      animatedImages.forEach((img) => observer.unobserve(img));
     };
   }, []);
+
   useEffect(() => {
     const fadeSections = document.querySelectorAll(".fade-section");
 
@@ -302,7 +289,7 @@ const SubBrand = () => {
           }
         });
       },
-      { threshold: 0.5 } // Adjust this to control when fade triggers
+      { threshold: 0.5 }
     );
 
     fadeSections.forEach((section) => fadeObserver.observe(section));
@@ -314,10 +301,9 @@ const SubBrand = () => {
 
   return (
     <div className="app-container">
-      {/* Header - Using exact design from Home.jsx */}
+      {/* Header */}
       <header className={`header ${scrolled ? "scrolled" : ""}`}>
         <div className="header-container">
-          {/* Logo */}
           <a href="/" className="logo">
             <img
               src="/assets/logo/8con Academy Logo White.png"
@@ -326,7 +312,6 @@ const SubBrand = () => {
             />
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="desktop-nav">
             <a
               href="#top"
@@ -340,7 +325,6 @@ const SubBrand = () => {
               Home
             </a>
 
-            {/* Sub-brands Dropdown */}
             <div className="dropdown">
               <span className="nav-link">Sub-brands ▾</span>
               <div className="dropdown-content">
@@ -361,7 +345,6 @@ const SubBrand = () => {
             </div>
           </nav>
 
-          {/* Mobile menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="mobile-menu-toggle"
@@ -371,7 +354,6 @@ const SubBrand = () => {
           </button>
         </div>
 
-        {/* Mobile menu */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
             <a
@@ -382,7 +364,6 @@ const SubBrand = () => {
               Home
             </a>
 
-            {/* Mobile Sub-brands Dropdown */}
             <div className="mobile-dropdown">
               <button
                 className="mobile-nav-link mobile-dropdown-toggle"
@@ -422,8 +403,6 @@ const SubBrand = () => {
 
       <main className="main-content">
         {/* Hero Section */}
-
-        {/* Parallax Bull Section */}
         <section id="home" className="parallax-bull">
           <div className="parallax-overlay"></div>
           <div className="parallax-content">
@@ -457,50 +436,51 @@ const SubBrand = () => {
                 }`}
               >
                 <div
-                  className="brand-content fade-section "
+                  className="brand-content fade-section"
                   data-speed="0.2"
                   data-id={brand.id}
                 >
-                  <div className="icon-wrapper">
-                    <div className="brand-title-wrapper">
-                      <div className="brand-icon-wrapper small">
-                        {brand.icon}
-                      </div>
-                      <h2 className="brand-title">{brand.name}</h2>
-                    </div>
-                    <p className="brand-description">{brand.detailedDesc}</p>
-
-                    <div className="services-grid">
-                      {brand.services.map((service, serviceIndex) => (
-                        <div key={serviceIndex} className="service-item">
-                          <span className="service-bullet">✓</span>
-                          {service}
-                        </div>
-                      ))}
-                    </div>
-
-                    <button
-                      className="learn-more-btn"
-                      onClick={() => handleLearnMore(brand.name)}
-                    >
-                      Learn More
-                      <ArrowRight size={18} />
-                    </button>
+                  <div className="brand-description-highlight">
+                    <p className="brand-description-bold">
+                      {brand.detailedDesc}
+                    </p>
                   </div>
+
+                  <div className="services-grid">
+                    {brand.services.map((service, serviceIndex) => (
+                      <div key={serviceIndex} className="service-item">
+                        <span className="service-bullet">✓</span>
+                        {service}
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    className="learn-more-btn"
+                    onClick={() => handleLearnMore(brand.name)}
+                  >
+                    Learn More
+                    <ArrowRight size={18} />
+                  </button>
                 </div>
 
                 <div className="brand-visual">
-                  <div
-                    className="brand-visual-content parallax-icon tilt-icon"
-                    data-speed="0.2"
-                    data-id={brand.id}
-                  >
-                    <div className="icon-wrapper">
+                  <div className="brand-visual-content animated-image">
+                    <div className="image-container">
                       <img
-                        src="/assets/images/8c93f208-de17-4742-880a-ce1fdd7158ba.png"
+                        src={brand.image}
                         alt={brand.name}
-                        className="parallax-image"
+                        className="brand-image"
+                        onError={(e) => {
+                          e.target.src = "/assets/logo/7.png";
+                        }}
                       />
+                      <div className="image-overlay"></div>
+                      <div className="floating-dots">
+                        <div className="dot dot-1"></div>
+                        <div className="dot dot-2"></div>
+                        <div className="dot dot-3"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -509,17 +489,14 @@ const SubBrand = () => {
           </section>
         ))}
       </main>
-      <ScrollUp />
 
       <style jsx>{`
-        /* Import the navigation styles from your Home.jsx */
         .app-container {
           min-height: 100vh;
           background: #e4eed3;
           font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Use the exact header styles from App.css */
         .header {
           position: fixed;
           top: 0;
@@ -562,31 +539,113 @@ const SubBrand = () => {
           height: 40px;
           width: auto;
         }
-        .tilt-icon {
+
+        /* New animated image styles */
+        .animated-image {
           opacity: 0;
-          transform: translateY(100px);
-          transition: opacity 0.6s ease, transform 0.6s ease;
+          transform: translateY(60px) scale(0.8);
+          transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .tilt-icon.visible {
+        .animated-image.visible {
           opacity: 1;
-          transform: translateY(0);
+          transform: translateY(0) scale(1);
         }
 
-        .icon-wrapper {
-          transition: transform 0.3s ease;
-          will-change: transform;
-          transform-style: preserve-3d;
+        .image-container {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          border-radius: 20px;
+          overflow: hidden;
         }
 
-        .parallax-image {
-          width: 180px;
-          height: auto;
-          object-fit: contain;
-          transform: rotateX(0deg) rotateY(0deg);
-          transition: transform 0.3s ease;
-          will-change: transform;
+        .brand-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 20px;
+          transition: transform 0.6s ease;
         }
+
+        .brand-visual-content:hover .brand-image {
+          transform: scale(1.05);
+        }
+
+        .image-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            135deg,
+            rgba(6, 140, 59, 0.15) 0%,
+            rgba(14, 219, 97, 0.1) 50%,
+            transparent 100%
+          );
+          border-radius: 20px;
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+
+        .brand-visual-content:hover .image-overlay {
+          opacity: 1;
+        }
+
+        .floating-dots {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+        }
+
+        .dot {
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background: #0edb61;
+          border-radius: 50%;
+          opacity: 0;
+          box-shadow: 0 0 10px rgba(14, 219, 97, 0.5);
+        }
+
+        .animated-image.visible .dot {
+          animation: floatDot 3s ease-in-out infinite;
+        }
+
+        .dot-1 {
+          top: 20%;
+          left: 85%;
+          animation-delay: 0s;
+        }
+
+        .dot-2 {
+          top: 60%;
+          left: 90%;
+          animation-delay: 1s;
+        }
+
+        .dot-3 {
+          top: 80%;
+          left: 15%;
+          animation-delay: 2s;
+        }
+
+        @keyframes floatDot {
+          0%,
+          100% {
+            opacity: 0.3;
+            transform: translateY(0px);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(-20px);
+          }
+        }
+
         .fade-section {
           opacity: 0;
           transform: translateY(40px);
@@ -640,7 +699,6 @@ const SubBrand = () => {
           width: 80%;
         }
 
-        /* Dropdown Styles */
         .dropdown {
           position: relative;
         }
@@ -680,7 +738,6 @@ const SubBrand = () => {
           display: block;
         }
 
-        /* Mobile Navigation */
         .mobile-nav {
           background-color: white;
           border-top: 1px solid #e5e7eb;
@@ -753,6 +810,7 @@ const SubBrand = () => {
         .rotate-180 {
           transform: rotate(180deg);
         }
+
         .parallax-bull {
           position: relative;
           height: 100vh;
@@ -771,7 +829,7 @@ const SubBrand = () => {
         }
 
         .parallax-overlay {
-          background-color: rgba(0, 0, 0, 0.4); /* semi-dark overlay */
+          background-color: rgba(0, 0, 0, 0.4);
           position: absolute;
           inset: 0;
           z-index: 2;
@@ -797,7 +855,6 @@ const SubBrand = () => {
           text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
         }
 
-        /* Parallax Container */
         .parallax-container {
           position: relative;
           overflow: hidden;
@@ -814,99 +871,6 @@ const SubBrand = () => {
           background-size: cover;
           background-position: center;
           z-index: -1;
-        }
-
-        /* Hero Section */
-        .hero-section {
-          position: relative;
-          min-height: 100vh;
-          overflow: hidden;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 2rem;
-          text-align: center;
-          color: white;
-        }
-
-        .hero-background {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-          overflow: hidden;
-        }
-
-        .hero-image-bg {
-          position: absolute;
-          inset: 0;
-          background: url("/assets/images/image.png") center center / cover
-            no-repeat;
-          filter: brightness(0.4); /* darkens the background */
-          z-index: 1;
-        }
-
-        .hero-pattern {
-          position: absolute;
-          inset: 0;
-          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23068c3b" opacity="0.07"/></svg>');
-          background-size: 40px 40px;
-          animation: patternShift 40s linear infinite;
-          z-index: 2;
-          pointer-events: none;
-        }
-
-        .hero-container {
-          position: relative;
-          z-index: 3;
-          max-width: 800px;
-          margin: 0 auto;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          background: transparent;
-        }
-
-        .hero-image-container {
-          margin-bottom: 2rem;
-        }
-
-        .hero-image {
-          height: 120px;
-          width: auto;
-        }
-
-        .hero-title {
-          font-size: 2.5rem;
-          margin-bottom: 1rem;
-          font-weight: bold;
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .hero-subtitle {
-          font-size: 1.2rem;
-          margin-bottom: 2rem;
-          text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-buttons {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-        }
-        .hero-buttons .btn-primary {
-          background-color: #068c3b;
-          color: white;
-          padding: 0.75rem 2rem;
-          font-size: 1rem;
-          border: none;
-          border-radius: 9999px;
-          cursor: pointer;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-          transition: background-color 0.3s ease;
-        }
-        .hero-buttons .btn-primary:hover {
-          background-color: #04662b;
         }
 
         .btn-primary {
@@ -931,7 +895,6 @@ const SubBrand = () => {
           box-shadow: 0 12px 35px rgba(6, 140, 59, 0.4);
         }
 
-        /* Brand Sections */
         .brand-section {
           min-height: 100vh;
           display: flex;
@@ -978,37 +941,73 @@ const SubBrand = () => {
           max-width: 600px;
         }
 
-        .brand-icon-wrapper {
-          color: #068c3b;
-          margin-bottom: 2rem;
-          filter: drop-shadow(0 4px 8px rgba(6, 140, 59, 0.2));
-        }
-
-        .brand-title-wrapper {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        .brand-icon-wrapper.small {
-          margin-bottom: 0; /* override the original large margin */
-          color: #068c3b;
-          filter: drop-shadow(0 2px 4px rgba(6, 140, 59, 0.2));
-        }
-        .brand-title {
-          font-size: 3rem;
-          font-weight: 700;
-          color: #333;
-          margin-bottom: 1.5rem;
-          line-height: 1.2;
-        }
-
-        .brand-description {
-          font-size: 1.2rem;
-          color: #666;
-          line-height: 1.7;
+        .brand-description-highlight {
+          background: linear-gradient(
+            135deg,
+            rgba(6, 140, 59, 0.08) 0%,
+            rgba(14, 219, 97, 0.05) 100%
+          );
+          border-radius: 20px;
+          padding: 2rem;
+          border-left: 6px solid #068c3b;
+          box-shadow: 0 8px 25px rgba(6, 140, 59, 0.1);
+          position: relative;
+          overflow: hidden;
           margin-bottom: 2.5rem;
+        }
+
+        .brand-description-highlight::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(14, 219, 97, 0.03),
+            transparent
+          );
+          animation: shimmerDesc 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmerDesc {
+          0% {
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+          }
+          50% {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
+          }
+          100% {
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+          }
+        }
+
+        .brand-name-accent {
+          display: inline-block;
+          font-size: 1.8rem;
+          font-weight: 900;
+          background: linear-gradient(135deg, #068c3b 0%, #0edb61 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: 1rem;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          position: relative;
+          z-index: 2;
+        }
+
+        .brand-description-bold {
+          font-size: 1.4rem;
+          font-weight: 700;
+          color: #2d3748;
+          line-height: 1.6;
+          margin: 1rem 0 0 0;
+          position: relative;
+          z-index: 2;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .services-grid {
@@ -1071,48 +1070,50 @@ const SubBrand = () => {
         }
 
         .brand-visual-content {
-          width: 280px;
-          height: 280px;
+          width: 320px;
+          height: 320px;
           background: linear-gradient(
             135deg,
-            rgba(6, 140, 59, 0.1) 0%,
-            rgba(14, 219, 97, 0.2) 100%
+            rgba(6, 140, 59, 0.08) 0%,
+            rgba(14, 219, 97, 0.12) 100%
           );
-          border-radius: 50%;
+          border-radius: 20px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #068c3b;
-          border: 3px solid rgba(6, 140, 59, 0.2);
           position: relative;
           overflow: hidden;
+          box-shadow: 0 15px 35px rgba(6, 140, 59, 0.15);
+          border: 2px solid rgba(6, 140, 59, 0.1);
         }
 
         .brand-visual-content::before {
           content: "";
           position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
+          top: -2px;
+          left: -2px;
+          right: -2px;
+          bottom: -2px;
           background: linear-gradient(
             45deg,
-            transparent,
-            rgba(14, 219, 97, 0.1),
-            transparent
+            #068c3b,
+            #0edb61,
+            #068c3b,
+            #0edb61
           );
-          animation: shimmer 3s ease-in-out infinite;
+          background-size: 400% 400%;
+          border-radius: 20px;
+          z-index: -1;
+          animation: gradientShift 6s ease infinite;
         }
 
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        @keyframes gradientShift {
+          0%,
+          100% {
+            background-position: 0% 50%;
           }
           50% {
-            transform: translateX(100%) translateY(100%) rotate(45deg);
-          }
-          100% {
-            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            background-position: 100% 50%;
           }
         }
 
@@ -1129,14 +1130,19 @@ const SubBrand = () => {
           .mobile-nav {
             display: block;
           }
+
+          .brand-visual-content {
+            width: 280px;
+            height: 280px;
+          }
         }
 
         @media (max-width: 768px) {
-          .hero-title {
+          .parallax-title {
             font-size: 2.5rem;
           }
 
-          .hero-subtitle {
+          .parallax-subtitle {
             font-size: 1.1rem;
           }
 
@@ -1147,12 +1153,17 @@ const SubBrand = () => {
             text-align: center;
           }
 
-          .brand-title {
-            font-size: 2.2rem;
+          .brand-name-accent {
+            font-size: 1.5rem;
           }
 
-          .brand-description {
-            font-size: 1.1rem;
+          .brand-description-bold {
+            font-size: 1.2rem;
+          }
+
+          .brand-description-highlight {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
           }
 
           .services-grid {
@@ -1160,12 +1171,17 @@ const SubBrand = () => {
           }
 
           .brand-visual-content {
-            width: 220px;
-            height: 220px;
+            width: 250px;
+            height: 250px;
           }
 
           .brand-section {
             padding: 60px 20px;
+          }
+
+          .dot {
+            width: 6px;
+            height: 6px;
           }
         }
 
@@ -1174,11 +1190,11 @@ const SubBrand = () => {
             padding: 0 3%;
           }
 
-          .hero-section {
+          .parallax-bull {
             padding: 100px 15px 60px;
           }
 
-          .hero-title {
+          .parallax-title {
             font-size: 2rem;
           }
 
@@ -1186,8 +1202,18 @@ const SubBrand = () => {
             padding: 50px 15px;
           }
 
-          .brand-title {
-            font-size: 1.8rem;
+          .brand-name-accent {
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+          }
+
+          .brand-description-bold {
+            font-size: 1.1rem;
+          }
+
+          .brand-description-highlight {
+            padding: 1.25rem;
+            border-left-width: 4px;
           }
 
           .brand-content-wrapper {
@@ -1195,8 +1221,8 @@ const SubBrand = () => {
           }
 
           .brand-visual-content {
-            width: 180px;
-            height: 180px;
+            width: 200px;
+            height: 200px;
           }
 
           .services-grid {
@@ -1205,6 +1231,27 @@ const SubBrand = () => {
 
           .service-item {
             padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+          }
+
+          .dot {
+            width: 4px;
+            height: 4px;
+          }
+
+          .dot-1 {
+            top: 15%;
+            left: 80%;
+          }
+
+          .dot-2 {
+            top: 70%;
+            left: 85%;
+          }
+
+          .dot-3 {
+            top: 85%;
+            left: 20%;
           }
         }
 
@@ -1216,6 +1263,18 @@ const SubBrand = () => {
 
           .mobile-menu-toggle {
             display: none;
+          }
+        }
+
+        /* Extra large screens */
+        @media (min-width: 1440px) {
+          .brand-visual-content {
+            width: 360px;
+            height: 360px;
+          }
+
+          .brand-container {
+            max-width: 1400px;
           }
         }
       `}</style>

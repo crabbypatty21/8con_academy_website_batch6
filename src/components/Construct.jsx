@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import ScrollUp from "./ScrollUp";
 import {
   Menu,
   X,
@@ -14,6 +13,7 @@ import {
   TrendingUp,
   Users,
   BookOpen,
+  AlignCenter,
 } from "lucide-react";
 
 const ConStruct = () => {
@@ -28,7 +28,7 @@ const ConStruct = () => {
   const [animatedSections, setAnimatedSections] = useState(new Set());
   const [isInHeroSection, setIsInHeroSection] = useState(true);
   const [heroAnimationKey, setHeroAnimationKey] = useState(0);
-
+  const isAnimated = (sectionId) => animatedSections.has(sectionId);
   // Refs for intersection observer
   const heroRef = useRef(null);
   const leadershipRef = useRef(null);
@@ -255,6 +255,9 @@ const ConStruct = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  const handleLearnMore = () => {
+    handleSmoothScroll("services");
+  };
   return (
     <div style={styles.container}>
       {/* Add CSS styles with animations */}
@@ -571,6 +574,48 @@ const ConStruct = () => {
             transform: translateY(0) translateX(0) scale(1) !important;
           }
 
+          .animate-fade-in-up {
+            animation: fadeInUp 1.2s ease-out forwards;
+          }
+
+          .animate-slide-in-top {
+            animation: fadeInDown 1s ease-out forwards;
+          }
+
+          .animate-zoom-in {
+            animation: scaleIn 0.8s ease-out forwards;
+          }
+
+          .animate-pulse-glow {
+            animation: fadeInUp 2s infinite;
+          }
+
+          .stagger-1 { animation-delay: 0.1s; }
+          .stagger-2 { animation-delay: 0.3s; }
+          .stagger-3 { animation-delay: 0.5s; }
+
+          .hero-text-clear {
+            clear: both !important;
+            display: block !important;
+            width: 100% !important;
+            position: relative !important;
+          }
+
+          .hero-buttons-clear {
+            clear: both !important;
+            display: flex !important;
+            margin-top: 2rem !important;
+            position: relative !important;
+            z-index: 10 !important;
+          }
+
+          .hero-description-fix {
+            margin-bottom: 3rem !important;
+            padding-bottom: 1rem !important;
+            display: block !important;
+            clear: both !important;
+          }
+
           /* Enhanced Hero Title Animations with reset capability */
           .hero-title {
             opacity: 0;
@@ -618,18 +663,21 @@ const ConStruct = () => {
             }
           }
           
+            @media (min-width: 1024px) {
+  .heroInnerGroup {
+    flex-direction: row;        /* Only on wide screens */
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
           @media (min-width: 1025px) {
             .mobile-nav {
               display: none !important;
             }
           }
 
-          /* Additional responsive enhancements */
-          @media (max-width: 768px) {
-            .header-container {
-              padding-right: 4%;
-              padding-left: 4%;
-            }
             
             .servicesGrid,
             .benefitsGrid,
@@ -658,6 +706,7 @@ const ConStruct = () => {
             }
           }
 
+          
           /* Reduce motion for users who prefer it */
           @media (prefers-reduced-motion: reduce) {
             .animate-fade-up,
@@ -681,6 +730,141 @@ const ConStruct = () => {
               transform: none;
             }
           }
+            @media (max-width: 1024px) {
+  .heroSection {
+    padding-top: 120px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  
+  .heroContent {
+    max-width: 100% !important;
+    padding: 0 10px !important;
+    gap: 1.5rem !important;
+  }
+  
+  .heroForegroundContent {
+    max-width: 95% !important;
+    margin: 0 auto !important;
+    padding: 2rem 1.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding-top: 100px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    min-height: 90vh !important;
+  }
+  
+  .heroContent {
+    padding: 0 5px !important;
+    gap: 1.2rem !important;
+  }
+  
+  .heroForegroundContent {
+    max-width: 98% !important;
+    padding: 1.5rem 1rem !important;
+    margin: 0 auto !important;
+  }
+  
+  .heroTopImage {
+    max-width: 300px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    padding: 90px 12px 50px 12px !important;
+    min-height: 85vh !important;
+  }
+  
+  .heroContent {
+    padding: 0 !important;
+    gap: 1rem !important;
+    width: 100% !important;
+  }
+  
+  .heroForegroundContent {
+    max-width: 100% !important;
+    padding: 1.2rem 0.8rem !important;
+    margin: 0 auto !important;
+    border-radius: 12px !important;
+  }
+  
+  .heroTopImage {
+    max-width: 250px !important;
+  }
+  
+  .heroButtons {
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+}
+
+/* Prevent content overflow */
+.heroForegroundContent * {
+  max-width: 100%;
+  word-wrap: break-word;
+}
+  .animate-on-scroll {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: none;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.animate-slide-in-top {
+  animation: slideInFromTop 1s ease-out forwards;
+}
+
+.animate-zoom-in {
+  animation: zoomIn 0.8s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.3s; }
+.stagger-3 { animation-delay: 0.5s; }
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(14, 219, 97, 0.6);
+  }
+}
         `}
       </style>
 
@@ -827,321 +1011,366 @@ const ConStruct = () => {
           </nav>
         )}
       </header>
-      <main>
-        {/* Hero Section with key-based animation reset */}
-        <section id="hero" style={styles.heroSection} ref={heroRef}>
-          <div style={styles.heroContent} key={heroAnimationKey}>
-            <h1
-              style={styles.companyTitle}
-              className={`hero-title ${
-                animatedSections.has("hero") ? "animate" : ""
-              }`}
-            >
-              8ConStruct
-            </h1>
+
+      {/* Hero Section with key-based animation reset */}
+      <section id="hero" ref={heroRef} style={styles.heroSection}>
+        <div style={styles.heroContent} key={heroAnimationKey}>
+          {/* Large Brand Logo/Number Image - Like ConCise */}
+          <img
+            src="/assets/logo/7.png"
+            alt="8ConStruct"
+            style={styles.heroTopImage}
+            className={`animate-on-scroll ${
+              isAnimated("hero") ? "animate-slide-in-top" : ""
+            }`}
+          />
+
+          {/* Glassmorphic Content Block */}
+          <div style={styles.heroForegroundContent}>
+            {/* Subtitle */}
             <p
               style={styles.heroSubtitle}
-              className={`hero-subtitle ${
-                animatedSections.has("hero") ? "animate" : ""
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""
               }`}
             >
               Building Clarity, Confidence, and Results in Data
             </p>
+
+            {/* Description */}
             <p
               style={styles.heroDescription}
-              className={`hero-description ${
-                animatedSections.has("hero") ? "animate" : ""
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""
               }`}
             >
               Premier provider of statistical analysis, data refinement, and
               research consultancy services, helping students, researchers, and
               companies achieve clarity and actionable insights.
             </p>
-          </div>
-        </section>
 
-        {/* Leadership Section */}
-        <section
-          id="leadership"
-          style={styles.leadershipSection}
-          ref={leadershipRef}
-          className={`section-animate ${
-            animatedSections.has("leadership") ? "active" : ""
-          }`}
-        >
-          <div style={styles.container2}>
-            <h2 style={styles.sectionTitle}>Led by Expert Leadership</h2>
-            <p style={styles.leadershipText}>
-              Services led by{" "}
-              <strong style={styles.strongText}>Doc May L. Francisco</strong>,
-              an expert with extensive experience in academic and business
-              research, ensuring precision, reliability, and results that
-              empower clients to excel in their respective fields.
-            </p>
-          </div>
-        </section>
-
-        {/* Services Section */}
-        <section
-          id="services"
-          style={styles.servicesSection}
-          ref={servicesRef}
-          className={`section-animate ${
-            animatedSections.has("services") ? "active" : ""
-          }`}
-        >
-          <div style={styles.container2}>
-            <h2 style={{ ...styles.sectionTitle, color: "#ffffff" }}>
-              Our Services
-            </h2>
-            <div style={styles.servicesGrid}>
-              {[
-                {
-                  title: "Statistical Analysis for Research",
-                  description:
-                    "Comprehensive statistical services tailored to support academic and corporate research.",
-                  items: [
-                    "• Academic Research: Thesis, dissertations, and journal articles",
-                    "• Corporate Research: Data-driven business strategies and market analysis",
-                    "• Advanced statistical modeling and predictive analysis",
-                  ],
-                },
-                {
-                  title: "Data Refinement and Management",
-                  description:
-                    "Transform raw data into meaningful insights through comprehensive data management.",
-                  items: [
-                    "• Data Cleaning: Remove inconsistencies and ensure accuracy",
-                    "• Data Transformation: Structure data for analysis and reporting",
-                    "• Data Visualization: Create intuitive charts and dashboards",
-                  ],
-                },
-                {
-                  title: "Research Consultancy",
-                  description:
-                    "Personalized guidance for students, academics, and businesses.",
-                  items: [
-                    "• Topic selection and research proposal writing",
-                    "• Literature review for strong theoretical foundation",
-                    "• Survey and experiment design assistance",
-                  ],
-                },
-                {
-                  title: "Customized Workshops and Training",
-                  description:
-                    "Tailored workshops to enhance research and data analysis skills.",
-                  items: [
-                    "• Statistical tools training (SPSS, STATA, Excel, R)",
-                    "• Data interpretation and hypothesis validation",
-                    "• Effective presentation of research findings",
-                  ],
-                },
-                {
-                  title: "Technical Writing Support",
-                  description:
-                    "Professional assistance in writing and structuring research materials.",
-                  items: [
-                    "• Research papers, reports, and presentations",
-                    "• Focus on clarity, coherence, and academic rigor",
-                    "• APA, MLA, Chicago formatting compliance",
-                  ],
-                },
-                {
-                  title: "Specialized Support for Companies",
-                  description:
-                    "Data-driven solutions for strategic business decisions.",
-                  items: [
-                    "• Market Research: Trends and competitive analysis",
-                    "• Operational Efficiency Studies: Workflow optimization",
-                    "• Employee Insights: Organizational culture improvement",
-                  ],
-                },
-              ].map((service, index) => (
-                <div
-                  key={index}
-                  ref={(el) => (serviceCardsRef.current[index] = el)}
-                  style={styles.serviceCard}
-                  className="animate-fade-up"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-5px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 12px 35px rgba(14, 219, 97, 0.15)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow =
-                      "0 8px 25px rgba(0,0,0,0.1)";
-                  }}
-                >
-                  <h3 style={styles.serviceTitle}>{service.title}</h3>
-                  <p style={styles.serviceDescription}>{service.description}</p>
-                  <ul style={styles.serviceList}>
-                    {service.items.map((item, itemIndex) => (
-                      <li key={itemIndex} style={styles.serviceListItem}>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us Section */}
-        <section
-          id="why-choose"
-          style={styles.whyChooseSection}
-          ref={whyChooseRef}
-          className={`section-animate ${
-            animatedSections.has("why-choose") ? "active" : ""
-          }`}
-        >
-          <div style={styles.container2}>
-            <h2 style={styles.sectionTitle}>Why Choose 8ConStruct?</h2>
-            <div style={styles.benefitsGrid}>
-              {[
-                {
-                  title: "Expert Leadership",
-                  description:
-                    "Years of experience in academic research and corporate consulting with Doc May L. Francisco's deep understanding of research methodologies.",
-                },
-                {
-                  title: "Comprehensive Support",
-                  description:
-                    "End-to-end support from initial research design to final presentation of results, ensuring a seamless process.",
-                },
-                {
-                  title: "Tailored Solutions",
-                  description:
-                    "Every project is unique, and our approach is customized to meet specific needs of students, academics, or businesses.",
-                },
-                {
-                  title: "Quality Assurance",
-                  description:
-                    "Rigorous quality checks ensure accuracy, reliability, and adherence to international research standards.",
-                },
-                {
-                  title: "Timely Delivery",
-                  description:
-                    "Committed to meeting deadlines without compromising on quality, helping clients stay on track with their goals.",
-                },
-                {
-                  title: "Affordable Excellence",
-                  description:
-                    "High-quality services at competitive rates, making professional research support accessible to students and businesses alike.",
-                },
-              ].map((benefit, index) => (
-                <div
-                  key={index}
-                  ref={(el) => (benefitCardsRef.current[index] = el)}
-                  style={styles.benefitCard}
-                  className="animate-scale"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.05)";
-                    e.currentTarget.style.boxShadow =
-                      "0 12px 35px rgba(14, 219, 97, 0.15)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.boxShadow =
-                      "0 8px 25px rgba(0,0,0,0.1)";
-                  }}
-                >
-                  <h3 style={styles.benefitTitle}>{benefit.title}</h3>
-                  <p style={styles.benefitDescription}>{benefit.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Clients Section */}
-        <section
-          id="clients"
-          style={styles.clientsSection}
-          ref={clientsRef}
-          className={`section-animate ${
-            animatedSections.has("clients") ? "active" : ""
-          }`}
-        >
-          <div style={styles.container2}>
-            <h2 style={{ ...styles.sectionTitle, color: "#ffffff" }}>
-              Who We Serve
-            </h2>
-            <div style={styles.clientsGrid}>
-              {[
-                {
-                  title: "Students & Academics",
-                  description:
-                    "Supporting undergraduate, graduate, and doctoral students with thesis, dissertation, and research projects.",
-                  icon: "📚",
-                },
-                {
-                  title: "Researchers & Institutions",
-                  description:
-                    "Collaborating with research institutions, universities, and independent researchers on complex studies.",
-                  icon: "🔬",
-                },
-                {
-                  title: "Businesses & Corporations",
-                  description:
-                    "Helping companies make data-driven decisions through market research, operational studies, and strategic analysis.",
-                  icon: "🏢",
-                },
-              ].map((client, index) => (
-                <div
-                  key={index}
-                  ref={(el) => (clientCategoriesRef.current[index] = el)}
-                  style={styles.clientCard}
-                  className="animate-fade-up"
-                >
-                  <div style={styles.clientIcon}>{client.icon}</div>
-                  <h3 style={styles.clientTitle}>{client.title}</h3>
-                  <p style={styles.clientDescription}>{client.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section
-          id="cta"
-          style={styles.ctaSection}
-          ref={ctaRef}
-          className={`section-animate ${
-            animatedSections.has("cta") ? "active" : ""
-          }`}
-        >
-          <div style={styles.container2}>
-            <h2 style={styles.ctaTitle}>Ready to Transform Your Data?</h2>
-            <p style={styles.ctaDescription}>
-              Let 8ConStruct help you build clarity, confidence, and results in
-              your research and data analysis projects.
-            </p>
-            <button
-              style={styles.ctaButton}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "#0bb454";
-                e.target.style.transform = "translateY(-3px)";
-                e.target.style.boxShadow = "0 8px 25px rgba(14, 219, 97, 0.3)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "#0edb61";
-                e.target.style.transform = "translateY(0)";
-                e.target.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.2)";
-              }}
-              onClick={() => {
-                window.location.href = "mailto:contact@8construct.com";
-              }}
+            {/* Buttons */}
+            <div
+              style={styles.heroButtons}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-zoom-in stagger-3" : ""
+              }`}
             >
-              Get Started Today
-            </button>
+              <button
+                style={styles.ctaButtonPrimary}
+                className={isAnimated("hero") ? "animate-pulse-glow" : ""}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#ff1f2c";
+                  e.currentTarget.style.transform = "translateY(-3px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "#0edb61";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                Get Started
+              </button>
+
+              <button
+                style={styles.ctaButtonSecondary}
+                onClick={handleLearnMore}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#0edb61";
+                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.transform = "translateY(-3px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                Learn More
+              </button>
+            </div>
           </div>
-        </section>
-      </main>
-      <ScrollUp />
+        </div>
+      </section>
+      {/* Leadership Section */}
+      <section
+        id="leadership"
+        style={styles.leadershipSection}
+        ref={leadershipRef}
+        className={`section-animate ${
+          animatedSections.has("leadership") ? "active" : ""
+        }`}
+      >
+        <div style={styles.container2}>
+          <h2 style={styles.sectionTitle}>Led by Expert Leadership</h2>
+          <p style={styles.leadershipText}>
+            Services led by{" "}
+            <strong style={styles.strongText}>Doc May L. Francisco</strong>, an
+            expert with extensive experience in academic and business research,
+            ensuring precision, reliability, and results that empower clients to
+            excel in their respective fields.
+          </p>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section
+        id="services"
+        style={styles.servicesSection}
+        ref={servicesRef}
+        className={`section-animate ${
+          animatedSections.has("services") ? "active" : ""
+        }`}
+      >
+        <div style={styles.container2}>
+          <h2 style={{ ...styles.sectionTitle, color: "#ffffff" }}>
+            Our Services
+          </h2>
+          <div style={styles.servicesGrid}>
+            {[
+              {
+                title: "Statistical Analysis for Research",
+                description:
+                  "Comprehensive statistical services tailored to support academic and corporate research.",
+                items: [
+                  "• Academic Research: Thesis, dissertations, and journal articles",
+                  "• Corporate Research: Data-driven business strategies and market analysis",
+                  "• Advanced statistical modeling and predictive analysis",
+                ],
+              },
+              {
+                title: "Data Refinement and Management",
+                description:
+                  "Transform raw data into meaningful insights through comprehensive data management.",
+                items: [
+                  "• Data Cleaning: Remove inconsistencies and ensure accuracy",
+                  "• Data Transformation: Structure data for analysis and reporting",
+                  "• Data Visualization: Create intuitive charts and dashboards",
+                ],
+              },
+              {
+                title: "Research Consultancy",
+                description:
+                  "Personalized guidance for students, academics, and businesses.",
+                items: [
+                  "• Topic selection and research proposal writing",
+                  "• Literature review for strong theoretical foundation",
+                  "• Survey and experiment design assistance",
+                ],
+              },
+              {
+                title: "Customized Workshops and Training",
+                description:
+                  "Tailored workshops to enhance research and data analysis skills.",
+                items: [
+                  "• Statistical tools training (SPSS, STATA, Excel, R)",
+                  "• Data interpretation and hypothesis validation",
+                  "• Effective presentation of research findings",
+                ],
+              },
+              {
+                title: "Technical Writing Support",
+                description:
+                  "Professional assistance in writing and structuring research materials.",
+                items: [
+                  "• Research papers, reports, and presentations",
+                  "• Focus on clarity, coherence, and academic rigor",
+                  "• APA, MLA, Chicago formatting compliance",
+                ],
+              },
+              {
+                title: "Specialized Support for Companies",
+                description:
+                  "Data-driven solutions for strategic business decisions.",
+                items: [
+                  "• Market Research: Trends and competitive analysis",
+                  "• Operational Efficiency Studies: Workflow optimization",
+                  "• Employee Insights: Organizational culture improvement",
+                ],
+              },
+            ].map((service, index) => (
+              <div
+                key={index}
+                ref={(el) => (serviceCardsRef.current[index] = el)}
+                style={styles.serviceCard}
+                className="animate-fade-up"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-5px)";
+                  e.currentTarget.style.boxShadow =
+                    "0 12px 35px rgba(14, 219, 97, 0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow =
+                    "0 8px 25px rgba(0,0,0,0.1)";
+                }}
+              >
+                <h3 style={styles.serviceTitle}>{service.title}</h3>
+                <p style={styles.serviceDescription}>{service.description}</p>
+                <ul style={styles.serviceList}>
+                  {service.items.map((item, itemIndex) => (
+                    <li key={itemIndex} style={styles.serviceListItem}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section
+        id="why-choose"
+        style={styles.whyChooseSection}
+        ref={whyChooseRef}
+        className={`section-animate ${
+          animatedSections.has("why-choose") ? "active" : ""
+        }`}
+      >
+        <div style={styles.container2}>
+          <h2 style={styles.sectionTitle}>Why Choose 8ConStruct?</h2>
+          <div style={styles.benefitsGrid}>
+            {[
+              {
+                title: "Expert Leadership",
+                description:
+                  "Years of experience in academic research and corporate consulting with Doc May L. Francisco's deep understanding of research methodologies.",
+              },
+              {
+                title: "Comprehensive Support",
+                description:
+                  "End-to-end support from initial research design to final presentation of results, ensuring a seamless process.",
+              },
+              {
+                title: "Tailored Solutions",
+                description:
+                  "Every project is unique, and our approach is customized to meet specific needs of students, academics, or businesses.",
+              },
+              {
+                title: "Quality Assurance",
+                description:
+                  "Rigorous quality checks ensure accuracy, reliability, and adherence to international research standards.",
+              },
+              {
+                title: "Timely Delivery",
+                description:
+                  "Committed to meeting deadlines without compromising on quality, helping clients stay on track with their goals.",
+              },
+              {
+                title: "Affordable Excellence",
+                description:
+                  "High-quality services at competitive rates, making professional research support accessible to students and businesses alike.",
+              },
+            ].map((benefit, index) => (
+              <div
+                key={index}
+                ref={(el) => (benefitCardsRef.current[index] = el)}
+                style={styles.benefitCard}
+                className="animate-scale"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.boxShadow =
+                    "0 12px 35px rgba(14, 219, 97, 0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.boxShadow =
+                    "0 8px 25px rgba(0,0,0,0.1)";
+                }}
+              >
+                <h3 style={styles.benefitTitle}>{benefit.title}</h3>
+                <p style={styles.benefitDescription}>{benefit.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Clients Section */}
+      <section
+        id="clients"
+        style={styles.clientsSection}
+        ref={clientsRef}
+        className={`section-animate ${
+          animatedSections.has("clients") ? "active" : ""
+        }`}
+      >
+        <div style={styles.container2}>
+          <h2 style={{ ...styles.sectionTitle, color: "#ffffff" }}>
+            Who We Serve
+          </h2>
+          <div style={styles.clientsGrid}>
+            {[
+              {
+                title: "Students & Academics",
+                description:
+                  "Supporting undergraduate, graduate, and doctoral students with thesis, dissertation, and research projects.",
+                icon: "📚",
+              },
+              {
+                title: "Researchers & Institutions",
+                description:
+                  "Collaborating with research institutions, universities, and independent researchers on complex studies.",
+                icon: "🔬",
+              },
+              {
+                title: "Businesses & Corporations",
+                description:
+                  "Helping companies make data-driven decisions through market research, operational studies, and strategic analysis.",
+                icon: "🏢",
+              },
+            ].map((client, index) => (
+              <div
+                key={index}
+                ref={(el) => (clientCategoriesRef.current[index] = el)}
+                style={styles.clientCard}
+                className="animate-fade-up"
+              >
+                <div style={styles.clientIcon}>{client.icon}</div>
+                <h3 style={styles.clientTitle}>{client.title}</h3>
+                <p style={styles.clientDescription}>{client.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section
+        id="cta"
+        style={styles.ctaSection}
+        ref={ctaRef}
+        className={`section-animate ${
+          animatedSections.has("cta") ? "active" : ""
+        }`}
+      >
+        <div style={styles.container2}>
+          <h2 style={styles.ctaTitle}>Ready to Transform Your Data?</h2>
+          <p style={styles.ctaDescription}>
+            Let 8ConStruct help you build clarity, confidence, and results in
+            your research and data analysis projects.
+          </p>
+          <button
+            style={styles.ctaButton}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = "#0bb454";
+              e.target.style.transform = "translateY(-3px)";
+              e.target.style.boxShadow = "0 8px 25px rgba(14, 219, 97, 0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "#0edb61";
+              e.target.style.transform = "translateY(0)";
+              e.target.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.2)";
+            }}
+            onClick={() => {
+              window.location.href = "mailto:contact@8construct.com";
+            }}
+          >
+            Get Started Today
+          </button>
+        </div>
+      </section>
     </div>
   );
 };
@@ -1150,14 +1379,19 @@ const ConStruct = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundColor: "#ffffff",
     fontFamily: "'Montserrat', sans-serif",
+    lineHeight: "1.6",
+    color: "#000000",
+    margin: 0,
+    padding: 0,
   },
   container2: {
     maxWidth: "1200px",
     margin: "0 auto",
-    padding: "0 clamp(20px, 5vw, 40px)",
+    padding: "0 20px",
   },
+
+  // Hero Section - Green Background
   heroSection: {
     minHeight: "100vh",
     background:
@@ -1165,38 +1399,201 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    textAlign: "center",
-    padding:
-      "clamp(100px, 15vh, 140px) clamp(20px, 5vw, 40px) clamp(60px, 10vh, 80px)",
+    padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)", // ✅ Reduce top/bottom padding
     position: "relative",
     overflow: "hidden",
+    textAlign: "center",
+    // Responsive adjustments
+    "@media (max-width: 768px)": {
+      padding: "120px 15px 60px",
+      minHeight: "90vh",
+    },
+    "@media (max-width: 480px)": {
+      padding: "100px 12px 40px",
+      minHeight: "85vh",
+    },
   },
+
   heroContent: {
-    maxWidth: "800px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
+    position: "relative",
     zIndex: 2,
+    maxWidth: "800px",
+    margin: "0 auto",
+    // Responsive width
+    "@media (max-width: 768px)": {
+      maxWidth: "100%",
+    },
   },
+
   companyTitle: {
     fontSize: "clamp(2.5rem, 8vw, 4rem)",
-    fontWeight: "900",
-    color: "#ffffff",
+    fontWeight: "700",
     marginBottom: "1rem",
-    textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
-    lineHeight: "1.1",
+    textShadow: "0 4px 8px rgba(0,0,0,0.3)",
+    color: "#ffffff",
   },
+
   heroSubtitle: {
     fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-    color: "#ffffff",
-    marginBottom: "1.5rem",
     fontWeight: "600",
-    lineHeight: "1.4",
+    marginBottom: "1rem",
+    margin: "0 0 1rem 0",
+    opacity: "0.9",
+    color: "#ffffff",
+    lineHeight: "1.3",
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
+      marginBottom: "1.2rem",
+    },
   },
+
   heroDescription: {
-    fontSize: "clamp(1rem, 3vw, 1.2rem)",
+    fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
     color: "#cccccc",
     lineHeight: "1.6",
-    maxWidth: "600px",
-    margin: "0 auto",
+    marginTop: "0 !important",
+    marginBottom: "0 !important", // Let CSS class handle it
+    paddingBottom: "0 !important",
+    opacity: "0.95",
+
+    // Mobile responsiveness
+    "@media (max-width: 768px)": {
+      marginBottom: "2rem",
+    },
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.85rem, 4vw, 1rem)",
+      lineHeight: "1.6",
+      marginBottom: "1.5rem",
+    },
   },
+
+  heroForegroundContent: {
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    padding: "clamp(1rem, 2vw, 1.5rem)",
+    borderRadius: "15px",
+    backdropFilter: "blur(6px)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    maxWidth: "1000px",
+    width: "100%",
+
+    textAlign: "center",
+
+    marginBottom: "10rem",
+    marginTop: "-100px",
+    "@media (max-width: 768px)": {
+      padding: "1.5rem 1rem",
+      gap: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "1.2rem 0.8rem",
+      gap: "0.8rem",
+    },
+  },
+
+  heroTopImage: {
+    width: "clamp(250px, 40vw, 500px)",
+    height: "auto",
+    opacity: 0.9,
+    pointerEvents: "none",
+    marginTop: "-80px",
+  },
+
+  heroButtons: {
+    display: "flex",
+    gap: "1rem",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    marginTop: "2rem",
+    margin: "0 !important", // Force reset
+    padding: "0 !important",
+    position: "relative",
+    zIndex: "1",
+    // Mobile adjustments
+    "@media (max-width: 768px)": {
+      gap: "0.8rem",
+      marginTop: "1.5rem",
+    },
+    "@media (max-width: 480px)": {
+      flexDirection: "column",
+      gap: "0.8rem",
+      alignItems: "center",
+    },
+  },
+
+  ctaButtonPrimary: {
+    background: "#0edb61",
+    color: "#ffffff",
+    border: "none",
+    padding: "1rem 2rem",
+    fontSize: "1.1rem",
+    fontWeight: "600",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    textTransform: "uppercase",
+    // Responsive button sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
+  },
+
+  ctaButtonSecondary: {
+    background: "transparent",
+    color: "#ffffff",
+    border: "2px solid #ffffff",
+    padding: "1rem 2rem",
+    fontSize: "1.1rem",
+    fontWeight: "600",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    textTransform: "uppercase",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
+  },
+
+  ctaButtonRed: {
+    background: "#ff1f2c",
+    color: "#ffffff",
+    border: "none",
+    padding: "1rem 2rem",
+    fontSize: "1.1rem",
+    fontWeight: "600",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    textTransform: "uppercase",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
+  },
+
   leadershipSection: {
     padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
     backgroundColor: "#f8f9fa",

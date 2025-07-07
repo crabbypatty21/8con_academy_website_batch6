@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import ScrollUp from "./ScrollUp";
 import {
   Menu,
   X,
@@ -31,6 +30,18 @@ const ConSpace = () => {
   const [animationKey, setAnimationKey] = useState(0);
   const [visibleSections, setVisibleSections] = useState(new Set());
 
+  const [animatedSections, setAnimatedSections] = useState(new Set());
+  const [isInHeroSection, setIsInHeroSection] = useState(false);
+  const [heroAnimationKey, setHeroAnimationKey] = useState(0);
+
+  // Refs for sections
+  const heroRef = useRef(null);
+  const aboutRef = useRef(null);
+  const servicesRef = useRef(null);
+  const featuresRef = useRef(null);
+  const clientsRef = useRef(null);
+  const ctaRef = useRef(null);
+  const isAnimated = (sectionId) => animatedSections.has(sectionId);
   const subBrandsData = [
     {
       id: "construct",
@@ -97,72 +108,82 @@ const ConSpace = () => {
     },
   ];
 
-  // Fixed scroll detection for animations
+  // Intersection Observer setup
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.id;
+          setAnimatedSections((prev) => new Set([...prev, sectionId]));
+        }
+      });
+    }, observerOptions);
+
+    const sections = [
+      heroRef,
+      aboutRef,
+      servicesRef,
+      featuresRef,
+      clientsRef,
+      ctaRef,
+    ];
+
+    sections.forEach((ref) => {
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Observer for hero section to detect when user is at top
+  useEffect(() => {
+    const heroObserverOptions = {
+      threshold: 0.6,
+      rootMargin: "0px",
+    };
+
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const wasInHero = isInHeroSection;
+        const nowInHero = entry.isIntersecting;
+
+        setIsInHeroSection(nowInHero);
+
+        if (nowInHero) {
+          // Reset ALL section animations when entering hero section
+          setAnimatedSections(new Set());
+          setHeroAnimationKey((prev) => prev + 1);
+
+          // Trigger hero animation
+          setTimeout(() => {
+            setAnimatedSections((prev) => new Set([...prev, "hero"]));
+          }, 100);
+        }
+      });
+    }, heroObserverOptions);
+
+    if (heroRef.current) {
+      heroObserver.observe(heroRef.current);
+    }
+
+    return () => heroObserver.disconnect();
+  }, [isInHeroSection]);
+
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setScrolled(scrollTop > 0);
-
-      // Debug: Log scroll position
-      console.log("Scroll position:", scrollTop);
-
-      // Check if user is at the top/hero section
-      const heroSection = document.getElementById("top");
-      const heroHeight = heroSection ? heroSection.offsetHeight : 0;
-      const isAtTop = scrollTop < heroHeight * 0.2;
-
-      console.log("Is at top:", isAtTop, "Hero height:", heroHeight);
-
-      // Reset animations when user returns to top
-      if (isAtTop && visibleSections.size > 0) {
-        console.log("Resetting animations");
-        setVisibleSections(new Set());
-        setAnimationKey((prev) => prev + 1);
-        return;
-      }
-
-      // Only check section visibility if not at top
-      if (!isAtTop) {
-        const sections = ["about", "services", "features", "clients", "cta"];
-
-        sections.forEach((sectionId) => {
-          const section = document.getElementById(sectionId);
-          if (section) {
-            const rect = section.getBoundingClientRect();
-            const isVisible =
-              rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-
-            console.log(`Section ${sectionId}:`, {
-              top: rect.top,
-              bottom: rect.bottom,
-              windowHeight: window.innerHeight,
-              isVisible,
-            });
-
-            if (isVisible && !visibleSections.has(sectionId)) {
-              console.log(`Making ${sectionId} visible`);
-              setVisibleSections((prev) => {
-                const newSet = new Set(prev);
-                newSet.add(sectionId);
-                return newSet;
-              });
-            }
-          }
-        });
-      }
+      setScrolled(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
-    // Initial check after a delay
-    setTimeout(handleScroll, 500);
-
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [visibleSections]);
-
-  // Debug: Log visible sections
-  useEffect(() => {
-    console.log("Visible sections:", Array.from(visibleSections));
-  }, [visibleSections]);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -475,6 +496,9 @@ const ConSpace = () => {
             }
           }
 
+   
+
+
           /* Hero Section Animations - Always Active */
           .hero-title {
             animation: fadeInDown 1.2s ease-out;
@@ -606,6 +630,13 @@ const ConSpace = () => {
           }
 
           @media (max-width: 768px) {
+  .clients-grid-2x2 {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+}
+
+          @media (max-width: 768px) {
             .hero-title {
               animation: fadeInDown 1s ease-out;
             }
@@ -622,9 +653,120 @@ const ConSpace = () => {
               animation: zoomIn 0.6s ease-out 0.6s both;
             }
           }
+            @keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(14, 219, 97, 0.6);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+.animate-slide-in-top {
+  animation: slideInFromTop 1s ease-out forwards;
+}
+
+.animate-zoom-in {
+  animation: zoomIn 0.8s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.3s; }
+.stagger-3 { animation-delay: 0.5s; }
+
+/* Update existing hero animations */
+.hero-title {
+  animation: fadeInUp 1.2s ease-out 0.2s both;
+}
+
+.hero-subtitle {
+  animation: fadeInUp 1.2s ease-out 0.4s both;
+}
+
+.hero-description {
+  animation: fadeInUp 1.2s ease-out 0.6s both;
+}
+
+.hero-buttons {
+  animation: fadeInUp 1.2s ease-out 0.8s both;
+}
+
+.clients-grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+@media (max-width: 1024px) {
+  .clients-grid-responsive {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .clients-grid-responsive {
+    grid-template-columns: 1fr !important; /* 1 column on small screens */
+    gap: 1.5rem !important;
+  }
+}
+
+@media (max-width: 425px) {
+  .clients-grid-responsive {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    margin-top: 2rem !important;
+  }
+  
+  .client-category {
+    padding: 1.5rem !important;
+  }
+  
+  .client-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .client-list-item {
+    font-size: 0.9rem !important;
+    margin-bottom: 0.8rem !important;
+    line-height: 1.5 !important;
+  }
+}
+
+
         `}
       </style>
-
       {/* Header - Navigation */}
       <header className={`header ${scrolled ? "scrolled" : ""}`}>
         <div className="header-container">
@@ -817,28 +959,57 @@ const ConSpace = () => {
           </nav>
         )}
       </header>
-      <main>
-        {/* Hero Section */}
-        <section id="top" style={styles.heroSection}>
-          <div style={styles.heroContent} key={`hero-${animationKey}`}>
-            <h1 style={styles.companyTitle} className="hero-title">
-              8ConSpace
-            </h1>
-            <p style={styles.heroSubtitle} className="hero-subtitle">
+      {/* Hero Section */}
+      <section id="hero" ref={heroRef} style={styles.heroSection}>
+        <div style={styles.heroContent} key={heroAnimationKey}>
+          {/* Large Brand Logo/Number Image - Like ConVerse */}
+          <img
+            src="/assets/logo/10.png" // Replace with your ConSpace logo/image
+            alt="8ConSpace"
+            style={styles.heroTopImage}
+            className={`animate-on-scroll ${
+              isAnimated("hero") ? "animate-slide-in-top" : ""
+            }`}
+          />
+
+          {/* Glassmorphic Content Block */}
+          <div style={styles.heroForegroundContent}>
+            {/* Subtitle */}
+            <p
+              style={styles.heroSubtitle}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""
+              }`}
+            >
               Your Professional Workspace & Virtual Office Solution
             </p>
-            <p style={styles.heroDescription} className="hero-description">
+
+            {/* Description */}
+            <p
+              style={styles.heroDescription}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""
+              }`}
+            >
               A dynamic, productivity-driven space for freelancers,
               entrepreneurs, online professionals, and students. Experience
               flexible workspaces, virtual office solutions, and a collaborative
               environment designed to fuel your success.
             </p>
-            <div style={styles.heroButtons} className="hero-buttons">
+
+            {/* Buttons */}
+            <div
+              style={styles.heroButtons}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-zoom-in stagger-3" : ""
+              }`}
+            >
               <button
-                style={styles.primaryButton}
+                style={styles.ctaButtonPrimary}
+                className={isAnimated("hero") ? "animate-pulse-glow" : ""}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#0cbb52";
-                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "#0edb61";
@@ -848,11 +1019,12 @@ const ConSpace = () => {
                 Book a Tour
               </button>
               <button
-                style={styles.secondaryButton}
+                style={styles.ctaButtonSecondary}
+                onClick={() => handleSmoothScroll("about")}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#ff1f2c";
                   e.currentTarget.style.color = "#ffffff";
-                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "transparent";
@@ -864,422 +1036,546 @@ const ConSpace = () => {
               </button>
             </div>
           </div>
-        </section>
-
-        {/* About Section */}
-        <section
-          id="about"
-          style={styles.aboutSection}
-          className={visibleSections.has("about") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2 style={styles.sectionTitle} className="section-title">
-              Professional Workspace Solutions
-            </h2>
-            <div style={styles.aboutContent}>
-              <div style={styles.aboutText} className="about-text">
-                <p style={styles.aboutDescription}>
-                  8ConSpace is more than just a workspace—it's a productivity
-                  hub designed to empower professionals, entrepreneurs, and
-                  students to achieve their goals. Whether you need a flexible
-                  desk for the day or a complete virtual office solution, we
-                  provide the environment and resources you need to succeed.
-                </p>
-                <p style={styles.aboutDescription}>
-                  From startup-friendly environments to student-focused study
-                  pods, 8ConSpace adapts to your needs while fostering
-                  collaboration and innovation.
-                </p>
+        </div>
+      </section>
+      {/* About Section */}
+      <section
+        id="about"
+        ref={aboutRef}
+        style={styles.aboutSection}
+        className={isAnimated("about") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2 style={styles.sectionTitle} className="about-section-title">
+            Professional Workspace Solutions
+          </h2>
+          <div style={styles.aboutContent}>
+            <div style={styles.aboutTextContainer} className="about-text">
+              <p style={styles.aboutDescription}>
+                8ConSpace is more than just a workspace—it's a productivity hub
+                designed to empower professionals, entrepreneurs, and students
+                to achieve their goals. Whether you need a flexible desk for the
+                day or a complete virtual office solution, we provide the
+                environment and resources you need to succeed.
+              </p>
+              <p style={styles.aboutDescription}>
+                From startup-friendly environments to student-focused study
+                pods, 8ConSpace adapts to your needs while fostering
+                collaboration and innovation.
+              </p>
+            </div>
+            <div style={styles.aboutStats} className="about-stats">
+              <div style={styles.statItem} className="stat-item-1">
+                <h3 style={styles.statNumber}>24/7</h3>
+                <p style={styles.statLabel}>Access Available</p>
               </div>
-              <div style={styles.aboutStats} className="about-stats">
-                <div style={styles.statItem} className="stat-item-1">
-                  <h3 style={styles.statNumber}>24/7</h3>
-                  <p style={styles.statLabel}>Access Available</p>
-                </div>
-                <div style={styles.statItem} className="stat-item-2">
-                  <h3 style={styles.statNumber}>500+</h3>
-                  <p style={styles.statLabel}>Happy Members</p>
-                </div>
-                <div style={styles.statItem} className="stat-item-3">
-                  <h3 style={styles.statNumber}>50+</h3>
-                  <p style={styles.statLabel}>Workstations</p>
-                </div>
+              <div style={styles.statItem} className="stat-item-2">
+                <h3 style={styles.statNumber}>500+</h3>
+                <p style={styles.statLabel}>Happy Members</p>
+              </div>
+              <div style={styles.statItem} className="stat-item-3">
+                <h3 style={styles.statNumber}>50+</h3>
+                <p style={styles.statLabel}>Workstations</p>
               </div>
             </div>
           </div>
-        </section>
-
-        {/* Services Section */}
-        <section
-          id="services"
-          style={styles.servicesSection}
-          className={visibleSections.has("services") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2
-              style={{ ...styles.sectionTitle, color: "#ffffff" }}
-              className="section-title"
+        </div>
+      </section>
+      {/* Services Section */}
+      <section
+        id="services"
+        ref={servicesRef}
+        style={styles.servicesSection}
+        className={isAnimated("services") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2
+            style={{ ...styles.sectionTitle, color: "#ffffff" }}
+            className="services-section-title"
+          >
+            Our Space Solutions
+          </h2>
+          <div style={styles.servicesGrid}>
+            <div
+              style={styles.serviceCard}
+              className="service-card service-card-1"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-10px) rotateX(5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(14, 219, 97, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateX(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
             >
-              Our Space Solutions
-            </h2>
-            <div style={styles.servicesGrid}>
-              <div
-                style={styles.serviceCard}
-                className="service-card-1"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.serviceIcon}>
-                  <Building size={48} color="#0edb61" />
-                </div>
-                <h3 style={styles.serviceTitle}>Flexible Desk Rentals</h3>
-                <p style={styles.serviceDescription}>
-                  Choose from daily, weekly, or monthly access to premium
-                  workspaces designed for maximum productivity.
-                </p>
-                <ul style={styles.serviceList}>
-                  <li style={styles.serviceListItem}>
-                    • Hot desks for daily use
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Dedicated desks for regulars
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Private offices for teams
-                  </li>
-                </ul>
+              <div style={styles.serviceIcon}>
+                <Building size={48} color="#0edb61" />
               </div>
-
-              <div
-                style={styles.serviceCard}
-                className="service-card-2"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.serviceIcon}>
-                  <MapPin size={48} color="#0edb61" />
-                </div>
-                <h3 style={styles.serviceTitle}>Virtual Office Solutions</h3>
-                <p style={styles.serviceDescription}>
-                  Professional business address and administrative support
-                  without the overhead of a physical office.
-                </p>
-                <ul style={styles.serviceList}>
-                  <li style={styles.serviceListItem}>
-                    • Business address registration
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Mail handling services
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Professional receptionist support
-                  </li>
-                </ul>
-              </div>
-
-              <div
-                style={styles.serviceCard}
-                className="service-card-3"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.serviceIcon}>
-                  <Network size={48} color="#0edb61" />
-                </div>
-                <h3 style={styles.serviceTitle}>Startup Environment</h3>
-                <p style={styles.serviceDescription}>
-                  Access to resources, workshops, and a network of like-minded
-                  innovators to accelerate your business growth.
-                </p>
-                <ul style={styles.serviceList}>
-                  <li style={styles.serviceListItem}>• Networking events</li>
-                  <li style={styles.serviceListItem}>
-                    • Skill-building workshops
-                  </li>
-                  <li style={styles.serviceListItem}>• Mentor connections</li>
-                </ul>
-              </div>
-
-              <div
-                style={styles.serviceCard}
-                className="service-card-4"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.serviceIcon}>
-                  <Award size={48} color="#0edb61" />
-                </div>
-                <h3 style={styles.serviceTitle}>Student Pods</h3>
-                <p style={styles.serviceDescription}>
-                  Special discounted zones designed for thesis writing, online
-                  learning, and academic collaboration.
-                </p>
-                <ul style={styles.serviceList}>
-                  <li style={styles.serviceListItem}>
-                    • Quiet study environments
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Student-friendly pricing
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Academic support resources
-                  </li>
-                </ul>
-              </div>
+              <h3 style={styles.serviceTitle}>Flexible Desk Rentals</h3>
+              <p style={styles.serviceDescription}>
+                Choose from daily, weekly, or monthly access to premium
+                workspaces designed for maximum productivity.
+              </p>
+              <ul style={styles.serviceList}>
+                <li style={styles.serviceListItem}>
+                  • Hot desks for daily use
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Dedicated desks for regulars
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Private offices for teams
+                </li>
+              </ul>
             </div>
-          </div>
-        </section>
 
-        {/* Features Section */}
-        <section
-          id="features"
-          style={styles.featuresSection}
-          className={visibleSections.has("features") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2 style={styles.sectionTitle} className="section-title">
-              Premium Workspace Features
-            </h2>
-            <div style={styles.featuresGrid}>
-              <div style={styles.featureItem} className="feature-item-1">
-                <Wifi size={32} color="#0edb61" />
-                <h3 style={styles.featureTitle}>High-Speed Internet</h3>
-                <p style={styles.featureDescription}>
-                  Ultra-fast, reliable WiFi to keep you connected and
-                  productive.
-                </p>
-              </div>
-
-              <div style={styles.featureItem} className="feature-item-2">
-                <Coffee size={32} color="#0edb61" />
-                <h3 style={styles.featureTitle}>Complimentary Refreshments</h3>
-                <p style={styles.featureDescription}>
-                  Free coffee, tea, and snacks to keep you energized throughout
-                  the day.
-                </p>
-              </div>
-
-              <div style={styles.featureItem} className="feature-item-3">
-                <Clock size={32} color="#0edb61" />
-                <h3 style={styles.featureTitle}>24/7 Access</h3>
-                <p style={styles.featureDescription}>
-                  Work on your schedule with round-the-clock access to the
-                  space.
-                </p>
-              </div>
-
-              <div style={styles.featureItem} className="feature-item-4">
-                <Briefcase size={32} color="#0edb61" />
-                <h3 style={styles.featureTitle}>Meeting Rooms</h3>
-                <p style={styles.featureDescription}>
-                  Professional meeting spaces available for client meetings and
-                  team calls.
-                </p>
-              </div>
-
-              <div style={styles.featureItem} className="feature-item-5">
-                <Users size={32} color="#0edb61" />
-                <h3 style={styles.featureTitle}>Community Events</h3>
-                <p style={styles.featureDescription}>
-                  Regular networking events and workshops to build professional
-                  connections.
-                </p>
-              </div>
-
-              <div style={styles.featureItem} className="feature-item-6">
-                <Target size={32} color="#0edb61" />
-                <h3 style={styles.featureTitle}>Business Support</h3>
-                <p style={styles.featureDescription}>
-                  Access to business coaching and startup mentorship programs.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Target Clients Section */}
-        <section
-          id="clients"
-          style={styles.clientsSection}
-          className={visibleSections.has("clients") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2
-              style={{ ...styles.sectionTitle, color: "#ffffff" }}
-              className="section-title"
+            <div
+              style={styles.serviceCard}
+              className="service-card service-card-2"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-10px) rotateX(5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(14, 219, 97, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateX(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
             >
-              Who We Serve
-            </h2>
-            <div style={styles.clientsGrid}>
-              <div style={styles.clientCategory} className="client-card-1">
-                <h3 style={styles.clientTitle}>Professionals & Freelancers</h3>
-                <ul style={styles.clientList}>
-                  <li style={styles.clientListItem}>
-                    • Remote workers seeking professional space
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Freelancers building their business
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Consultants meeting with clients
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Digital nomads needing temporary workspace
-                  </li>
-                </ul>
+              <div style={styles.serviceIcon}>
+                <MapPin size={48} color="#0edb61" />
               </div>
+              <h3 style={styles.serviceTitle}>Virtual Office Solutions</h3>
+              <p style={styles.serviceDescription}>
+                Professional business address and administrative support without
+                the overhead of a physical office.
+              </p>
+              <ul style={styles.serviceList}>
+                <li style={styles.serviceListItem}>
+                  • Business address registration
+                </li>
+                <li style={styles.serviceListItem}>• Mail handling services</li>
+                <li style={styles.serviceListItem}>
+                  • Professional receptionist support
+                </li>
+              </ul>
+            </div>
 
-              <div style={styles.clientCategory} className="client-card-2">
-                <h3 style={styles.clientTitle}>Entrepreneurs & Startups</h3>
-                <ul style={styles.clientList}>
-                  <li style={styles.clientListItem}>
-                    • Early-stage startups building MVP
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Entrepreneurs developing business plans
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Small teams needing collaborative space
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Innovators seeking networking opportunities
-                  </li>
-                </ul>
+            <div
+              style={styles.serviceCard}
+              className="service-card service-card-3"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-10px) rotateX(5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(14, 219, 97, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateX(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <div style={styles.serviceIcon}>
+                <Network size={48} color="#0edb61" />
               </div>
+              <h3 style={styles.serviceTitle}>Startup Environment</h3>
+              <p style={styles.serviceDescription}>
+                Access to resources, workshops, and a network of like-minded
+                innovators to accelerate your business growth.
+              </p>
+              <ul style={styles.serviceList}>
+                <li style={styles.serviceListItem}>• Networking events</li>
+                <li style={styles.serviceListItem}>
+                  • Skill-building workshops
+                </li>
+                <li style={styles.serviceListItem}>• Mentor connections</li>
+              </ul>
+            </div>
 
-              <div style={styles.clientCategory} className="client-card-3">
-                <h3 style={styles.clientTitle}>Students & Academics</h3>
-                <ul style={styles.clientList}>
-                  <li style={styles.clientListItem}>
-                    • Graduate students writing thesis
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Online learners needing study space
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Research groups collaborating
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Academic professionals preparing publications
-                  </li>
-                </ul>
+            <div
+              style={styles.serviceCard}
+              className="service-card service-card-4"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-10px) rotateX(5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(14, 219, 97, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateX(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <div style={styles.serviceIcon}>
+                <Award size={48} color="#0edb61" />
               </div>
-
-              <div style={styles.clientCategory} className="client-card-4">
-                <h3 style={styles.clientTitle}>Small Businesses</h3>
-                <ul style={styles.clientList}>
-                  <li style={styles.clientListItem}>
-                    • Companies needing virtual office address
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Teams requiring meeting spaces
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Businesses seeking mail handling services
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Organizations hosting workshops
-                  </li>
-                </ul>
-              </div>
+              <h3 style={styles.serviceTitle}>Student Pods</h3>
+              <p style={styles.serviceDescription}>
+                Special discounted zones designed for thesis writing, online
+                learning, and academic collaboration.
+              </p>
+              <ul style={styles.serviceList}>
+                <li style={styles.serviceListItem}>
+                  • Quiet study environments
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Student-friendly pricing
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Academic support resources
+                </li>
+              </ul>
             </div>
           </div>
-        </section>
-
-        {/* CTA Section */}
-        <section
-          id="cta"
-          style={styles.ctaSection}
-          className={visibleSections.has("cta") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2 style={styles.ctaTitle} className="cta-title">
-              Ready to Elevate Your Workspace?
-            </h2>
-            <p style={styles.ctaDescription} className="cta-description">
-              Whether you're building a startup, finishing your research, or
-              growing your business, 8ConSpace gives you a professional and
-              collaborative environment designed for success. Join our community
-              of innovators, entrepreneurs, and achievers.
-            </p>
-            <div style={styles.ctaButtons} className="cta-buttons">
-              <button
-                style={styles.ctaPrimaryButton}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0cbb52";
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(14, 219, 97, 0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#0edb61";
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 4px 15px rgba(14, 219, 97, 0.2)";
-                }}
-              >
-                Book Your Space Today
-              </button>
-              <button
-                style={styles.ctaSecondaryButton}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#ff1f2c";
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(255, 31, 44, 0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#ff1f2c";
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 4px 15px rgba(255, 31, 44, 0.2)";
-                }}
-              >
-                Schedule a Tour
-              </button>
+        </div>
+      </section>
+      {/* Features Section */}
+      <section
+        id="features"
+        ref={featuresRef}
+        style={styles.featuresSection}
+        className={isAnimated("features") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2 style={styles.sectionTitle} className="features-section-title">
+            Premium Workspace Features
+          </h2>
+          <div style={styles.featuresGrid}>
+            <div
+              style={styles.featureItem}
+              className="feature-item feature-item-1"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-5px) scale(1.05)";
+                e.currentTarget.style.boxShadow =
+                  "0 15px 30px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <Wifi size={32} color="#0edb61" />
+              <h3 style={styles.featureTitle}>High-Speed Internet</h3>
+              <p style={styles.featureDescription}>
+                Ultra-fast, reliable WiFi to keep you connected and productive.
+              </p>
             </div>
-            <div style={styles.ctaHighlight} className="cta-highlight">
-              <strong>
-                Experience the difference a professional workspace makes—where
-                productivity meets community, and ideas become reality!
-              </strong>
+
+            <div
+              style={styles.featureItem}
+              className="feature-item feature-item-2"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-5px) scale(1.05)";
+                e.currentTarget.style.boxShadow =
+                  "0 15px 30px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <Coffee size={32} color="#0edb61" />
+              <h3 style={styles.featureTitle}>Complimentary Refreshments</h3>
+              <p style={styles.featureDescription}>
+                Free coffee, tea, and snacks to keep you energized throughout
+                the day.
+              </p>
+            </div>
+
+            <div
+              style={styles.featureItem}
+              className="feature-item feature-item-3"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-5px) scale(1.05)";
+                e.currentTarget.style.boxShadow =
+                  "0 15px 30px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <Clock size={32} color="#0edb61" />
+              <h3 style={styles.featureTitle}>24/7 Access</h3>
+              <p style={styles.featureDescription}>
+                Work on your schedule with round-the-clock access to the space.
+              </p>
+            </div>
+
+            <div
+              style={styles.featureItem}
+              className="feature-item feature-item-4"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-5px) scale(1.05)";
+                e.currentTarget.style.boxShadow =
+                  "0 15px 30px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <Briefcase size={32} color="#0edb61" />
+              <h3 style={styles.featureTitle}>Meeting Rooms</h3>
+              <p style={styles.featureDescription}>
+                Professional meeting spaces available for client meetings and
+                team calls.
+              </p>
+            </div>
+
+            <div
+              style={styles.featureItem}
+              className="feature-item feature-item-5"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-5px) scale(1.05)";
+                e.currentTarget.style.boxShadow =
+                  "0 15px 30px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <Users size={32} color="#0edb61" />
+              <h3 style={styles.featureTitle}>Community Events</h3>
+              <p style={styles.featureDescription}>
+                Regular networking events and workshops to build professional
+                connections.
+              </p>
+            </div>
+
+            <div
+              style={styles.featureItem}
+              className="feature-item feature-item-6"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-5px) scale(1.05)";
+                e.currentTarget.style.boxShadow =
+                  "0 15px 30px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <Target size={32} color="#0edb61" />
+              <h3 style={styles.featureTitle}>Business Support</h3>
+              <p style={styles.featureDescription}>
+                Access to business coaching and startup mentorship programs.
+              </p>
             </div>
           </div>
-        </section>
-      </main>
-      <ScrollUp />
+        </div>
+      </section>
+      {/* Target Clients Section */}
+      <section
+        id="clients"
+        ref={clientsRef}
+        style={styles.clientsSection}
+        className={isAnimated("clients") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2
+            style={{ ...styles.sectionTitle, color: "#ffffff" }}
+            className="clients-section-title"
+          >
+            Who We Serve
+          </h2>
+          <div className="clients-grid-responsive">
+            {" "}
+            {/* Use className instead of style */}
+            <div
+              style={styles.clientCategory}
+              className="client-card client-card-1"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-8px) rotateY(5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(0, 0, 0, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.clientTitle}>Professionals & Freelancers</h3>
+              <ul style={styles.clientList}>
+                <li style={styles.clientListItem}>
+                  • Remote workers seeking professional space
+                </li>
+                <li style={styles.clientListItem}>
+                  • Freelancers building their business
+                </li>
+                <li style={styles.clientListItem}>
+                  • Consultants meeting with clients
+                </li>
+                <li style={styles.clientListItem}>
+                  • Digital nomads needing temporary workspace
+                </li>
+              </ul>
+            </div>
+            <div
+              style={styles.clientCategory}
+              className="client-card client-card-2"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-8px) rotateY(-5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(0, 0, 0, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.clientTitle}>Entrepreneurs & Startups</h3>
+              <ul style={styles.clientList}>
+                <li style={styles.clientListItem}>
+                  • Early-stage startups building MVP
+                </li>
+                <li style={styles.clientListItem}>
+                  • Entrepreneurs developing business plans
+                </li>
+                <li style={styles.clientListItem}>
+                  • Small teams needing collaborative space
+                </li>
+                <li style={styles.clientListItem}>
+                  • Innovators seeking networking opportunities
+                </li>
+              </ul>
+            </div>
+            <div
+              style={styles.clientCategory}
+              className="client-card client-card-3"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-8px) rotateY(5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(0, 0, 0, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.clientTitle}>Students & Academics</h3>
+              <ul style={styles.clientList}>
+                <li style={styles.clientListItem}>
+                  • Graduate students writing thesis
+                </li>
+                <li style={styles.clientListItem}>
+                  • Online learners needing study space
+                </li>
+                <li style={styles.clientListItem}>
+                  • Research groups collaborating
+                </li>
+                <li style={styles.clientListItem}>
+                  • Academic professionals preparing publications
+                </li>
+              </ul>
+            </div>
+            <div
+              style={styles.clientCategory}
+              className="client-card client-card-4"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-8px) rotateY(-5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(0, 0, 0, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.clientTitle}>Small Businesses</h3>
+              <ul style={styles.clientList}>
+                <li style={styles.clientListItem}>
+                  • Companies needing virtual office address
+                </li>
+                <li style={styles.clientListItem}>
+                  • Teams requiring meeting spaces
+                </li>
+                <li style={styles.clientListItem}>
+                  • Businesses seeking mail handling services
+                </li>
+                <li style={styles.clientListItem}>
+                  • Organizations hosting workshops
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* CTA Section */}
+      <section
+        id="cta"
+        ref={ctaRef}
+        style={styles.ctaSection}
+        className={isAnimated("cta") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2 style={styles.ctaTitle} className="cta-section-title">
+            Ready to Elevate Your Workspace?
+          </h2>
+          <p style={styles.ctaDescription} className="cta-description">
+            Whether you're building a startup, finishing your research, or
+            growing your business, 8ConSpace gives you a professional and
+            collaborative environment designed for success. Join our community
+            of innovators, entrepreneurs, and achievers.
+          </p>
+          <div style={styles.ctaButtons} className="cta-buttons">
+            <button
+              style={styles.ctaPrimaryButton}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#0cbb52";
+                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 25px rgba(14, 219, 97, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#0edb61";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 15px rgba(14, 219, 97, 0.2)";
+              }}
+            >
+              Book Your Space Today
+            </button>
+            <button
+              style={styles.ctaSecondaryButton}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#ff1f2c";
+                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 25px rgba(255, 31, 44, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#ff1f2c";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 15px rgba(255, 31, 44, 0.2)";
+              }}
+            >
+              Schedule a Tour
+            </button>
+          </div>
+          <div style={styles.ctaHighlight} className="cta-highlight">
+            <strong>
+              Experience the difference a professional workspace makes—where
+              productivity meets community, and ideas become reality!
+            </strong>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
@@ -1300,49 +1596,113 @@ const styles = {
     margin: "0 auto",
     padding: "0 20px",
   },
+  aboutTextContainer: {
+    maxWidth: "600px",
+    position: "relative",
+  },
 
   // Hero Section (Green to Black gradient)
   heroSection: {
-    background: "linear-gradient(135deg, #0edb61 0%, #000000 100%)",
-    color: "#ffffff",
-    padding: "140px 20px 80px",
-    textAlign: "center",
     minHeight: "100vh",
+    background:
+      "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)", // ✅ Reduce top/bottom padding
+    position: "relative",
+    overflow: "hidden",
+    textAlign: "center",
+    // Responsive adjustments
+    "@media (max-width: 768px)": {
+      padding: "120px 15px 60px",
+      minHeight: "90vh",
+    },
+    "@media (max-width: 480px)": {
+      padding: "100px 12px 40px",
+      minHeight: "85vh",
+    },
   },
 
   heroContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
+    position: "relative",
+    zIndex: 2,
     maxWidth: "800px",
     margin: "0 auto",
-  },
-
-  companyTitle: {
-    fontSize: "clamp(2.5rem, 8vw, 4rem)",
-    fontWeight: "700",
-    marginBottom: "1rem",
-    textShadow: "0 4px 8px rgba(0,0,0,0.3)",
-    filter:
-      "drop-shadow(0 0 5px #121411) drop-shadow(0 0 10px #121411) drop-shadow(0 0 15px #121411)",
-    color: "#ffffff",
+    // Responsive width
+    "@media (max-width: 768px)": {
+      maxWidth: "100%",
+    },
   },
 
   heroSubtitle: {
     fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-    fontWeight: "300",
-    marginBottom: "1.5rem",
+    fontWeight: "600",
+    marginBottom: "1rem",
+    margin: "0 0 1rem 0",
     opacity: "0.9",
     color: "#ffffff",
+    lineHeight: "1.3",
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
+      marginBottom: "1.2rem",
+    },
   },
 
   heroDescription: {
-    fontSize: "clamp(1rem, 3vw, 1.2rem)",
-    lineHeight: "1.7",
-    maxWidth: "600px",
-    margin: "0 auto 2rem",
+    fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
+    color: "#cccccc",
+    lineHeight: "1.6",
+    marginTop: "0 !important",
+    marginBottom: "0 !important", // Let CSS class handle it
+    paddingBottom: "0 !important",
     opacity: "0.95",
-    color: "#ffffff",
+
+    // Mobile responsiveness
+    "@media (max-width: 768px)": {
+      marginBottom: "2rem",
+    },
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.85rem, 4vw, 1rem)",
+      lineHeight: "1.6",
+      marginBottom: "1.5rem",
+    },
+  },
+
+  heroForegroundContent: {
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    padding: "clamp(1rem, 2vw, 1.5rem)",
+    borderRadius: "15px",
+    backdropFilter: "blur(6px)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    maxWidth: "1000px",
+    width: "100%",
+
+    textAlign: "center",
+
+    marginBottom: "10rem",
+    marginTop: "-100px",
+    "@media (max-width: 768px)": {
+      padding: "1.5rem 1rem",
+      gap: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "1.2rem 0.8rem",
+      gap: "0.8rem",
+    },
+  },
+
+  heroTopImage: {
+    width: "clamp(250px, 40vw, 500px)",
+    height: "auto",
+    opacity: 0.9,
+    pointerEvents: "none",
+    marginTop: "-80px",
   },
 
   heroButtons: {
@@ -1351,31 +1711,89 @@ const styles = {
     justifyContent: "center",
     flexWrap: "wrap",
     marginTop: "2rem",
+    margin: "0 !important", // Force reset
+    padding: "0 !important",
+    position: "relative",
+    zIndex: "1",
+    // Mobile adjustments
+    "@media (max-width: 768px)": {
+      gap: "0.8rem",
+      marginTop: "1.5rem",
+    },
+    "@media (max-width: 480px)": {
+      flexDirection: "column",
+      gap: "0.8rem",
+      alignItems: "center",
+    },
   },
 
-  primaryButton: {
+  ctaButtonPrimary: {
     background: "#0edb61",
     color: "#ffffff",
-    padding: "1rem 2rem",
-    borderRadius: "8px",
     border: "none",
+    padding: "1rem 2rem",
     fontSize: "1.1rem",
     fontWeight: "600",
+    borderRadius: "8px",
     cursor: "pointer",
     transition: "all 0.3s ease",
-    boxShadow: "0 4px 15px rgba(14, 219, 97, 0.2)",
+    textTransform: "uppercase",
+    // Responsive button sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
-  secondaryButton: {
+  ctaButtonSecondary: {
     background: "transparent",
     color: "#ffffff",
+    border: "2px solid #ffffff",
     padding: "1rem 2rem",
-    borderRadius: "8px",
-    border: "2px solid #ff1f2c",
     fontSize: "1.1rem",
     fontWeight: "600",
+    borderRadius: "8px",
     cursor: "pointer",
     transition: "all 0.3s ease",
+    textTransform: "uppercase",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
+  },
+
+  ctaButtonRed: {
+    background: "#ff1f2c",
+    color: "#ffffff",
+    border: "none",
+    padding: "1rem 2rem",
+    fontSize: "1.1rem",
+    fontWeight: "600",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    textTransform: "uppercase",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
   // About Section (White background)
@@ -1577,6 +1995,47 @@ const styles = {
     color: "#000000",
     marginBottom: "1rem",
     lineHeight: "1.6",
+  },
+
+  clientsGrid2x2: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr", // Exactly 2 columns
+    gridTemplateRows: "1fr 1fr", // Exactly 2 rows
+    gap: "2rem",
+    marginTop: "3rem",
+    maxWidth: "900px", // Limit width to keep cards reasonable size
+    margin: "3rem auto 0", // Center the grid
+
+    // Responsive behavior
+    "@media (max-width: 768px)": {
+      gridTemplateColumns: "1fr", // Stack on mobile
+      gridTemplateRows: "auto",
+      maxWidth: "100%",
+    },
+  },
+  clientsGridResponsive: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)", // Multiple columns on larger screens
+    gap: "2rem",
+    marginTop: "3rem",
+
+    // For medium screens (tablets)
+    "@media (max-width: 1024px)": {
+      gridTemplateColumns: "repeat(2, 1fr)", // Still 2 columns on tablets
+    },
+
+    // For small tablets/large phones
+    "@media (max-width: 768px)": {
+      gridTemplateColumns: "1fr", // Single column
+      gap: "1.5rem",
+    },
+
+    // For mobile phones
+    "@media (max-width: 425px)": {
+      gridTemplateColumns: "1fr", // Single column
+      gap: "1.5rem",
+      marginTop: "2rem",
+    },
   },
 
   // CTA Section (White background)

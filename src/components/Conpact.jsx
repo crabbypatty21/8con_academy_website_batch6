@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import ScrollUp from "./ScrollUp";
 import {
   Menu,
   X,
@@ -25,7 +24,6 @@ import {
   Building,
   Handshake,
   Lightbulb,
-  Scroll,
 } from "lucide-react";
 
 const ConPact = () => {
@@ -232,7 +230,7 @@ const ConPact = () => {
         {`
           html {
             scroll-behavior: smooth;
-            scroll-padding-top: 2px;
+           scroll-padding-top: 80px;
           }
           
           .header {
@@ -691,27 +689,40 @@ const ConPact = () => {
           </nav>
         )}
       </header>
-      <main>
-        {/* Hero Section - Green Background */}
-        <section
-          id="top"
-          ref={heroRef}
-          data-section="hero"
-          style={styles.heroSection}
-        >
-          <div style={styles.heroContent}>
-            <h1 className="fade-item" style={styles.companyTitle}>
-              8ConPact
-            </h1>
+
+      {/* Hero Section - Green Background */}
+      {/* Hero Section - Green Background */}
+      <section
+        id="hero"
+        ref={heroRef}
+        data-section="hero"
+        style={styles.heroSection}
+      >
+        <div style={styles.heroContent}>
+          {/* Large Brand Logo/Number Image - Like ConVerse */}
+          <img
+            src="/assets/logo/6.png"
+            alt="8ConPact"
+            style={styles.heroTopImage}
+            className="fade-item"
+          />
+
+          {/* Glassmorphic Content Block */}
+          <div style={styles.heroForegroundContent}>
+            {/* Subtitle */}
             <p className="fade-item" style={styles.heroSubtitle}>
               Collaborate for Impact in Livelihood, Education, and Employment
             </p>
+
+            {/* Description */}
             <p className="fade-item" style={styles.heroDescription}>
               8ConPact is committed to fostering meaningful partnerships with
               Local Government Units (LGUs), Small and Medium Enterprises
               (SMEs), cooperatives, and private organizations to drive community
               growth through targeted initiatives.
             </p>
+
+            {/* Buttons */}
             <div className="fade-item" style={styles.heroButtons}>
               <button
                 style={styles.ctaButtonPrimary}
@@ -743,317 +754,309 @@ const ConPact = () => {
               </button>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CSR Priorities Section - Black Background */}
-        <section
-          id="csr-priorities"
-          ref={csrRef}
-          data-section="csr"
-          style={styles.csrSection}
-        >
-          <div style={styles.container2}>
-            <h2
-              className="fade-item"
-              style={{ ...styles.sectionTitle, color: "#0edb61" }}
-            >
-              How 8ConPact Aligns with CSR Priorities
-            </h2>
-            <div style={styles.csrGrid}>
-              <div
-                className="fade-item"
-                style={styles.csrCard}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.csrIcon}>
-                  <Briefcase size={40} color="#0edb61" />
-                </div>
-                <h3 style={styles.csrTitle}>Livelihood Programs</h3>
-                <p style={styles.csrSubtitle}>
-                  Skills Training for Local Communities
-                </p>
-                <p style={styles.csrDescription}>
-                  Organizes skills training programs to equip individuals with
-                  market-relevant skills, including financial literacy,
-                  entrepreneurship, and specialized trades.
-                </p>
-                <div style={styles.csrImpact}>
-                  <h4 style={styles.impactTitle}>Impact:</h4>
-                  <ul style={styles.csrList}>
-                    <li style={styles.csrListItem}>
-                      • Empowers community members to establish micro and small
-                      businesses
-                    </li>
-                    <li style={styles.csrListItem}>
-                      • Provides practical knowledge for resource management
-                    </li>
-                    <li style={styles.csrListItem}>
-                      • Contributes to local economic growth
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div
-                className="fade-item"
-                style={styles.csrCard}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.csrIcon}>
-                  <GraduationCap size={40} color="#0edb61" />
-                </div>
-                <h3 style={styles.csrTitle}>Education and Youth Development</h3>
-                <p style={styles.csrSubtitle}>
-                  Scholarships and Educational Grants
-                </p>
-                <p style={styles.csrDescription}>
-                  Facilitates scholarship opportunities funded through
-                  partnerships with LGUs, SMEs, and private organizations,
-                  including the 8ConLift Enrollment to Employment Program.
-                </p>
-                <div style={styles.csrImpact}>
-                  <h4 style={styles.impactTitle}>Impact:</h4>
-                  <ul style={styles.csrList}>
-                    <li style={styles.csrListItem}>
-                      • Ensures access to quality education for underserved
-                      youth
-                    </li>
-                    <li style={styles.csrListItem}>
-                      • Connects graduates to employment opportunities
-                    </li>
-                    <li style={styles.csrListItem}>
-                      • Provides career pathways within 8Con network
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div
-                className="fade-item"
-                style={styles.csrCard}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.csrIcon}>
-                  <DollarSign size={40} color="#0edb61" />
-                </div>
-                <h3 style={styles.csrTitle}>Financial and Economic Support</h3>
-                <p style={styles.csrSubtitle}>Employment Generation Projects</p>
-                <p style={styles.csrDescription}>
-                  Works with LGUs and private companies to design and implement
-                  employment generation initiatives, providing various career
-                  opportunities for graduates.
-                </p>
-                <div style={styles.csrImpact}>
-                  <h4 style={styles.impactTitle}>Impact:</h4>
-                  <ul style={styles.csrList}>
-                    <li style={styles.csrListItem}>
-                      • Reduces unemployment through job creation
-                    </li>
-                    <li style={styles.csrListItem}>
-                      • Helps local businesses access skilled workers
-                    </li>
-                    <li style={styles.csrListItem}>
-                      • Creates sustainable economic opportunities
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 8ConPact Advantage Section - White Background */}
-        <section
-          id="advantage"
-          ref={advantageRef}
-          data-section="advantage"
-          style={styles.advantageSection}
-        >
-          <div style={styles.container2}>
-            <h2 className="fade-item" style={styles.sectionTitle}>
-              The 8ConPact Advantage
-            </h2>
-            <div style={styles.advantageGrid}>
-              <div
-                className="fade-item"
-                style={styles.advantageCard}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.2)";
-                  e.currentTarget.style.borderColor = "#0edb61";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                  e.currentTarget.style.borderColor = "#f0f0f0";
-                }}
-              >
-                <div style={styles.advantageIcon}>
-                  <Handshake size={50} color="#0edb61" />
-                </div>
-                <h3 style={styles.advantageTitle}>Strategic Partnerships</h3>
-                <p style={styles.advantageDescription}>
-                  Collaborates with LGUs to align CSR programs with community
-                  needs, ensuring impactful and sustainable initiatives. Engages
-                  SMEs and private organizations to co-fund and implement
-                  projects that generate long-term value.
-                </p>
-              </div>
-
-              <div
-                className="fade-item"
-                style={styles.advantageCard}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(255, 31, 44, 0.2)";
-                  e.currentTarget.style.borderColor = "#ff1f2c";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                  e.currentTarget.style.borderColor = "#f0f0f0";
-                }}
-              >
-                <div style={styles.advantageIcon}>
-                  <Target size={50} color="#ff1f2c" />
-                </div>
-                <h3 style={styles.advantageTitle}>Focused Programs</h3>
-                <p style={styles.advantageDescription}>
-                  Concentrates on initiatives with measurable outcomes in
-                  livelihood, education, and employment, driving real change at
-                  the grassroots level with targeted and effective solutions.
-                </p>
-              </div>
-
-              <div
-                className="fade-item"
-                style={styles.advantageCard}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.2)";
-                  e.currentTarget.style.borderColor = "#0edb61";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                  e.currentTarget.style.borderColor = "#f0f0f0";
-                }}
-              >
-                <div style={styles.advantageIcon}>
-                  <Star size={50} color="#0edb61" />
-                </div>
-                <h3 style={styles.advantageTitle}>
-                  Empowerment Through Education and Employment
-                </h3>
-                <p style={styles.advantageDescription}>
-                  Combines skills training and career development programs to
-                  create a holistic approach to community empowerment, ensuring
-                  sustainable growth and development.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section - Black Background */}
-        <section
-          id="cta"
-          ref={ctaRef}
-          data-section="cta"
-          style={styles.ctaSection}
-        >
-          <div style={styles.container2}>
-            <h2 className="fade-item" style={styles.ctaTitle}>
-              Join 8ConPact in Driving Impact
-            </h2>
-            <p className="fade-item" style={styles.ctaDescription}>
-              At 8ConPact, we bridge businesses, government units, and
-              communities to create meaningful collaborations that uplift lives
-              and foster sustainable growth. Through livelihood programs,
-              scholarships, and employment initiatives, we contribute to
-              building stronger, more self-reliant communities.
-            </p>
-            <div className="fade-item" style={styles.ctaButtons}>
-              <button
-                style={styles.ctaButtonPrimary}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#ff1f2c";
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#0edb61";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                Start Partnership
-              </button>
-              <button
-                style={styles.ctaButtonRed}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0edb61";
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#ff1f2c";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                Get Involved
-              </button>
-            </div>
+      {/* CSR Priorities Section - Black Background */}
+      <section
+        id="csr-priorities"
+        ref={csrRef}
+        data-section="csr"
+        style={styles.csrSection}
+      >
+        <div style={styles.container2}>
+          <h2
+            className="fade-item"
+            style={{ ...styles.sectionTitle, color: "#0edb61" }}
+          >
+            How 8ConPact Aligns with CSR Priorities
+          </h2>
+          <div style={styles.csrGrid}>
             <div
               className="fade-item"
-              style={styles.ctaHighlight}
+              style={styles.csrCard}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(255, 31, 44, 0.2)";
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <div style={styles.csrIcon}>
+                <Briefcase size={40} color="#0edb61" />
+              </div>
+              <h3 style={styles.csrTitle}>Livelihood Programs</h3>
+              <p style={styles.csrSubtitle}>
+                Skills Training for Local Communities
+              </p>
+              <p style={styles.csrDescription}>
+                Organizes skills training programs to equip individuals with
+                market-relevant skills, including financial literacy,
+                entrepreneurship, and specialized trades.
+              </p>
+              <div style={styles.csrImpact}>
+                <h4 style={styles.impactTitle}>Impact:</h4>
+                <ul style={styles.csrList}>
+                  <li style={styles.csrListItem}>
+                    • Empowers community members to establish micro and small
+                    businesses
+                  </li>
+                  <li style={styles.csrListItem}>
+                    • Provides practical knowledge for resource management
+                  </li>
+                  <li style={styles.csrListItem}>
+                    • Contributes to local economic growth
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              className="fade-item"
+              style={styles.csrCard}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <div style={styles.csrIcon}>
+                <GraduationCap size={40} color="#0edb61" />
+              </div>
+              <h3 style={styles.csrTitle}>Education and Youth Development</h3>
+              <p style={styles.csrSubtitle}>
+                Scholarships and Educational Grants
+              </p>
+              <p style={styles.csrDescription}>
+                Facilitates scholarship opportunities funded through
+                partnerships with LGUs, SMEs, and private organizations,
+                including the 8ConLift Enrollment to Employment Program.
+              </p>
+              <div style={styles.csrImpact}>
+                <h4 style={styles.impactTitle}>Impact:</h4>
+                <ul style={styles.csrList}>
+                  <li style={styles.csrListItem}>
+                    • Ensures access to quality education for underserved youth
+                  </li>
+                  <li style={styles.csrListItem}>
+                    • Connects graduates to employment opportunities
+                  </li>
+                  <li style={styles.csrListItem}>
+                    • Provides career pathways within 8Con network
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              className="fade-item"
+              style={styles.csrCard}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <div style={styles.csrIcon}>
+                <DollarSign size={40} color="#0edb61" />
+              </div>
+              <h3 style={styles.csrTitle}>Financial and Economic Support</h3>
+              <p style={styles.csrSubtitle}>Employment Generation Projects</p>
+              <p style={styles.csrDescription}>
+                Works with LGUs and private companies to design and implement
+                employment generation initiatives, providing various career
+                opportunities for graduates.
+              </p>
+              <div style={styles.csrImpact}>
+                <h4 style={styles.impactTitle}>Impact:</h4>
+                <ul style={styles.csrList}>
+                  <li style={styles.csrListItem}>
+                    • Reduces unemployment through job creation
+                  </li>
+                  <li style={styles.csrListItem}>
+                    • Helps local businesses access skilled workers
+                  </li>
+                  <li style={styles.csrListItem}>
+                    • Creates sustainable economic opportunities
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8ConPact Advantage Section - White Background */}
+      <section
+        id="advantage"
+        ref={advantageRef}
+        data-section="advantage"
+        style={styles.advantageSection}
+      >
+        <div style={styles.container2}>
+          <h2 className="fade-item" style={styles.sectionTitle}>
+            The 8ConPact Advantage
+          </h2>
+          <div style={styles.advantageGrid}>
+            <div
+              className="fade-item"
+              style={styles.advantageCard}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.2)";
+                e.currentTarget.style.borderColor = "#0edb61";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+                e.currentTarget.style.borderColor = "#f0f0f0";
+              }}
+            >
+              <div style={styles.advantageIcon}>
+                <Handshake size={50} color="#0edb61" />
+              </div>
+              <h3 style={styles.advantageTitle}>Strategic Partnerships</h3>
+              <p style={styles.advantageDescription}>
+                Collaborates with LGUs to align CSR programs with community
+                needs, ensuring impactful and sustainable initiatives. Engages
+                SMEs and private organizations to co-fund and implement projects
+                that generate long-term value.
+              </p>
+            </div>
+
+            <div
+              className="fade-item"
+              style={styles.advantageCard}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(255, 31, 44, 0.2)";
                 e.currentTarget.style.borderColor = "#ff1f2c";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(14, 219, 97, 0.1)";
-                e.currentTarget.style.borderColor = "#0edb61";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+                e.currentTarget.style.borderColor = "#f0f0f0";
               }}
             >
-              <strong>
-                Let's collaborate to make a difference where it matters most.
-              </strong>
+              <div style={styles.advantageIcon}>
+                <Target size={50} color="#ff1f2c" />
+              </div>
+              <h3 style={styles.advantageTitle}>Focused Programs</h3>
+              <p style={styles.advantageDescription}>
+                Concentrates on initiatives with measurable outcomes in
+                livelihood, education, and employment, driving real change at
+                the grassroots level with targeted and effective solutions.
+              </p>
+            </div>
+
+            <div
+              className="fade-item"
+              style={styles.advantageCard}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.2)";
+                e.currentTarget.style.borderColor = "#0edb61";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+                e.currentTarget.style.borderColor = "#f0f0f0";
+              }}
+            >
+              <div style={styles.advantageIcon}>
+                <Star size={50} color="#0edb61" />
+              </div>
+              <h3 style={styles.advantageTitle}>
+                Empowerment Through Education and Employment
+              </h3>
+              <p style={styles.advantageDescription}>
+                Combines skills training and career development programs to
+                create a holistic approach to community empowerment, ensuring
+                sustainable growth and development.
+              </p>
             </div>
           </div>
-        </section>
-      </main>
-      <ScrollUp />
+        </div>
+      </section>
+
+      {/* CTA Section - Black Background */}
+      <section
+        id="cta"
+        ref={ctaRef}
+        data-section="cta"
+        style={styles.ctaSection}
+      >
+        <div style={styles.container2}>
+          <h2 className="fade-item" style={styles.ctaTitle}>
+            Join 8ConPact in Driving Impact
+          </h2>
+          <p className="fade-item" style={styles.ctaDescription}>
+            At 8ConPact, we bridge businesses, government units, and communities
+            to create meaningful collaborations that uplift lives and foster
+            sustainable growth. Through livelihood programs, scholarships, and
+            employment initiatives, we contribute to building stronger, more
+            self-reliant communities.
+          </p>
+          <div className="fade-item" style={styles.ctaButtons}>
+            <button
+              style={styles.ctaButtonPrimary}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#ff1f2c";
+                e.currentTarget.style.transform = "translateY(-3px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#0edb61";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              Start Partnership
+            </button>
+            <button
+              style={styles.ctaButtonRed}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#0edb61";
+                e.currentTarget.style.transform = "translateY(-3px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#ff1f2c";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              Get Involved
+            </button>
+          </div>
+          <div
+            className="fade-item"
+            style={styles.ctaHighlight}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255, 31, 44, 0.2)";
+              e.currentTarget.style.borderColor = "#ff1f2c";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(14, 219, 97, 0.1)";
+              e.currentTarget.style.borderColor = "#0edb61";
+            }}
+          >
+            <strong>
+              Let's collaborate to make a difference where it matters most.
+            </strong>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
@@ -1062,7 +1065,7 @@ const ConPact = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     lineHeight: "1.6",
     color: "#000000",
     margin: 0,
@@ -1077,46 +1080,106 @@ const styles = {
 
   // Hero Section - Green Background
   heroSection: {
-    background: "linear-gradient(135deg, #0edb61 0%, #000000 100%)",
-    color: "#ffffff",
-    padding: "140px 20px 80px",
-    textAlign: "center",
     minHeight: "100vh",
+    background:
+      "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)",
+    position: "relative",
+    overflow: "hidden",
+    textAlign: "center",
+    // Responsive adjustments
+    "@media (max-width: 768px)": {
+      padding: "120px 15px 60px",
+      minHeight: "90vh",
+    },
+    "@media (max-width: 480px)": {
+      padding: "100px 12px 40px",
+      minHeight: "85vh",
+    },
   },
 
   heroContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
+    position: "relative",
+    zIndex: 2,
     maxWidth: "800px",
     margin: "0 auto",
-  },
-
-  companyTitle: {
-    fontSize: "clamp(2.5rem, 8vw, 4rem)",
-    fontWeight: "700",
-    marginBottom: "1rem",
-    textShadow: "0 4px 8px rgba(0,0,0,0.3)",
-    filter:
-      "drop-shadow(0 0 5px #121411) drop-shadow(0 0 10px #121411) drop-shadow(0 0 15px #121411)",
-    color: "#ffffff",
+    // Responsive width
+    "@media (max-width: 768px)": {
+      maxWidth: "100%",
+    },
   },
 
   heroSubtitle: {
     fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-    fontWeight: "300",
-    marginBottom: "1.5rem",
+    fontWeight: "600",
+    marginBottom: "1rem",
+    margin: "0 0 1rem 0",
     opacity: "0.9",
     color: "#ffffff",
+    lineHeight: "1.3",
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
+      marginBottom: "1.2rem",
+    },
   },
 
   heroDescription: {
-    fontSize: "clamp(1rem, 3vw, 1.2rem)",
-    lineHeight: "1.7",
-    maxWidth: "600px",
-    margin: "0 auto 2rem",
+    fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
+    color: "#cccccc",
+    lineHeight: "1.6",
+    marginTop: "0 !important",
+    marginBottom: "0 !important", // Let CSS class handle it
+    paddingBottom: "0 !important",
     opacity: "0.95",
-    color: "#ffffff",
+
+    // Mobile responsiveness
+    "@media (max-width: 768px)": {
+      marginBottom: "2rem",
+    },
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.85rem, 4vw, 1rem)",
+      lineHeight: "1.6",
+      marginBottom: "1.5rem",
+    },
+  },
+
+  heroForegroundContent: {
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    padding: "clamp(1rem, 2vw, 1.5rem)",
+    borderRadius: "15px",
+    backdropFilter: "blur(6px)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    maxWidth: "1000px",
+    width: "100%",
+
+    textAlign: "center",
+
+    marginBottom: "10rem",
+    marginTop: "-100px",
+    "@media (max-width: 768px)": {
+      padding: "1.5rem 1rem",
+      gap: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "1.2rem 0.8rem",
+      gap: "0.8rem",
+    },
+  },
+
+  heroTopImage: {
+    width: "clamp(250px, 40vw, 500px)",
+    height: "auto",
+    opacity: 0.9,
+    pointerEvents: "none",
+    marginTop: "-80px",
   },
 
   heroButtons: {
@@ -1125,6 +1188,20 @@ const styles = {
     justifyContent: "center",
     flexWrap: "wrap",
     marginTop: "2rem",
+    margin: "0 !important", // Force reset
+    padding: "0 !important",
+    position: "relative",
+    zIndex: "1",
+    // Mobile adjustments
+    "@media (max-width: 768px)": {
+      gap: "0.8rem",
+      marginTop: "1.5rem",
+    },
+    "@media (max-width: 480px)": {
+      flexDirection: "column",
+      gap: "0.8rem",
+      alignItems: "center",
+    },
   },
 
   ctaButtonPrimary: {
@@ -1138,6 +1215,16 @@ const styles = {
     cursor: "pointer",
     transition: "all 0.3s ease",
     textTransform: "uppercase",
+    // Responsive button sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
   ctaButtonSecondary: {
@@ -1151,6 +1238,16 @@ const styles = {
     cursor: "pointer",
     transition: "all 0.3s ease",
     textTransform: "uppercase",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
   ctaButtonRed: {
@@ -1164,16 +1261,16 @@ const styles = {
     cursor: "pointer",
     transition: "all 0.3s ease",
     textTransform: "uppercase",
-  },
-
-  // CSR Priorities Section - White Background
-  csrSection: {
-    background: "#ffffff",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
   sectionTitle: {
@@ -1182,6 +1279,15 @@ const styles = {
     color: "#0edb61",
     textAlign: "center",
     marginBottom: "3rem",
+  },
+
+  csrSection: {
+    background: "#ffffff",
+    padding: "120px 20px 80px 20px",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
   },
 
   csrGrid: {

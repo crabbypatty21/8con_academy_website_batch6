@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import ScrollUp from "./ScrollUp";
 import {
   Menu,
   X,
@@ -28,8 +27,18 @@ const ConSult = () => {
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
   const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] =
     useState(false);
-  const [animationKey, setAnimationKey] = useState(0);
-  const [visibleSections, setVisibleSections] = useState(new Set());
+  const [animatedSections, setAnimatedSections] = useState(new Set());
+  const [isInHeroSection, setIsInHeroSection] = useState(false);
+  const [heroAnimationKey, setHeroAnimationKey] = useState(0);
+  // Refs for sections
+  const heroRef = useRef(null);
+  const leadershipRef = useRef(null);
+  const servicesRef = useRef(null);
+  const approachRef = useRef(null);
+  const clientsRef = useRef(null);
+  const ctaRef = useRef(null);
+
+  const isAnimated = (sectionId) => animatedSections.has(sectionId);
 
   const subBrandsData = [
     {
@@ -97,54 +106,82 @@ const ConSult = () => {
     },
   ];
 
-  // Scroll detection for animations
+  // Intersection Observer setup
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.id;
+          setAnimatedSections((prev) => new Set([...prev, sectionId]));
+        }
+      });
+    }, observerOptions);
+
+    const sections = [
+      heroRef,
+      leadershipRef,
+      servicesRef,
+      approachRef,
+      clientsRef,
+      ctaRef,
+    ];
+
+    sections.forEach((ref) => {
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Observer for hero section to detect when user is at top
+  useEffect(() => {
+    const heroObserverOptions = {
+      threshold: 0.6,
+      rootMargin: "0px",
+    };
+
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const wasInHero = isInHeroSection;
+        const nowInHero = entry.isIntersecting;
+
+        setIsInHeroSection(nowInHero);
+
+        if (nowInHero) {
+          // Reset ALL section animations when entering hero section
+          setAnimatedSections(new Set());
+          setHeroAnimationKey((prev) => prev + 1);
+
+          // Trigger hero animation
+          setTimeout(() => {
+            setAnimatedSections((prev) => new Set([...prev, "hero"]));
+          }, 100);
+        }
+      });
+    }, heroObserverOptions);
+
+    if (heroRef.current) {
+      heroObserver.observe(heroRef.current);
+    }
+
+    return () => heroObserver.disconnect();
+  }, [isInHeroSection]);
+
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setScrolled(scrollTop > 0);
-
-      // Check if user is at the top/hero section
-      const heroSection = document.getElementById("top");
-      const heroHeight = heroSection ? heroSection.offsetHeight : 0;
-      const isAtTop = scrollTop < heroHeight * 0.2;
-
-      // Reset animations when user returns to top
-      if (isAtTop && visibleSections.size > 0) {
-        setVisibleSections(new Set());
-        setAnimationKey((prev) => prev + 1);
-        return;
-      }
-
-      // Only check section visibility if not at top
-      if (!isAtTop) {
-        const sections = [
-          "leadership",
-          "services",
-          "approach",
-          "clients",
-          "cta",
-        ];
-
-        sections.forEach((sectionId) => {
-          const section = document.getElementById(sectionId);
-          if (section) {
-            const rect = section.getBoundingClientRect();
-            const isVisible =
-              rect.top < window.innerHeight * 0.75 && rect.bottom > 0;
-
-            if (isVisible && !visibleSections.has(sectionId)) {
-              setVisibleSections((prev) => new Set([...prev, sectionId]));
-            }
-          }
-        });
-      }
+      setScrolled(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
-    setTimeout(handleScroll, 100);
-
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [visibleSections]);
+  }, []);
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -685,6 +722,215 @@ const ConSult = () => {
               animation: powerZoom 0.6s ease-out 0.6s both;
             }
           }
+          @keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(14, 219, 97, 0.6);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+.animate-slide-in-top {
+  animation: slideInFromTop 1s ease-out forwards;
+}
+
+.animate-zoom-in {
+  animation: zoomIn 0.8s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.3s; }
+.stagger-3 { animation-delay: 0.5s; }
+
+/* Update existing hero animations */
+.hero-title {
+  animation: fadeInUp 1.2s ease-out 0.2s both;
+}
+
+.hero-subtitle {
+  animation: fadeInUp 1.2s ease-out 0.4s both;
+}
+
+.hero-description {
+  animation: fadeInUp 1.2s ease-out 0.6s both;
+}
+
+.hero-buttons {
+  animation: fadeInUp 1.2s ease-out 0.8s both;
+}
+
+.consult-clients-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+/* Large screens - keep 2x2 grid */
+@media (min-width: 1025px) {
+  .consult-clients-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    max-width: 900px;
+    margin: 3rem auto 0;
+  }
+}
+
+/* Tablets and small laptops */
+@media (max-width: 1024px) {
+  .consult-clients-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.8rem;
+  }
+}
+
+/* Tablets and large phones */
+@media (max-width: 768px) {
+  .consult-clients-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    margin-top: 2.5rem !important;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .consult-clients-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem !important;
+    margin-top: 2rem !important;
+    padding: 0 10px;
+  }
+  
+  .client-category {
+    padding: 1.5rem 1.2rem !important;
+  }
+  
+  .client-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .client-list-item {
+    font-size: 0.9rem !important;
+    margin-bottom: 0.7rem !important;
+    line-height: 1.4 !important;
+  }
+}
+
+/* Very small screens like 425px */
+@media (max-width: 425px) {
+  .consult-clients-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    margin-top: 1.5rem !important;
+    padding: 0 5px;
+  }
+  
+  .client-category {
+    padding: 1.2rem 1rem !important;
+    margin: 0 !important;
+  }
+  
+  .client-title {
+    font-size: 1rem !important;
+    margin-bottom: 0.8rem !important;
+    text-align: center;
+  }
+  
+  .client-list {
+    padding-left: 0 !important;
+  }
+  
+  .client-list-item {
+    font-size: 0.85rem !important;
+    margin-bottom: 0.6rem !important;
+    line-height: 1.3 !important;
+    padding-left: 0.5rem;
+  }
+}
+  .approach-grid-3-1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+/* Position the 4th card (Network Access) in the center of the second row */
+.approach-grid-3-1 .approach-card:nth-child(4) {
+  grid-column: 2 / 3; /* Place in the middle column of second row */
+  grid-row: 2;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  .approach-grid-3-1 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.8rem;
+  }
+  
+  .approach-grid-3-1 .approach-card:nth-child(4) {
+    grid-column: 1 / -1; /* Span full width on tablets */
+    grid-row: auto;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .approach-grid-3-1 {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  
+  .approach-grid-3-1 .approach-card:nth-child(4) {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .approach-grid-3-1 {
+    gap: 1.2rem !important;
+    margin-top: 2rem !important;
+  }
+}
+
+          
         `}
       </style>
 
@@ -882,28 +1128,57 @@ const ConSult = () => {
         )}
       </header>
 
-      <main>
-        {/* Hero Section */}
-        <section id="top" style={styles.heroSection}>
-          <div style={styles.heroContent} key={`hero-${animationKey}`}>
-            <h1 style={styles.companyTitle} className="hero-title">
-              8ConSult
-            </h1>
-            <p style={styles.heroSubtitle} className="hero-subtitle">
+      {/* Hero Section */}
+      <section id="hero" ref={heroRef} style={styles.heroSection}>
+        <div style={styles.heroContent} key={heroAnimationKey}>
+          {/* Large Brand Logo/Number Image - Like ConVerse */}
+          <img
+            src="/assets/logo/9.png" // Replace with your ConSult logo/image
+            alt="8ConSult"
+            style={styles.heroTopImage}
+            className={`animate-on-scroll ${
+              isAnimated("hero") ? "animate-slide-in-top" : ""
+            }`}
+          />
+
+          {/* Glassmorphic Content Block */}
+          <div style={styles.heroForegroundContent}>
+            {/* Subtitle */}
+            <p
+              style={styles.heroSubtitle}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""
+              }`}
+            >
               Business Development & Startup Advisory with Sir Nigel Santos
             </p>
-            <p style={styles.heroDescription} className="hero-description">
+
+            {/* Description */}
+            <p
+              style={styles.heroDescription}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""
+              }`}
+            >
               A consultation arm powered by real-world experience in
               entrepreneurship. Transform your business ideas into thriving
               ventures with expert guidance from ideation to execution, scaling,
               and investor readiness.
             </p>
-            <div style={styles.heroButtons} className="hero-buttons">
+
+            {/* Buttons */}
+            <div
+              style={styles.heroButtons}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-zoom-in stagger-3" : ""
+              }`}
+            >
               <button
-                style={styles.primaryButton}
+                style={styles.ctaButtonPrimary}
+                className={isAnimated("hero") ? "animate-pulse-glow" : ""}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#0cbb52";
-                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "#0edb61";
@@ -913,11 +1188,12 @@ const ConSult = () => {
                 Book Consultation
               </button>
               <button
-                style={styles.secondaryButton}
+                style={styles.ctaButtonSecondary}
+                onClick={() => handleSmoothScroll("services")}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#ff1f2c";
                   e.currentTarget.style.color = "#ffffff";
-                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "transparent";
@@ -929,480 +1205,522 @@ const ConSult = () => {
               </button>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Leadership Section */}
-        <section
-          id="leadership"
-          style={styles.leadershipSection}
-          className={visibleSections.has("leadership") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2 style={styles.sectionTitle} className="section-title">
-              Led by Entrepreneurial Excellence
-            </h2>
-            <div style={styles.leadershipContent}>
-              <div style={styles.leadershipText} className="leadership-text">
-                <p style={styles.leadershipDescription}>
-                  Spearheaded by{" "}
-                  <strong style={styles.strongText}>Sir Nigel Santos</strong>,
-                  our Chief Business Development Officer, 8ConSult brings
-                  decades of real-world entrepreneurial experience to your
-                  business journey. Sir Nigel's proven track record in building
-                  successful ventures, navigating market challenges, and scaling
-                  businesses provides the foundation for our comprehensive
-                  advisory services.
-                </p>
-                <p style={styles.leadershipDescription}>
-                  With expertise spanning startup ecosystems, business model
-                  innovation, and investor relations, Sir Nigel ensures that
-                  every consultation delivers actionable insights and strategic
-                  direction tailored to your unique business goals.
-                </p>
+      {/* Leadership Section */}
+      <section
+        id="leadership"
+        ref={leadershipRef}
+        style={styles.leadershipSection}
+        className={isAnimated("leadership") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2 style={styles.sectionTitle} className="section-title">
+            Led by Entrepreneurial Excellence
+          </h2>
+          <div style={styles.leadershipContent}>
+            <div style={styles.leadershipText} className="leadership-text">
+              <p style={styles.leadershipDescription}>
+                Spearheaded by{" "}
+                <strong style={styles.strongText}>Sir Nigel Santos</strong>, our
+                Chief Business Development Officer, 8ConSult brings decades of
+                real-world entrepreneurial experience to your business journey.
+                Sir Nigel's proven track record in building successful ventures,
+                navigating market challenges, and scaling businesses provides
+                the foundation for our comprehensive advisory services.
+              </p>
+              <p style={styles.leadershipDescription}>
+                With expertise spanning startup ecosystems, business model
+                innovation, and investor relations, Sir Nigel ensures that every
+                consultation delivers actionable insights and strategic
+                direction tailored to your unique business goals.
+              </p>
+            </div>
+            <div style={styles.leadershipStats} className="leadership-stats">
+              <div style={styles.statItem} className="stat-item-1">
+                <h3 style={styles.statNumber}>20+</h3>
+                <p style={styles.statLabel}>Years Experience</p>
               </div>
-              <div style={styles.leadershipStats} className="leadership-stats">
-                <div style={styles.statItem} className="stat-item-1">
-                  <h3 style={styles.statNumber}>20+</h3>
-                  <p style={styles.statLabel}>Years Experience</p>
-                </div>
-                <div style={styles.statItem} className="stat-item-2">
-                  <h3 style={styles.statNumber}>200+</h3>
-                  <p style={styles.statLabel}>Startups Advised</p>
-                </div>
-                <div style={styles.statItem} className="stat-item-3">
-                  <h3 style={styles.statNumber}>95%</h3>
-                  <p style={styles.statLabel}>Success Rate</p>
-                </div>
+              <div style={styles.statItem} className="stat-item-2">
+                <h3 style={styles.statNumber}>200+</h3>
+                <p style={styles.statLabel}>Startups Advised</p>
+              </div>
+              <div style={styles.statItem} className="stat-item-3">
+                <h3 style={styles.statNumber}>95%</h3>
+                <p style={styles.statLabel}>Success Rate</p>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Services Section */}
-        <section
-          id="services"
-          style={styles.servicesSection}
-          className={visibleSections.has("services") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2
-              style={{ ...styles.sectionTitle, color: "#ffffff" }}
-              className="section-title"
+      {/* Services Section */}
+      <section
+        id="services"
+        ref={servicesRef}
+        style={styles.servicesSection}
+        className={isAnimated("services") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2
+            style={{ ...styles.sectionTitle, color: "#ffffff" }}
+            className="section-title"
+          >
+            Our Advisory Services
+          </h2>
+          <div style={styles.servicesGrid}>
+            <div
+              style={styles.serviceCard}
+              className="service-card-1"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
             >
-              Our Advisory Services
-            </h2>
-            <div style={styles.servicesGrid}>
-              <div
-                style={styles.serviceCard}
-                className="service-card-1"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.serviceIcon} className="service-icon">
-                  <Lightbulb size={48} color="#0edb61" />
-                </div>
-                <h3 style={styles.serviceTitle}>Startup Coaching</h3>
-                <p style={styles.serviceDescription}>
-                  Comprehensive guidance for aspiring entrepreneurs from
-                  ideation to execution, ensuring your startup is built on solid
-                  foundations.
-                </p>
-                <ul style={styles.serviceList}>
-                  <li style={styles.serviceListItem}>
-                    • Idea validation and market research
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Business plan development and refinement
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Team building and leadership guidance
-                  </li>
-                </ul>
+              <div style={styles.serviceIcon} className="service-icon">
+                <Lightbulb size={48} color="#0edb61" />
               </div>
-
-              <div
-                style={styles.serviceCard}
-                className="service-card-2"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.serviceIcon} className="service-icon">
-                  <LineChart size={48} color="#0edb61" />
-                </div>
-                <h3 style={styles.serviceTitle}>Business Model Analysis</h3>
-                <p style={styles.serviceDescription}>
-                  Get your business evaluated and refined with expert input,
-                  optimizing for sustainability and growth potential.
-                </p>
-                <ul style={styles.serviceList}>
-                  <li style={styles.serviceListItem}>
-                    • Revenue model optimization
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Cost structure analysis
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Competitive positioning strategy
-                  </li>
-                </ul>
-              </div>
-
-              <div
-                style={styles.serviceCard}
-                className="service-card-3"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.serviceIcon} className="service-icon">
-                  <TrendingUp size={48} color="#0edb61" />
-                </div>
-                <h3 style={styles.serviceTitle}>
-                  Sales Strategy & Growth Blueprint
-                </h3>
-                <p style={styles.serviceDescription}>
-                  Tailored game plans for scaling and market positioning,
-                  designed to accelerate your business growth and market
-                  penetration.
-                </p>
-                <ul style={styles.serviceList}>
-                  <li style={styles.serviceListItem}>
-                    • Go-to-market strategy development
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Sales funnel optimization
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Growth hacking techniques
-                  </li>
-                </ul>
-              </div>
-
-              <div
-                style={styles.serviceCard}
-                className="service-card-4"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div style={styles.serviceIcon} className="service-icon">
-                  <Presentation size={48} color="#0edb61" />
-                </div>
-                <h3 style={styles.serviceTitle}>
-                  Investor Deck & Pitch Support
-                </h3>
-                <p style={styles.serviceDescription}>
-                  Prepare for investor talks and funding rounds with compelling
-                  presentations and pitch strategies that get results.
-                </p>
-                <ul style={styles.serviceList}>
-                  <li style={styles.serviceListItem}>
-                    • Investor deck creation and refinement
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Pitch practice and coaching
-                  </li>
-                  <li style={styles.serviceListItem}>
-                    • Investor network introductions
-                  </li>
-                </ul>
-              </div>
+              <h3 style={styles.serviceTitle}>Startup Coaching</h3>
+              <p style={styles.serviceDescription}>
+                Comprehensive guidance for aspiring entrepreneurs from ideation
+                to execution, ensuring your startup is built on solid
+                foundations.
+              </p>
+              <ul style={styles.serviceList}>
+                <li style={styles.serviceListItem}>
+                  • Idea validation and market research
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Business plan development and refinement
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Team building and leadership guidance
+                </li>
+              </ul>
             </div>
-          </div>
-        </section>
 
-        {/* Our Approach Section */}
-        <section
-          id="approach"
-          style={styles.approachSection}
-          className={visibleSections.has("approach") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2 style={styles.sectionTitle} className="section-title">
-              Why Choose 8ConSult?
-            </h2>
-            <div style={styles.approachGrid}>
-              <div
-                style={styles.approachCard}
-                className="approach-card-1"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.borderColor = "#0edb61";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.borderColor = "transparent";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <h3 style={styles.approachTitle}>Real-World Experience</h3>
-                <p style={styles.approachDescription}>
-                  Benefit from decades of hands-on entrepreneurial experience,
-                  not just theoretical knowledge. Our advice comes from actual
-                  startup successes and lessons learned.
-                </p>
-              </div>
-
-              <div
-                style={styles.approachCard}
-                className="approach-card-2"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.borderColor = "#0edb61";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.borderColor = "transparent";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <h3 style={styles.approachTitle}>Personalized Strategy</h3>
-                <p style={styles.approachDescription}>
-                  Every business is unique. We develop customized strategies
-                  that align with your specific industry, market conditions, and
-                  growth objectives.
-                </p>
-              </div>
-
-              <div
-                style={styles.approachCard}
-                className="approach-card-3"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.borderColor = "#0edb61";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.borderColor = "transparent";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <h3 style={styles.approachTitle}>End-to-End Support</h3>
-                <p style={styles.approachDescription}>
-                  From initial concept to investor readiness, we provide
-                  comprehensive support throughout your entrepreneurial journey,
-                  ensuring no critical step is missed.
-                </p>
-              </div>
-
-              <div
-                style={styles.approachCard}
-                className="approach-card-4"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.borderColor = "#0edb61";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.borderColor = "transparent";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <h3 style={styles.approachTitle}>Network Access</h3>
-                <p style={styles.approachDescription}>
-                  Gain access to an extensive network of investors, industry
-                  experts, and potential partners to accelerate your business
-                  growth and opportunities.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Target Clients Section */}
-        <section
-          id="clients"
-          style={styles.clientsSection}
-          className={visibleSections.has("clients") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2
-              style={{ ...styles.sectionTitle, color: "#ffffff" }}
-              className="section-title"
+            <div
+              style={styles.serviceCard}
+              className="service-card-2"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
             >
-              Who We Serve
-            </h2>
-            <div style={styles.clientsGrid}>
-              <div style={styles.clientCategory} className="client-card-1">
-                <h3 style={styles.clientTitle}>Aspiring Entrepreneurs</h3>
-                <ul style={styles.clientList}>
-                  <li style={styles.clientListItem}>
-                    • First-time founders with innovative ideas
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Professionals transitioning to entrepreneurship
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Students developing startup concepts
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Career changers seeking business opportunities
-                  </li>
-                </ul>
+              <div style={styles.serviceIcon} className="service-icon">
+                <LineChart size={48} color="#0edb61" />
               </div>
+              <h3 style={styles.serviceTitle}>Business Model Analysis</h3>
+              <p style={styles.serviceDescription}>
+                Get your business evaluated and refined with expert input,
+                optimizing for sustainability and growth potential.
+              </p>
+              <ul style={styles.serviceList}>
+                <li style={styles.serviceListItem}>
+                  • Revenue model optimization
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Cost structure analysis
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Competitive positioning strategy
+                </li>
+              </ul>
+            </div>
 
-              <div style={styles.clientCategory} className="client-card-2">
-                <h3 style={styles.clientTitle}>Early-Stage Startups</h3>
-                <ul style={styles.clientList}>
-                  <li style={styles.clientListItem}>
-                    • Pre-seed and seed stage companies
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Startups seeking product-market fit
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Teams preparing for funding rounds
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Companies needing strategic pivot guidance
-                  </li>
-                </ul>
+            <div
+              style={styles.serviceCard}
+              className="service-card-3"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <div style={styles.serviceIcon} className="service-icon">
+                <TrendingUp size={48} color="#0edb61" />
               </div>
+              <h3 style={styles.serviceTitle}>
+                Sales Strategy & Growth Blueprint
+              </h3>
+              <p style={styles.serviceDescription}>
+                Tailored game plans for scaling and market positioning, designed
+                to accelerate your business growth and market penetration.
+              </p>
+              <ul style={styles.serviceList}>
+                <li style={styles.serviceListItem}>
+                  • Go-to-market strategy development
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Sales funnel optimization
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Growth hacking techniques
+                </li>
+              </ul>
+            </div>
 
-              <div style={styles.clientCategory} className="client-card-3">
-                <h3 style={styles.clientTitle}>Growing Businesses</h3>
-                <ul style={styles.clientList}>
-                  <li style={styles.clientListItem}>
-                    • SMEs ready for scaling operations
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Companies entering new markets
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Businesses optimizing for growth
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Organizations seeking strategic partnerships
-                  </li>
-                </ul>
+            <div
+              style={styles.serviceCard}
+              className="service-card-4"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <div style={styles.serviceIcon} className="service-icon">
+                <Presentation size={48} color="#0edb61" />
               </div>
-
-              <div style={styles.clientCategory} className="client-card-4">
-                <h3 style={styles.clientTitle}>Corporate Innovators</h3>
-                <ul style={styles.clientList}>
-                  <li style={styles.clientListItem}>
-                    • Large companies developing new ventures
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Corporate innovation teams
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Organizations launching intrapreneurship programs
-                  </li>
-                  <li style={styles.clientListItem}>
-                    • Companies seeking digital transformation
-                  </li>
-                </ul>
-              </div>
+              <h3 style={styles.serviceTitle}>Investor Deck & Pitch Support</h3>
+              <p style={styles.serviceDescription}>
+                Prepare for investor talks and funding rounds with compelling
+                presentations and pitch strategies that get results.
+              </p>
+              <ul style={styles.serviceList}>
+                <li style={styles.serviceListItem}>
+                  • Investor deck creation and refinement
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Pitch practice and coaching
+                </li>
+                <li style={styles.serviceListItem}>
+                  • Investor network introductions
+                </li>
+              </ul>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CTA Section */}
-        <section
-          id="cta"
-          style={styles.ctaSection}
-          className={visibleSections.has("cta") ? "section-visible" : ""}
-        >
-          <div style={styles.container2}>
-            <h2 style={styles.ctaTitle} className="cta-title">
-              Ready to Transform Your Business Vision?
-            </h2>
-            <p style={styles.ctaDescription} className="cta-description">
-              Achieve more with 8ConSult—where expert guidance meets your
-              ambition. Whether you're taking your first entrepreneurial steps
-              or scaling an existing venture, Sir Nigel Santos and our team
-              provide the strategic insights and practical support you need to
-              succeed.
-            </p>
-            <div style={styles.ctaButtons} className="cta-buttons">
-              <button
-                style={styles.ctaPrimaryButton}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0cbb52";
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(14, 219, 97, 0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#0edb61";
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 4px 15px rgba(14, 219, 97, 0.2)";
-                }}
-              >
-                Schedule Your Consultation
-              </button>
-              <button
-                style={styles.ctaSecondaryButton}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#ff1f2c";
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(255, 31, 44, 0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#ff1f2c";
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 4px 15px rgba(255, 31, 44, 0.2)";
-                }}
-              >
-                Download Startup Guide
-              </button>
+      {/* Our Approach Section */}
+      <section
+        id="approach"
+        ref={approachRef}
+        style={styles.approachSection}
+        className={isAnimated("approach") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2 style={styles.sectionTitle} className="section-title">
+            Why Choose 8ConSult?
+          </h2>
+          <div style={styles.approachGrid}>
+            <div
+              style={styles.approachCard}
+              className="approach-card-1"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.borderColor = "#0edb61";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.borderColor = "transparent";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.approachTitle}>Real-World Experience</h3>
+              <p style={styles.approachDescription}>
+                Benefit from decades of hands-on entrepreneurial experience, not
+                just theoretical knowledge. Our advice comes from actual startup
+                successes and lessons learned.
+              </p>
             </div>
-            <div style={styles.ctaHighlight} className="cta-highlight">
-              <strong>
-                From ideation to execution, from startup to scale-up—8ConSult is
-                your trusted partner in building a successful business!
-              </strong>
+
+            <div
+              style={styles.approachCard}
+              className="approach-card-2"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.borderColor = "#0edb61";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.borderColor = "transparent";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.approachTitle}>Personalized Strategy</h3>
+              <p style={styles.approachDescription}>
+                Every business is unique. We develop customized strategies that
+                align with your specific industry, market conditions, and growth
+                objectives.
+              </p>
+            </div>
+
+            <div
+              style={styles.approachCard}
+              className="approach-card-3"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.borderColor = "#0edb61";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.borderColor = "transparent";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.approachTitle}>End-to-End Support</h3>
+              <p style={styles.approachDescription}>
+                From initial concept to investor readiness, we provide
+                comprehensive support throughout your entrepreneurial journey,
+                ensuring no critical step is missed.
+              </p>
+            </div>
+
+            <div
+              style={styles.approachCard}
+              className="approach-card-4"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px)";
+                e.currentTarget.style.borderColor = "#0edb61";
+                e.currentTarget.style.boxShadow =
+                  "0 12px 35px rgba(14, 219, 97, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.borderColor = "transparent";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.approachTitle}>Network Access</h3>
+              <p style={styles.approachDescription}>
+                Gain access to an extensive network of investors, industry
+                experts, and potential partners to accelerate your business
+                growth and opportunities.
+              </p>
             </div>
           </div>
-        </section>
-      </main>
-      <ScrollUp />
+        </div>
+      </section>
+
+      {/* Target Clients Section */}
+      <section
+        id="clients"
+        ref={clientsRef}
+        style={styles.clientsSection}
+        className={isAnimated("clients") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2
+            style={{ ...styles.sectionTitle, color: "#ffffff" }}
+            className="section-title"
+          >
+            Who We Serve
+          </h2>
+          <div className="consult-clients-grid">
+            {" "}
+            {/* Use className instead of style */}
+            <div
+              style={styles.clientCategory}
+              className="client-card client-card-1"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-8px) rotateY(5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.clientTitle}>Aspiring Entrepreneurs</h3>
+              <ul style={styles.clientList}>
+                <li style={styles.clientListItem}>
+                  • First-time founders with innovative ideas
+                </li>
+                <li style={styles.clientListItem}>
+                  • Professionals transitioning to entrepreneurship
+                </li>
+                <li style={styles.clientListItem}>
+                  • Students developing startup concepts
+                </li>
+                <li style={styles.clientListItem}>
+                  • Career changers seeking business opportunities
+                </li>
+              </ul>
+            </div>
+            <div
+              style={styles.clientCategory}
+              className="client-card client-card-2"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-8px) rotateY(-5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.clientTitle}>Early-Stage Startups</h3>
+              <ul style={styles.clientList}>
+                <li style={styles.clientListItem}>
+                  • Pre-seed and seed stage companies
+                </li>
+                <li style={styles.clientListItem}>
+                  • Startups seeking product-market fit
+                </li>
+                <li style={styles.clientListItem}>
+                  • Teams preparing for funding rounds
+                </li>
+                <li style={styles.clientListItem}>
+                  • Companies needing strategic pivot guidance
+                </li>
+              </ul>
+            </div>
+            <div
+              style={styles.clientCategory}
+              className="client-card client-card-3"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-8px) rotateY(5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.clientTitle}>Growing Businesses</h3>
+              <ul style={styles.clientList}>
+                <li style={styles.clientListItem}>
+                  • SMEs ready for scaling operations
+                </li>
+                <li style={styles.clientListItem}>
+                  • Companies entering new markets
+                </li>
+                <li style={styles.clientListItem}>
+                  • Businesses optimizing for growth
+                </li>
+                <li style={styles.clientListItem}>
+                  • Organizations seeking strategic partnerships
+                </li>
+              </ul>
+            </div>
+            <div
+              style={styles.clientCategory}
+              className="client-card client-card-4"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform =
+                  "translateY(-8px) rotateY(-5deg)";
+                e.currentTarget.style.boxShadow =
+                  "0 20px 40px rgba(14, 219, 97, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
+              }}
+            >
+              <h3 style={styles.clientTitle}>Corporate Innovators</h3>
+              <ul style={styles.clientList}>
+                <li style={styles.clientListItem}>
+                  • Large companies developing new ventures
+                </li>
+                <li style={styles.clientListItem}>
+                  • Corporate innovation teams
+                </li>
+                <li style={styles.clientListItem}>
+                  • Organizations launching intrapreneurship programs
+                </li>
+                <li style={styles.clientListItem}>
+                  • Companies seeking digital transformation
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section
+        id="cta"
+        ref={ctaRef}
+        style={styles.ctaSection}
+        className={isAnimated("cta") ? "section-visible" : ""}
+      >
+        <div style={styles.container2}>
+          <h2 style={styles.ctaTitle} className="cta-title">
+            Ready to Transform Your Business Vision?
+          </h2>
+          <p style={styles.ctaDescription} className="cta-description">
+            Achieve more with 8ConSult—where expert guidance meets your
+            ambition. Whether you're taking your first entrepreneurial steps or
+            scaling an existing venture, Sir Nigel Santos and our team provide
+            the strategic insights and practical support you need to succeed.
+          </p>
+          <div style={styles.ctaButtons} className="cta-buttons">
+            <button
+              style={styles.ctaPrimaryButton}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#0cbb52";
+                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 25px rgba(14, 219, 97, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#0edb61";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 15px rgba(14, 219, 97, 0.2)";
+              }}
+            >
+              Schedule Your Consultation
+            </button>
+            <button
+              style={styles.ctaSecondaryButton}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#ff1f2c";
+                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow =
+                  "0 8px 25px rgba(255, 31, 44, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#ff1f2c";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 15px rgba(255, 31, 44, 0.2)";
+              }}
+            >
+              Download Startup Guide
+            </button>
+          </div>
+          <div style={styles.ctaHighlight} className="cta-highlight">
+            <strong>
+              From ideation to execution, from startup to scale-up—8ConSult is
+              your trusted partner in building a successful business!
+            </strong>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
@@ -1426,46 +1744,106 @@ const styles = {
 
   // Hero Section (Green to Black gradient)
   heroSection: {
-    background: "linear-gradient(135deg, #0edb61 0%, #000000 100%)",
-    color: "#ffffff",
-    padding: "140px 20px 80px",
-    textAlign: "center",
     minHeight: "100vh",
+    background:
+      "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)", // ✅ Reduce top/bottom padding
+    position: "relative",
+    overflow: "hidden",
+    textAlign: "center",
+    // Responsive adjustments
+    "@media (max-width: 768px)": {
+      padding: "120px 15px 60px",
+      minHeight: "90vh",
+    },
+    "@media (max-width: 480px)": {
+      padding: "100px 12px 40px",
+      minHeight: "85vh",
+    },
   },
 
   heroContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
+    position: "relative",
+    zIndex: 2,
     maxWidth: "800px",
     margin: "0 auto",
-  },
-
-  companyTitle: {
-    fontSize: "clamp(2.5rem, 8vw, 4rem)",
-    fontWeight: "700",
-    marginBottom: "1rem",
-    textShadow: "0 4px 8px rgba(0,0,0,0.3)",
-    filter:
-      "drop-shadow(0 0 5px #121411) drop-shadow(0 0 10px #121411) drop-shadow(0 0 15px #121411)",
-    color: "#ffffff",
+    // Responsive width
+    "@media (max-width: 768px)": {
+      maxWidth: "100%",
+    },
   },
 
   heroSubtitle: {
     fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-    fontWeight: "300",
-    marginBottom: "1.5rem",
+    fontWeight: "600",
+    marginBottom: "1rem",
+    margin: "0 0 1rem 0",
     opacity: "0.9",
     color: "#ffffff",
+    lineHeight: "1.3",
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
+      marginBottom: "1.2rem",
+    },
   },
 
   heroDescription: {
-    fontSize: "clamp(1rem, 3vw, 1.2rem)",
-    lineHeight: "1.7",
-    maxWidth: "600px",
-    margin: "0 auto 2rem",
+    fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
+    color: "#cccccc",
+    lineHeight: "1.6",
+    marginTop: "0 !important",
+    marginBottom: "0 !important", // Let CSS class handle it
+    paddingBottom: "0 !important",
     opacity: "0.95",
-    color: "#ffffff",
+
+    // Mobile responsiveness
+    "@media (max-width: 768px)": {
+      marginBottom: "2rem",
+    },
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.85rem, 4vw, 1rem)",
+      lineHeight: "1.6",
+      marginBottom: "1.5rem",
+    },
+  },
+
+  heroForegroundContent: {
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    padding: "clamp(1rem, 2vw, 1.5rem)",
+    borderRadius: "15px",
+    backdropFilter: "blur(6px)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    maxWidth: "1000px",
+    width: "100%",
+
+    textAlign: "center",
+
+    marginBottom: "10rem",
+    marginTop: "-100px",
+    "@media (max-width: 768px)": {
+      padding: "1.5rem 1rem",
+      gap: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "1.2rem 0.8rem",
+      gap: "0.8rem",
+    },
+  },
+
+  heroTopImage: {
+    width: "clamp(250px, 40vw, 500px)",
+    height: "auto",
+    opacity: 0.9,
+    pointerEvents: "none",
+    marginTop: "-80px",
   },
 
   heroButtons: {
@@ -1474,31 +1852,89 @@ const styles = {
     justifyContent: "center",
     flexWrap: "wrap",
     marginTop: "2rem",
+    margin: "0 !important", // Force reset
+    padding: "0 !important",
+    position: "relative",
+    zIndex: "1",
+    // Mobile adjustments
+    "@media (max-width: 768px)": {
+      gap: "0.8rem",
+      marginTop: "1.5rem",
+    },
+    "@media (max-width: 480px)": {
+      flexDirection: "column",
+      gap: "0.8rem",
+      alignItems: "center",
+    },
   },
 
-  primaryButton: {
+  ctaButtonPrimary: {
     background: "#0edb61",
     color: "#ffffff",
-    padding: "1rem 2rem",
-    borderRadius: "8px",
     border: "none",
+    padding: "1rem 2rem",
     fontSize: "1.1rem",
     fontWeight: "600",
+    borderRadius: "8px",
     cursor: "pointer",
     transition: "all 0.3s ease",
-    boxShadow: "0 4px 15px rgba(14, 219, 97, 0.2)",
+    textTransform: "uppercase",
+    // Responsive button sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
-  secondaryButton: {
+  ctaButtonSecondary: {
     background: "transparent",
     color: "#ffffff",
+    border: "2px solid #ffffff",
     padding: "1rem 2rem",
-    borderRadius: "8px",
-    border: "2px solid #ff1f2c",
     fontSize: "1.1rem",
     fontWeight: "600",
+    borderRadius: "8px",
     cursor: "pointer",
     transition: "all 0.3s ease",
+    textTransform: "uppercase",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
+  },
+
+  ctaButtonRed: {
+    background: "#ff1f2c",
+    color: "#ffffff",
+    border: "none",
+    padding: "1rem 2rem",
+    fontSize: "1.1rem",
+    fontWeight: "600",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    textTransform: "uppercase",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
   // Leadership Section (White background)
@@ -1674,14 +2110,6 @@ const styles = {
     display: "flex",
     alignItems: "center",
   },
-
-  clientsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "2rem",
-    marginTop: "3rem",
-  },
-
   clientCategory: {
     background: "#ffffff",
     padding: "2rem",

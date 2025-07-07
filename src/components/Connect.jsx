@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import ScrollUp from "./ScrollUp";
 import {
   Menu,
   X,
@@ -546,6 +545,86 @@ const ConNect = () => {
               display: none !important;
             }
           }
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: none;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.animate-slide-in-top {
+  animation: slideInFromTop 1s ease-out forwards;
+}
+
+.animate-zoom-in {
+  animation: zoomIn 0.8s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.3s; }
+.stagger-3 { animation-delay: 0.5s; }
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(14, 219, 97, 0.6);
+  }
+}
+
+.hero-text-clear {
+  clear: both !important;
+  display: block !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.hero-buttons-clear {
+  clear: both !important;
+  display: flex !important;
+  margin-top: 2rem !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.hero-description-fix {
+  margin-bottom: 3rem !important;
+  padding-bottom: 1rem !important;
+  display: block !important;
+  clear: both !important;
+}
+
         `}
       </style>
 
@@ -740,45 +819,55 @@ const ConNect = () => {
           </nav>
         )}
       </header>
-      <main>
-        {/* Hero Section - Green Background */}
-        <section id="hero" ref={heroRef} style={styles.heroSection}>
-          <div style={styles.heroContent} key={heroAnimationKey}>
-            <h1
-              className={`animate-element ${
-                isAnimated("hero") ? "animate animate-fade-in-up" : ""
-              }`}
-              style={styles.companyTitle}
-            >
-              8ConNect
-            </h1>
+
+      {/* Hero Section - Green Background */}
+      <section id="hero" ref={heroRef} style={styles.heroSection}>
+        <div style={styles.heroContent} key={heroAnimationKey}>
+          {/* Large Brand Logo/Number Image - Like ConVerse */}
+          <img
+            src="/assets/logo/1.png"
+            alt="8ConNect"
+            style={styles.heroTopImage}
+            className={`animate-on-scroll ${
+              isAnimated("hero") ? "animate-slide-in-top" : ""
+            }`}
+          />
+
+          {/* Glassmorphic Content Block */}
+          <div style={styles.heroForegroundContent}>
+            {/* Subtitle */}
             <p
-              className={`animate-element ${
-                isAnimated("hero") ? "animate animate-fade-in-up delay-200" : ""
-              }`}
               style={styles.heroSubtitle}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""
+              }`}
             >
               Connecting Ideas, Opportunities, and Entrepreneurs
             </p>
+
+            {/* Description */}
             <p
-              className={`animate-element ${
-                isAnimated("hero") ? "animate animate-fade-in-up delay-400" : ""
-              }`}
               style={styles.heroDescription}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""
+              }`}
             >
               8ConNect is more than just a network—it's a collaborative hub
               designed to empower local entrepreneurs and businesses. By
               fostering connections and sharing opportunities, 8ConNect bridges
               the gap between ideas and growth.
             </p>
+
+            {/* Buttons */}
             <div
-              className={`animate-element ${
-                isAnimated("hero") ? "animate animate-fade-in-up delay-600" : ""
-              }`}
               style={styles.heroButtons}
+              className={`animate-on-scroll ${
+                isAnimated("hero") ? "animate-zoom-in stagger-3" : ""
+              }`}
             >
               <button
                 style={styles.ctaButtonPrimary}
+                className={isAnimated("hero") ? "animate-pulse-glow" : ""}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#ff1f2c";
                   e.currentTarget.style.transform = "translateY(-3px)";
@@ -790,8 +879,10 @@ const ConNect = () => {
               >
                 Join the Network
               </button>
+
               <button
                 style={styles.ctaButtonSecondary}
+                onClick={() => handleSmoothScroll("how-it-works")}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#0edb61";
                   e.currentTarget.style.color = "#ffffff";
@@ -807,452 +898,439 @@ const ConNect = () => {
               </button>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* How 8ConNect Works Section - White Background */}
-        <section
-          id="how-it-works"
-          ref={howItWorksRef}
-          style={styles.howItWorksSection}
-        >
-          <div style={styles.container2}>
-            <h2
-              className={`animate-element ${
-                isAnimated("how-it-works")
-                  ? "animate animate-fade-in-scale"
-                  : ""
-              }`}
-              style={{ ...styles.sectionTitle, color: "#000000" }}
-            >
-              How 8ConNect Works
-            </h2>
-            <div style={styles.howItWorksGrid}>
-              {[
-                {
-                  icon: <UserCheck size={40} color="#0edb61" />,
-                  title: "Membership Program",
-                  description:
-                    "Entrepreneurs and business owners can join as members to access exclusive benefits and opportunities.",
-                  list: [
-                    "• Pitch business ideas to other members",
-                    "• Access to networking events and workshops",
-                    "• Shared platform for promoting services",
-                    "• Exchange referrals for mutual growth",
-                  ],
-                },
-                {
-                  icon: <MessageSquare size={40} color="#0edb61" />,
-                  title: "Entrepreneurial Pitching Sessions",
-                  description:
-                    "Regularly scheduled events where members present their business offerings and opportunities.",
-                  list: [
-                    "• Present business ideas and challenges",
-                    "• Open environment for idea sharing",
-                    "• Receive feedback from community",
-                    "• Form strategic partnerships",
-                  ],
-                },
-                {
-                  icon: <Heart size={40} color="#0edb61" />,
-                  title: "Community Building",
-                  description:
-                    "A harmonious community where members support one another through collaboration and growth initiatives.",
-                  list: [
-                    "• Mutual support through referrals",
-                    "• Mentorship opportunities",
-                    "• Joint ventures and partnerships",
-                    "• Local business ecosystem development",
-                  ],
-                },
-                {
-                  icon: <BookOpen size={40} color="#0edb61" />,
-                  title: "Business Coach Guidance",
-                  description:
-                    "Expert guidance from a Business Coach with extensive knowledge in community building and branding.",
-                  list: [
-                    "• Workshops on branding and marketing",
-                    "• One-on-one coaching sessions",
-                    "• Business scaling strategies",
-                    "• Community alignment insights",
-                  ],
-                },
-              ].map((item, index) => (
-                <div
-                  key={index}
-                  className={`animate-element ${
-                    isAnimated("how-it-works")
-                      ? `animate animate-slide-in-bottom delay-${
-                          (index + 1) * 200
-                        }`
-                      : ""
-                  }`}
-                  style={styles.howItWorksCard}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-5px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 12px 35px rgba(14, 219, 97, 0.15)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow =
-                      "0 8px 25px rgba(0,0,0,0.1)";
-                  }}
-                >
-                  <div style={styles.howItWorksIcon}>{item.icon}</div>
-                  <h3 style={styles.howItWorksTitle}>{item.title}</h3>
-                  <p style={styles.howItWorksDescription}>{item.description}</p>
-                  <ul style={styles.howItWorksList}>
-                    {item.list.map((listItem, listIndex) => (
-                      <li key={listIndex} style={styles.howItWorksListItem}>
-                        {listItem}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Benefits of Joining Section - Black Background */}
-        <section id="benefits" ref={benefitsRef} style={styles.benefitsSection}>
-          <div style={styles.container2}>
-            <h2
-              className={`animate-element ${
-                isAnimated("benefits") ? "animate animate-bounce-in" : ""
-              }`}
-              style={styles.sectionTitle}
-            >
-              Benefits of Joining 8ConNect
-            </h2>
-            <div style={styles.benefitsGrid}>
-              {[
-                {
-                  icon: <Network size={50} color="#0edb61" />,
-                  title: "Networking Opportunities",
-                  description:
-                    "Build meaningful connections with like-minded entrepreneurs, exchange ideas, and expand your professional circle.",
-                  color: "#0edb61",
-                },
-                {
-                  icon: <TrendingUp size={50} color="#ff1f2c" />,
-                  title: "Business Growth",
-                  description:
-                    "Gain exposure by pitching to fellow members, access new clients and markets through community referrals.",
-                  color: "#ff1f2c",
-                },
-                {
-                  icon: <Lightbulb size={50} color="#0edb61" />,
-                  title: "Knowledge Sharing",
-                  description:
-                    "Stay updated with industry trends, tools, and strategies shared within the community and learn from experiences.",
-                  color: "#0edb61",
-                },
-                {
-                  icon: <Handshake size={50} color="#ff1f2c" />,
-                  title: "Supportive Ecosystem",
-                  description:
-                    "A harmonious network that thrives on collaboration rather than competition, with shared resources and insights.",
-                  color: "#ff1f2c",
-                },
-                {
-                  icon: <Star size={50} color="#0edb61" />,
-                  title: "Branding & Visibility",
-                  description:
-                    "Enhance your business branding with expert guidance and gain visibility through events and marketing opportunities.",
-                  color: "#0edb61",
-                },
-              ].map((benefit, index) => (
-                <div
-                  key={index}
-                  className={`animate-element ${
-                    isAnimated("benefits")
-                      ? `animate animate-fade-in-scale delay-${
-                          (index + 1) * 200
-                        }`
-                      : ""
-                  }`}
-                  style={{
-                    ...styles.benefitCard,
-                    borderTop: `4px solid ${benefit.color}`,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-8px)";
-                    e.currentTarget.style.boxShadow = `0 15px 40px rgba(${
-                      benefit.color === "#0edb61"
-                        ? "14, 219, 97"
-                        : "255, 31, 44"
-                    }, 0.25)`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow =
-                      "0 8px 25px rgba(255,255,255,0.1)";
-                  }}
-                >
-                  <div style={styles.benefitIcon}>{benefit.icon}</div>
-                  <h3 style={styles.benefitTitle}>{benefit.title}</h3>
-                  <p style={styles.benefitDescription}>{benefit.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose 8ConNect Section - Green Background */}
-        <section
-          id="why-connect"
-          ref={whyConnectRef}
-          style={styles.whyConnectSection}
-        >
-          <div style={styles.container2}>
-            <h2
-              className={`animate-element ${
-                isAnimated("why-connect") ? "animate animate-fade-in-up" : ""
-              }`}
-              style={styles.sectionTitle}
-            >
-              Why Choose 8ConNect?
-            </h2>
-            <div style={styles.whyConnectContent}>
+      {/* How 8ConNect Works Section - White Background */}
+      <section
+        id="how-it-works"
+        ref={howItWorksRef}
+        style={styles.howItWorksSection}
+      >
+        <div style={styles.container2}>
+          <h2
+            className={`animate-element ${
+              isAnimated("how-it-works") ? "animate animate-fade-in-scale" : ""
+            }`}
+            style={{ ...styles.sectionTitle, color: "#000000" }}
+          >
+            How 8ConNect Works
+          </h2>
+          <div style={styles.howItWorksGrid}>
+            {[
+              {
+                icon: <UserCheck size={40} color="#0edb61" />,
+                title: "Membership Program",
+                description:
+                  "Entrepreneurs and business owners can join as members to access exclusive benefits and opportunities.",
+                list: [
+                  "• Pitch business ideas to other members",
+                  "• Access to networking events and workshops",
+                  "• Shared platform for promoting services",
+                  "• Exchange referrals for mutual growth",
+                ],
+              },
+              {
+                icon: <MessageSquare size={40} color="#0edb61" />,
+                title: "Entrepreneurial Pitching Sessions",
+                description:
+                  "Regularly scheduled events where members present their business offerings and opportunities.",
+                list: [
+                  "• Present business ideas and challenges",
+                  "• Open environment for idea sharing",
+                  "• Receive feedback from community",
+                  "• Form strategic partnerships",
+                ],
+              },
+              {
+                icon: <Heart size={40} color="#0edb61" />,
+                title: "Community Building",
+                description:
+                  "A harmonious community where members support one another through collaboration and growth initiatives.",
+                list: [
+                  "• Mutual support through referrals",
+                  "• Mentorship opportunities",
+                  "• Joint ventures and partnerships",
+                  "• Local business ecosystem development",
+                ],
+              },
+              {
+                icon: <BookOpen size={40} color="#0edb61" />,
+                title: "Business Coach Guidance",
+                description:
+                  "Expert guidance from a Business Coach with extensive knowledge in community building and branding.",
+                list: [
+                  "• Workshops on branding and marketing",
+                  "• One-on-one coaching sessions",
+                  "• Business scaling strategies",
+                  "• Community alignment insights",
+                ],
+              },
+            ].map((item, index) => (
               <div
+                key={index}
                 className={`animate-element ${
-                  isAnimated("why-connect")
-                    ? "animate animate-fade-in-left delay-200"
+                  isAnimated("how-it-works")
+                    ? `animate animate-slide-in-bottom delay-${
+                        (index + 1) * 200
+                      }`
                     : ""
                 }`}
-                style={styles.whyConnectLeft}
+                style={styles.howItWorksCard}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-5px)";
+                  e.currentTarget.style.boxShadow =
+                    "0 12px 35px rgba(14, 219, 97, 0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow =
+                    "0 8px 25px rgba(0,0,0,0.1)";
+                }}
               >
-                <div style={styles.whyConnectFeature}>
-                  <CheckCircle
-                    size={24}
-                    color="#ffffff"
-                    style={styles.checkIcon}
-                  />
-                  <div>
-                    <h4 style={styles.featureTitle}>Local Focus</h4>
-                    <p style={styles.featureDescription}>
-                      Specifically designed for local entrepreneurs to build
-                      strong community ties
-                    </p>
-                  </div>
-                </div>
-                <div style={styles.whyConnectFeature}>
-                  <CheckCircle
-                    size={24}
-                    color="#ffffff"
-                    style={styles.checkIcon}
-                  />
-                  <div>
-                    <h4 style={styles.featureTitle}>Expert Guidance</h4>
-                    <p style={styles.featureDescription}>
-                      Access to experienced business coaches and industry
-                      professionals
-                    </p>
-                  </div>
-                </div>
-                <div style={styles.whyConnectFeature}>
-                  <CheckCircle
-                    size={24}
-                    color="#ffffff"
-                    style={styles.checkIcon}
-                  />
-                  <div>
-                    <h4 style={styles.featureTitle}>
-                      Collaborative Environment
-                    </h4>
-                    <p style={styles.featureDescription}>
-                      Non-competitive space focused on mutual growth and support
-                    </p>
-                  </div>
-                </div>
+                <div style={styles.howItWorksIcon}>{item.icon}</div>
+                <h3 style={styles.howItWorksTitle}>{item.title}</h3>
+                <p style={styles.howItWorksDescription}>{item.description}</p>
+                <ul style={styles.howItWorksList}>
+                  {item.list.map((listItem, listIndex) => (
+                    <li key={listIndex} style={styles.howItWorksListItem}>
+                      {listItem}
+                    </li>
+                  ))}
+                </ul>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits of Joining Section - Black Background */}
+      <section id="benefits" ref={benefitsRef} style={styles.benefitsSection}>
+        <div style={styles.container2}>
+          <h2
+            className={`animate-element ${
+              isAnimated("benefits") ? "animate animate-bounce-in" : ""
+            }`}
+            style={styles.sectionTitle}
+          >
+            Benefits of Joining 8ConNect
+          </h2>
+          <div style={styles.benefitsGrid}>
+            {[
+              {
+                icon: <Network size={50} color="#0edb61" />,
+                title: "Networking Opportunities",
+                description:
+                  "Build meaningful connections with like-minded entrepreneurs, exchange ideas, and expand your professional circle.",
+                color: "#0edb61",
+              },
+              {
+                icon: <TrendingUp size={50} color="#ff1f2c" />,
+                title: "Business Growth",
+                description:
+                  "Gain exposure by pitching to fellow members, access new clients and markets through community referrals.",
+                color: "#ff1f2c",
+              },
+              {
+                icon: <Lightbulb size={50} color="#0edb61" />,
+                title: "Knowledge Sharing",
+                description:
+                  "Stay updated with industry trends, tools, and strategies shared within the community and learn from experiences.",
+                color: "#0edb61",
+              },
+              {
+                icon: <Handshake size={50} color="#ff1f2c" />,
+                title: "Supportive Ecosystem",
+                description:
+                  "A harmonious network that thrives on collaboration rather than competition, with shared resources and insights.",
+                color: "#ff1f2c",
+              },
+              {
+                icon: <Star size={50} color="#0edb61" />,
+                title: "Branding & Visibility",
+                description:
+                  "Enhance your business branding with expert guidance and gain visibility through events and marketing opportunities.",
+                color: "#0edb61",
+              },
+            ].map((benefit, index) => (
               <div
+                key={index}
                 className={`animate-element ${
-                  isAnimated("why-connect")
-                    ? "animate animate-fade-in-right delay-400"
+                  isAnimated("benefits")
+                    ? `animate animate-fade-in-scale delay-${(index + 1) * 200}`
                     : ""
                 }`}
-                style={styles.whyConnectRight}
+                style={{
+                  ...styles.benefitCard,
+                  borderTop: `4px solid ${benefit.color}`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-8px)";
+                  e.currentTarget.style.boxShadow = `0 15px 40px rgba(${
+                    benefit.color === "#0edb61" ? "14, 219, 97" : "255, 31, 44"
+                  }, 0.25)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow =
+                    "0 8px 25px rgba(255,255,255,0.1)";
+                }}
               >
-                <div style={styles.whyConnectFeature}>
-                  <CheckCircle
-                    size={24}
-                    color="#ffffff"
-                    style={styles.checkIcon}
-                  />
-                  <div>
-                    <h4 style={styles.featureTitle}>Regular Events</h4>
-                    <p style={styles.featureDescription}>
-                      Consistent networking opportunities and business
-                      development sessions
-                    </p>
-                  </div>
-                </div>
-                <div style={styles.whyConnectFeature}>
-                  <CheckCircle
-                    size={24}
-                    color="#ffffff"
-                    style={styles.checkIcon}
-                  />
-                  <div>
-                    <h4 style={styles.featureTitle}>Resource Sharing</h4>
-                    <p style={styles.featureDescription}>
-                      Platform for sharing tools, knowledge, and business
-                      opportunities
-                    </p>
-                  </div>
-                </div>
-                <div style={styles.whyConnectFeature}>
-                  <CheckCircle
-                    size={24}
-                    color="#ffffff"
-                    style={styles.checkIcon}
-                  />
-                  <div>
-                    <h4 style={styles.featureTitle}>Proven Results</h4>
-                    <p style={styles.featureDescription}>
-                      Track record of helping members grow their businesses and
-                      networks
-                    </p>
-                  </div>
-                </div>
+                <div style={styles.benefitIcon}>{benefit.icon}</div>
+                <h3 style={styles.benefitTitle}>{benefit.title}</h3>
+                <p style={styles.benefitDescription}>{benefit.description}</p>
               </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Who Can Join Section - White Background */}
-        <section
-          id="who-can-join"
-          ref={whoCanJoinRef}
-          style={styles.whoCanJoinSection}
-        >
-          <div style={styles.container2}>
-            <h2
-              className={`animate-element ${
-                isAnimated("who-can-join") ? "animate animate-bounce-in" : ""
-              }`}
-              style={{ ...styles.sectionTitle, color: "#000000" }}
-            >
-              Who Can Join 8ConNect?
-            </h2>
-            <div style={styles.whoCanJoinGrid}>
-              {[
-                {
-                  icon: <Building size={60} color="#0edb61" />,
-                  title: "Local Entrepreneurs",
-                  description:
-                    "Business owners looking to expand their network and grow their ventures",
-                },
-                {
-                  icon: <Users size={60} color="#ff1f2c" />,
-                  title: "Small Business Owners",
-                  description:
-                    "Established businesses seeking collaboration and referral opportunities",
-                },
-                {
-                  icon: <Lightbulb size={60} color="#0edb61" />,
-                  title: "Startup Founders",
-                  description:
-                    "Early-stage entrepreneurs looking for mentorship and business connections",
-                },
-                {
-                  icon: <Handshake size={60} color="#ff1f2c" />,
-                  title: "Service Providers",
-                  description:
-                    "Professionals offering services who want to connect with potential clients",
-                },
-              ].map((member, index) => (
-                <div
-                  key={index}
-                  className={`animate-element ${
-                    isAnimated("who-can-join")
-                      ? `animate animate-fade-in-up delay-${(index + 1) * 200}`
-                      : ""
-                  }`}
-                  style={styles.whoCanJoinCard}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-10px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 15px 40px rgba(14, 219, 97, 0.2)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow =
-                      "0 8px 25px rgba(0,0,0,0.1)";
-                  }}
-                >
-                  <div style={styles.memberIcon}>{member.icon}</div>
-                  <h3 style={styles.memberTitle}>{member.title}</h3>
-                  <p style={styles.memberDescription}>{member.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Call to Action Section - Black Background */}
-        <section id="cta" ref={ctaRef} style={styles.ctaSection}>
-          <div style={styles.container2}>
+      {/* Why Choose 8ConNect Section - Green Background */}
+      <section
+        id="why-connect"
+        ref={whyConnectRef}
+        style={styles.whyConnectSection}
+      >
+        <div style={styles.container2}>
+          <h2
+            className={`animate-element ${
+              isAnimated("why-connect") ? "animate animate-fade-in-up" : ""
+            }`}
+            style={styles.sectionTitle}
+          >
+            Why Choose 8ConNect?
+          </h2>
+          <div style={styles.whyConnectContent}>
             <div
               className={`animate-element ${
-                isAnimated("cta") ? "animate animate-fade-in-scale" : ""
+                isAnimated("why-connect")
+                  ? "animate animate-fade-in-left delay-200"
+                  : ""
               }`}
-              style={styles.ctaContent}
+              style={styles.whyConnectLeft}
             >
-              <h2 style={styles.ctaTitle}>Ready to Connect and Grow?</h2>
-              <p style={styles.ctaDescription}>
-                Join 8ConNect today and become part of a thriving community of
-                entrepreneurs dedicated to mutual growth and success.
-              </p>
-              <div style={styles.ctaButtons}>
-                <button
-                  className={`animate-element ${
-                    isAnimated("cta")
-                      ? "animate animate-bounce-in delay-300"
-                      : ""
-                  }`}
-                  style={styles.ctaButtonLarge}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#ff1f2c";
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "#0edb61";
-                    e.currentTarget.style.transform = "translateY(0)";
-                  }}
-                >
-                  <Zap size={20} style={{ marginRight: "8px" }} />
-                  Join 8ConNect Now
-                </button>
-                <button
-                  className={`animate-element ${
-                    isAnimated("cta")
-                      ? "animate animate-bounce-in delay-500"
-                      : ""
-                  }`}
-                  style={styles.ctaButtonOutline}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#ffffff";
-                    e.currentTarget.style.color = "#000000";
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.color = "#ffffff";
-                    e.currentTarget.style.transform = "translateY(0)";
-                  }}
-                >
-                  <MessageSquare size={20} style={{ marginRight: "8px" }} />
-                  Contact Us
-                </button>
+              <div style={styles.whyConnectFeature}>
+                <CheckCircle
+                  size={24}
+                  color="#ffffff"
+                  style={styles.checkIcon}
+                />
+                <div>
+                  <h4 style={styles.featureTitle}>Local Focus</h4>
+                  <p style={styles.featureDescription}>
+                    Specifically designed for local entrepreneurs to build
+                    strong community ties
+                  </p>
+                </div>
+              </div>
+              <div style={styles.whyConnectFeature}>
+                <CheckCircle
+                  size={24}
+                  color="#ffffff"
+                  style={styles.checkIcon}
+                />
+                <div>
+                  <h4 style={styles.featureTitle}>Expert Guidance</h4>
+                  <p style={styles.featureDescription}>
+                    Access to experienced business coaches and industry
+                    professionals
+                  </p>
+                </div>
+              </div>
+              <div style={styles.whyConnectFeature}>
+                <CheckCircle
+                  size={24}
+                  color="#ffffff"
+                  style={styles.checkIcon}
+                />
+                <div>
+                  <h4 style={styles.featureTitle}>Collaborative Environment</h4>
+                  <p style={styles.featureDescription}>
+                    Non-competitive space focused on mutual growth and support
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              className={`animate-element ${
+                isAnimated("why-connect")
+                  ? "animate animate-fade-in-right delay-400"
+                  : ""
+              }`}
+              style={styles.whyConnectRight}
+            >
+              <div style={styles.whyConnectFeature}>
+                <CheckCircle
+                  size={24}
+                  color="#ffffff"
+                  style={styles.checkIcon}
+                />
+                <div>
+                  <h4 style={styles.featureTitle}>Regular Events</h4>
+                  <p style={styles.featureDescription}>
+                    Consistent networking opportunities and business development
+                    sessions
+                  </p>
+                </div>
+              </div>
+              <div style={styles.whyConnectFeature}>
+                <CheckCircle
+                  size={24}
+                  color="#ffffff"
+                  style={styles.checkIcon}
+                />
+                <div>
+                  <h4 style={styles.featureTitle}>Resource Sharing</h4>
+                  <p style={styles.featureDescription}>
+                    Platform for sharing tools, knowledge, and business
+                    opportunities
+                  </p>
+                </div>
+              </div>
+              <div style={styles.whyConnectFeature}>
+                <CheckCircle
+                  size={24}
+                  color="#ffffff"
+                  style={styles.checkIcon}
+                />
+                <div>
+                  <h4 style={styles.featureTitle}>Proven Results</h4>
+                  <p style={styles.featureDescription}>
+                    Track record of helping members grow their businesses and
+                    networks
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </section>
-      </main>
-      <ScrollUp />
+        </div>
+      </section>
+
+      {/* Who Can Join Section - White Background */}
+      <section
+        id="who-can-join"
+        ref={whoCanJoinRef}
+        style={styles.whoCanJoinSection}
+      >
+        <div style={styles.container2}>
+          <h2
+            className={`animate-element ${
+              isAnimated("who-can-join") ? "animate animate-bounce-in" : ""
+            }`}
+            style={{ ...styles.sectionTitle, color: "#000000" }}
+          >
+            Who Can Join 8ConNect?
+          </h2>
+          <div style={styles.whoCanJoinGrid}>
+            {[
+              {
+                icon: <Building size={60} color="#0edb61" />,
+                title: "Local Entrepreneurs",
+                description:
+                  "Business owners looking to expand their network and grow their ventures",
+              },
+              {
+                icon: <Users size={60} color="#ff1f2c" />,
+                title: "Small Business Owners",
+                description:
+                  "Established businesses seeking collaboration and referral opportunities",
+              },
+              {
+                icon: <Lightbulb size={60} color="#0edb61" />,
+                title: "Startup Founders",
+                description:
+                  "Early-stage entrepreneurs looking for mentorship and business connections",
+              },
+              {
+                icon: <Handshake size={60} color="#ff1f2c" />,
+                title: "Service Providers",
+                description:
+                  "Professionals offering services who want to connect with potential clients",
+              },
+            ].map((member, index) => (
+              <div
+                key={index}
+                className={`animate-element ${
+                  isAnimated("who-can-join")
+                    ? `animate animate-fade-in-up delay-${(index + 1) * 200}`
+                    : ""
+                }`}
+                style={styles.whoCanJoinCard}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-10px)";
+                  e.currentTarget.style.boxShadow =
+                    "0 15px 40px rgba(14, 219, 97, 0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow =
+                    "0 8px 25px rgba(0,0,0,0.1)";
+                }}
+              >
+                <div style={styles.memberIcon}>{member.icon}</div>
+                <h3 style={styles.memberTitle}>{member.title}</h3>
+                <p style={styles.memberDescription}>{member.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section - Black Background */}
+      <section id="cta" ref={ctaRef} style={styles.ctaSection}>
+        <div style={styles.container2}>
+          <div
+            className={`animate-element ${
+              isAnimated("cta") ? "animate animate-fade-in-scale" : ""
+            }`}
+            style={styles.ctaContent}
+          >
+            <h2 style={styles.ctaTitle}>Ready to Connect and Grow?</h2>
+            <p style={styles.ctaDescription}>
+              Join 8ConNect today and become part of a thriving community of
+              entrepreneurs dedicated to mutual growth and success.
+            </p>
+            <div style={styles.ctaButtons}>
+              <button
+                className={`animate-element ${
+                  isAnimated("cta") ? "animate animate-bounce-in delay-300" : ""
+                }`}
+                style={styles.ctaButtonLarge}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#ff1f2c";
+                  e.currentTarget.style.transform = "translateY(-3px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "#0edb61";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                <Zap size={20} style={{ marginRight: "8px" }} />
+                Join 8ConNect Now
+              </button>
+              <button
+                className={`animate-element ${
+                  isAnimated("cta") ? "animate animate-bounce-in delay-500" : ""
+                }`}
+                style={styles.ctaButtonOutline}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#ffffff";
+                  e.currentTarget.style.color = "#000000";
+                  e.currentTarget.style.transform = "translateY(-3px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                <MessageSquare size={20} style={{ marginRight: "8px" }} />
+                Contact Us
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
@@ -1260,26 +1338,57 @@ const ConNect = () => {
 // Styles object
 const styles = {
   container: {
-    width: "100%",
-    overflowX: "hidden",
+    minHeight: "100vh",
     fontFamily: "'Montserrat', sans-serif",
+    lineHeight: "1.6",
+    color: "#000000",
+    margin: 0,
+    padding: 0,
+  },
+
+  container2: {
+    maxWidth: "1200px",
+    margin: "0 auto",
+    padding: "0 20px",
   },
 
   // Hero Section Styles
   heroSection: {
-    background: "linear-gradient(135deg, #0edb61 0%, #000000 100%)",
     minHeight: "100vh",
+    background:
+      "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "80px 5%",
-    textAlign: "center",
+    padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)", // ✅ Reduce top/bottom padding
     position: "relative",
+    overflow: "hidden",
+    textAlign: "center",
+    // Responsive adjustments
+    "@media (max-width: 768px)": {
+      padding: "120px 15px 60px",
+      minHeight: "90vh",
+    },
+    "@media (max-width: 480px)": {
+      padding: "100px 12px 40px",
+      minHeight: "85vh",
+    },
   },
 
   heroContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
+    position: "relative",
+    zIndex: 2,
     maxWidth: "800px",
     margin: "0 auto",
+    // Responsive width
+    "@media (max-width: 768px)": {
+      maxWidth: "100%",
+    },
   },
 
   companyTitle: {
@@ -1287,64 +1396,163 @@ const styles = {
     fontWeight: "700",
     marginBottom: "1rem",
     textShadow: "0 4px 8px rgba(0,0,0,0.3)",
-    filter:
-      "drop-shadow(0 0 5px #121411) drop-shadow(0 0 10px #121411) drop-shadow(0 0 15px #121411)",
     color: "#ffffff",
   },
 
   heroSubtitle: {
-    fontSize: "1.5rem",
+    fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
     fontWeight: "600",
+    marginBottom: "1rem",
+    margin: "0 0 1rem 0",
+    opacity: "0.9",
     color: "#ffffff",
-    marginBottom: "30px",
-    opacity: "0.95",
+    lineHeight: "1.3",
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
+      marginBottom: "1.2rem",
+    },
   },
 
   heroDescription: {
-    fontSize: "1.1rem",
-    color: "#ffffff",
-    marginBottom: "40px",
-    lineHeight: "1.7",
-    opacity: "0.9",
+    fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
+    color: "#cccccc",
+    lineHeight: "1.6",
+    marginTop: "0 !important",
+    marginBottom: "0 !important", // Let CSS class handle it
+    paddingBottom: "0 !important",
+    opacity: "0.95",
+
+    // Mobile responsiveness
+    "@media (max-width: 768px)": {
+      marginBottom: "2rem",
+    },
+    "@media (max-width: 480px)": {
+      fontSize: "clamp(0.85rem, 4vw, 1rem)",
+      lineHeight: "1.6",
+      marginBottom: "1.5rem",
+    },
+  },
+
+  heroForegroundContent: {
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    padding: "clamp(1rem, 2vw, 1.5rem)",
+    borderRadius: "15px",
+    backdropFilter: "blur(6px)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    maxWidth: "1000px",
+    width: "100%",
+
+    textAlign: "center",
+
+    marginBottom: "10rem",
+    marginTop: "-100px",
+    "@media (max-width: 768px)": {
+      padding: "1.5rem 1rem",
+      gap: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "1.2rem 0.8rem",
+      gap: "0.8rem",
+    },
+  },
+
+  heroTopImage: {
+    width: "clamp(250px, 40vw, 500px)",
+    height: "auto",
+    opacity: 0.9,
+    pointerEvents: "none",
+    marginTop: "-80px",
   },
 
   heroButtons: {
     display: "flex",
-    gap: "20px",
+    gap: "1rem",
     justifyContent: "center",
     flexWrap: "wrap",
+    marginTop: "2rem",
+    margin: "0 !important", // Force reset
+    padding: "0 !important",
+    position: "relative",
+    zIndex: "1",
+    // Mobile adjustments
+    "@media (max-width: 768px)": {
+      gap: "0.8rem",
+      marginTop: "1.5rem",
+    },
+    "@media (max-width: 480px)": {
+      flexDirection: "column",
+      gap: "0.8rem",
+      alignItems: "center",
+    },
   },
 
   ctaButtonPrimary: {
     background: "#0edb61",
     color: "#ffffff",
     border: "none",
-    padding: "15px 30px",
-    fontSize: "1rem",
+    padding: "1rem 2rem",
+    fontSize: "1.1rem",
     fontWeight: "600",
     borderRadius: "8px",
     cursor: "pointer",
     transition: "all 0.3s ease",
-    boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+    textTransform: "uppercase",
+    // Responsive button sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
   ctaButtonSecondary: {
     background: "transparent",
     color: "#ffffff",
     border: "2px solid #ffffff",
-    padding: "15px 30px",
-    fontSize: "1rem",
+    padding: "1rem 2rem",
+    fontSize: "1.1rem",
     fontWeight: "600",
     borderRadius: "8px",
     cursor: "pointer",
     transition: "all 0.3s ease",
+    textTransform: "uppercase",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
-  // Container Styles
-  container2: {
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "0 5%",
+  ctaButtonRed: {
+    background: "#ff1f2c",
+    color: "#ffffff",
+    border: "none",
+    padding: "1rem 2rem",
+    fontSize: "1.1rem",
+    fontWeight: "600",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    textTransform: "uppercase",
+    // Responsive sizing
+    "@media (max-width: 768px)": {
+      padding: "0.9rem 1.8rem",
+      fontSize: "1rem",
+    },
+    "@media (max-width: 480px)": {
+      padding: "0.8rem 1.5rem",
+      fontSize: "0.9rem",
+      width: "200px",
+    },
   },
 
   sectionTitle: {
