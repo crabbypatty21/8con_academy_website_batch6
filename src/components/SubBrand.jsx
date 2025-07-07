@@ -26,168 +26,167 @@ const SubBrand = () => {
     useState(false);
 
   const subBrandsData = [
-  {
-    id: "construct",
-    name: "8ConStruct",
-    route: "/construct",
-    desc: "Research and statistical consultancy to empower decision-making.",
-    detailedDesc:
-      "Comprehensive research and statistical analysis services for businesses, academic institutions, and organizations. We provide data-driven insights to help you make informed decisions and achieve your strategic objectives.",
-    icon: <Brain size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/7.png",
-    services: [
-      "Market Research",
-      "Statistical Analysis",
-      "Data Visualization",
-      "Business Intelligence",
-    ],
-  },
-  {
-    id: "conedge",
-    name: "8ConEdge",
-    route: "/conedge",
-    desc: "Proprietary Forex tools to enhance trading efficiency.",
-    detailedDesc:
-      "Cutting-edge trading tools and analytics designed specifically for Forex traders. Gain a competitive advantage with our proprietary indicators, automated systems, and market analysis tools.",
-    icon: <TrendingUp size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/5.png",
-    services: [
-      "Trading Indicators",
-      "Market Analysis",
-      "Automated Systems",
-      "Risk Management Tools",
-    ],
-  },
-  {
-    id: "concise",
-    name: "8ConCise",
-    route: "/concise",
-    desc: "Entrepreneur networking hub to grow business relationships.",
-    detailedDesc:
-      "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
-    icon: <Network size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/8.png",
-    services: [
-      "Networking Events",
-      "Business Matching",
-      "Investor Relations",
-      "Partnership Development",
-    ],
-  },
-  {
-    id: "conquest",
-    name: "8ConQuest",
-    route: "/conquest",
-    desc: "Thesis and career coaching for students and professionals.",
-    detailedDesc:
-      "Professional guidance for academic and career development. From thesis writing support to career transition coaching, we help individuals achieve their educational and professional goals.",
-    icon: <Target size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/3.png",
-    services: [
-      "Thesis Writing Support",
-      "Career Coaching",
-      "Interview Preparation",
-      "Professional Development",
-    ],
-  },
-  {
-    id: "converse",
-    name: "8ConVerse",
-    route: "/converse",
-    desc: "Language certification courses to broaden opportunities.",
-    detailedDesc:
-      "Comprehensive language learning programs designed to enhance communication skills and open global opportunities. Master new languages with our expert instructors and proven methodologies.",
-    icon: <Globe size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/4.png",
-    services: [
-      "English Proficiency",
-      "Business Communication",
-      "IELTS/TOEFL Prep",
-      "Multilingual Training",
-    ],
-  },
-  {
-    id: "connect",
-    name: "8ConNect",
-    route: "/connect",
-    desc: "Entrepreneur networking hub to grow business relationships.",
-    detailedDesc:
-      "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
-    icon: <Network size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/1.png",
-    services: [
-      "Networking Events",
-      "Business Matching",
-      "Investor Relations",
-      "Partnership Development",
-    ],
-  },
-  {
-    id: "conlift",
-    name: "8ConLift",
-    route: "/conlift",
-    desc: "Scholarship and training programs for deserving students.",
-    detailedDesc:
-      "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
-    icon: <Award size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/2.png",
-    services: [
-      "Full Scholarships",
-      "Skills Training",
-      "Mentorship Programs",
-      "Community Outreach",
-    ],
-  },
-  {
-    id: "conpact",
-    name: "8ConPact",
-    route: "/conpact",
-    desc: "Scholarship and training programs for deserving students.",
-    detailedDesc:
-      "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
-    icon: <Award size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/6.png",
-    services: [
-      "Full Scholarships",
-      "Skills Training",
-      "Mentorship Programs",
-      "Community Outreach",
-    ],
-  },
-  {
-    id: "conspace",
-    name: "8ConSpace",
-    route: "/conspace",
-    desc: "Co-working space and virtual office solutions for professionals and students.",
-    detailedDesc:
-      "A dynamic, productivity-driven space for freelancers, entrepreneurs, online professionals, and students. Whether you're building a startup or finishing your research, 8ConSpace gives you a professional and collaborative environment to grow and execute.",
-    icon: <Users size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/10.png",
-    services: [
-      "Flexible Desk Rentals",
-      "Virtual Office Solutions",
-      "Startup Environment",
-      "Student Pods",
-    ],
-  },
-  {
-    id: "consult",
-    name: "8ConSult",
-    route: "/consult",
-    desc: "Business development and startup advisory with Sir Nigel Santos.",
-    detailedDesc:
-      "A consultation arm powered by real-world experience in entrepreneurship. Spearheaded by Sir Nigel Santos, this service provides personalized startup coaching and business model refinement to help entrepreneurs thrive.",
-    icon: <BookOpen size={60} />,
-    image: import.meta.env.BASE_URL + "assets/logo/9.png",
-    services: [
-      "Startup Coaching",
-      "Business Model Analysis",
-      "Sales Strategy & Growth Blueprint",
-      "Investor Deck & Pitch Support",
-    ],
-  },
-];
-
+    {
+      id: "construct",
+      name: "8ConStruct",
+      route: "/construct",
+      desc: "Research and statistical consultancy to empower decision-making.",
+      detailedDesc:
+        "Comprehensive research and statistical analysis services for businesses, academic institutions, and organizations. We provide data-driven insights to help you make informed decisions and achieve your strategic objectives.",
+      icon: <Brain size={60} />,
+      image: "/assets/logo/7.png",
+      services: [
+        "Market Research",
+        "Statistical Analysis",
+        "Data Visualization",
+        "Business Intelligence",
+      ],
+    },
+    {
+      id: "conedge",
+      name: "8ConEdge",
+      route: "/conedge",
+      desc: "Proprietary Forex tools to enhance trading efficiency.",
+      detailedDesc:
+        "Cutting-edge trading tools and analytics designed specifically for Forex traders. Gain a competitive advantage with our proprietary indicators, automated systems, and market analysis tools.",
+      icon: <TrendingUp size={60} />,
+      image: "/assets/logo/5.png",
+      services: [
+        "Trading Indicators",
+        "Market Analysis",
+        "Automated Systems",
+        "Risk Management Tools",
+      ],
+    },
+    {
+      id: "concise",
+      name: "8ConCise",
+      route: "/concise",
+      desc: "Entrepreneur networking hub to grow business relationships.",
+      detailedDesc:
+        "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
+      icon: <Network size={60} />,
+      image: "/assets/logo/8.png",
+      services: [
+        "Networking Events",
+        "Business Matching",
+        "Investor Relations",
+        "Partnership Development",
+      ],
+    },
+    {
+      id: "conquest",
+      name: "8ConQuest",
+      route: "/conquest",
+      desc: "Thesis and career coaching for students and professionals.",
+      detailedDesc:
+        "Professional guidance for academic and career development. From thesis writing support to career transition coaching, we help individuals achieve their educational and professional goals.",
+      icon: <Target size={60} />,
+      image: "/assets/logo/3.png",
+      services: [
+        "Thesis Writing Support",
+        "Career Coaching",
+        "Interview Preparation",
+        "Professional Development",
+      ],
+    },
+    {
+      id: "converse",
+      name: "8ConVerse",
+      route: "/converse",
+      desc: "Language certification courses to broaden opportunities.",
+      detailedDesc:
+        "Comprehensive language learning programs designed to enhance communication skills and open global opportunities. Master new languages with our expert instructors and proven methodologies.",
+      icon: <Globe size={60} />,
+      image: "/assets/logo/4.png",
+      services: [
+        "English Proficiency",
+        "Business Communication",
+        "IELTS/TOEFL Prep",
+        "Multilingual Training",
+      ],
+    },
+    {
+      id: "connect",
+      name: "8ConNect",
+      route: "/connect",
+      desc: "Entrepreneur networking hub to grow business relationships.",
+      detailedDesc:
+        "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
+      icon: <Network size={60} />,
+      image: "/assets/logo/1.png",
+      services: [
+        "Networking Events",
+        "Business Matching",
+        "Investor Relations",
+        "Partnership Development",
+      ],
+    },
+    {
+      id: "conlift",
+      name: "8ConLift",
+      route: "/conlift",
+      desc: "Scholarship and training programs for deserving students.",
+      detailedDesc:
+        "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
+      icon: <Award size={60} />,
+      image: "/assets/logo/2.png",
+      services: [
+        "Full Scholarships",
+        "Skills Training",
+        "Mentorship Programs",
+        "Community Outreach",
+      ],
+    },
+    {
+      id: "conpact",
+      name: "8ConPact",
+      route: "/conpact",
+      desc: "Scholarship and training programs for deserving students.",
+      detailedDesc:
+        "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
+      icon: <Award size={60} />,
+      image: "/assets/logo/6.png",
+      services: [
+        "Full Scholarships",
+        "Skills Training",
+        "Mentorship Programs",
+        "Community Outreach",
+      ],
+    },
+    {
+      id: "conspace",
+      name: "8ConSpace",
+      route: "/conspace",
+      desc: "Co-working space and virtual office solutions for professionals and students.",
+      detailedDesc:
+        "A dynamic, productivity-driven space for freelancers, entrepreneurs, online professionals, and students. Whether you're building a startup or finishing your research, 8ConSpace gives you a professional and collaborative environment to grow and execute.",
+      icon: <Users size={60} />,
+      image: "/assets/logo/10.png",
+      services: [
+        "Flexible Desk Rentals",
+        "Virtual Office Solutions",
+        "Startup Environment",
+        "Student Pods",
+      ],
+    },
+    {
+      id: "consult",
+      name: "8ConSult",
+      route: "/consult",
+      desc: "Business development and startup advisory with Sir Nigel Santos.",
+      detailedDesc:
+        "A consultation arm powered by real-world experience in entrepreneurship. Spearheaded by Sir Nigel Santos, this service provides personalized startup coaching and business model refinement to help entrepreneurs thrive.",
+      icon: <BookOpen size={60} />,
+      image: "/assets/logo/9.png",
+      services: [
+        "Startup Coaching",
+        "Business Model Analysis",
+        "Sales Strategy & Growth Blueprint",
+        "Investor Deck & Pitch Support",
+      ],
+    },
+  ];
 
   useEffect(() => {
     window.scrollTo(0, 0);
