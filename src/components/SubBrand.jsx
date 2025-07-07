@@ -34,7 +34,7 @@ const SubBrand = () => {
       detailedDesc:
         "Comprehensive research and statistical analysis services for businesses, academic institutions, and organizations. We provide data-driven insights to help you make informed decisions and achieve your strategic objectives.",
       icon: <Brain size={60} />,
-      image: "../public/assets/logo/7.png",
+      image: "/assets/logo/7.png",
       services: [
         "Market Research",
         "Statistical Analysis",
@@ -50,7 +50,7 @@ const SubBrand = () => {
       detailedDesc:
         "Cutting-edge trading tools and analytics designed specifically for Forex traders. Gain a competitive advantage with our proprietary indicators, automated systems, and market analysis tools.",
       icon: <TrendingUp size={60} />,
-      image: "../public/assets/logo/5.png",
+      image: "/assets/logo/5.png",
       services: [
         "Trading Indicators",
         "Market Analysis",
@@ -66,7 +66,7 @@ const SubBrand = () => {
       detailedDesc:
         "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
       icon: <Network size={60} />,
-      image: "../public/assets/logo/8.png",
+      image: "/assets/logo/8.png",
       services: [
         "Networking Events",
         "Business Matching",
@@ -82,7 +82,7 @@ const SubBrand = () => {
       detailedDesc:
         "Professional guidance for academic and career development. From thesis writing support to career transition coaching, we help individuals achieve their educational and professional goals.",
       icon: <Target size={60} />,
-      image: "../public/assets/logo/3.png",
+      image: "/assets/logo/3.png",
       services: [
         "Thesis Writing Support",
         "Career Coaching",
@@ -98,7 +98,7 @@ const SubBrand = () => {
       detailedDesc:
         "Comprehensive language learning programs designed to enhance communication skills and open global opportunities. Master new languages with our expert instructors and proven methodologies.",
       icon: <Globe size={60} />,
-      image: "../public/assets/logo/4.png",
+      image: "/assets/logo/4.png",
       services: [
         "English Proficiency",
         "Business Communication",
@@ -114,7 +114,7 @@ const SubBrand = () => {
       detailedDesc:
         "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
       icon: <Network size={60} />,
-      image: "../public/assets/logo/1.png",
+      image: "/assets/logo/1.png",
       services: [
         "Networking Events",
         "Business Matching",
@@ -130,7 +130,7 @@ const SubBrand = () => {
       detailedDesc:
         "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
       icon: <Award size={60} />,
-      image: "../public/assets/logo/2.png",
+      image: "/assets/logo/2.png",
       services: [
         "Full Scholarships",
         "Skills Training",
@@ -146,7 +146,7 @@ const SubBrand = () => {
       detailedDesc:
         "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
       icon: <Award size={60} />,
-      image: "../public/assets/logo/6.png",
+      image: "/assets/logo/6.png",
       services: [
         "Full Scholarships",
         "Skills Training",
@@ -162,7 +162,7 @@ const SubBrand = () => {
       detailedDesc:
         "A dynamic, productivity-driven space for freelancers, entrepreneurs, online professionals, and students. Whether you're building a startup or finishing your research, 8ConSpace gives you a professional and collaborative environment to grow and execute.",
       icon: <Users size={60} />,
-      image: "../public/assets/logo/10.png",
+      image: "/assets/logo/10.png",
       services: [
         "Flexible Desk Rentals",
         "Virtual Office Solutions",
@@ -178,7 +178,7 @@ const SubBrand = () => {
       detailedDesc:
         "A consultation arm powered by real-world experience in entrepreneurship. Spearheaded by Sir Nigel Santos, this service provides personalized startup coaching and business model refinement to help entrepreneurs thrive.",
       icon: <BookOpen size={60} />,
-      image: "../public/assets/logo/9.png",
+      image: "/assets/logo/9.png",
       services: [
         "Startup Coaching",
         "Business Model Analysis",
