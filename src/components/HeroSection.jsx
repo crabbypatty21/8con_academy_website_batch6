@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
 
 const HeroSection = () => {
+  const images = [
+    "/assets/images/hero1.jpg",
+    "/assets/images/hero2.jpg",
+    "/assets/images/hero3.jpg",
+    "/assets/images/hero4.jpg",
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section id="home" className="hero-section">
+    <section
+      id="home"
+      className="hero-section"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${images[currentIndex]})`,
+        transition: "background-image 1s ease-in-out",
+      }}
+    >
+       <div className="hero-overlay" />
+
       <div className="hero-container">
         <div className="hero-image-container">
           <img
@@ -29,15 +54,14 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* 🟩 Move the card container here */}
           <div className="card-container">
             <a href="#about" className="card-link">
               <div className="card">
                 <div className="first-content">
-                  <img src="../assets/images/workshop.jpg" alt="Photo" />
+                  <img src="/assets/images/workshop.jpg" alt="Workshop" />
                 </div>
                 <div className="second-content">
-                  <img src="../assets/images/workshop.jpg" alt="Photo" />
+                  <img src="/assets/images/workshop.jpg" alt="Workshop" />
                   <span className="overlay-text">WORKSHOP</span>
                 </div>
               </div>
@@ -46,10 +70,10 @@ const HeroSection = () => {
             <Link to="#news" className="card-link">
               <div className="card">
                 <div className="first-content">
-                  <img src="/assets/images/blog.jpg" alt="Photo" />
+                  <img src="/assets/images/blog.jpg" alt="Blog" />
                 </div>
                 <div className="second-content">
-                  <img src="/assets/images/blog.jpg" alt="Photo" />
+                  <img src="/assets/images/blog.jpg" alt="Blog" />
                   <span className="overlay-text">BLOGS</span>
                 </div>
               </div>
@@ -58,10 +82,10 @@ const HeroSection = () => {
             <a href="#core-brand" className="card-link">
               <div className="card">
                 <div className="first-content">
-                  <img src="/assets/images/testimonials.jpg" alt="Photo" />
+                  <img src="/assets/images/testimonials.jpg" alt="Testimonials" />
                 </div>
                 <div className="second-content">
-                  <img src="/assets/images/testimonials.jpg" alt="Photo" />
+                  <img src="/assets/images/testimonials.jpg" alt="Testimonials" />
                   <span className="overlay-text">TESTIMONIALS</span>
                 </div>
               </div>
@@ -69,23 +93,30 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
       <style>{`
 .hero-section {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   min-height: 100vh;
-  padding: 10px;
-  padding-top: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Roboto", sans-serif;
-  font-weight: 900;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed; /* <-- Parallax effect */
-  background-position: center;
-  animation: change 20s infinite ease-in-out;
-  position: relative;
-  overflow: hidden;
+  padding: 80px 10px 10px;
+  transition: background-image 1s ease-in-out;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* ⬅️ semi-transparent gray */
+  z-index: 0;
+  transition: background 0.5s ease-in-out;
 }
 
 /* Optional: overlay for readability */
@@ -96,7 +127,7 @@ const HeroSection = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4); /* dark overlay for text readability */
+  background: rgba(0, 0, 0, 0.25);
   z-index: 0;
 }
 

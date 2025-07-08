@@ -60,8 +60,7 @@ const CoreBrandSection = ({
                       }}
                     >
                       {testimonials.map((testimonial, index) => (
-                        <div key={index} className={`testimonial-slide ${index === currentIndex ? 'active' : ''}`}>
-                        <div className="gray-overlay"></div>
+                        <div key={index} className="testimonial-slide">
                           <div className="testimonial-card">
                             <div className="testimonial-inner">
                               <div className="testimonial-text-container">
