@@ -827,10 +827,12 @@ const SubBrand = () => {
           text-align: center;
           z-index: 1;
           overflow: hidden;
+          transition: background-image 0.8s ease-in-out;  
         }
 
         .parallax-overlay {
-          background-color: rgba(0, 0, 0, 0.4);
+          background-color: rgba(0, 0, 0, 0.3);
+          transition: background-color 0.6s ease;
           position: absolute;
           inset: 0;
           z-index: 2;
