@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import "../App.css";
+import Registration from "./Registration.jsx";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -72,6 +73,9 @@ const Header = () => {
 
           <a href="#news" className="nav-link">
             Newsletters
+          </a>
+          <a href="/registration" className="nav-link">
+            Register Here!
           </a>
         </nav>
 

@@ -14,6 +14,7 @@ import ConSpace from "./components/Conspace";
 import ConSult from "./components/Consult";
 import AboutUs from "./components/AboutUs";
 import Loader from "./components/Loader";
+import Registration from "./components/Registration";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -65,6 +66,7 @@ function App() {
               <Route path="/conquest" element={<ConQuest />} />
               <Route path="/conspace" element={<ConSpace />} />
               <Route path="/consult" element={<ConSult />} />
+              <Route path="/registration" element={<Registration />} />
             </Route>
           </Routes>
         </Router>
