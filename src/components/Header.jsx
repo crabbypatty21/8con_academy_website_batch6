@@ -71,7 +71,7 @@ const Header = () => {
             </div>
           </div>
 
-          <a href="#news" className="nav-link">
+          <a href="https://8conacademy.blogspot.com/" target="no_blank" className="nav-link">
             Newsletters
           </a>
           <a href="/registration" className="nav-link">

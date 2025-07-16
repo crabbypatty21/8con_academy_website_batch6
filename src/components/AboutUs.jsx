@@ -134,19 +134,29 @@ const AboutUs = () => {
                   <span className="text-red-highlight">
                     Forex Derivative Education
                   </span>
-                  , empowering aspiring traders through structured,
-                  confluence-based strategies rooted in discipline, real-world
-                  practice, and continuous coaching.
+                  , equipping aspiring traders with the tools, mindset, and structure 
+                  to thrive in the global financial markets.
                 </p>
                 <br />
                 <p className="fade-in">
-                  At 8Con, we believe that Confluence Builds Confidence. Our
-                  name, <span className="text-red-highlight">8Con</span>{" "}
-                  reflects the 8 key confluences traders must master to make
-                  sound, profitable decisions, a philosophy that runs through
-                  every program we offer.
+                  At the heart of our programs is a <span className="text-red-highlight">confluence-based, data-driven approach</span>{" "}
+                  blending technical analysis, fundamentals, market sentiment, 
+                  and real-world insights to guide strategic decision-making. We go beyond theory by offering 
+                  <span className="text-red-highlight"> structured training, live coaching, and hands-on simulations</span>,
+                  ensuring our students trade with confidence, not guesswork.
                 </p>
-
+                <br />
+                <p className="fade-in">
+                  Our name, 8Con, stands for the <span className="text-red-highlight">8 essential confluences</span>{" "}
+                  every trader must master to make consistent, profitable decisions. It’s more than a methodology, 
+                  it’s a philosophy rooted in 
+                  <span className="text-red-highlight"> discipline, practice, and continuous growth</span>.
+                </p>
+                <br />
+                <p className="fade-in">
+                  At 8Con Academy, we believe that <span className="text-red-highlight">Confluence Builds Confidence</span>{"."}
+                  <br />Our mission: to help build a <span className="text-red-highlight">profitable trader in every Filipino household</span>, one educated decision at a time.
+                </p>
                 <h3 className="about-us-card-subtitle fade-in">Our Services</h3>
                 <p className="about-us-card-text justified-text fade-in">
                   <strong>Core-brands:</strong>
@@ -366,10 +376,9 @@ const AboutUs = () => {
                   <h2 className="about-us-card-title fade-in">Our Vision</h2>
                 </div>
                 <p className="about-us-card-text justified-text fade-in fade-in">
-                  To become the most trusted and recognized Forex education hub
-                  in the Philippines, producing a ripple effect of empowered
-                  traders, impactful coaches, and ethical fund managers who
-                  create lasting value in communities here and abroad.
+                  To be the Philippines’ most trusted and recognized hub for Forex education, 
+                  building a ripple effect of <span className="text-red-highlight">empowered traders, impact-driven coaches</span>, and 
+                  ethical fund managers who uplift communities locally and globally.
                 </p>
               </div>
 
@@ -384,12 +393,12 @@ const AboutUs = () => {
                   <h2 className="about-us-card-title fade-in">Our Mission</h2>
                 </div>
                 <p className="about-us-card-text justified-text fade-in fade-in">
-                  To raise disciplined, confident, and financially literate
-                  Filipino traders through structured education,
-                  confluence-based strategies, and career-focused coaching,
-                  supported by data-driven tools and real-world application. We
-                  are committed to creating a profitable trader in every
-                  Filipino household, one person at a time.
+                  To raise a new generation of <span className="text-red-highlight">disciplined, confident, and financially literate Filipino traders</span>
+                   through structured education, confluence-based strategies, and personalized coaching. 
+                   Powered by <span className="text-red-highlight">data-driven tools</span> and <span className="text-red-highlight">real-world applications</span>, our goal is simple yet bold:
+                  < br/>
+                  < br/>
+                  <span className="text-red-highlight">Create a profitable trader in every Filipino household, one person at a time.</span>
                 </p>
               </div>
             </div>
@@ -410,36 +419,24 @@ const AboutUs = () => {
                   <ul className="about-us-card-text justified-list fade-in">
                     <li className="justified-text fade-in">
                       <p className="fade-in">
-                        <strong>Empowering Lives Through Education:</strong> We
-                        are committed to transforming lives by equipping
-                        individuals with the financial literacy and trading
-                        expertise they need to achieve independence, resilience,
-                        and long-term success. Education is the foundation for
-                        creating opportunities and building a better future for
-                        individuals and communities alike.
+                        <strong>Empowerment Through Education</strong> We believe that real change begins with 
+                        knowledge. We are committed to transforming lives by providing access to financial 
+                        literacy and trading skills that promote independence, resilience, and long-term 
+                        success.
                       </p>
                     </li>
                     <li className="justified-text fade-in">
                       <p className="fade-in">
-                        <strong>Innovating for Lasting Impact:</strong> We
-                        embrace innovation as a driver of excellence, leveraging
-                        cutting-edge technology and adaptive strategies to
-                        deliver education that creates enduring value. By
-                        staying ahead of industry trends, we ensure our students
-                        and stakeholders are prepared for the challenges of
-                        tomorrow.
+                        <strong>Innovation With Purpose</strong> We harness technology and forward-thinking strategies to continuously 
+                        evolve our programs. By staying ahead of market trends, we ensure our students are equipped to thrive in a 
+                        dynamic global economy.
                       </p>
                     </li>
                     <li className="justified-text fade-in">
                       <p className="fade-in">
-                        <strong>
-                          Strength in Collaboration and Inclusivity:
-                        </strong>{" "}
-                        We thrive through partnerships, uniting diverse
-                        perspectives to create a supportive ecosystem where
-                        everyone can succeed. Together, we empower students,
-                        trainers, and communities, fostering a culture of mutual
-                        growth, inclusivity, and shared achievement.
+                        <strong>Collaboration and Community</strong> We grow stronger together. Through inclusive partnerships and a collaborative learning 
+                        culture, we create a nurturing environment where students, educators, and partners 
+                        support one another in achieving shared goals.
                       </p>
                     </li>
                   </ul>
