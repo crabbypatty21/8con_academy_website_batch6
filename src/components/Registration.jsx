@@ -184,7 +184,7 @@ const Registration = () => {
     try {
       console.log("Submitting registration data:", formData);
       
-const response = await fetch("http://localhost:3001/registration", {
+const response = await fetch("http://8conacademy.com/registration", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
