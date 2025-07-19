@@ -172,6 +172,15 @@ app.post("/registration", async (req, res) => {
   }
 });
 
+// added by jas
+// Serve static files from dist
+app.use(express.static(path.resolve("dist")));
+
+// Fallback for frontend routes
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve("dist", "index.html"));
+});
+//------
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
