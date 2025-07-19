@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ScrollUp from "./ScrollUp";
-import Footer from "./Footer";
-import { Menu, X, Goal, Eye, Atom, HeartHandshake, RefreshCw } from "lucide-react";
+import { Menu, RefreshCw, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import "../App.css";
+import Footer from "./Footer";
 import ScrollLink from "./ScrollLink";
+import ScrollUp from "./ScrollUp";
 
 const Registration = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,6 +25,11 @@ const Registration = () => {
   const [captcha, setCaptcha] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
   const [captchaError, setCaptchaError] = useState("");
+
+  // Define API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:3001' 
+    : 'https://8conacademy.com';
 
   // Generate random captcha
   const generateCaptcha = () => {
@@ -184,14 +188,13 @@ const Registration = () => {
     try {
       console.log("Submitting registration data:", formData);
       
-const response = await fetch("http://8conacademy.com/registration", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(formData),
-});
-
+      const response = await fetch(`${API_BASE_URL}/registration`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       console.log("Response status:", response.status);
       console.log("Response headers:", response.headers);
@@ -229,7 +232,7 @@ const response = await fetch("http://8conacademy.com/registration", {
     } catch (error) {
       console.error("Submit error:", error);
       if (error.message.includes("Failed to fetch")) {
-        alert("Cannot connect to server. Please check if the server is running on http://localhost:3001");
+        alert(`Cannot connect to server. Please try again later.`);
       } else if (error.message.includes("non-JSON")) {
         alert("Server error. Please try again later.");
       } else {
