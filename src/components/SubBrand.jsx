@@ -29,7 +29,7 @@ const SubBrand = () => {
     {
       id: "construct",
       name: "8ConStruct",
-      route: "/construct",
+      route: "/8construct",
       desc: "Research and statistical consultancy to empower decision-making.",
       detailedDesc:
         "Comprehensive research and statistical analysis services for businesses, academic institutions, and organizations. We provide data-driven insights to help you make informed decisions and achieve your strategic objectives.",
@@ -45,7 +45,7 @@ const SubBrand = () => {
     {
       id: "conedge",
       name: "8ConEdge",
-      route: "/conedge",
+      route: "/8conedge",
       desc: "Proprietary Forex tools to enhance trading efficiency.",
       detailedDesc:
         "Cutting-edge trading tools and analytics designed specifically for Forex traders. Gain a competitive advantage with our proprietary indicators, automated systems, and market analysis tools.",
@@ -61,7 +61,7 @@ const SubBrand = () => {
     {
       id: "concise",
       name: "8ConCise",
-      route: "/concise",
+      route: "/8concise",
       desc: "Entrepreneur networking hub to grow business relationships.",
       detailedDesc:
         "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
@@ -77,7 +77,7 @@ const SubBrand = () => {
     {
       id: "conquest",
       name: "8ConQuest",
-      route: "/conquest",
+      route: "/8conquest",
       desc: "Thesis and career coaching for students and professionals.",
       detailedDesc:
         "Professional guidance for academic and career development. From thesis writing support to career transition coaching, we help individuals achieve their educational and professional goals.",
@@ -93,7 +93,7 @@ const SubBrand = () => {
     {
       id: "converse",
       name: "8ConVerse",
-      route: "/converse",
+      route: "/8converse",
       desc: "Language certification courses to broaden opportunities.",
       detailedDesc:
         "Comprehensive language learning programs designed to enhance communication skills and open global opportunities. Master new languages with our expert instructors and proven methodologies.",
@@ -109,7 +109,7 @@ const SubBrand = () => {
     {
       id: "connect",
       name: "8ConNect",
-      route: "/connect",
+      route: "/8connect",
       desc: "Entrepreneur networking hub to grow business relationships.",
       detailedDesc:
         "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
@@ -125,7 +125,7 @@ const SubBrand = () => {
     {
       id: "conlift",
       name: "8ConLift",
-      route: "/conlift",
+      route: "/8conlift",
       desc: "Scholarship and training programs for deserving students.",
       detailedDesc:
         "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
@@ -141,7 +141,7 @@ const SubBrand = () => {
     {
       id: "conpact",
       name: "8ConPact",
-      route: "/conpact",
+      route: "/8conpact",
       desc: "Scholarship and training programs for deserving students.",
       detailedDesc:
         "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
@@ -157,7 +157,7 @@ const SubBrand = () => {
     {
       id: "conspace",
       name: "8ConSpace",
-      route: "/conspace",
+      route: "/8conspace",
       desc: "Co-working space and virtual office solutions for professionals and students.",
       detailedDesc:
         "A dynamic, productivity-driven space for freelancers, entrepreneurs, online professionals, and students. Whether you're building a startup or finishing your research, 8ConSpace gives you a professional and collaborative environment to grow and execute.",
@@ -173,7 +173,7 @@ const SubBrand = () => {
     {
       id: "consult",
       name: "8ConSult",
-      route: "/consult",
+      route: "/8consult",
       desc: "Business development and startup advisory with Sir Nigel Santos.",
       detailedDesc:
         "A consultation arm powered by real-world experience in entrepreneurship. Spearheaded by Sir Nigel Santos, this service provides personalized startup coaching and business model refinement to help entrepreneurs thrive.",

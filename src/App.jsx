@@ -56,16 +56,16 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/sub-brands" element={<SubBrands />} />
               <Route path="/aboutus" element={<AboutUs />} />
-              <Route path="/construct" element={<Construct />} />
-              <Route path="/conedge" element={<ConEdge />} />
-              <Route path="/concise" element={<ConCise />} />
-              <Route path="/converse" element={<ConVerse />} />
-              <Route path="/connect" element={<ConNect />} />
-              <Route path="/conlift" element={<ConLift />} />
-              <Route path="/conpact" element={<ConPact />} />
-              <Route path="/conquest" element={<ConQuest />} />
-              <Route path="/conspace" element={<ConSpace />} />
-              <Route path="/consult" element={<ConSult />} />
+              <Route path="/8construct" element={<Construct />} />
+              <Route path="/8conedge" element={<ConEdge />} />
+              <Route path="/8concise" element={<ConCise />} />
+              <Route path="/8converse" element={<ConVerse />} />
+              <Route path="/8connect" element={<ConNect />} />
+              <Route path="/8conlift" element={<ConLift />} />
+              <Route path="/8conpact" element={<ConPact />} />
+              <Route path="/8conquest" element={<ConQuest />} />
+              <Route path="/8conspace" element={<ConSpace />} />
+              <Route path="/8consult" element={<ConSult />} />
               <Route path="/registration" element={<Registration />} />
             </Route>
           </Routes>
