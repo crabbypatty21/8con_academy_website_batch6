@@ -10,9 +10,13 @@ const PORT = 3001;
 
 // CORS configuration - Fix CORS issues
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:5173", "http://localhost:4173"], // Add your frontend URLs
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:4173",
+  ], // Add your frontend URLs
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 
 // Middleware
@@ -46,10 +50,10 @@ app.post("/contact", async (req, res) => {
       service: "gmail",
       auth: {
         user: "staff.8conacademy@gmail.com",
-        pass: "cozy kcsi qzkc ewfp", // Gmail App Password
+        pass: "dpuf bzwg anym exkb", // Gmail App Password
       },
       tls: {
-        rejectUnauthorized: false, 
+        rejectUnauthorized: false,
       },
     });
 
@@ -100,7 +104,7 @@ app.post("/apply", upload.single("resumeFile"), async (req, res) => {
       service: "gmail",
       auth: {
         user: "staff.8conacademy@gmail.com",
-        pass: "cozy kcsi qzkc ewfp", // Gmail App Password
+        pass: "dpuf bzwg anym exkb", // Gmail App Password
       },
       tls: {
         rejectUnauthorized: false,
@@ -141,7 +145,7 @@ Department: ${selectedPosition}
 app.post("/registration", async (req, res) => {
   try {
     console.log("Registration request received:", req.body);
-    
+
     const { fullName, email, contact, location, businessProfession } = req.body;
 
     // Validation check - FIXED: Removed the stray 'z' character
@@ -151,12 +155,12 @@ app.post("/registration", async (req, res) => {
     }
 
     console.log("Creating email transporter...");
-    
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: "staff.8conacademy@gmail.com",
-        pass: "cozy kcsi qzkc ewfp", // App Password
+        pass: "dpuf bzwg anym exkb", // App Password
       },
       tls: {
         rejectUnauthorized: false,
@@ -184,7 +188,7 @@ Profession  : ${businessProfession}
     await transporter.sendMail(mailOptions);
     res.json({ message: "Inquiry submitted successfully!" });
     console.log("Email sent successfully!");
-    
+
     res.json({ message: "Registration successful and email sent!" });
   } catch (error) {
     console.error("Error sending registration email:", error);

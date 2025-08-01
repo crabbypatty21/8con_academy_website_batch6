@@ -553,7 +553,7 @@ const Registration = () => {
           }
 
           .registration-section {
-            background: url('src/assets/images/registration-bg-8conacademy.png');
+            background: url('/src/assets/images/registration-bg-8conacademy.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
