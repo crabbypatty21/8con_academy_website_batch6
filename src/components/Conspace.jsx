@@ -42,71 +42,72 @@ const ConSpace = () => {
   const clientsRef = useRef(null);
   const ctaRef = useRef(null);
   const isAnimated = (sectionId) => animatedSections.has(sectionId);
-  const subBrandsData = [
-    {
-      id: "construct",
-      name: "8ConStruct",
-      route: "/construct",
-      desc: "Research and statistical consultancy to empower decision-making.",
-      icon: <Brain size={60} />,
-    },
-    {
-      id: "conedge",
-      name: "8ConEdge",
-      route: "/conedge",
-      desc: "Proprietary Forex tools to enhance trading efficiency.",
-      icon: <TrendingUp size={60} />,
-    },
-    {
-      id: "concise",
-      name: "8ConCise",
-      route: "/concise",
-      desc: "Entrepreneur networking hub to grow business relationships.",
-      icon: <Network size={60} />,
-    },
-    {
-      id: "converse",
-      name: "8ConVerse",
-      route: "/converse",
-      desc: "Language certification courses to broaden opportunities.",
-      icon: <Globe size={60} />,
-    },
-    {
-      id: "connect",
-      name: "8ConNect",
-      route: "/connect",
-      desc: "Entrepreneur networking hub to grow business relationships.",
-      icon: <Network size={60} />,
-    },
-    {
-      id: "conlift",
-      name: "8ConLift",
-      route: "/conlift",
-      desc: "Scholarship and training programs for deserving students.",
-      icon: <Award size={60} />,
-    },
-    {
-      id: "conpact",
-      name: "8ConPact",
-      route: "/conpact",
-      desc: "Scholarship and training programs for deserving students.",
-      icon: <Award size={60} />,
-    },
-    {
-      id: "conquest",
-      name: "8ConQuest",
-      route: "/conquest",
-      desc: "Thesis and career coaching for students and professionals.",
-      icon: <Target size={60} />,
-    },
-    {
-      id: "consult",
-      name: "8ConSult",
-      route: "/consult",
-      desc: "Business development and startup advisory with Sir Nigel Santos.",
-      icon: <BookOpen size={60} />,
-    },
-  ];
+
+    const subBrandsData = [
+      {
+        id: "construct",
+        name: "8ConStruct",
+        route: "/8construct",
+        desc: "Research and statistical consultancy to empower decision-making.",
+        icon: <Brain size={60} />,
+      },
+      {
+        id: "conedge",
+        name: "8ConEdge",
+        route: "/8conedge",
+        desc: "Proprietary Forex tools to enhance trading efficiency.",
+        icon: <TrendingUp size={60} />,
+      },
+      {
+        id: "concise",
+        name: "8ConCise",
+        route: "/8concise",
+        desc: "Entrepreneur networking hub to grow business relationships.",
+        icon: <Network size={60} />,
+      },
+      {
+        id: "converse",
+        name: "8ConVerse",
+        route: "/8converse",
+        desc: "Language certification courses to broaden opportunities.",
+        icon: <Globe size={60} />,
+      },
+      {
+        id: "connect",
+        name: "8ConNect",
+        route: "/8connect",
+        desc: "Entrepreneur networking hub to grow business relationships.",
+        icon: <Network size={60} />,
+      },
+      {
+        id: "conlift",
+        name: "8ConLift",
+        route: "/8conlift",
+        desc: "Scholarship and training programs for deserving students.",
+        icon: <Award size={60} />,
+      },
+      {
+        id: "conquest",
+        name: "8ConQuest",
+        route: "/8conquest",
+        desc: "Thesis and career coaching for students and professionals.",
+        icon: <Target size={60} />,
+      },
+      {
+        id: "conspace",
+        name: "8ConSpace",
+        route: "/8conspace",
+        desc: "Co-working space and virtual office solutions for professionals and students.",
+        icon: <Users size={60} />,
+      },
+      {
+        id: "consult",
+        name: "8ConSult",
+        route: "/8consult",
+        desc: "Business development and startup advisory with Sir Nigel Santos.",
+        icon: <BookOpen size={60} />,
+      },
+    ];
 
   // Intersection Observer setup
   useEffect(() => {

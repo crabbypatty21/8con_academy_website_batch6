@@ -84,13 +84,6 @@ const ConSult = () => {
       icon: <Award size={60} />,
     },
     {
-      id: "conpact",
-      name: "8ConPact",
-      route: "/8conpact",
-      desc: "Scholarship and training programs for deserving students.",
-      icon: <Award size={60} />,
-    },
-    {
       id: "conquest",
       name: "8ConQuest",
       route: "/8conquest",
@@ -103,6 +96,13 @@ const ConSult = () => {
       route: "/8conspace",
       desc: "Co-working space and virtual office solutions for professionals and students.",
       icon: <Users size={60} />,
+    },
+    {
+      id: "consult",
+      name: "8ConSult",
+      route: "/8consult",
+      desc: "Business development and startup advisory with Sir Nigel Santos.",
+      icon: <BookOpen size={60} />,
     },
   ];
 
