@@ -1,86 +1,83 @@
 // server.js
 import express from "express";
+import cors from "cors";
 import multer from "multer";
 import nodemailer from "nodemailer";
-import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
+
+/* ---------- Setup ---------- */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
-// CORS configuration - Fix CORS issues
+/* ---------- CORS ---------- */
 const corsOptions = {
   origin: [
     "http://localhost:3000",
     "http://localhost:5173",
     "http://localhost:4173",
-  ], // Add your frontend URLs
+    "https://8conacademy.com",
+    "https://www.8conacademy.com",
+    "http://8conacademy.com",
+    "http://www.8conacademy.com",
+  ],
   credentials: true,
   optionsSuccessStatus: 200,
 };
-
-// Middleware
 app.use(cors(corsOptions));
-app.use(express.json());
 
-// Configure multer for file upload
+/* ---------- Middleware ---------- */
+app.use(express.json({ limit: "2mb" }));
+
+// Multer in-memory for email attachment
 const upload = multer({
+  storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
   fileFilter(req, file, cb) {
-    if (file.mimetype === "application/pdf") {
-      cb(null, true);
-    } else {
-      cb(new Error("Only PDF files are allowed"));
-    }
+    if (file.mimetype === "application/pdf") return cb(null, true);
+    return cb(new Error("Only PDF files are allowed"));
   },
 });
 
-// POST route for contact us
+/* ---------- Email Transport (Gmail App Password) ---------- */
+function makeTransport() {
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "staff.8conacademy@gmail.com",
+      pass: "dpuf bzwg anym exkb",
+    },
+    tls: { rejectUnauthorized: false },
+  });
+}
+
+/* ---------- API: Contact ---------- */
 app.post("/contact", async (req, res) => {
   try {
     const { name, email, contactNumber, message } = req.body;
-
-    // Validation check
     if (!name || !email || !contactNumber || !message) {
       return res.status(400).json({ error: "All fields are required." });
     }
 
-    // Set up email transport
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "staff.8conacademy@gmail.com",
-        pass: "dpuf bzwg anym exkb", // Gmail App Password
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
-
-    const mailOptions = {
+    const transporter = makeTransport();
+    await transporter.sendMail({
       from: email,
       to: "staff.8conacademy@gmail.com",
       subject: `Inquiry from ${name}`,
-      text: `
-You have received a new inquiry with the following details:
+      text: `You have received a new inquiry:\n\nName: ${name}\nEmail: ${email}\nPhone: ${contactNumber}\n\nMessage:\n${message}`,
+    });
 
-Name     : ${name}
-Email    : ${email}
-Phone    : ${contactNumber}
-
-Message:
-${message}`,
-    };
-
-    await transporter.sendMail(mailOptions);
-    res.json({ message: "Inquiry submitted successfully!" });
-  } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ error: "Failed to send email" });
+    return res.json({ message: "Inquiry submitted successfully!" });
+  } catch (err) {
+    console.error("Error sending contact email:", err);
+    return res.status(500).json({ error: "Failed to send email" });
   }
 });
 
-// POST route for internship application
+/* ---------- API: Internship Application (with PDF) ---------- */
 app.post("/apply", upload.single("resumeFile"), async (req, res) => {
   try {
     const {
@@ -93,115 +90,76 @@ app.post("/apply", upload.single("resumeFile"), async (req, res) => {
       selectedPosition,
     } = req.body;
 
-    const resumeFile = req.file;
-
-    if (!resumeFile) {
+    if (!req.file) {
       return res.status(400).json({ error: "Resume file is required." });
     }
 
-    // Set up email transport
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "staff.8conacademy@gmail.com",
-        pass: "dpuf bzwg anym exkb", // Gmail App Password
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+    const fullName = [firstName, middleName, lastName].filter(Boolean).join(" ");
+    const transporter = makeTransport();
 
-    const fullName = `${firstName} ${middleName} ${lastName}`.trim();
-
-    const mailOptions = {
+    await transporter.sendMail({
       from: email,
       to: "staff.8conacademy@gmail.com",
       subject: `Internship Application - ${fullName} for ${selectedPosition}`,
-      text: `
-Name: ${fullName}
-Email: ${email}
-Phone: ${phoneNumber}
-Address: ${address}
-Department: ${selectedPosition}
-      `,
+      text: `Name: ${fullName}\nEmail: ${email}\nPhone: ${phoneNumber}\nAddress: ${address}\nDepartment: ${selectedPosition}`,
       attachments: [
         {
-          filename: resumeFile.originalname,
-          content: resumeFile.buffer,
+          filename: req.file.originalname,
+          content: req.file.buffer,
           contentType: "application/pdf",
         },
       ],
-    };
+    });
 
-    await transporter.sendMail(mailOptions);
-    res.json({ message: "Application submitted successfully!" });
-  } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ error: "Failed to send email" });
+    return res.json({ message: "Application submitted successfully!" });
+  } catch (err) {
+    console.error("Error sending application email:", err);
+    return res.status(500).json({ error: "Failed to send email" });
   }
 });
 
-// POST route for registration - FIXED THE SYNTAX ERROR
+/* ---------- API: Workshop Registration ---------- */
 app.post("/registration", async (req, res) => {
   try {
-    console.log("Registration request received:", req.body);
-
     const { fullName, email, contact, location, businessProfession } = req.body;
-
-    // Validation check - FIXED: Removed the stray 'z' character
     if (!fullName || !email || !contact || !location || !businessProfession) {
-      console.log("Validation failed - missing fields");
       return res.status(400).json({ error: "All fields are required." });
     }
 
-    console.log("Creating email transporter...");
-
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "staff.8conacademy@gmail.com",
-        pass: "dpuf bzwg anym exkb", // App Password
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
-
-    console.log("Preparing email...");
-
-    const mailOptions = {
+    const transporter = makeTransport();
+    await transporter.sendMail({
       from: email,
       to: "staff.8conacademy@gmail.com",
       subject: `Workshop Registration - ${fullName}`,
-      text: `
-New Registration Received:
+      text: `New Registration:\n\nFull Name: ${fullName}\nEmail: ${email}\nContact: ${contact}\nLocation: ${location}\nProfession: ${businessProfession}`,
+    });
 
-Full Name   : ${fullName}
-Email       : ${email}
-Contact     : ${contact}
-Location    : ${location}
-Profession  : ${businessProfession}
-      `,
-    };
-
-    console.log("Sending email...");
-    await transporter.sendMail(mailOptions);
-    res.json({ message: "Inquiry submitted successfully!" });
-    console.log("Email sent successfully!");
-
-    res.json({ message: "Registration successful and email sent!" });
-  } catch (error) {
-    console.error("Error sending registration email:", error);
-    res.status(500).json({ error: "Failed to send email." });
+    return res.json({ message: "Registration successful and email sent!" });
+  } catch (err) {
+    console.error("Error sending registration email:", err);
+    return res.status(500).json({ error: "Failed to send email." });
   }
 });
 
-// Add error handling middleware
-app.use((error, req, res, next) => {
-  console.error("Server error:", error);
-  res.status(500).json({ error: "Internal server error" });
+/* ---------- Static: Serve Vite build ---------- */
+/* Ensure `npm run build` produced dist/ next to this server.js */
+const staticDir = path.join(__dirname, "dist");
+app.use(express.static(staticDir, { maxAge: "1h", index: "index.html" }));
+
+/* ---------- SPA Fallback for all GET routes ---------- */
+/* This makes /aboutus, /registration, etc. load the React app */
+app.get("*", (req, res) => {
+  res.sendFile(path.join(staticDir, "index.html"));
 });
 
+/* ---------- Error Handler ---------- */
+app.use((err, req, res, next) => {
+  console.error("Server error:", err);
+  return res.status(500).json({ error: "Internal server error" });
+});
+
+/* ---------- Start ---------- */
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
