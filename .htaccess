@@ -1,0 +1,17 @@
+# httpdocs/.htaccess
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # If you have a Node API (e.g., server.js on 3001) mounted behind /api,
+  # don't rewrite those requests:
+  RewriteCond %{REQUEST_URI} ^/api/ [NC]
+  RewriteRule ^ - [L]
+
+  # Serve existing files/directories as-is
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # SPA fallback
+  RewriteRule . /index.html [L]
+</IfModule>
