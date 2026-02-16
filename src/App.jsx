@@ -51,8 +51,7 @@ function App() {
         </div>
       ) : (
         <Router>
-          <Routes>
-            <Route>
+            <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/sub-brands" element={<SubBrands />} />
               <Route path="/aboutus" element={<AboutUs />} />
@@ -67,7 +66,6 @@ function App() {
               <Route path="/8conspace" element={<ConSpace />} />
               <Route path="/8consult" element={<ConSult />} />
               <Route path="/registration" element={<Registration />} />
-            </Route>
           </Routes>
         </Router>
       )}
