@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import "../App.css";
-import "./Header.css"; // Import the separated CSS file
-import Registration from "./Registration.jsx";
+import "../ConponentCSS/Header.css";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -20,22 +19,20 @@ const Header = () => {
   return (
     <header className={`header ${scrolled ? "scrolled" : ""}`}>
       <div className="header-container">
-        <a href="#home" className="logo">
-          <img
-            src="/assets/logo/8con Academy Logo White.png"
-            alt="8Con Academy Logo"
-            className="logo-img"
-          />
-        </a>
+        
+        {/* LEFT: Logo Section */}
+        <div className="logo-section">
+          <a href="#home" className="logo">
+            <img
+              src="/assets/logo/8con Academy Logo White.png"
+              alt="8Con Academy Logo"
+              className="logo-img"
+            />
+          </a>
+        </div>
 
-        <button
-          className="mobile-menu-toggle"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X /> : <Menu />}
-        </button>
-
-        <nav className="desktop-nav">
+        {/* CENTER: Main Navigation */}
+        <nav className="desktop-nav center-nav">
           <a href="#home" className="nav-link">
             Home
           </a>
@@ -72,14 +69,34 @@ const Header = () => {
             </div>
           </div>
 
-          <a href="https://www.8connews.org/" target="no_blank" className="nav-link">
+          <a 
+            href="https://www.8connews.org/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="nav-link"
+          >
             Newsletters
-          </a>
-          <a href="/registration" className="nav-link">
-            Register Here!
           </a>
         </nav>
 
+        {/* RIGHT: Register & Mobile Toggle */}
+        <div className="right-actions">
+          {/* Register Button (Desktop Only) */}
+          <a href="/registration" className="register-btn desktop-only">
+            Register Here!
+          </a>
+
+          {/* Mobile Toggle Button */}
+          <button
+            className="mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+
+        {/* Mobile Navigation Overlay */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
             <a
@@ -130,6 +147,14 @@ const Header = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               About Us
+            </a>
+            {/* Added Register to Mobile Menu as well since it hides on desktop */}
+            <a
+              href="/registration"
+              className="mobile-nav-link highlight-link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Register Here!
             </a>
           </nav>
         )}

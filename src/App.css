@@ -68,24 +68,24 @@ body {
 }
 
 .btn-primary {
-  background-color: #0edb61;
+  background-color: #068c3b;
 }
 
 .btn-primary:hover {
   background-color: #068c3b;
   color: white;
-  box-shadow: 0 0 12px #0edb61, 0 0 24px #0edb61;
+  box-shadow: none;
   transform: translateY(-2px);
 }
 
 .btn-secondary {
-  background-color: #ff1f2c;
+  background-color: #990f17;
 }
 
 .btn-secondary:hover {
   background-color: #990f17;
   color: white;
-  box-shadow: 0 0 12px #ff1f2c, 0 0 24px #ff1f2c;
+  box-shadow: none;
   transform: translateY(-2px);
 }
 
