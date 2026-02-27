@@ -15,6 +15,7 @@ import ConSult from "./components/Consult";
 import AboutUs from "./components/AboutUs";
 import Loader from "./components/Loader";
 import Registration from "./components/Registration";
+import ChatbotFAQ from "./components/ChatbotFAQ";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -67,6 +68,7 @@ function App() {
               <Route path="/8consult" element={<ConSult />} />
               <Route path="/registration" element={<Registration />} />
           </Routes>
+          <ChatbotFAQ />
         </Router>
       )}
     </>
