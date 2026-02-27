@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ScrollUp from "./ScrollUp";
 import Footer from "./Footer";
 import { Menu, X, Goal, Eye, Atom, HeartHandshake } from "lucide-react";
 import "../App.css";
@@ -1381,7 +1380,6 @@ const AboutUs = () => {
 }`}</style>
         </section>
       </main>
-      <ScrollUp />
       <Footer />
     </div>
   );

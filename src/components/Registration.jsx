@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import "../App.css";
 import Footer from "./Footer";
 import ScrollLink from "./ScrollLink";
-import ScrollUp from "./ScrollUp";
 
 const Registration = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -1210,7 +1209,6 @@ const Registration = () => {
           }
         `}</style>
         
-        <ScrollUp />
         <div className="footer-hidden-mobile">
           <Footer />
         </div>
