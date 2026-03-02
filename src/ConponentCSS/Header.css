@@ -1,7 +1,11 @@
 /* ==========================================
    1. IMPORT FONTS
    ========================================== */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap');
+/* Unbounded (Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&display=swap');
+
+/* Geist Sans (CDN - Vercel's Font) */
+@import url('https://cdn.jsdelivr.net/npm/geist@1.2.1/dist/fonts/geist-sans/style.css');
 
 /* ==========================================
    BASE STYLES (Desktop 1440px+)
@@ -159,7 +163,6 @@
   padding-left: 26px;
 }
 
-/* Show dropdown on hover */
 .dropdown:hover .dropdown-content {
   opacity: 1;
   visibility: visible;
@@ -183,12 +186,18 @@
   background-color: #2DB062;
   padding: 6px 22px;
   border-radius: 5px;
+  margin-right: -40px;
   transition: all 0.3s ease;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 14px;
   line-height: 22px;
   white-space: nowrap;
+
+  /* BUTTONS: GEIST */
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .register-btn:hover {
@@ -286,7 +295,6 @@
     display: none;
   }
 
-  /* Show Hamburger Menu */
   .mobile-menu-toggle {
     display: block;
   }
@@ -304,7 +312,6 @@
     flex: 0;
   }
 
-  /* Mobile Navigation Menu */
   .mobile-nav {
     position: absolute;
     top: 100%;
@@ -328,6 +335,11 @@
     font-weight: 600;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s;
+
+    /* LARGE TEXT (Mobile): UNBOUNDED */
+    font-family: "Unbounded", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
   }
 
   .mobile-nav-link:hover {

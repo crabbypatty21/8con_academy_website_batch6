@@ -1,9 +1,9 @@
 /* ==========================================
    IMPORTS & FONTS
    ========================================== */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..900&display=swap");
+/* Replace Montserrat and Roboto imports with these */
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/geist@1.2.1/dist/fonts/geist-sans/style.css');
 
 /* ==========================================
    BASE STYLES & RESET
@@ -21,7 +21,7 @@ html {
 }
 
 body {
-  font-family: Roboto, sans-serif;
+  font-family: "Geist Sans", sans-serif;
   color: #000000;
   line-height: 1.6;
   margin: 0;
@@ -58,6 +58,7 @@ body {
   display: inline-block;
   color: #121411;
   font-weight: bold;
+  font-family: "Geist Sans", sans-serif;
   padding: 12px 24px;
   border-radius: 50px;
   text-decoration: none;
@@ -109,6 +110,7 @@ body {
   color: white;
   font-weight: 700;
   font-size: 1.1rem;
+  font-family: "Geist Sans", sans-serif;
   padding: 18px 48px;
   border-radius: 50px;
   text-decoration: none;
@@ -184,6 +186,7 @@ body {
 .section-title {
   font-size: 48px;
   font-weight: bold;
+  font-family: "Unbounded", sans-serif;
   margin-bottom: 5%;
   text-align: center;
   margin-top: 2%;
@@ -328,7 +331,7 @@ body {
 .overlay-text {
   position: absolute;
   color: #ffffff;
-  font-family: "Roboto", sans-serif;
+  font-family: "Unbounded", sans-serif;
   font-weight: 800;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
     1px 1px 0 #000;
@@ -412,6 +415,7 @@ body {
 .core-brand-title {
   font-size: 48px;
   font-weight: 900;
+  font-family: "Unbounded", sans-serif;
   background-clip: text;
   margin-bottom: 24px;
   line-height: 1.1;
@@ -504,12 +508,12 @@ body {
   opacity: 0;
   transform: translateX(-20px);
   animation: slideInLeft 0.6s ease-out forwards;
-  font-family: "Roboto Flex", sans-serif;
+  font-family: "Geist Sans", sans-serif;
   font-variation-settings: "wght" 300;
   transition: font-variation-settings 0.3s ease;
 }
 .core-brand-list li:hover {
-  font-variation-settings: "wght" 800;
+  font-weight: 800;
 }
 
 .core-brand-list li:nth-child(1) {
@@ -586,6 +590,7 @@ body {
 .cta-title {
   font-size: 2rem;
   font-weight: 800;
+  font-family: "Unbounded", sans-serif;
   background: linear-gradient(135deg, #1e293b, #475569);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1276,6 +1281,7 @@ body {
   cursor: pointer;
   text-transform: uppercase;
   text-align: center;
+  font-family: "Geist Sans", sans-serif;
   text-decoration: none;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }

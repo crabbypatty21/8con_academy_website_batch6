@@ -83,7 +83,7 @@ const Header = () => {
         <div className="right-actions">
           {/* Register Button (Desktop Only) */}
           <a href="/registration" className="register-btn desktop-only">
-            Register Here!
+            Register
           </a>
 
           {/* Mobile Toggle Button */}
