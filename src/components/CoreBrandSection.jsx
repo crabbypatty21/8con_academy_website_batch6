@@ -168,7 +168,7 @@ const CoreBrandSection = ({
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "#19232A", 
-          fontFamily: "sans-serif",
+          fontFamily: '"Geist Sans", sans-serif',
         }}
       >
         <div style={{ width: "100%", maxWidth: "1000px", margin: "0 auto" }}>
@@ -209,6 +209,7 @@ const CoreBrandSection = ({
                 fontSize: "0.85rem",
                 letterSpacing: "1px",
                 marginRight: "-80px",
+                fontFamily: '"Geist Sans", sans-serif',
               }}
             >
               ENROLL NOW!
