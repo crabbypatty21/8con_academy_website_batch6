@@ -1,7 +1,11 @@
 /* ==========================================
-   1. IMPORT FONTS (Add this at the very top)
+   1. IMPORT FONTS
    ========================================== */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap');
+/* Unbounded (Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&display=swap');
+
+/* Geist Sans (CDN - Vercel's Font) */
+@import url('https://cdn.jsdelivr.net/npm/geist@1.2.1/dist/fonts/geist-sans/style.css');
 
 /* ==========================================
    BASE STYLES
@@ -14,7 +18,10 @@
   z-index: 999;
   background: transparent;
   padding: 10px 5%;
-  font-family: "Poppins", sans-serif;
+  
+  /* BASE FONT: GEIST (Small text default) */
+  font-family: "Geist Sans", "Helvetica Neue", sans-serif;
+  
   font-size: 15px;
   font-weight: 500;
   text-transform: uppercase;
@@ -22,18 +29,13 @@
 }
 
 .header.scrolled {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: #131B21;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  padding: 8px 5%; /* Slight shrink on scroll */
+  padding: 8px 5%;
 }
 
-/* LAYOUT STRATEGY: 
-   Use CSS Grid to create a 3-column layout.
-   1fr auto 1fr ensures the center column is perfectly centered,
-   regardless of the width of the left or right columns.
-*/
 .header-container {
   width: 100%;
   display: grid;
@@ -68,7 +70,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px; /* Space between links */
+  gap: 20px;
 }
 
 .nav-link {
@@ -77,6 +79,10 @@
   padding: 5px 0; 
   position: relative;
   transition: color 0.3s ease, transform 0.3s ease;
+
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 600; /* Unbounded is naturally bold, 500 looks good */
+  font-size: 14px;  /* Adjusted slightly for Unbounded's width */
 }
 
 .nav-link::before {
@@ -111,7 +117,7 @@
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(10px); /* slight drop */
+  transform: translateX(-50%) translateY(10px);
 
   background-color: white;
   min-width: 180px;
@@ -120,14 +126,12 @@
   border-radius: 4px;
   overflow: hidden;
 
-  /* Smooth hover system */
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-/* Invisible hover bridge (prevents flicker) */
 .dropdown::after {
   content: "";
   position: absolute;
@@ -143,6 +147,9 @@
   color: #121411;
   text-decoration: none;
   transition: all 0.2s ease;
+  
+  /* SMALL TEXT: GEIST */
+  font-family: "Geist Sans", sans-serif;
   font-size: 13px;
   text-transform: uppercase;
   font-weight: 700;
@@ -154,7 +161,6 @@
   padding-left: 25px;
 }
 
-/* Show dropdown on hover */
 .dropdown:hover .dropdown-content {
   opacity: 1;
   visibility: visible;
@@ -176,22 +182,26 @@
   text-decoration: none;
   color: white;
   background-color: #068c3b;
-  padding: 8px 20px;
+  padding: 5px 30px;
   border-radius: 5px;
+  margin-right: -40px;
   transition: all 0.3s ease;
-  font-weight: 500;
   white-space: nowrap;
+
+  /* BUTTONS: GEIST */
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .register-btn:hover {
   background-color: #990f17;
-  color: #000000;
+  color: white;
   transform: translateY(-2px);
 }
 
-/* Mobile Toggle - Hidden on desktop by default */
 .mobile-menu-toggle {
-  display: none; /* Hidden on large screens */
+  display: none;
   background: none;
   border: none;
   color: white;
@@ -204,19 +214,16 @@
    ========================================== */
 @media (max-width: 1024px) {
   
-  /* Switch back to Flexbox for Mobile Header */
   .header-container {
     display: flex; 
     justify-content: space-between;
   }
 
-  /* Hide Center Nav and Desktop Register on Mobile */
   .desktop-nav,
   .desktop-only {
     display: none;
   }
 
-  /* Show Hamburger Menu */
   .mobile-menu-toggle {
     display: block;
   }
@@ -229,7 +236,6 @@
     flex: 0;
   }
 
-  /* Mobile Navigation Menu */
   .mobile-nav {
     position: absolute;
     top: 100%;
@@ -238,7 +244,7 @@
     background: #000000;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    height: 100vh; /* Fill screen */
+    height: 100vh;
     padding-bottom: 100px;
     overflow-y: auto;
     animation: slideDown 0.3s ease-out;
@@ -249,9 +255,13 @@
     padding: 20px 30px;
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
-    font-size: 18px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s;
+
+    /* LARGE TEXT (Mobile): UNBOUNDED */
+    font-family: "Unbounded", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
   }
 
   .mobile-nav-link:hover {
@@ -261,7 +271,7 @@
   }
 
   .highlight-link {
-    color: #ff1f2c; /* Make Register stand out on mobile */
+    color: #ff1f2c;
     font-weight: 900;
   }
 }

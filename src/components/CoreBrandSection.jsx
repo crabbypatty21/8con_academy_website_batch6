@@ -10,7 +10,7 @@ const CoreBrandSection = ({
   goToSlide,
 }) => {
   return (
-    <div style={{ fontFamily: "sans-serif", color: "#ffffff" }}>
+    <div style={{ fontFamily: '"Geist Sans", sans-serif', color: "#ffffff" }}>
       
       {/* ============================== */}
       {/* PAGE 1: Course Details & Image */}
@@ -22,7 +22,7 @@ const CoreBrandSection = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#0f0f0f",
+          backgroundColor: "#131B21",
         }}
       >
         <div
@@ -43,6 +43,7 @@ const CoreBrandSection = ({
               style={{
                 fontSize: "3rem",
                 fontWeight: "bold",
+                fontFamily: '"Unbounded", sans-serif',
                 lineHeight: 1.1,
                 marginBottom: "20px",
                 margin: 0,
@@ -113,7 +114,7 @@ const CoreBrandSection = ({
               style={{
                 display: "block",      // Change to block
                 margin: "0 0 0 210px",     // Center horizontally
-                backgroundColor: "#068c3b",
+                backgroundColor: "#990f17",
                 color: "white",
                 padding: "12px 32px",
                 borderRadius: "5px",
@@ -121,6 +122,7 @@ const CoreBrandSection = ({
                 fontWeight: "bold",
                 cursor: "pointer",
                 fontSize: "1rem",
+                fontFamily: '"Geist Sans", sans-serif',
               }}
             >
               ENROLL NOW!
@@ -165,7 +167,7 @@ const CoreBrandSection = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#1a1a1a", 
+          backgroundColor: "#19232A", 
           fontFamily: "sans-serif",
         }}
       >
@@ -186,6 +188,7 @@ const CoreBrandSection = ({
               style={{
                 fontSize: "3rem",
                 fontWeight: "bold",
+                fontFamily: '"Unbounded", sans-serif',
                 margin: 0,
                 color: "white",
                 letterSpacing: "0.5px",
@@ -196,7 +199,7 @@ const CoreBrandSection = ({
             </h2>
             <button
               style={{
-                backgroundColor: "#068c3b", 
+                backgroundColor: "#990f17", 
                 color: "white",
                 padding: "10px 24px",
                 borderRadius: "5px", 
@@ -276,6 +279,7 @@ const CoreBrandSection = ({
                           color: "white",
                           fontSize: "36px",
                           fontWeight: "bold",
+                          fontFamily: '"Unbounded", sans-serif',
                           margin: "0 0 10px 0",
                         }}
                       >

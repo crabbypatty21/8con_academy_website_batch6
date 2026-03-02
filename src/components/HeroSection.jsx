@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../App.css";
 
@@ -44,8 +45,11 @@ const HeroSection = () => {
           </p>
 
           <div className="hero-buttons">
-            <a href="#core-brand" className="btn-primary">
+            <a href="#core-brand" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center' }}>
               Learn Forex Today
+              <span className="arrow-box" style={{ marginLeft: '8px', display: 'inline-flex', alignItems: 'center' }}>
+                <ArrowUpRight size={25} strokeWidth={3} />
+              </span>
             </a>
             <a href="#contact" className="btn-secondary">
               Connect With Us
@@ -100,9 +104,9 @@ const HeroSection = () => {
         .hero-title {
           color: #ffffff;
           line-height: 1.3;
-          font-family: "Roboto", sans-serif;
+          font-family: "Unbounded", sans-serif;
           font-weight: 800;
-          font-size: clamp(32px, 4vw, 55px);
+          font-size: clamp(30px, 4vw, 44px);
           filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
           margin: 0;
         }
@@ -118,7 +122,7 @@ const HeroSection = () => {
         .hero-subtitle {
           color: #ffffff;
           font-size: clamp(18px, 2vw, 24px);
-          font-family: "Roboto", sans-serif;
+          font-family: "Geist Sans", sans-serif;
           font-weight: 400;
           margin: -25px 0 0 0;
         }
@@ -134,8 +138,9 @@ const HeroSection = () => {
           padding: 10px 30px;
           font-size: 18px;
           font-weight: 600;
+          font-family: "Geist Sans", sans-serif;
           text-decoration: none;
-          border-radius: 5px;
+          border-radius: 43px;
           transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
@@ -145,7 +150,8 @@ const HeroSection = () => {
         }
 
         .btn-secondary {
-          background-color: #990f17;
+          background-color: rgba(255, 254, 254, 0.24);
+          border: 1px solid #ffffff;
           color: #ffffff;
         }
 
