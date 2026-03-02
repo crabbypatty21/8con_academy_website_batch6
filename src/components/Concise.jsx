@@ -427,7 +427,7 @@ const ConCise = () => {
           }
           
           .header.scrolled {
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgba(19, 27, 33, .87);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
