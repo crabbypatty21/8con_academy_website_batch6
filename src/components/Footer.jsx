@@ -376,33 +376,6 @@ const Footer = () => {
   }
 }
 @media (min-width: 1024px) {
-  .intcards-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    justify-items: center;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .intcard {
-    width: 300px;
-    height: 400px;
-  }
-
-  .intcard .intcontent {
-    padding: 25px;
-  }
-
-  .intcard-title {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-  }
-
-  .intcard-description {
-    font-size: 0.95rem;
-    margin-bottom: 15px;
-  }
   .desktop-nav {
     display: flex;
   }
