@@ -1,43 +1,41 @@
 /* ==========================================
-   1. IMPORT FONTS (Add this at the very top)
+   1. IMPORT FONTS
    ========================================== */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap');
 
 /* ==========================================
-   BASE STYLES
+   BASE STYLES (Desktop 1440px+)
    ========================================== */
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+  height: 70px;
   z-index: 999;
   background: transparent;
-  padding: 10px 5%;
+  box-shadow: none;
+  padding: 0 60px;
   font-family: "Poppins", sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  text-transform: uppercase;
-  transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, height 0.3s ease, padding 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 
 .header.scrolled {
-  background-color: rgba(0, 0, 0, 0.9);
+  background: rgba(19, 27, 33, 0.87);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  padding: 8px 5%; /* Slight shrink on scroll */
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.38);
 }
 
-/* LAYOUT STRATEGY: 
-   Use CSS Grid to create a 3-column layout.
-   1fr auto 1fr ensures the center column is perfectly centered,
-   regardless of the width of the left or right columns.
-*/
+/* LAYOUT: 3-column grid for logo | nav | actions */
 .header-container {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
 }
 
@@ -56,9 +54,10 @@
 }
 
 .logo-img {
-  height: 40px;
-  width: auto;
-  transition: height 0.3s ease;
+  width: 120px;
+  height: 44px;
+  object-fit: contain;
+  transition: all 0.3s ease;
 }
 
 /* ==========================================
@@ -68,15 +67,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px; /* Space between links */
+  gap: 30px;
 }
 
 .nav-link {
   text-decoration: none;
   color: #ffffff;
-  padding: 5px 0; 
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+  padding: 5px 0;
   position: relative;
   transition: color 0.3s ease, transform 0.3s ease;
+  text-transform: none;
+  white-space: nowrap;
 }
 
 .nav-link::before {
@@ -86,12 +91,12 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #ff9d9f, #ff1f2c);
+  background: linear-gradient(90deg, #2DB062, #39CC2F);
   transition: width 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #ff1f2c;
+  color: #2DB062;
   transform: translateY(-2px);
 }
 
@@ -107,27 +112,28 @@
   align-items: center;
 }
 
+.dropdown .nav-link {
+  font-weight: 600;
+}
+
 .dropdown-content {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(10px); /* slight drop */
-
-  background-color: white;
+  transform: translateX(-50%) translateY(10px);
+  background-color: #1a2630;
   min-width: 180px;
   z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
   overflow: hidden;
-
-  /* Smooth hover system */
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-/* Invisible hover bridge (prevents flicker) */
+/* Invisible hover bridge */
 .dropdown::after {
   content: "";
   position: absolute;
@@ -140,18 +146,17 @@
 .dropdown-link {
   display: block;
   padding: 12px 20px;
-  color: #121411;
+  color: #ffffff;
   text-decoration: none;
   transition: all 0.2s ease;
-  font-size: 13px;
-  text-transform: uppercase;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .dropdown-link:hover {
-  background-color: #f3f4f6;
-  color: #ff1f2c;
-  padding-left: 25px;
+  background-color: rgba(45, 176, 98, 0.15);
+  color: #2DB062;
+  padding-left: 26px;
 }
 
 /* Show dropdown on hover */
@@ -171,27 +176,30 @@
   align-items: center;
 }
 
-/* Register Button Style */
+/* Register / Contact Button */
 .register-btn {
   text-decoration: none;
-  color: white;
-  background-color: #068c3b;
-  padding: 8px 20px;
+  color: #ffffff;
+  background-color: #2DB062;
+  padding: 6px 22px;
   border-radius: 5px;
   transition: all 0.3s ease;
-  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 22px;
   white-space: nowrap;
 }
 
 .register-btn:hover {
-  background-color: #990f17;
-  color: #000000;
+  background-color: #259953;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 176, 98, 0.3);
 }
 
-/* Mobile Toggle - Hidden on desktop by default */
+/* Mobile Toggle - Hidden on desktop */
 .mobile-menu-toggle {
-  display: none; /* Hidden on large screens */
+  display: none;
   background: none;
   border: none;
   color: white;
@@ -200,17 +208,79 @@
 }
 
 /* ==========================================
-   MOBILE & RESPONSIVE STYLES
+   RESPONSIVE
    ========================================== */
+
+/* Large desktop (1280-1440) */
+@media (max-width: 1280px) {
+  .header {
+    padding: 0 40px;
+  }
+
+  .desktop-nav {
+    gap: 22px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+  }
+
+  .register-btn {
+    font-size: 13px;
+    padding: 5px 18px;
+  }
+
+  .logo-img {
+    width: 110px;
+    height: 40px;
+  }
+
+  .dropdown-link {
+    font-size: 13px;
+    padding: 10px 18px;
+  }
+}
+
+/* Medium desktop (1024-1280) — nav still visible but tighter */
+@media (max-width: 1100px) {
+  .header {
+    padding: 0 25px;
+    height: 64px;
+  }
+
+  .desktop-nav {
+    gap: 16px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+  }
+
+  .register-btn {
+    font-size: 12px;
+    padding: 5px 16px;
+  }
+
+  .logo-img {
+    width: 100px;
+    height: 36px;
+  }
+}
+
+/* Tablet (<=1024) — switch to mobile hamburger */
 @media (max-width: 1024px) {
-  
-  /* Switch back to Flexbox for Mobile Header */
+  .header {
+    padding: 0 20px;
+    height: 60px;
+  }
+
+  /* Switch to Flexbox for Mobile Header */
   .header-container {
-    display: flex; 
+    display: flex;
     justify-content: space-between;
   }
 
-  /* Hide Center Nav and Desktop Register on Mobile */
+  /* Hide Center Nav and Desktop Register */
   .desktop-nav,
   .desktop-only {
     display: none;
@@ -224,7 +294,12 @@
   .logo-section {
     flex: 1;
   }
-  
+
+  .logo-img {
+    width: 100px;
+    height: 36px;
+  }
+
   .right-actions {
     flex: 0;
   }
@@ -235,34 +310,137 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: #000000;
+    background: rgba(19, 27, 33, 0.97);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    height: 100vh; /* Fill screen */
-    padding-bottom: 100px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-height: calc(100vh - 60px);
     overflow-y: auto;
     animation: slideDown 0.3s ease-out;
   }
 
   .mobile-nav-link {
     display: block;
-    padding: 20px 30px;
+    padding: 16px 28px;
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
-    font-size: 18px;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s;
   }
 
   .mobile-nav-link:hover {
     color: #ffffff;
-    background: rgba(255,255,255,0.05);
-    padding-left: 40px;
+    background: rgba(45, 176, 98, 0.1);
+    padding-left: 36px;
   }
 
   .highlight-link {
-    color: #ff1f2c; /* Make Register stand out on mobile */
+    color: #2DB062;
     font-weight: 900;
+  }
+}
+
+/* Small tablet (768) */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+    height: 56px;
+  }
+
+  .logo-img {
+    width: 90px;
+    height: 32px;
+  }
+
+  .mobile-nav {
+    max-height: calc(100vh - 56px);
+  }
+
+  .mobile-nav-link {
+    padding: 15px 24px;
+    font-size: 15px;
+  }
+}
+
+/* Large phone (600) */
+@media (max-width: 600px) {
+  .header {
+    padding: 0 14px;
+    height: 52px;
+  }
+
+  .logo-img {
+    width: 85px;
+    height: 30px;
+  }
+
+  .mobile-nav {
+    max-height: calc(100vh - 52px);
+  }
+
+  .mobile-nav-link {
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+}
+
+/* Mobile (480) */
+@media (max-width: 480px) {
+  .header {
+    padding: 0 12px;
+    height: 50px;
+  }
+
+  .logo-img {
+    width: 80px;
+    height: 28px;
+  }
+
+  .mobile-menu-toggle {
+    margin-left: 10px;
+  }
+
+  .mobile-menu-toggle svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mobile-nav {
+    max-height: calc(100vh - 50px);
+  }
+
+  .mobile-nav-link {
+    padding: 14px 18px;
+    font-size: 14px;
+  }
+}
+
+/* Small mobile (360) */
+@media (max-width: 360px) {
+  .header {
+    padding: 0 10px;
+    height: 48px;
+  }
+
+  .logo-img {
+    width: 72px;
+    height: 26px;
+  }
+
+  .mobile-menu-toggle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mobile-nav {
+    max-height: calc(100vh - 48px);
+  }
+
+  .mobile-nav-link {
+    padding: 13px 16px;
+    font-size: 13px;
   }
 }
 
