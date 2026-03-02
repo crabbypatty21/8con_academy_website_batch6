@@ -1483,22 +1483,21 @@ const styles = {
     },
   },
 
-  heroContent: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    maxWidth: "900px",
-    position: "relative",
-    zIndex: 2,
-    maxWidth: "800px",
-    margin: "0 auto",
-    // Responsive width
-    "@media (max-width: 768px)": {
-      maxWidth: "100%",
-    },
+heroContent: {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "flex-start",
+  width: "100%",
+  position: "relative",
+  zIndex: 2,
+  maxWidth: "800px", // keep only one
+  margin: "0 auto",
+  // Responsive width
+  "@media (max-width: 768px)": {
+    maxWidth: "100%",
   },
+},
 
   heroSubtitle: {
     fontSize: "clamp(1.2rem, 4vw, 1.8rem)",

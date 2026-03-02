@@ -59,7 +59,7 @@ const AboutSection = () => {
   justify-content: center; /* ✅ Optional: center vertically */
   min-height: 100vh;
   margin: 0 auto;
-  background: #000000;
+  background: #131B21;
   position: relative;
   overflow: hidden;
   padding: 60px 40px 40px;
