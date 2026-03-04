@@ -57,13 +57,14 @@ const AboutSection = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0 auto;
   background: #131B21;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.36);
   position: relative;
   overflow: hidden;
-  padding: 80px 40px 60px;
+  padding: 100px 40px 40px;
+  box-sizing: border-box;
 }
 
 .about-header {
@@ -169,14 +170,17 @@ const AboutSection = () => {
 .about-readmore-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   background: #F95545;
   color: #FFFFFF;
   border: none;
-  padding: 14px 40px;
-  border-radius: 35px;
-  font-family: "Geist Sans", sans-serif;
+  width: 190px;
+  height: 48px;
+  border-radius: 40px;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 16px;
+  line-height: 48px;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -247,7 +251,7 @@ const AboutSection = () => {
 @media (max-width: 768px) {
   .about-section {
     padding: 40px 20px 30px;
-    min-height: auto;
+    height: 100vh;
   }
 
   .content-grid {

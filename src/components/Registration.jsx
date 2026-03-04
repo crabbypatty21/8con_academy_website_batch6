@@ -474,7 +474,8 @@ const Registration = () => {
           }
 
           .desktop-nav {
-            width: 1200px;
+            max-width: 1200px;
+            width: 100%;
             height: 40px;
             align-items: center;
             font-size: 14px;

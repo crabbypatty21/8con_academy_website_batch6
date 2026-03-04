@@ -260,9 +260,8 @@ const testimonials = [
         />
 
         <ContactSection />
+        <Footer />
       </main>
-
-      <Footer />
     </div>
   );
 };

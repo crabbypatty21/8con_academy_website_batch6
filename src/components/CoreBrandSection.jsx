@@ -18,13 +18,16 @@ const CoreBrandSection = ({
       {/* PAGE 1: Course Details & Image */}
       {/* ============================== */}
       <section
+        id="core-brand"
         style={{
-          minHeight: "100vh",
-          padding: "80px 5%",
+          height: "100vh",
+          padding: "100px 5% 40px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: colors.bgSecondary,
+          overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
         <div
@@ -43,7 +46,7 @@ const CoreBrandSection = ({
           <div style={{ flex: "1 1 50%", minWidth: "300px" }}>
             <h1
               style={{
-                fontSize: "3.5rem",
+                fontSize: "clamp(2rem, 3.5vw, 4rem)",
                 fontWeight: "bold",
                 fontFamily: '"Unbounded", sans-serif',
                 lineHeight: 1.1,
@@ -58,7 +61,7 @@ const CoreBrandSection = ({
 
             <p
               style={{
-                fontSize: "1.2rem",
+                fontSize: "clamp(1rem, 1.2vw, 1.35rem)",
                 marginBottom: "30px",
                 maxWidth: "90%",
                 lineHeight: 1.5,
@@ -86,7 +89,7 @@ const CoreBrandSection = ({
                     display: "flex",
                     alignItems: "flex-start",
                     marginBottom: "16px",
-                    fontSize: "1.05rem",
+                    fontSize: "clamp(0.9rem, 1.1vw, 1.15rem)",
                     lineHeight: 1.4,
                   }}
                 >
@@ -114,8 +117,8 @@ const CoreBrandSection = ({
             </ul>
             <button
               style={{
-                display: "block",      // Change to block
-                margin: "0 0 0 210px",     // Center horizontally
+                display: "block",
+                margin: "0 auto",
                 backgroundColor: "#F95545",
                 color: "white",
                 padding: "12px 32px",
@@ -178,37 +181,40 @@ const CoreBrandSection = ({
       {/* ============================== */}
       <section
         style={{
-          minHeight: "100vh",
-          padding: "80px 5%",
+          height: "100vh",
+          padding: "100px 5% 40px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: colors.bgTertiary,
+          overflow: "hidden",
           fontFamily: '"Geist Sans", sans-serif',
+          boxSizing: "border-box",
         }}
       >
         <div style={{ width: "100%", maxWidth: "1000px", margin: "0 auto" }}>
-          
+
           {/* Header */}
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: "40px",
+              marginBottom: "4px",
               flexWrap: "wrap",
               gap: "20px",
+              width: "calc(100% + 120px)",
+              marginLeft: "-60px",
             }}
           >
             <h2
               style={{
-                fontSize: "3rem",
+                fontSize: "clamp(1.8rem, 3vw, 3rem)",
                 fontWeight: "bold",
                 fontFamily: '"Unbounded", sans-serif',
                 margin: 0,
                 color: colors.textPrimary,
                 letterSpacing: "0.5px",
-                marginLeft: "-100px",
               }}
             >
               Testimonies
@@ -224,7 +230,6 @@ const CoreBrandSection = ({
                 cursor: "pointer",
                 fontSize: "0.85rem",
                 letterSpacing: "1px",
-                marginRight: "-80px",
                 fontFamily: '"Geist Sans", sans-serif',
               }}
             >
@@ -237,10 +242,10 @@ const CoreBrandSection = ({
             style={{
               background: "radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%, #000000 100%)", 
               width: "100%",
-              height: "450px", 
+              height: "clamp(300px, 40vw, 450px)",
               borderRadius: "12px",
               overflow: "hidden",
-              marginBottom: "30px",
+              marginBottom: "20px",
               position: "relative",
               boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
             }}
@@ -273,7 +278,7 @@ const CoreBrandSection = ({
                     <div 
                       style={{ 
                         flex: 1, 
-                        padding: "0 20px 0 60px", 
+                        padding: "0 20px 0 clamp(20px, 4vw, 60px)",
                         maxWidth: "70%", // <-- CHANGE: Increased from 50% to 70%
                         zIndex: 2,
                         position: "relative", // <-- ADD THIS to ensure zIndex works perfectly
@@ -282,9 +287,9 @@ const CoreBrandSection = ({
                       <p
                         style={{
                           color: colors.textSecondary,
-                          fontSize: "1.25rem",
+                          fontSize: "clamp(0.9rem, 1.2vw, 1.25rem)",
                           lineHeight: "1.6",
-                          marginBottom: "80px",
+                          marginBottom: "clamp(30px, 6vw, 80px)",
                           fontWeight: "600",
                         }}
                       >
@@ -294,7 +299,7 @@ const CoreBrandSection = ({
                       <h3
                         style={{
                           color: colors.textPrimary,
-                          fontSize: "36px",
+                          fontSize: "clamp(1.2rem, 2.5vw, 2.25rem)",
                           fontWeight: "bold",
                           fontFamily: '"Unbounded", sans-serif',
                           margin: "0 0 10px 0",
@@ -329,7 +334,7 @@ const CoreBrandSection = ({
                         display: "flex", 
                         alignItems: "flex-end", 
                         justifyContent: "flex-end", 
-                        paddingRight: "50px",
+                        paddingRight: "clamp(20px, 4vw, 50px)",
                         zIndex: 1,
                       }}
                     >
