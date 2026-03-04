@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext.jsx";
 import {
   Menu,
   X,
@@ -20,6 +21,7 @@ import "../ConponentCSS/SubBrand.css";
 
 const SubBrand = () => {
   const navigate = useNavigate();
+  const { isDark } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
@@ -307,7 +309,7 @@ const SubBrand = () => {
         <div className="header-container">
           <a href="/" className="logo">
             <img
-              src="/assets/logo/8con Academy Logo White.png"
+              src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
               alt="8Con Academy Logo"
               className="logo-img"
             />
@@ -414,10 +416,10 @@ const SubBrand = () => {
               growth and success
             </p>
             <button
-              className="btn-primary"
+              className="btn-enroll"
               onClick={() => scrollToSection("construct")}
             >
-              Enroll now!
+              ENROLL NOW!
             </button>
           </div>
         </section>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext.jsx";
 import {
   Menu,
   X,
@@ -26,6 +27,7 @@ import {
 } from "lucide-react";
 
 const ConLift = () => {
+  const { colors, isDark } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
@@ -216,6 +218,344 @@ const ConLift = () => {
     setMobileMenuOpen(false);
   };
 
+  const styles = {
+    container: {
+      minHeight: "100vh",
+      fontFamily: "'Montserrat', sans-serif",
+      lineHeight: "1.6",
+      color: colors.textPrimary,
+      margin: 0,
+      padding: 0,
+    },
+
+    container2: {
+      maxWidth: "1200px",
+      margin: "0 auto",
+      padding: "0 20px",
+    },
+
+    // Hero Section - Green Background
+    heroSection: {
+      minHeight: "100vh",
+      background:
+        "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)",
+      position: "relative",
+      overflow: "hidden",
+      textAlign: "center",
+    },
+
+    heroContent: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      width: "100%",
+      position: "relative",
+      zIndex: 2,
+      maxWidth: "800px",
+      margin: "0 auto",
+    },
+
+    heroSubtitle: {
+      fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
+      fontWeight: "600",
+      marginBottom: "1rem",
+      margin: "0 0 1rem 0",
+      opacity: "0.9",
+      color: "#ffffff",
+      lineHeight: "1.3",
+    },
+
+    heroDescription: {
+      fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
+      color: "#cccccc",
+      lineHeight: "1.6",
+      marginTop: "0 !important",
+      marginBottom: "0 !important",
+      paddingBottom: "0 !important",
+      opacity: "0.95",
+    },
+
+    heroForegroundContent: {
+      backgroundColor: "rgba(0, 0, 0, 0.3)",
+      padding: "clamp(1rem, 2vw, 1.5rem)",
+      borderRadius: "15px",
+      backdropFilter: "blur(6px)",
+      border: "1px solid rgba(255, 255, 255, 0.1)",
+      maxWidth: "1000px",
+      width: "100%",
+      textAlign: "center",
+      marginBottom: "10rem",
+      marginTop: "-100px",
+    },
+
+    heroTopImage: {
+      width: "clamp(250px, 40vw, 500px)",
+      height: "auto",
+      opacity: 0.9,
+      pointerEvents: "none",
+      marginTop: "-80px",
+    },
+
+    heroButtons: {
+      display: "flex",
+      gap: "1rem",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      marginTop: "2rem",
+      margin: "0 !important",
+      padding: "0 !important",
+      position: "relative",
+      zIndex: "1",
+    },
+
+    ctaButtonPrimary: {
+      background: "#0edb61",
+      color: "#ffffff",
+      border: "none",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+    },
+
+    ctaButtonSecondary: {
+      background: "transparent",
+      color: "#ffffff",
+      border: "2px solid #ffffff",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+    },
+
+    ctaButtonRed: {
+      background: "#ff1f2c",
+      color: "#ffffff",
+      border: "none",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+    },
+
+    // Key Initiatives Section - White Background
+    initiativesSection: {
+      background: colors.bgPrimary,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+
+    sectionTitle: {
+      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      color: "#0edb61",
+      textAlign: "center",
+      marginBottom: "3rem",
+    },
+
+    initiativesGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+      gap: "2rem",
+      marginTop: "2rem",
+    },
+
+    initiativeCard: {
+      background: colors.bgCard,
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      border: "2px solid #0edb61",
+      transition: "all 0.3s ease",
+      textAlign: "center",
+    },
+
+    initiativeIcon: {
+      marginBottom: "1rem",
+      display: "flex",
+      justifyContent: "center",
+    },
+
+    initiativeTitle: {
+      fontSize: "1.3rem",
+      fontWeight: "700",
+      color: "#0edb61",
+      marginBottom: "1rem",
+    },
+
+    initiativeDescription: {
+      fontSize: "1rem",
+      color: colors.textPrimary,
+      marginBottom: "1.5rem",
+      lineHeight: "1.6",
+    },
+
+    initiativeList: {
+      listStyle: "none",
+      padding: 0,
+      margin: 0,
+      textAlign: "left",
+    },
+
+    initiativeListItem: {
+      fontSize: "0.95rem",
+      color: colors.textPrimary,
+      marginBottom: "0.8rem",
+      lineHeight: "1.5",
+    },
+
+    // Benefits Section - Black Background
+    benefitsSection: {
+      background: colors.bgSecondary,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    benefitsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+      gap: "2rem",
+      marginTop: "2rem",
+    },
+
+    benefitCard: {
+      background: colors.bgCard,
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      textAlign: "center",
+      border: "2px solid #f0f0f0",
+      transition: "all 0.3s ease",
+      cursor: "pointer",
+    },
+
+    benefitIcon: {
+      marginBottom: "1rem",
+      display: "flex",
+      justifyContent: "center",
+    },
+
+    benefitTitle: {
+      fontSize: "1.4rem",
+      fontWeight: "700",
+      color: colors.textPrimary,
+      marginBottom: "1rem",
+    },
+
+    benefitDescription: {
+      fontSize: "1rem",
+      color: colors.textPrimary,
+      lineHeight: "1.7",
+    },
+
+    // Why Choose 8ConLift Section - White Background
+    whyChooseSection: {
+      background: colors.bgPrimary,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    whyChooseGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+      gap: "2rem",
+      marginTop: "2rem",
+    },
+
+    whyChooseCard: {
+      background: colors.bgCard,
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      textAlign: "center",
+      border: "2px solid #0edb61",
+      transition: "all 0.3s ease",
+      cursor: "pointer",
+    },
+
+    whyChooseTitle: {
+      fontSize: "1.4rem",
+      fontWeight: "700",
+      color: "#0edb61",
+      marginBottom: "1rem",
+    },
+
+    whyChooseDescription: {
+      fontSize: "1rem",
+      color: colors.textPrimary,
+      lineHeight: "1.7",
+    },
+
+    // CTA Section - Black Background
+    ctaSection: {
+      background: colors.bgSecondary,
+      color: colors.textPrimary,
+      padding: "80px 20px",
+      textAlign: "center",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    ctaTitle: {
+      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      marginBottom: "2rem",
+      color: colors.textPrimary,
+    },
+
+    ctaDescription: {
+      fontSize: "clamp(1rem, 3vw, 1.2rem)",
+      lineHeight: "1.8",
+      maxWidth: "800px",
+      margin: "0 auto 2rem",
+      opacity: "0.95",
+      color: colors.textPrimary,
+    },
+
+    ctaButtons: {
+      display: "flex",
+      gap: "1rem",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      marginBottom: "2rem",
+    },
+
+    ctaHighlight: {
+      background: "rgba(14, 219, 97, 0.1)",
+      padding: "1.5rem",
+      borderRadius: "10px",
+      fontSize: "clamp(1.1rem, 3vw, 1.3rem)",
+      maxWidth: "700px",
+      margin: "0 auto",
+      border: "2px solid #0edb61",
+      color: colors.textPrimary,
+      transition: "all 0.3s ease",
+      cursor: "pointer",
+    },
+  };
+
   return (
     <div style={styles.container}>
       {/* Add CSS styles */}
@@ -242,7 +582,7 @@ const ConLift = () => {
           }
           
           .header.scrolled {
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: var(--header-scrolled-bg);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -280,7 +620,7 @@ const ConLift = () => {
           
           .nav-link {
             text-decoration: none;
-            color: rgb(255, 255, 255);
+            color: var(--header-text);
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -306,7 +646,7 @@ const ConLift = () => {
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: white;
+            background-color: var(--header-dropdown-bg);
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
@@ -314,11 +654,11 @@ const ConLift = () => {
             border-radius: 8px;
             border: 1px solid #e0e0e0;
           }
-          
+
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: #333;
+            color: var(--header-dropdown-text);
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -337,25 +677,25 @@ const ConLift = () => {
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: white;
+            color: var(--header-text);
             display: none;
             padding: 5px;
           }
-          
+
           .mobile-nav {
-            background-color: rgba(255, 255, 255, 0.98);
+            background-color: var(--header-mobile-bg);
             backdrop-filter: blur(10px);
             border-top: 1px solid #e5e7eb;
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
           }
-          
+
           .mobile-nav-link {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: #333;
+            color: var(--header-mobile-text);
             border-bottom: 1px solid #f3f4f6;
             font-size: 16px;
             transition: background-color 0.3s ease;
@@ -376,7 +716,7 @@ const ConLift = () => {
             width: 100%;
             padding: 15px 20px;
             text-decoration: none;
-            color: #333;
+            color: var(--header-mobile-text);
             border-bottom: 1px solid #f3f4f6;
             background: none;
             border: none;
@@ -384,18 +724,18 @@ const ConLift = () => {
             font-size: 16px;
             cursor: pointer;
           }
-          
+
           .mobile-dropdown-content {
-            background-color: rgba(248, 249, 250, 0.9);
+            background-color: var(--header-dropdown-bg);
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
           }
-          
+
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: #555;
+            color: var(--header-mobile-text);
             text-decoration: none;
             font-size: 14px;
             border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -643,7 +983,7 @@ const ConLift = () => {
           {/* Logo */}
           <a href="/" className="logo">
             <img
-              src="/assets/logo/8con Academy Logo White.png"
+              src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
               alt="8Con Academy Logo"
               className="logo-img"
             />
@@ -899,7 +1239,7 @@ const ConLift = () => {
       >
         <div style={styles.container2}>
           <h2
-            style={{ ...styles.sectionTitle, color: "#000000" }}
+            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
             className={`animate-on-scroll ${
               isAnimated("initiatives") ? "animate-fade-in-up" : ""
             }`}
@@ -1216,7 +1556,7 @@ const ConLift = () => {
       >
         <div style={styles.container2}>
           <h2
-            style={{ ...styles.sectionTitle, color: "#000000" }}
+            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
             className={`animate-on-scroll ${
               isAnimated("why-choose") ? "animate-fade-in-up" : ""
             }`}
@@ -1358,345 +1698,6 @@ const ConLift = () => {
       </section>
     </div>
   );
-};
-
-// Styles object
-const styles = {
-  container: {
-    minHeight: "100vh",
-    fontFamily: "'Montserrat', sans-serif",
-    lineHeight: "1.6",
-    color: "#000000",
-    margin: 0,
-    padding: 0,
-  },
-
-  container2: {
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "0 20px",
-  },
-
-  // Hero Section - Green Background
-  heroSection: {
-    minHeight: "100vh",
-    background:
-      "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)",
-    position: "relative",
-    overflow: "hidden",
-    textAlign: "center",
-  },
-
-  heroContent: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    position: "relative",
-    zIndex: 2,
-    maxWidth: "800px",
-    margin: "0 auto",
-  },
-
-  heroTopImage: {
-    width: "clamp(250px, 40vw, 500px)",
-    height: "auto",
-    opacity: 0.9,
-    pointerEvents: "none",
-    marginTop: "-80px",
-  },
-
-  heroForegroundContent: {
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-    padding: "clamp(1rem, 2vw, 1.5rem)",
-    borderRadius: "15px",
-    backdropFilter: "blur(6px)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    maxWidth: "1000px",
-    width: "100%",
-    textAlign: "center",
-    marginBottom: "10rem",
-    marginTop: "-100px",
-  },
-
-  heroSubtitle: {
-    fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-    fontWeight: "600",
-    marginBottom: "1rem",
-    margin: "0 0 1rem 0",
-    opacity: "0.9",
-    color: "#ffffff",
-    lineHeight: "1.3",
-  },
-
-  heroDescription: {
-    fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
-    color: "#cccccc",
-    lineHeight: "1.6",
-    marginTop: "0",
-    marginBottom: "0",
-    paddingBottom: "0",
-    opacity: "0.95",
-  },
-
-  heroButtons: {
-    display: "flex",
-    gap: "1rem",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    marginTop: "2rem",
-    margin: "0",
-    padding: "0",
-    position: "relative",
-    zIndex: "1",
-  },
-
-  ctaButtonPrimary: {
-    background: "#0edb61",
-    color: "#ffffff",
-    border: "none",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-  },
-
-  ctaButtonSecondary: {
-    background: "transparent",
-    color: "#ffffff",
-    border: "2px solid #ffffff",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-  },
-
-  ctaButtonRed: {
-    background: "#ff1f2c",
-    color: "#ffffff",
-    border: "none",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-  },
-
-  // Key Initiatives Section - White Background
-  initiativesSection: {
-    background: "#ffffff",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-
-  sectionTitle: {
-    fontSize: "clamp(2rem, 5vw, 2.5rem)",
-    fontWeight: "700",
-    color: "#0edb61",
-    textAlign: "center",
-    marginBottom: "3rem",
-  },
-
-  initiativesGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-    gap: "2rem",
-    marginTop: "2rem",
-  },
-
-  initiativeCard: {
-    background: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-    border: "2px solid #0edb61",
-    transition: "all 0.3s ease",
-    textAlign: "center",
-  },
-
-  initiativeIcon: {
-    marginBottom: "1rem",
-    display: "flex",
-    justifyContent: "center",
-  },
-
-  initiativeTitle: {
-    fontSize: "1.3rem",
-    fontWeight: "700",
-    color: "#0edb61",
-    marginBottom: "1rem",
-  },
-
-  initiativeDescription: {
-    fontSize: "1rem",
-    color: "#000000",
-    marginBottom: "1.5rem",
-    lineHeight: "1.6",
-  },
-
-  initiativeList: {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-    textAlign: "left",
-  },
-
-  initiativeListItem: {
-    fontSize: "0.95rem",
-    color: "#000000",
-    marginBottom: "0.8rem",
-    lineHeight: "1.5",
-  },
-
-  // Benefits Section - Black Background
-  benefitsSection: {
-    background: "#000000",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  benefitsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "2rem",
-    marginTop: "2rem",
-  },
-
-  benefitCard: {
-    background: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-    textAlign: "center",
-    border: "2px solid #f0f0f0",
-    transition: "all 0.3s ease",
-    cursor: "pointer",
-  },
-
-  benefitIcon: {
-    marginBottom: "1rem",
-    display: "flex",
-    justifyContent: "center",
-  },
-
-  benefitTitle: {
-    fontSize: "1.4rem",
-    fontWeight: "700",
-    color: "#000000",
-    marginBottom: "1rem",
-  },
-
-  benefitDescription: {
-    fontSize: "1rem",
-    color: "#000000",
-    lineHeight: "1.7",
-  },
-
-  // Why Choose 8ConLift Section - White Background
-  whyChooseSection: {
-    background: "#ffffff",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  whyChooseGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "2rem",
-    marginTop: "2rem",
-  },
-
-  whyChooseCard: {
-    background: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-    textAlign: "center",
-    border: "2px solid #0edb61",
-    transition: "all 0.3s ease",
-    cursor: "pointer",
-  },
-
-  whyChooseTitle: {
-    fontSize: "1.4rem",
-    fontWeight: "700",
-    color: "#0edb61",
-    marginBottom: "1rem",
-  },
-
-  whyChooseDescription: {
-    fontSize: "1rem",
-    color: "#000000",
-    lineHeight: "1.7",
-  },
-
-  // CTA Section - Black Background
-  ctaSection: {
-    background: "#000000",
-    color: "#000000",
-    padding: "80px 20px",
-    textAlign: "center",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  ctaTitle: {
-    fontSize: "clamp(2rem, 5vw, 2.5rem)",
-    fontWeight: "700",
-    marginBottom: "2rem",
-    color: "#ffffff",
-  },
-
-  ctaDescription: {
-    fontSize: "clamp(1rem, 3vw, 1.2rem)",
-    lineHeight: "1.8",
-    maxWidth: "800px",
-    margin: "0 auto 2rem",
-    opacity: "0.95",
-    color: "#ffffff",
-  },
-
-  ctaButtons: {
-    display: "flex",
-    gap: "1rem",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    marginBottom: "2rem",
-  },
-
-  ctaHighlight: {
-    background: "rgba(14, 219, 97, 0.1)",
-    padding: "1.5rem",
-    borderRadius: "10px",
-    fontSize: "clamp(1.1rem, 3vw, 1.3rem)",
-    maxWidth: "700px",
-    margin: "0 auto",
-    border: "2px solid #0edb61",
-    color: "#ffffff",
-    transition: "all 0.3s ease",
-    cursor: "pointer",
-  },
 };
 
 export default ConLift;

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import { Menu, X, Goal, Eye, Atom, HeartHandshake } from "lucide-react";
+import { useTheme } from "../context/ThemeContext.jsx";
 import "../App.css";
 import ScrollLink from "./ScrollLink";
 const AboutUs = () => {
+  const { isDark } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -53,7 +55,7 @@ const AboutUs = () => {
           {/* Logo */}
           <a href="/#home" className="logo">
             <img
-              src="/assets/logo/8con Academy Logo White.png"
+              src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
               alt="8Con Academy Logo"
               className="logo-img"
             />
@@ -100,6 +102,13 @@ const AboutUs = () => {
         {/* Hero Section with Background Image */}
         <section className="about-us-hero">
           <div className="about-us-hero-overlay">
+            <h1 className="about-us-hero-title">
+              <span className="about-us-hero-green">About Us</span>
+              <span className="about-us-hero-line2">
+                <span className="about-us-hero-white">8</span>
+                <span className="about-us-hero-red">Con Academy</span>
+              </span>
+            </h1>
             <div className="about-us-image-container">
               <img
                 src="/assets/images/aboutus2.jpg"
@@ -518,7 +527,7 @@ const AboutUs = () => {
 }
 
 .header.scrolled {
-  background-color: rgba(19, 27, 33, .87);
+  background-color: var(--header-scrolled-bg);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -574,7 +583,7 @@ const AboutUs = () => {
 
 .nav-link {
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: var(--header-text);
   padding: 0px 15px;
   border-radius: 6px;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -614,7 +623,7 @@ const AboutUs = () => {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: white;
+  background-color: var(--header-dropdown-bg);
   padding: 5px 0;
   min-width: 160px;
   z-index: 1000;
@@ -625,7 +634,7 @@ const AboutUs = () => {
 .dropdown-link {
   display: block;
   padding: 10px 15px;
-  color: #121411;
+  color: var(--header-dropdown-text);
   text-decoration: none;
   transition: background-color 0.3s ease, color 0.3s ease;
   font-family: "Montserrat", sans-serif;
@@ -680,7 +689,7 @@ const AboutUs = () => {
   border: none;
   font-size: 18px;
   cursor: pointer;
-  color: white;
+  color: var(--header-text);
 }
 
 .mobile-dropdown {
@@ -732,7 +741,7 @@ const AboutUs = () => {
   }
 
   .header.scrolled {
-    background: #000000;
+    background: var(--header-scrolled-bg);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   }
 
@@ -742,10 +751,10 @@ const AboutUs = () => {
     top: 100%;
     left: 0;
     right: 0;
-    background: #000000;
+    background: var(--header-mobile-bg);
     z-index: 998;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--header-mobile-border);
+    border-bottom: 1px solid var(--header-mobile-border);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     max-height: calc(100vh - 100px);
     overflow-y: auto;
@@ -770,8 +779,8 @@ const AboutUs = () => {
     justify-content: space-between;
     padding: 16px 24px;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.9);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--header-mobile-text);
+    border-bottom: 1px solid var(--header-mobile-border);
     background: transparent;
     border: none;
     width: 100%;
@@ -805,10 +814,10 @@ const AboutUs = () => {
   }
 
   .mobile-nav-link:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #0edb61;
+    background: var(--card-bg-light);
+    color: var(--accent-green);
     padding-left: 32px;
-    border-left: 3px solid #0edb61;
+    border-left: 3px solid var(--accent-green);
   }
 
   .mobile-nav-link:hover::before {
@@ -821,7 +830,7 @@ const AboutUs = () => {
 
   /* Active/pressed state */
   .mobile-nav-link:active {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--card-bg-light);
     transform: scale(0.98);
   }
 
@@ -861,7 +870,7 @@ const AboutUs = () => {
   }
 
   .mobile-nav {
-    background: rgba(0, 0, 0, 0.85);
+    background: var(--header-mobile-bg);
   }
 
   .mobile-nav-link {
@@ -888,7 +897,7 @@ const AboutUs = () => {
   }
 
   .mobile-nav {
-    background: rgba(0, 0, 0, 0.9);
+    background: var(--header-mobile-bg);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
   }
@@ -923,7 +932,7 @@ const AboutUs = () => {
   }
 
   .mobile-nav {
-    background: rgba(0, 0, 0, 0.92);
+    background: var(--header-mobile-bg);
   }
 
   .mobile-nav-link {
@@ -955,7 +964,7 @@ const AboutUs = () => {
   }
 
   .mobile-nav {
-    background: rgba(0, 0, 0, 0.95);
+    background: var(--header-mobile-bg);
   }
 
   .mobile-nav-link {
@@ -1043,14 +1052,14 @@ const AboutUs = () => {
    ========================================== */
 @media (prefers-color-scheme: dark) and (max-width: 1024px) {
   .mobile-nav {
-    background: rgba(0, 0, 0, 0.9);
-    border-top-color: rgba(255, 255, 255, 0.15);
-    border-bottom-color: rgba(255, 255, 255, 0.15);
+    background: var(--header-mobile-bg);
+    border-top-color: var(--header-mobile-border);
+    border-bottom-color: var(--header-mobile-border);
   }
 
   .mobile-nav-link {
-    color: rgba(255, 255, 255, 0.95);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
+    color: var(--header-mobile-text);
+    border-bottom-color: var(--header-mobile-border);
   }
 }
 
@@ -1143,14 +1152,14 @@ const AboutUs = () => {
    ========================================== */
 @media (prefers-color-scheme: dark) and (max-width: 1024px) {
   .mobile-nav {
-    background: rgba(0, 0, 0, 0.9);
-    border-top-color: rgba(255, 255, 255, 0.15);
-    border-bottom-color: rgba(255, 255, 255, 0.15);
+    background: var(--header-mobile-bg);
+    border-top-color: var(--header-mobile-border);
+    border-bottom-color: var(--header-mobile-border);
   }
 
   .mobile-nav-link {
-    color: rgba(255, 255, 255, 0.95);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
+    color: var(--header-mobile-text);
+    border-bottom-color: var(--header-mobile-border);
   }
 }
 

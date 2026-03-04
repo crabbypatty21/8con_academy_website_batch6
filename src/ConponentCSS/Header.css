@@ -29,7 +29,7 @@
 }
 
 .header.scrolled {
-  background: rgba(19, 27, 33, .87);
+  background: var(--header-scrolled-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.38);
@@ -76,7 +76,7 @@
 
 .nav-link {
   text-decoration: none;
-  color: #ffffff;
+  color: var(--header-text);
   font-family: "Geist Sans", sans-serif;
   font-weight: 600;
   font-size: 15px;
@@ -125,7 +125,7 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(10px);
-  background-color: #1a2630;
+  background-color: var(--header-dropdown-bg);
   min-width: 180px;
   z-index: 1000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
@@ -150,7 +150,7 @@
 .dropdown-link {
   display: block;
   padding: 12px 20px;
-  color: #ffffff;
+  color: var(--header-dropdown-text);
   text-decoration: none;
   transition: all 0.2s ease;
   font-size: 14px;
@@ -183,7 +183,7 @@
 .register-btn {
   text-decoration: none;
   color: #ffffff;
-  background-color: #2DB062;
+  background-color: var(--accent-green-hover);
   padding: 6px 22px;
   border-radius: 5px;
   margin-right: -40px;
@@ -201,12 +201,44 @@
   box-shadow: 0 4px 12px rgba(45, 176, 98, 0.3);
 }
 
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--header-text);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  margin-right: 12px;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--accent-green-hover);
+  border-color: var(--accent-green-hover);
+  color: #ffffff;
+}
+
+.theme-toggle-mobile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
 /* Mobile Toggle - Hidden on desktop */
 .mobile-menu-toggle {
   display: none;
   background: none;
   border: none;
-  color: white;
+  color: var(--header-text);
   cursor: pointer;
   margin-left: 15px;
 }
@@ -312,8 +344,8 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(19, 27, 33, 0.97);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--header-mobile-bg);
+    border-top: 1px solid var(--header-mobile-border);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     max-height: calc(100vh - 60px);
     overflow-y: auto;
@@ -323,12 +355,12 @@
   .mobile-nav-link {
     display: block;
     padding: 16px 28px;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--header-mobile-text);
     text-decoration: none;
     font-family: "Geist Sans", sans-serif;
     font-size: 16px;
     font-weight: 600;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--header-mobile-border);
     transition: all 0.3s;
 
     /* LARGE TEXT (Mobile): UNBOUNDED */

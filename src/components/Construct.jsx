@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext.jsx";
 import {
   Menu,
   X,
@@ -18,6 +19,7 @@ import {
 
 const ConStruct = () => {
   const navigate = useNavigate();
+  const { colors, isDark } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
@@ -258,6 +260,384 @@ const ConStruct = () => {
   const handleLearnMore = () => {
     handleSmoothScroll("services");
   };
+
+  // Responsive Styles object (inside component to access theme colors)
+  const styles = {
+    container: {
+      minHeight: "100vh",
+      fontFamily: "'Montserrat', sans-serif",
+      lineHeight: "1.6",
+      color: colors.textPrimary,
+      margin: 0,
+      padding: 0,
+    },
+    container2: {
+      maxWidth: "1200px",
+      margin: "0 auto",
+      padding: "0 20px",
+    },
+
+    // Hero Section - Green Background
+    heroSection: {
+      minHeight: "100vh",
+      background:
+        "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)",
+      position: "relative",
+      overflow: "hidden",
+      textAlign: "center",
+      "@media (max-width: 768px)": {
+        padding: "120px 15px 60px",
+        minHeight: "90vh",
+      },
+      "@media (max-width: 480px)": {
+        padding: "100px 12px 40px",
+        minHeight: "85vh",
+      },
+    },
+
+    heroContent: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      width: "100%",
+      position: "relative",
+      zIndex: 2,
+      maxWidth: "800px",
+      margin: "0 auto",
+      "@media (max-width: 768px)": {
+        maxWidth: "100%",
+      },
+    },
+
+    companyTitle: {
+      fontSize: "clamp(2.5rem, 8vw, 4rem)",
+      fontWeight: "700",
+      marginBottom: "1rem",
+      textShadow: "0 4px 8px rgba(0,0,0,0.3)",
+      color: "#ffffff",
+    },
+
+    heroSubtitle: {
+      fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
+      fontWeight: "600",
+      marginBottom: "1rem",
+      margin: "0 0 1rem 0",
+      opacity: "0.9",
+      color: "#ffffff",
+      lineHeight: "1.3",
+      "@media (max-width: 480px)": {
+        fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
+        marginBottom: "1.2rem",
+      },
+    },
+
+    heroDescription: {
+      fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
+      color: "#cccccc",
+      lineHeight: "1.6",
+      marginTop: "0 !important",
+      marginBottom: "0 !important",
+      paddingBottom: "0 !important",
+      opacity: "0.95",
+      "@media (max-width: 768px)": {
+        marginBottom: "2rem",
+      },
+      "@media (max-width: 480px)": {
+        fontSize: "clamp(0.85rem, 4vw, 1rem)",
+        lineHeight: "1.6",
+        marginBottom: "1.5rem",
+      },
+    },
+
+    heroForegroundContent: {
+      backgroundColor: "rgba(0, 0, 0, 0.3)",
+      padding: "clamp(1rem, 2vw, 1.5rem)",
+      borderRadius: "15px",
+      backdropFilter: "blur(6px)",
+      border: "1px solid rgba(255, 255, 255, 0.1)",
+      maxWidth: "1000px",
+      width: "100%",
+      textAlign: "center",
+      marginBottom: "10rem",
+      marginTop: "-100px",
+      "@media (max-width: 768px)": {
+        padding: "1.5rem 1rem",
+        gap: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "1.2rem 0.8rem",
+        gap: "0.8rem",
+      },
+    },
+
+    heroTopImage: {
+      width: "clamp(250px, 40vw, 500px)",
+      height: "auto",
+      opacity: 0.9,
+      pointerEvents: "none",
+      marginTop: "-80px",
+    },
+
+    heroButtons: {
+      display: "flex",
+      gap: "1rem",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      marginTop: "2rem",
+      margin: "0 !important",
+      padding: "0 !important",
+      position: "relative",
+      zIndex: "1",
+      "@media (max-width: 768px)": {
+        gap: "0.8rem",
+        marginTop: "1.5rem",
+      },
+      "@media (max-width: 480px)": {
+        flexDirection: "column",
+        gap: "0.8rem",
+        alignItems: "center",
+      },
+    },
+
+    ctaButtonPrimary: {
+      background: colors.accentGreen,
+      color: "#ffffff",
+      border: "none",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "0.9rem 1.8rem",
+        fontSize: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0.8rem 1.5rem",
+        fontSize: "0.9rem",
+        width: "200px",
+      },
+    },
+
+    ctaButtonSecondary: {
+      background: "transparent",
+      color: "#ffffff",
+      border: "2px solid #ffffff",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "0.9rem 1.8rem",
+        fontSize: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0.8rem 1.5rem",
+        fontSize: "0.9rem",
+        width: "200px",
+      },
+    },
+
+    ctaButtonRed: {
+      background: colors.accentRed,
+      color: "#ffffff",
+      border: "none",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "0.9rem 1.8rem",
+        fontSize: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0.8rem 1.5rem",
+        fontSize: "0.9rem",
+        width: "200px",
+      },
+    },
+
+    leadershipSection: {
+      padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
+      backgroundColor: colors.bgSurface,
+      textAlign: "center",
+    },
+    sectionTitle: {
+      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      color: colors.textPrimary,
+      marginBottom: "2rem",
+      textAlign: "center",
+    },
+    leadershipText: {
+      fontSize: "clamp(1rem, 3vw, 1.2rem)",
+      color: colors.textMuted,
+      lineHeight: "1.8",
+      maxWidth: "800px",
+      margin: "0 auto",
+    },
+    strongText: {
+      color: colors.accentGreen,
+      fontWeight: "700",
+    },
+    servicesSection: {
+      padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
+      background: isDark
+        ? "linear-gradient(135deg, #1a1a1a 0%, #000000 100%)"
+        : "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+    },
+    servicesGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+      gap: "2rem",
+      marginTop: "3rem",
+    },
+    serviceCard: {
+      backgroundColor: colors.bgCard,
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      transition: "all 0.3s ease",
+      border: "2px solid transparent",
+    },
+    serviceTitle: {
+      fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
+      fontWeight: "700",
+      color: colors.textPrimary,
+      marginBottom: "1rem",
+    },
+    serviceDescription: {
+      fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
+      color: colors.textMuted,
+      lineHeight: "1.6",
+      marginBottom: "1.5rem",
+    },
+    serviceList: {
+      listStyle: "none",
+      padding: 0,
+      margin: 0,
+    },
+    serviceListItem: {
+      fontSize: "0.95rem",
+      color: colors.textMuted,
+      lineHeight: "1.6",
+      marginBottom: "8px",
+      paddingLeft: "0",
+    },
+    whyChooseSection: {
+      padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
+      backgroundColor: colors.bgSurface,
+    },
+    benefitsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+      gap: "2rem",
+      marginTop: "3rem",
+    },
+    benefitCard: {
+      backgroundColor: colors.bgCard,
+      padding: "2rem",
+      borderRadius: "15px",
+      textAlign: "center",
+      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      transition: "all 0.3s ease",
+      border: "2px solid transparent",
+    },
+    benefitTitle: {
+      fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
+      fontWeight: "700",
+      color: colors.textPrimary,
+      marginBottom: "1rem",
+    },
+    benefitDescription: {
+      fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
+      color: colors.textMuted,
+      lineHeight: "1.6",
+    },
+    clientsSection: {
+      padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
+      background: isDark
+        ? "linear-gradient(135deg, #000000 0%, #1a1a1a 100%)"
+        : "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+    },
+    clientsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+      gap: "2rem",
+      marginTop: "3rem",
+    },
+    clientCard: {
+      backgroundColor: colors.cardBg,
+      padding: "2.5rem 2rem",
+      borderRadius: "15px",
+      textAlign: "center",
+      border: `1px solid ${colors.cardBorder}`,
+      backdropFilter: "blur(10px)",
+      transition: "all 0.3s ease",
+    },
+    clientIcon: {
+      fontSize: "clamp(2rem, 5vw, 3rem)",
+      marginBottom: "1.5rem",
+    },
+    clientTitle: {
+      fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
+      fontWeight: "700",
+      color: colors.textPrimary,
+      marginBottom: "1rem",
+    },
+    clientDescription: {
+      fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
+      color: colors.textMuted,
+      lineHeight: "1.6",
+    },
+    ctaSection: {
+      padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
+      backgroundColor: colors.bgSurface,
+      textAlign: "center",
+    },
+    ctaTitle: {
+      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      color: colors.textPrimary,
+      marginBottom: "1.5rem",
+    },
+    ctaDescription: {
+      fontSize: "clamp(1rem, 3vw, 1.2rem)",
+      color: colors.textMuted,
+      lineHeight: "1.6",
+      marginBottom: "2.5rem",
+      maxWidth: "600px",
+      margin: "0 auto 2.5rem",
+    },
+    ctaButton: {
+      backgroundColor: colors.accentGreen,
+      color: "#ffffff",
+      border: "none",
+      padding: "clamp(12px, 3vw, 15px) clamp(30px, 6vw, 40px)",
+      fontSize: "clamp(1rem, 2.5vw, 1.1rem)",
+      fontWeight: "600",
+      borderRadius: "50px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      boxShadow: "0 4px 15px rgba(14, 219, 97, 0.2)",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
+    },
+  };
+
   return (
     <div style={styles.container}>
       {/* Add CSS styles with animations */}
@@ -284,7 +664,7 @@ const ConStruct = () => {
           }
           
           .header.scrolled {
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: var(--header-scrolled-bg);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -322,7 +702,7 @@ const ConStruct = () => {
           
           .nav-link {
             text-decoration: none;
-            color: rgb(255, 255, 255);
+            color: var(--header-text);
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -348,7 +728,7 @@ const ConStruct = () => {
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: white;
+            background-color: var(--header-dropdown-bg);
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
@@ -360,7 +740,7 @@ const ConStruct = () => {
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: #333;
+            color: var(--header-dropdown-text);
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -379,15 +759,15 @@ const ConStruct = () => {
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: white;
+            color: var(--header-text);
             display: none;
             padding: 5px;
           }
           
           .mobile-nav {
-            background-color: rgba(255, 255, 255, 0.98);
+            background-color: var(--header-mobile-bg);
             backdrop-filter: blur(10px);
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid var(--header-mobile-border, #e5e7eb);
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
@@ -397,8 +777,8 @@ const ConStruct = () => {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: #333;
-            border-bottom: 1px solid #f3f4f6;
+            color: var(--header-mobile-text);
+            border-bottom: 1px solid var(--header-mobile-border, #f3f4f6);
             font-size: 16px;
             transition: background-color 0.3s ease;
           }
@@ -418,8 +798,8 @@ const ConStruct = () => {
             width: 100%;
             padding: 15px 20px;
             text-decoration: none;
-            color: #333;
-            border-bottom: 1px solid #f3f4f6;
+            color: var(--header-mobile-text);
+            border-bottom: 1px solid var(--header-mobile-border, #f3f4f6);
             background: none;
             border: none;
             text-align: left;
@@ -428,7 +808,7 @@ const ConStruct = () => {
           }
           
           .mobile-dropdown-content {
-            background-color: rgba(248, 249, 250, 0.9);
+            background-color: var(--bg-surface);
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
@@ -437,10 +817,10 @@ const ConStruct = () => {
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: #555;
+            color: var(--header-mobile-text);
             text-decoration: none;
             font-size: 14px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--header-mobile-border, rgba(0,0,0,0.05));
           }
           
           .rotate-180 {
@@ -874,7 +1254,7 @@ const ConStruct = () => {
           {/* Logo */}
           <a href="/" className="logo">
             <img
-              src="/assets/logo/8con Academy Logo White.png"
+              src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
               alt="8Con Academy Logo"
               className="logo-img"
             />
@@ -1122,7 +1502,7 @@ const ConStruct = () => {
         }`}
       >
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: "#ffffff" }}>
+          <h2 style={{ ...styles.sectionTitle, color: colors.textPrimary }}>
             Our Services
           </h2>
           <div style={styles.servicesGrid}>
@@ -1297,7 +1677,7 @@ const ConStruct = () => {
         }`}
       >
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: "#ffffff" }}>
+          <h2 style={{ ...styles.sectionTitle, color: colors.textPrimary }}>
             Who We Serve
           </h2>
           <div style={styles.clientsGrid}>
@@ -1373,389 +1753,6 @@ const ConStruct = () => {
       </section>
     </div>
   );
-};
-
-// Responsive Styles object
-const styles = {
-  container: {
-    minHeight: "100vh",
-    fontFamily: "'Montserrat', sans-serif",
-    lineHeight: "1.6",
-    color: "#000000",
-    margin: 0,
-    padding: 0,
-  },
-  container2: {
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "0 20px",
-  },
-
-  // Hero Section - Green Background
-  heroSection: {
-    minHeight: "100vh",
-    background:
-      "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)", // ✅ Reduce top/bottom padding
-    position: "relative",
-    overflow: "hidden",
-    textAlign: "center",
-    // Responsive adjustments
-    "@media (max-width: 768px)": {
-      padding: "120px 15px 60px",
-      minHeight: "90vh",
-    },
-    "@media (max-width: 480px)": {
-      padding: "100px 12px 40px",
-      minHeight: "85vh",
-    },
-  },
-
-  heroContent: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    position: "relative",
-    zIndex: 2,
-    maxWidth: "800px",
-    margin: "0 auto",
-    // Responsive width
-    "@media (max-width: 768px)": {
-      maxWidth: "100%",
-    },
-  },
-
-  companyTitle: {
-    fontSize: "clamp(2.5rem, 8vw, 4rem)",
-    fontWeight: "700",
-    marginBottom: "1rem",
-    textShadow: "0 4px 8px rgba(0,0,0,0.3)",
-    color: "#ffffff",
-  },
-
-  heroSubtitle: {
-    fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-    fontWeight: "600",
-    marginBottom: "1rem",
-    margin: "0 0 1rem 0",
-    opacity: "0.9",
-    color: "#ffffff",
-    lineHeight: "1.3",
-    "@media (max-width: 480px)": {
-      fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
-      marginBottom: "1.2rem",
-    },
-  },
-
-  heroDescription: {
-    fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
-    color: "#cccccc",
-    lineHeight: "1.6",
-    marginTop: "0 !important",
-    marginBottom: "0 !important", // Let CSS class handle it
-    paddingBottom: "0 !important",
-    opacity: "0.95",
-
-    // Mobile responsiveness
-    "@media (max-width: 768px)": {
-      marginBottom: "2rem",
-    },
-    "@media (max-width: 480px)": {
-      fontSize: "clamp(0.85rem, 4vw, 1rem)",
-      lineHeight: "1.6",
-      marginBottom: "1.5rem",
-    },
-  },
-
-  heroForegroundContent: {
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-    padding: "clamp(1rem, 2vw, 1.5rem)",
-    borderRadius: "15px",
-    backdropFilter: "blur(6px)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    maxWidth: "1000px",
-    width: "100%",
-
-    textAlign: "center",
-
-    marginBottom: "10rem",
-    marginTop: "-100px",
-    "@media (max-width: 768px)": {
-      padding: "1.5rem 1rem",
-      gap: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "1.2rem 0.8rem",
-      gap: "0.8rem",
-    },
-  },
-
-  heroTopImage: {
-    width: "clamp(250px, 40vw, 500px)",
-    height: "auto",
-    opacity: 0.9,
-    pointerEvents: "none",
-    marginTop: "-80px",
-  },
-
-  heroButtons: {
-    display: "flex",
-    gap: "1rem",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    marginTop: "2rem",
-    margin: "0 !important", // Force reset
-    padding: "0 !important",
-    position: "relative",
-    zIndex: "1",
-    // Mobile adjustments
-    "@media (max-width: 768px)": {
-      gap: "0.8rem",
-      marginTop: "1.5rem",
-    },
-    "@media (max-width: 480px)": {
-      flexDirection: "column",
-      gap: "0.8rem",
-      alignItems: "center",
-    },
-  },
-
-  ctaButtonPrimary: {
-    background: "#0edb61",
-    color: "#ffffff",
-    border: "none",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-    // Responsive button sizing
-    "@media (max-width: 768px)": {
-      padding: "0.9rem 1.8rem",
-      fontSize: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "0.8rem 1.5rem",
-      fontSize: "0.9rem",
-      width: "200px",
-    },
-  },
-
-  ctaButtonSecondary: {
-    background: "transparent",
-    color: "#ffffff",
-    border: "2px solid #ffffff",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-    // Responsive sizing
-    "@media (max-width: 768px)": {
-      padding: "0.9rem 1.8rem",
-      fontSize: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "0.8rem 1.5rem",
-      fontSize: "0.9rem",
-      width: "200px",
-    },
-  },
-
-  ctaButtonRed: {
-    background: "#ff1f2c",
-    color: "#ffffff",
-    border: "none",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-    // Responsive sizing
-    "@media (max-width: 768px)": {
-      padding: "0.9rem 1.8rem",
-      fontSize: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "0.8rem 1.5rem",
-      fontSize: "0.9rem",
-      width: "200px",
-    },
-  },
-
-  leadershipSection: {
-    padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-    backgroundColor: "#f8f9fa",
-    textAlign: "center",
-  },
-  sectionTitle: {
-    fontSize: "clamp(2rem, 5vw, 2.5rem)",
-    fontWeight: "700",
-    color: "#333333",
-    marginBottom: "2rem",
-    textAlign: "center",
-  },
-  leadershipText: {
-    fontSize: "clamp(1rem, 3vw, 1.2rem)",
-    color: "#666666",
-    lineHeight: "1.8",
-    maxWidth: "800px",
-    margin: "0 auto",
-  },
-  strongText: {
-    color: "#0edb61",
-    fontWeight: "700",
-  },
-  servicesSection: {
-    padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-    background: "linear-gradient(135deg, #1a1a1a 0%, #000000 100%)",
-  },
-  servicesGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-    gap: "2rem",
-    marginTop: "3rem",
-  },
-  serviceCard: {
-    backgroundColor: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-    transition: "all 0.3s ease",
-    border: "2px solid transparent",
-  },
-  serviceTitle: {
-    fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
-    fontWeight: "700",
-    color: "#333333",
-    marginBottom: "1rem",
-  },
-  serviceDescription: {
-    fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-    color: "#666666",
-    lineHeight: "1.6",
-    marginBottom: "1.5rem",
-  },
-  serviceList: {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-  },
-  serviceListItem: {
-    fontSize: "0.95rem",
-    color: "#555555",
-    lineHeight: "1.6",
-    marginBottom: "8px",
-    paddingLeft: "0",
-  },
-  whyChooseSection: {
-    padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-    backgroundColor: "#f8f9fa",
-  },
-  benefitsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "2rem",
-    marginTop: "3rem",
-  },
-  benefitCard: {
-    backgroundColor: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    textAlign: "center",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-    transition: "all 0.3s ease",
-    border: "2px solid transparent",
-  },
-  benefitTitle: {
-    fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
-    fontWeight: "700",
-    color: "#333333",
-    marginBottom: "1rem",
-  },
-  benefitDescription: {
-    fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-    color: "#666666",
-    lineHeight: "1.6",
-  },
-  clientsSection: {
-    padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-    background: "linear-gradient(135deg, #000000 0%, #1a1a1a 100%)",
-  },
-  clientsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "2rem",
-    marginTop: "3rem",
-  },
-  clientCard: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    padding: "2.5rem 2rem",
-    borderRadius: "15px",
-    textAlign: "center",
-    border: "1px solid rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)",
-    transition: "all 0.3s ease",
-  },
-  clientIcon: {
-    fontSize: "clamp(2rem, 5vw, 3rem)",
-    marginBottom: "1.5rem",
-  },
-  clientTitle: {
-    fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
-    fontWeight: "700",
-    color: "#ffffff",
-    marginBottom: "1rem",
-  },
-  clientDescription: {
-    fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-    color: "#cccccc",
-    lineHeight: "1.6",
-  },
-  ctaSection: {
-    padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-    backgroundColor: "#f8f9fa",
-    textAlign: "center",
-  },
-  ctaTitle: {
-    fontSize: "clamp(2rem, 5vw, 2.5rem)",
-    fontWeight: "700",
-    color: "#333333",
-    marginBottom: "1.5rem",
-  },
-  ctaDescription: {
-    fontSize: "clamp(1rem, 3vw, 1.2rem)",
-    color: "#666666",
-    lineHeight: "1.6",
-    marginBottom: "2.5rem",
-    maxWidth: "600px",
-    margin: "0 auto 2.5rem",
-  },
-  ctaButton: {
-    backgroundColor: "#0edb61",
-    color: "#ffffff",
-    border: "none",
-    padding: "clamp(12px, 3vw, 15px) clamp(30px, 6vw, 40px)",
-    fontSize: "clamp(1rem, 2.5vw, 1.1rem)",
-    fontWeight: "600",
-    borderRadius: "50px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    boxShadow: "0 4px 15px rgba(14, 219, 97, 0.2)",
-    textTransform: "uppercase",
-    letterSpacing: "1px",
-  },
 };
 
 export default ConStruct;

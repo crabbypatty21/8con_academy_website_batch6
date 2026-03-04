@@ -1,10 +1,12 @@
-import { Menu, RefreshCw, X } from "lucide-react";
+import { Menu, RefreshCw, X, Sun, Moon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTheme } from "../context/ThemeContext.jsx";
 import "../App.css";
 import Footer from "./Footer";
 import ScrollLink from "./ScrollLink";
 
 const Registration = () => {
+  const { isDark, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   
@@ -440,7 +442,7 @@ const Registration = () => {
             left: 0;
             width: 100%;
             z-index: 999;
-            background: black;
+            background: var(--bg-primary);
             padding: 10px 0;
             font-family: "Montserrat", sans-serif;
             font-size: 14px;
@@ -483,7 +485,7 @@ const Registration = () => {
 
           .nav-link {
             text-decoration: none;
-            color: rgb(255, 255, 255);
+            color: var(--header-text);
             padding: 0px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -518,7 +520,7 @@ const Registration = () => {
             top: 60px;
             left: 0;
             right: 0;
-            background-color: white;
+            background-color: var(--header-mobile-bg);
             z-index: 999;
             border-top: 1px solid #e5e7eb;
           }
@@ -529,8 +531,8 @@ const Registration = () => {
             justify-content: space-between;
             padding: 12px 8px;
             text-decoration: none;
-            color: #121411;
-            border-bottom: 1px solid #f3f4f6;
+            color: var(--header-mobile-text);
+            border-bottom: 1px solid var(--header-mobile-border);
             background: none;
             border: none;
             width: 100%;
@@ -548,7 +550,7 @@ const Registration = () => {
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: white;
+            color: var(--header-text);
           }
 
           .registration-section {
@@ -1147,16 +1149,16 @@ const Registration = () => {
             }
 
             .header.scrolled {
-              background: #000000;
+              background: var(--header-scrolled-bg);
               box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             }
-            
+
             .mobile-nav {
               position: absolute;
               top: 100%;
               left: 0;
               right: 0;
-              background: #000000;
+              background: var(--header-mobile-bg);
               z-index: 998;
               border-top: 1px solid rgba(255, 255, 255, 0.1);
               border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1183,8 +1185,8 @@ const Registration = () => {
               justify-content: space-between;
               padding: 16px 24px;
               text-decoration: none;
-              color: rgba(255, 255, 255, 0.9);
-              border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+              color: var(--header-mobile-text);
+              border-bottom: 1px solid var(--header-mobile-border);
               background: transparent;
               border: none;
               width: 100%;
@@ -1201,10 +1203,10 @@ const Registration = () => {
             }
             
             .mobile-nav-link:hover {
-              background: rgba(255, 255, 255, 0.1);
-              color: #0edb61;
+              background: var(--card-bg-light);
+              color: var(--accent-green);
               padding-left: 32px;
-              border-left: 3px solid #0edb61;
+              border-left: 3px solid var(--accent-green);
             }
           }
         `}</style>

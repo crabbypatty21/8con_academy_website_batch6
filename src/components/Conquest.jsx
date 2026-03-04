@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext.jsx";
 import {
   Menu,
   X,
@@ -263,6 +264,430 @@ const ConQuest = () => {
     }, 300);
   }, []);
 
+  const { colors, isDark } = useTheme();
+
+  const styles = {
+    container: {
+      minHeight: "100vh",
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      lineHeight: "1.6",
+      color: colors.textPrimary,
+      margin: 0,
+      padding: 0,
+    },
+
+    container2: {
+      maxWidth: "1200px",
+      margin: "0 auto",
+      padding: "0 20px",
+    },
+
+    // Hero Section - Green Background
+    heroSection: {
+      minHeight: "100vh",
+      background:
+        "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)",
+      position: "relative",
+      overflow: "hidden",
+      textAlign: "center",
+      "@media (max-width: 768px)": {
+        padding: "120px 15px 60px",
+        minHeight: "90vh",
+      },
+      "@media (max-width: 480px)": {
+        padding: "100px 12px 40px",
+        minHeight: "85vh",
+      },
+    },
+
+    heroContent: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      width: "100%",
+      position: "relative",
+      zIndex: 2,
+      maxWidth: "800px",
+      margin: "0 auto",
+      "@media (max-width: 768px)": {
+        maxWidth: "100%",
+      },
+    },
+
+    heroSubtitle: {
+      fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
+      fontWeight: "600",
+      marginBottom: "1rem",
+      margin: "0 0 1rem 0",
+      opacity: "0.9",
+      color: "#ffffff",
+      lineHeight: "1.3",
+      "@media (max-width: 480px)": {
+        fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
+        marginBottom: "1.2rem",
+      },
+    },
+
+    heroDescription: {
+      fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
+      color: "#cccccc",
+      lineHeight: "1.6",
+      marginTop: "0 !important",
+      marginBottom: "0 !important",
+      paddingBottom: "0 !important",
+      opacity: "0.95",
+      "@media (max-width: 768px)": {
+        marginBottom: "2rem",
+      },
+      "@media (max-width: 480px)": {
+        fontSize: "clamp(0.85rem, 4vw, 1rem)",
+        lineHeight: "1.6",
+        marginBottom: "1.5rem",
+      },
+    },
+
+    heroForegroundContent: {
+      backgroundColor: "rgba(0, 0, 0, 0.3)",
+      padding: "clamp(1rem, 2vw, 1.5rem)",
+      borderRadius: "15px",
+      backdropFilter: "blur(6px)",
+      border: "1px solid rgba(255, 255, 255, 0.1)",
+      maxWidth: "1000px",
+      width: "100%",
+      textAlign: "center",
+      marginBottom: "10rem",
+      marginTop: "-100px",
+      "@media (max-width: 768px)": {
+        padding: "1.5rem 1rem",
+        gap: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "1.2rem 0.8rem",
+        gap: "0.8rem",
+      },
+    },
+
+    heroTopImage: {
+      width: "clamp(250px, 40vw, 500px)",
+      height: "auto",
+      opacity: 0.9,
+      pointerEvents: "none",
+      marginTop: "-80px",
+    },
+
+    heroButtons: {
+      display: "flex",
+      gap: "1rem",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      marginTop: "2rem",
+      margin: "0 !important",
+      padding: "0 !important",
+      position: "relative",
+      zIndex: "1",
+      "@media (max-width: 768px)": {
+        gap: "0.8rem",
+        marginTop: "1.5rem",
+      },
+      "@media (max-width: 480px)": {
+        flexDirection: "column",
+        gap: "0.8rem",
+        alignItems: "center",
+      },
+    },
+
+    ctaButtonPrimary: {
+      background: "#0edb61",
+      color: "#ffffff",
+      border: "none",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "0.9rem 1.8rem",
+        fontSize: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0.8rem 1.5rem",
+        fontSize: "0.9rem",
+        width: "200px",
+      },
+    },
+
+    ctaButtonSecondary: {
+      background: "transparent",
+      color: "#ffffff",
+      border: "2px solid #ffffff",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "0.9rem 1.8rem",
+        fontSize: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0.8rem 1.5rem",
+        fontSize: "0.9rem",
+        width: "200px",
+      },
+    },
+
+    ctaButtonRed: {
+      background: "#ff1f2c",
+      color: "#ffffff",
+      border: "none",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "0.9rem 1.8rem",
+        fontSize: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0.8rem 1.5rem",
+        fontSize: "0.9rem",
+        width: "200px",
+      },
+    },
+
+    // Key Focus Areas Section - White Background
+    focusAreasSection: {
+      background: colors.bgSurface,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+
+    sectionTitle: {
+      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      color: "#0edb61",
+      textAlign: "center",
+      marginBottom: "3rem",
+    },
+
+    focusAreasGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+      gap: "2rem",
+      marginTop: "2rem",
+    },
+
+    focusAreaCard: {
+      background: colors.bgSurface,
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      border: "2px solid #0edb61",
+      transition: "all 0.3s ease",
+      textAlign: "center",
+    },
+
+    focusAreaIcon: {
+      marginBottom: "1rem",
+      display: "flex",
+      justifyContent: "center",
+    },
+
+    focusAreaTitle: {
+      fontSize: "1.3rem",
+      fontWeight: "700",
+      color: "#0edb61",
+      marginBottom: "1rem",
+    },
+
+    focusAreaDescription: {
+      fontSize: "1rem",
+      color: colors.textPrimary,
+      marginBottom: "1.5rem",
+      lineHeight: "1.6",
+    },
+
+    focusAreaFeatures: {
+      textAlign: "left",
+      marginTop: "1rem",
+    },
+
+    featuresTitle: {
+      fontSize: "1.1rem",
+      fontWeight: "700",
+      color: "#ff1f2c",
+      marginBottom: "0.8rem",
+    },
+
+    focusAreaList: {
+      listStyle: "none",
+      padding: 0,
+      margin: 0,
+    },
+
+    focusAreaListItem: {
+      fontSize: "0.95rem",
+      color: colors.textPrimary,
+      marginBottom: "0.6rem",
+      lineHeight: "1.5",
+    },
+
+    // What Sets Apart Section - Black Background
+    whatSetsApartSection: {
+      background: colors.bgSecondary,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    whatSetsApartGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+      gap: "2rem",
+      marginTop: "2rem",
+    },
+
+    whatSetsApartCard: {
+      background: colors.bgSurface,
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      textAlign: "center",
+      border: "2px solid #f0f0f0",
+      transition: "all 0.3s ease",
+      cursor: "pointer",
+    },
+
+    whatSetsApartIcon: {
+      marginBottom: "1rem",
+      display: "flex",
+      justifyContent: "center",
+    },
+
+    whatSetsApartTitle: {
+      fontSize: "1.4rem",
+      fontWeight: "700",
+      color: colors.textPrimary,
+      marginBottom: "1rem",
+    },
+
+    whatSetsApartDescription: {
+      fontSize: "1rem",
+      color: colors.textPrimary,
+      lineHeight: "1.7",
+    },
+
+    // Who Benefits Section - White Background
+    whoBenefitsSection: {
+      background: colors.bgSurface,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    whoBenefitsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+      gap: "2rem",
+      marginTop: "2rem",
+    },
+
+    whoBenefitsCard: {
+      background: colors.bgSurface,
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      textAlign: "center",
+      border: "2px solid #0edb61",
+      transition: "all 0.3s ease",
+      cursor: "pointer",
+    },
+
+    whoBenefitsIcon: {
+      marginBottom: "1rem",
+      display: "flex",
+      justifyContent: "center",
+    },
+
+    whoBenefitsTitle: {
+      fontSize: "1.4rem",
+      fontWeight: "700",
+      color: "#0edb61",
+      marginBottom: "1rem",
+    },
+
+    whoBenefitsDescription: {
+      fontSize: "1rem",
+      color: colors.textPrimary,
+      lineHeight: "1.7",
+    },
+
+    // CTA Section - Black Background
+    ctaSection: {
+      background: colors.bgSecondary,
+      color: colors.textPrimary,
+      padding: "80px 20px",
+      textAlign: "center",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    ctaTitle: {
+      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      marginBottom: "2rem",
+      color: "#ffffff",
+    },
+
+    ctaDescription: {
+      fontSize: "clamp(1rem, 3vw, 1.2rem)",
+      lineHeight: "1.8",
+      maxWidth: "800px",
+      margin: "0 auto 2rem",
+      opacity: "0.95",
+      color: "#ffffff",
+    },
+
+    ctaButtons: {
+      display: "flex",
+      gap: "1rem",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      marginBottom: "2rem",
+    },
+
+    ctaHighlight: {
+      background: "rgba(14, 219, 97, 0.1)",
+      padding: "1.5rem",
+      borderRadius: "10px",
+      fontSize: "clamp(1.1rem, 3vw, 1.3rem)",
+      maxWidth: "700px",
+      margin: "0 auto",
+      border: "2px solid #0edb61",
+      color: "#ffffff",
+      transition: "all 0.3s ease",
+      cursor: "pointer",
+    },
+  };
+
   return (
     <div style={styles.container}>
       {/* CSS Styles */}
@@ -272,7 +697,7 @@ const ConQuest = () => {
             scroll-behavior: smooth;
             scroll-padding-top: 2px;
           }
-          
+
           /* Header Styles */
           .header {
             background-color: transparent;
@@ -288,9 +713,9 @@ const ConQuest = () => {
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
-          
+
           .header.scrolled {
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: var(--header-scrolled-bg);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -328,7 +753,7 @@ const ConQuest = () => {
           
           .nav-link {
             text-decoration: none;
-            color: rgb(255, 255, 255);
+            color: var(--header-text);
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -336,25 +761,25 @@ const ConQuest = () => {
             display: inline-block;
             cursor: pointer;
           }
-          
+
           .nav-link:hover {
             transform: translateY(-2px);
           }
-          
+
           .dropdown {
             position: relative;
           }
-          
+
           .dropdown:hover .dropdown-content {
             display: block;
           }
-          
+
           .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: white;
+            background-color: var(--header-dropdown-bg);
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
@@ -362,11 +787,11 @@ const ConQuest = () => {
             border-radius: 8px;
             border: 1px solid #e0e0e0;
           }
-          
+
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: #333;
+            color: var(--header-dropdown-text);
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -374,49 +799,49 @@ const ConQuest = () => {
             font-weight: 600;
             text-transform: uppercase;
           }
-          
+
           .dropdown-link:hover {
             background-color: #f0f0f0;
             color: #0edb61;
           }
-          
+
           .mobile-menu-toggle {
             background: none;
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: white;
+            color: var(--header-text);
             display: none;
             padding: 5px;
           }
-          
+
           .mobile-nav {
-            background-color: rgba(255, 255, 255, 0.98);
+            background-color: var(--header-mobile-bg);
             backdrop-filter: blur(10px);
             border-top: 1px solid #e5e7eb;
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
           }
-          
+
           .mobile-nav-link {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: #333;
+            color: var(--header-mobile-text);
             border-bottom: 1px solid #f3f4f6;
             font-size: 16px;
             transition: background-color 0.3s ease;
           }
-          
+
           .mobile-nav-link:hover {
             background-color: rgba(14, 219, 97, 0.1);
           }
-          
+
           .mobile-dropdown {
             position: relative;
           }
-          
+
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
@@ -424,7 +849,7 @@ const ConQuest = () => {
             width: 100%;
             padding: 15px 20px;
             text-decoration: none;
-            color: #333;
+            color: var(--header-mobile-text);
             border-bottom: 1px solid #f3f4f6;
             background: none;
             border: none;
@@ -832,7 +1257,7 @@ const ConQuest = () => {
           {/* Logo */}
           <a href="/" className="logo">
             <img
-              src="/assets/logo/8con Academy Logo White.png"
+              src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
               alt="8Con Academy Logo"
               className="logo-img"
             />
@@ -1564,439 +1989,6 @@ const ConQuest = () => {
       </section>
     </div>
   );
-};
-
-// Styling with alternating background colors and specified color palette
-const styles = {
-  container: {
-    minHeight: "100vh",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    lineHeight: "1.6",
-    color: "#000000",
-    margin: 0,
-    padding: 0,
-  },
-
-  container2: {
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "0 20px",
-  },
-
-  // Hero Section - Green Background
-  heroSection: {
-    minHeight: "100vh",
-    background:
-      "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)", // ✅ Reduce top/bottom padding
-    position: "relative",
-    overflow: "hidden",
-    textAlign: "center",
-    // Responsive adjustments
-    "@media (max-width: 768px)": {
-      padding: "120px 15px 60px",
-      minHeight: "90vh",
-    },
-    "@media (max-width: 480px)": {
-      padding: "100px 12px 40px",
-      minHeight: "85vh",
-    },
-  },
-
-  heroContent: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    position: "relative",
-    zIndex: 2,
-    maxWidth: "800px",
-    margin: "0 auto",
-    // Responsive width
-    "@media (max-width: 768px)": {
-      maxWidth: "100%",
-    },
-  },
-
-  heroSubtitle: {
-    fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-    fontWeight: "600",
-    marginBottom: "1rem",
-    margin: "0 0 1rem 0",
-    opacity: "0.9",
-    color: "#ffffff",
-    lineHeight: "1.3",
-    "@media (max-width: 480px)": {
-      fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
-      marginBottom: "1.2rem",
-    },
-  },
-
-  heroDescription: {
-    fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
-    color: "#cccccc",
-    lineHeight: "1.6",
-    marginTop: "0 !important",
-    marginBottom: "0 !important", // Let CSS class handle it
-    paddingBottom: "0 !important",
-    opacity: "0.95",
-
-    // Mobile responsiveness
-    "@media (max-width: 768px)": {
-      marginBottom: "2rem",
-    },
-    "@media (max-width: 480px)": {
-      fontSize: "clamp(0.85rem, 4vw, 1rem)",
-      lineHeight: "1.6",
-      marginBottom: "1.5rem",
-    },
-  },
-
-  heroForegroundContent: {
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-    padding: "clamp(1rem, 2vw, 1.5rem)",
-    borderRadius: "15px",
-    backdropFilter: "blur(6px)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    maxWidth: "1000px",
-    width: "100%",
-
-    textAlign: "center",
-
-    marginBottom: "10rem",
-    marginTop: "-100px",
-    "@media (max-width: 768px)": {
-      padding: "1.5rem 1rem",
-      gap: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "1.2rem 0.8rem",
-      gap: "0.8rem",
-    },
-  },
-
-  heroTopImage: {
-    width: "clamp(250px, 40vw, 500px)",
-    height: "auto",
-    opacity: 0.9,
-    pointerEvents: "none",
-    marginTop: "-80px",
-  },
-
-  heroButtons: {
-    display: "flex",
-    gap: "1rem",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    marginTop: "2rem",
-    margin: "0 !important", // Force reset
-    padding: "0 !important",
-    position: "relative",
-    zIndex: "1",
-    // Mobile adjustments
-    "@media (max-width: 768px)": {
-      gap: "0.8rem",
-      marginTop: "1.5rem",
-    },
-    "@media (max-width: 480px)": {
-      flexDirection: "column",
-      gap: "0.8rem",
-      alignItems: "center",
-    },
-  },
-
-  ctaButtonPrimary: {
-    background: "#0edb61",
-    color: "#ffffff",
-    border: "none",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-    // Responsive button sizing
-    "@media (max-width: 768px)": {
-      padding: "0.9rem 1.8rem",
-      fontSize: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "0.8rem 1.5rem",
-      fontSize: "0.9rem",
-      width: "200px",
-    },
-  },
-
-  ctaButtonSecondary: {
-    background: "transparent",
-    color: "#ffffff",
-    border: "2px solid #ffffff",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-    // Responsive sizing
-    "@media (max-width: 768px)": {
-      padding: "0.9rem 1.8rem",
-      fontSize: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "0.8rem 1.5rem",
-      fontSize: "0.9rem",
-      width: "200px",
-    },
-  },
-
-  ctaButtonRed: {
-    background: "#ff1f2c",
-    color: "#ffffff",
-    border: "none",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-    // Responsive sizing
-    "@media (max-width: 768px)": {
-      padding: "0.9rem 1.8rem",
-      fontSize: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "0.8rem 1.5rem",
-      fontSize: "0.9rem",
-      width: "200px",
-    },
-  },
-
-  // Key Focus Areas Section - White Background
-  focusAreasSection: {
-    background: "#ffffff",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-
-  sectionTitle: {
-    fontSize: "clamp(2rem, 5vw, 2.5rem)",
-    fontWeight: "700",
-    color: "#0edb61",
-    textAlign: "center",
-    marginBottom: "3rem",
-  },
-
-  focusAreasGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-    gap: "2rem",
-    marginTop: "2rem",
-  },
-
-  focusAreaCard: {
-    background: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-    border: "2px solid #0edb61",
-    transition: "all 0.3s ease",
-    textAlign: "center",
-  },
-
-  focusAreaIcon: {
-    marginBottom: "1rem",
-    display: "flex",
-    justifyContent: "center",
-  },
-
-  focusAreaTitle: {
-    fontSize: "1.3rem",
-    fontWeight: "700",
-    color: "#0edb61",
-    marginBottom: "1rem",
-  },
-
-  focusAreaDescription: {
-    fontSize: "1rem",
-    color: "#000000",
-    marginBottom: "1.5rem",
-    lineHeight: "1.6",
-  },
-
-  focusAreaFeatures: {
-    textAlign: "left",
-    marginTop: "1rem",
-  },
-
-  featuresTitle: {
-    fontSize: "1.1rem",
-    fontWeight: "700",
-    color: "#ff1f2c",
-    marginBottom: "0.8rem",
-  },
-
-  focusAreaList: {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-  },
-
-  focusAreaListItem: {
-    fontSize: "0.95rem",
-    color: "#000000",
-    marginBottom: "0.6rem",
-    lineHeight: "1.5",
-  },
-
-  // What Sets Apart Section - Black Background
-  whatSetsApartSection: {
-    background: "#000000",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  whatSetsApartGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "2rem",
-    marginTop: "2rem",
-  },
-
-  whatSetsApartCard: {
-    background: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-    textAlign: "center",
-    border: "2px solid #f0f0f0",
-    transition: "all 0.3s ease",
-    cursor: "pointer",
-  },
-
-  whatSetsApartIcon: {
-    marginBottom: "1rem",
-    display: "flex",
-    justifyContent: "center",
-  },
-
-  whatSetsApartTitle: {
-    fontSize: "1.4rem",
-    fontWeight: "700",
-    color: "#000000",
-    marginBottom: "1rem",
-  },
-
-  whatSetsApartDescription: {
-    fontSize: "1rem",
-    color: "#000000",
-    lineHeight: "1.7",
-  },
-
-  // Who Benefits Section - White Background
-  whoBenefitsSection: {
-    background: "#ffffff",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  whoBenefitsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "2rem",
-    marginTop: "2rem",
-  },
-
-  whoBenefitsCard: {
-    background: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-    textAlign: "center",
-    border: "2px solid #0edb61",
-    transition: "all 0.3s ease",
-    cursor: "pointer",
-  },
-
-  whoBenefitsIcon: {
-    marginBottom: "1rem",
-    display: "flex",
-    justifyContent: "center",
-  },
-
-  whoBenefitsTitle: {
-    fontSize: "1.4rem",
-    fontWeight: "700",
-    color: "#0edb61",
-    marginBottom: "1rem",
-  },
-
-  whoBenefitsDescription: {
-    fontSize: "1rem",
-    color: "#000000",
-    lineHeight: "1.7",
-  },
-
-  // CTA Section - Black Background
-  ctaSection: {
-    background: "#000000",
-    color: "#000000",
-    padding: "80px 20px",
-    textAlign: "center",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  ctaTitle: {
-    fontSize: "clamp(2rem, 5vw, 2.5rem)",
-    fontWeight: "700",
-    marginBottom: "2rem",
-    color: "#ffffff",
-  },
-
-  ctaDescription: {
-    fontSize: "clamp(1rem, 3vw, 1.2rem)",
-    lineHeight: "1.8",
-    maxWidth: "800px",
-    margin: "0 auto 2rem",
-    opacity: "0.95",
-    color: "#ffffff",
-  },
-
-  ctaButtons: {
-    display: "flex",
-    gap: "1rem",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    marginBottom: "2rem",
-  },
-
-  ctaHighlight: {
-    background: "rgba(14, 219, 97, 0.1)",
-    padding: "1.5rem",
-    borderRadius: "10px",
-    fontSize: "clamp(1.1rem, 3vw, 1.3rem)",
-    maxWidth: "700px",
-    margin: "0 auto",
-    border: "2px solid #0edb61",
-    color: "#ffffff",
-    transition: "all 0.3s ease",
-    cursor: "pointer",
-  },
 };
 
 export default ConQuest;

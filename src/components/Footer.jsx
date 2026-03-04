@@ -142,8 +142,8 @@ const Footer = () => {
         </div>
       </div>
       <style>{`.footer {
-  background-color: #000000;
-  color: white;
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
   padding: 32px 16px;
 }
 
@@ -172,7 +172,7 @@ const Footer = () => {
 }
 
 .footer-description {
-  color: #ffffff;
+  color: var(--footer-text);
   font-size: 14px;
 }
 
@@ -193,21 +193,19 @@ const Footer = () => {
 
 .quick-link,
 .program-link {
-  color: #ffffff;
+  color: var(--footer-text);
   display: flex;
   align-items: center;
   gap: 6px;
   text-decoration: none;
-  color: inherit;
 }
 
 .footer-social a {
-  color: #ffffff;
+  color: var(--footer-text);
   display: flex;
   align-items: center;
   gap: 6px;
   text-decoration: none;
-  color: inherit;
 }
 .fb-link:hover {
   color: #1877f2;
@@ -219,15 +217,15 @@ const Footer = () => {
   color: #0077b5;
 }
 .quick-link:hover {
-  color: #0edb61;
+  color: var(--accent-green);
 }
 .program-link:hover {
-  color: #ff1f2c;
+  color: var(--accent-red);
 }
 
 .footer-contact-info {
   font-size: 14px;
-  color: #ffffff;
+  color: var(--footer-text);
 }
 
 .footer-contact-info p {
@@ -252,7 +250,7 @@ const Footer = () => {
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  color: #d1d5db;
+  color: var(--footer-bottom-text);
 }
 
 .footer-bottom-links {
@@ -265,7 +263,7 @@ const Footer = () => {
   right: 20px;
   padding: 12px 16px;
   font-size: 16px;
-  background-color: #0edb61;
+  background-color: var(--accent-green);
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -275,17 +273,17 @@ const Footer = () => {
     transform 0.4s ease;
 }
 .scroll-to-top-button .chevron-icon {
-  color: #000000;
+  color: var(--footer-bg);
   transition: color 0.4s ease;
 }
 
 .scroll-to-top-button:hover {
-  background-color: #ff1f2c;
-  box-shadow: 0 0 12px #990f17, 0 0 24px #990f17;
+  background-color: var(--accent-red);
+  box-shadow: 0 0 12px var(--accent-red-dark), 0 0 24px var(--accent-red-dark);
 }
 
 .scroll-to-top-button:hover .chevron-icon {
-  color: #ffffff;
+  color: var(--footer-text);
 }
 @media (min-width: 2560px) {
   .logo-img {

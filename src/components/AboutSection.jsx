@@ -59,7 +59,7 @@ const AboutSection = () => {
   justify-content: center; /* ✅ Optional: center vertically */
   min-height: 100vh;
   margin: 0 auto;
-  background: #131B21;
+  background: var(--bg-secondary);
   position: relative;
   overflow: hidden;
   padding: 60px 40px 40px;
@@ -78,7 +78,7 @@ const AboutSection = () => {
   text-align: center;
   justify-self: center;
   margin-bottom: 20px;
-  background: #ffffff;
+  background: var(--text-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -105,7 +105,7 @@ const AboutSection = () => {
   text-align: center;
   justify-self: center;
   font-size: 1.3rem;
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: 300;
 }
 
@@ -127,7 +127,7 @@ const AboutSection = () => {
 
 .whoWeAre {
   font-size: 0.9rem;
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: 600;
   letter-spacing: 2px;
   margin-bottom: 15px;
@@ -138,7 +138,7 @@ const AboutSection = () => {
 .weAre {
   font-size: 2.8rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 25px;
   line-height: 1.2;
   text-align: left;
@@ -146,7 +146,7 @@ const AboutSection = () => {
 
 .weAreParagraph {
   font-size: 1.1rem;
-  color: #ffffff;
+  color: var(--text-primary);
   line-height: 1.8;
   margin-bottom: 35px;
   text-align: justify;
@@ -163,8 +163,8 @@ const AboutSection = () => {
 }
 
 .read-more-btn {
-  background: linear-gradient(45deg, #c31d30 0%, black, #395537 100%);
-  color: white;
+  background: linear-gradient(45deg, var(--accent-red) 0%, var(--bg-primary), var(--accent-green-dark) 100%);
+  color: var(--text-primary);
   border: none;
   padding: 15px 35px;
   font-size: 1.1rem;
@@ -440,11 +440,11 @@ const AboutSection = () => {
 
 /* Focus states for better accessibility */
 .read-more-btn:focus-visible {
-  outline: 2px solid #0edb61;
+  outline: 2px solid var(--accent-green);
   outline-offset: 4px;
 }@media (prefers-contrast: high) {
   .about-section {
-    background: #000000;
+    background: var(--bg-primary);
   }
 
   .aboutUsTitle,
@@ -452,11 +452,11 @@ const AboutSection = () => {
   .whoWeAre,
   .weAre,
   .weAreParagraph {
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .image-container {
-    border: 2px solid #ffffff;
+    border: 2px solid var(--text-primary);
   }
 }@media (max-width: 768px) {
   @media (max-width: 768px) {

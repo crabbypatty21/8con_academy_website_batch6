@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
+import { useTheme } from "../context/ThemeContext.jsx";
 import "../App.css";
 import "../ConponentCSS/Header.css";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,19 +39,6 @@ const Header = () => {
             Home
           </a>
 
-          <div className="dropdown">
-            <a href="#core-brand" className="nav-link">
-              Brands ▾
-            </a>
-            <div className="dropdown-content">
-              <a href="#core-brand" className="dropdown-link">
-                Core Brands
-              </a>
-              <Link to="/sub-brands" className="dropdown-link">
-                Sub-brands
-              </Link>
-            </div>
-          </div>
 
           <a href="#about" className="nav-link">
             About Us
@@ -69,6 +58,20 @@ const Header = () => {
             </div>
           </div>
 
+         <div className="dropdown">
+            <a href="#core-brand" className="nav-link">
+              Brands ▾
+            </a>
+            <div className="dropdown-content">
+              <a href="#core-brand" className="dropdown-link">
+                Core Brands
+              </a>
+              <Link to="/sub-brands" className="dropdown-link">
+                Sub-brands
+              </Link>
+            </div>
+          </div>
+          
           <a 
             href="https://www.8connews.org/" 
             target="_blank" 
@@ -79,8 +82,17 @@ const Header = () => {
           </a>
         </nav>
 
-        {/* RIGHT: Register & Mobile Toggle */}
+        {/* RIGHT: Theme Toggle, Register & Mobile Toggle */}
         <div className="right-actions">
+          {/* Theme Toggle */}
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
           {/* Register Button (Desktop Only) */}
           <a href="/registration" className="register-btn desktop-only">
             Register
@@ -156,6 +168,13 @@ const Header = () => {
             >
               Register Here!
             </a>
+            <button
+              className="mobile-nav-link theme-toggle-mobile"
+              onClick={toggleTheme}
+            >
+              {isDark ? "Light Mode" : "Dark Mode"}
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
           </nav>
         )}
       </div>

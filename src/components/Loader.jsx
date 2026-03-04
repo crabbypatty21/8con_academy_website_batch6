@@ -1,13 +1,16 @@
 import React from "react";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 function Loader() {
+  const { isDark } = useTheme();
+
   const loaderStyle = {
     transform: "rotateZ(45deg)",
     perspective: "1000px",
     borderRadius: "50%",
     width: "5vw",
     height: "5vw",
-    color: "#fff",
+    color: isDark ? "#fff" : "#1a1a2e",
     position: "relative",
   };
 

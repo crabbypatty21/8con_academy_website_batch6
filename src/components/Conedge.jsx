@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext.jsx";
 import {
   Menu,
   X,
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 
 const ConEdge = () => {
+  const { isDark, colors } = useTheme();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -193,15 +195,480 @@ const ConEdge = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  // Clean responsive styling approach matching ConCise
+  const styles = {
+    container: {
+      minHeight: "100vh",
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      lineHeight: "1.6",
+      color: colors.textPrimary,
+      margin: 0,
+      padding: 0,
+    },
+
+    container2: {
+      maxWidth: "1200px",
+      margin: "0 auto",
+      padding: "0 20px",
+    },
+
+    heroSection: {
+      minHeight: "100vh",
+      background:
+        "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)",
+      position: "relative",
+      overflow: "hidden",
+      textAlign: "center",
+      "@media (max-width: 768px)": {
+        padding: "120px 15px 60px",
+        minHeight: "90vh",
+      },
+      "@media (max-width: 480px)": {
+        padding: "100px 12px 40px",
+        minHeight: "85vh",
+      },
+    },
+
+    heroContent: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      width: "100%",
+      position: "relative",
+      zIndex: 2,
+      maxWidth: "800px",
+      margin: "0 auto",
+      "@media (max-width: 768px)": {
+        maxWidth: "100%",
+      },
+    },
+
+    heroSubtitle: {
+      fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
+      fontWeight: "600",
+      marginBottom: "1rem",
+      margin: "0 0 1rem 0",
+      opacity: "0.9",
+      color: "#ffffff",
+      lineHeight: "1.3",
+      "@media (max-width: 480px)": {
+        fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
+        marginBottom: "1.2rem",
+      },
+    },
+
+    heroDescription: {
+      fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
+      color: colors.textMuted,
+      lineHeight: "1.6",
+      marginTop: "0 !important",
+      marginBottom: "0 !important",
+      paddingBottom: "0 !important",
+      opacity: "0.95",
+      "@media (max-width: 768px)": {
+        marginBottom: "2rem",
+      },
+      "@media (max-width: 480px)": {
+        fontSize: "clamp(0.85rem, 4vw, 1rem)",
+        lineHeight: "1.6",
+        marginBottom: "1.5rem",
+      },
+    },
+
+    heroForegroundContent: {
+      backgroundColor: "rgba(0, 0, 0, 0.3)",
+      padding: "clamp(1rem, 2vw, 1.5rem)",
+      borderRadius: "15px",
+      backdropFilter: "blur(6px)",
+      border: "1px solid rgba(255, 255, 255, 0.1)",
+      maxWidth: "1000px",
+      width: "100%",
+      textAlign: "center",
+      marginBottom: "10rem",
+      marginTop: "-100px",
+      "@media (max-width: 768px)": {
+        padding: "1.5rem 1rem",
+        gap: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "1.2rem 0.8rem",
+        gap: "0.8rem",
+      },
+    },
+
+    heroTopImage: {
+      width: "clamp(250px, 40vw, 500px)",
+      height: "auto",
+      opacity: 0.9,
+      pointerEvents: "none",
+      marginTop: "-80px",
+    },
+
+    heroButtons: {
+      display: "flex",
+      gap: "1rem",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      marginTop: "2rem",
+      margin: "0 !important",
+      padding: "0 !important",
+      position: "relative",
+      zIndex: "1",
+      "@media (max-width: 768px)": {
+        gap: "0.8rem",
+        marginTop: "1.5rem",
+      },
+      "@media (max-width: 480px)": {
+        flexDirection: "column",
+        gap: "0.8rem",
+        alignItems: "center",
+      },
+    },
+
+    ctaButtonPrimary: {
+      background: "#0edb61",
+      color: "#ffffff",
+      border: "none",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "0.9rem 1.8rem",
+        fontSize: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0.8rem 1.5rem",
+        fontSize: "0.9rem",
+        width: "200px",
+      },
+    },
+
+    ctaButtonSecondary: {
+      background: "transparent",
+      color: "#ffffff",
+      border: "2px solid #ffffff",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "0.9rem 1.8rem",
+        fontSize: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0.8rem 1.5rem",
+        fontSize: "0.9rem",
+        width: "200px",
+      },
+    },
+
+    ctaButtonRed: {
+      background: "#ff1f2c",
+      color: "#ffffff",
+      border: "none",
+      padding: "1rem 2rem",
+      fontSize: "1.1rem",
+      fontWeight: "600",
+      borderRadius: "8px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      "@media (max-width: 768px)": {
+        padding: "0.9rem 1.8rem",
+        fontSize: "1rem",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0.8rem 1.5rem",
+        fontSize: "0.9rem",
+        width: "200px",
+      },
+    },
+
+    aboutSection: {
+      background: colors.bgSurface,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    sectionTitle: {
+      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      color: "#0edb61",
+      textAlign: "center",
+      marginBottom: "2rem",
+    },
+
+    aboutText: {
+      fontSize: "clamp(1rem, 3vw, 1.2rem)",
+      textAlign: "center",
+      maxWidth: "800px",
+      margin: "0 auto 3rem",
+      color: colors.textPrimary,
+      lineHeight: "1.8",
+    },
+
+    strongText: {
+      color: "#ff1f2c",
+      fontWeight: "700",
+    },
+
+    statsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+      gap: "2rem",
+      marginTop: "3rem",
+    },
+
+    statCard: {
+      textAlign: "center",
+      padding: "2rem",
+      background: colors.bgSecondary,
+      borderRadius: "15px",
+      border: "2px solid #0edb61",
+    },
+
+    statNumber: {
+      fontSize: "clamp(2rem, 5vw, 3rem)",
+      fontWeight: "bold",
+      color: "#0edb61",
+      marginBottom: "0.5rem",
+    },
+
+    statLabel: {
+      fontSize: "1.1rem",
+      color: colors.textPrimary,
+      fontWeight: "600",
+    },
+
+    toolsSection: {
+      background: colors.bgSecondary,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+
+    toolsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+      gap: "2rem",
+      marginTop: "3rem",
+    },
+
+    toolCard: {
+      background: colors.bgCard,
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      border: "2px solid #0edb61",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      cursor: "pointer",
+      textAlign: "center",
+      position: "relative",
+      overflow: "hidden",
+    },
+
+    toolTitle: {
+      fontSize: "1.3rem",
+      fontWeight: "700",
+      color: colors.textPrimary,
+      marginBottom: "1rem",
+    },
+
+    toolDescription: {
+      fontSize: "1rem",
+      color: colors.textPrimary,
+      marginBottom: "1.5rem",
+      lineHeight: "1.6",
+    },
+
+    toolFeatures: {
+      listStyle: "none",
+      padding: 0,
+      margin: 0,
+      textAlign: "left",
+    },
+
+    solutionsSection: {
+      background: colors.bgSurface,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    solutionsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+      gap: "2rem",
+      marginTop: "3rem",
+    },
+
+    solutionCard: {
+      background: colors.bgSurface,
+      padding: "2.5rem",
+      borderRadius: "15px",
+      border: "2px solid #0edb61",
+      textAlign: "center",
+    },
+
+    solutionTitle: {
+      fontSize: "1.4rem",
+      fontWeight: "700",
+      color: "#0edb61",
+      marginBottom: "1rem",
+    },
+
+    solutionDescription: {
+      fontSize: "1rem",
+      color: colors.textPrimary,
+      marginBottom: "1.5rem",
+      lineHeight: "1.6",
+    },
+
+    solutionFeatures: {
+      listStyle: "none",
+      padding: 0,
+      margin: "0 0 2rem 0",
+      textAlign: "left",
+    },
+
+    solutionButton: {
+      background: "#0edb61",
+      color: "#ffffff",
+      padding: "12px 24px",
+      borderRadius: "8px",
+      cursor: "pointer",
+      fontWeight: "600",
+      transition: "all 0.3s ease",
+      display: "inline-block",
+    },
+
+    whyChooseSection: {
+      background: colors.bgSurface,
+      padding: "80px 20px",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    benefitsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+      gap: "2rem",
+      marginTop: "3rem",
+    },
+
+    benefitCard: {
+      background: colors.bgCard,
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 8px 25px rgba(14, 219, 97, 0.1)",
+      textAlign: "center",
+      border: "2px solid transparent",
+      transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+      cursor: "pointer",
+    },
+
+    benefitTitle: {
+      fontSize: "1.4rem",
+      fontWeight: "700",
+      color: "#0edb61",
+      marginBottom: "1rem",
+    },
+
+    benefitDescription: {
+      fontSize: "1rem",
+      color: colors.textPrimary,
+      lineHeight: "1.7",
+    },
+
+    ctaSection: {
+      background: colors.bgSecondary,
+      color: colors.textPrimary,
+      padding: "80px 20px",
+      textAlign: "center",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    ctaTitle: {
+      fontSize: "clamp(2.2rem, 5vw, 2.8rem)",
+      fontWeight: "700",
+      marginBottom: "2rem",
+      color: colors.textPrimary,
+      background: "linear-gradient(135deg, #0edb61 0%, #ff1f2c 100%)",
+      backgroundClip: "text",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+      textAlign: "center",
+    },
+
+    ctaDescription: {
+      fontSize: "clamp(1.1rem, 3vw, 1.3rem)",
+      lineHeight: "1.8",
+      maxWidth: "900px",
+      margin: "0 auto 2.5rem",
+      color: colors.textPrimary,
+      fontWeight: "500",
+    },
+
+    ctaHighlight: {
+      background: "#0edb61",
+      padding: "1.8rem 2rem",
+      borderRadius: "15px",
+      fontSize: "clamp(1.2rem, 3vw, 1.4rem)",
+      maxWidth: "800px",
+      margin: "0 auto 2rem",
+      border: "2px solid #0edb61",
+      color: "#ffffff",
+      cursor: "pointer",
+      transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+      boxShadow: "0 8px 25px rgba(14, 219, 97, 0.2)",
+      fontWeight: "700",
+    },
+  };
+
   return (
     <div style={styles.container}>
       <style>
         {`
+          :root {
+            --header-scrolled-bg: ${colors.headerScrolledBg};
+            --header-text: ${isDark ? "rgb(255,255,255)" : "#1a1a2e"};
+            --header-dropdown-bg: ${colors.bgCard};
+            --header-dropdown-text: ${colors.textPrimary};
+            --header-mobile-bg: ${isDark ? "rgba(19,27,33,0.98)" : "rgba(255,255,255,0.98)"};
+            --header-mobile-text: ${colors.textPrimary};
+            --mobile-nav-bg: ${isDark ? "rgba(19,27,33,0.98)" : "rgba(255,255,255,0.98)"};
+            --mobile-nav-text: ${colors.textPrimary};
+            --bg-surface: ${colors.bgSurface};
+            --bg-secondary: ${colors.bgSecondary};
+            --bg-tertiary: ${colors.bgTertiary};
+            --text-primary: ${colors.textPrimary};
+          }
+
           html {
             scroll-behavior: smooth;
             scroll-padding-top: 2px;
           }
-          
+
           .header {
             background-color: transparent;
             box-shadow: none;
@@ -218,7 +685,7 @@ const ConEdge = () => {
           }
           
           .header.scrolled {
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: var(--header-scrolled-bg);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -255,7 +722,7 @@ const ConEdge = () => {
           
           .nav-link {
             text-decoration: none;
-            color: rgb(255, 255, 255);
+            color: var(--header-text);
             padding: 8px 12px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -287,7 +754,7 @@ const ConEdge = () => {
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: white;
+            background-color: var(--header-dropdown-bg);
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
@@ -295,11 +762,11 @@ const ConEdge = () => {
             border-radius: 8px;
             border: 1px solid #e0e0e0;
           }
-          
+
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: #333;
+            color: var(--header-dropdown-text);
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -318,25 +785,25 @@ const ConEdge = () => {
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: white;
+            color: var(--header-text);
             display: none;
             padding: 5px;
           }
-          
+
           .mobile-nav {
-            background-color: rgba(255, 255, 255, 0.98);
+            background-color: var(--mobile-nav-bg);
             backdrop-filter: blur(10px);
             border-top: 1px solid #e5e7eb;
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
           }
-          
+
           .mobile-nav-link {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: #333;
+            color: var(--mobile-nav-text);
             border-bottom: 1px solid #f3f4f6;
             font-size: 16px;
             transition: background-color 0.3s ease;
@@ -361,7 +828,7 @@ const ConEdge = () => {
             width: 100%;
             padding: 15px 20px;
             text-decoration: none;
-            color: #333;
+            color: var(--header-mobile-text);
             border-bottom: 1px solid #f3f4f6;
             background: none;
             border: none;
@@ -369,18 +836,18 @@ const ConEdge = () => {
             font-size: 16px;
             cursor: pointer;
           }
-          
+
           .mobile-dropdown-content {
-            background-color: rgba(248, 249, 250, 0.9);
+            background-color: var(--mobile-nav-bg);
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
           }
-          
+
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: #555;
+            color: var(--header-mobile-text);
             text-decoration: none;
             font-size: 14px;
             border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -1428,7 +1895,7 @@ const ConEdge = () => {
         <div className="header-container">
           <a href="/" className="logo">
             <img
-              src="/assets/logo/8con Academy Logo White.png"
+              src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
               alt="8Con Academy Logo"
               className="logo-img"
             />
@@ -1715,7 +2182,7 @@ const ConEdge = () => {
       >
         <div style={styles.container2}>
           <h2
-            style={{ ...styles.sectionTitle, color: "#ffffff" }}
+            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
             className={`tools-section-title ${
               animatedSections.has("tools") ? "animate" : ""
             }`}
@@ -1881,7 +2348,7 @@ const ConEdge = () => {
                   // Reset title
                   const title = e.currentTarget.querySelector("h3");
                   if (title) {
-                    title.style.color = "#000000";
+                    title.style.color = colors.textHeading;
                     title.style.transform = "translateY(0)";
                     title.style.textShadow = "none";
                   }
@@ -1916,7 +2383,7 @@ const ConEdge = () => {
         }`}
       >
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: "#000000" }}>
+          <h2 style={{ ...styles.sectionTitle, color: colors.textHeading }}>
             Why Choose 8ConEdge?
           </h2>
           <div style={styles.benefitsGrid}>
@@ -2031,505 +2498,6 @@ const ConEdge = () => {
       </section>
     </div>
   );
-};
-
-// Clean responsive styling approach matching ConCise
-const styles = {
-  container: {
-    minHeight: "100vh",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    lineHeight: "1.6",
-    color: "#000000",
-    margin: 0,
-    padding: 0,
-  },
-
-  container2: {
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "0 20px",
-  },
-
-  // Hero Section - Green Background
-  heroSection: {
-    minHeight: "100vh",
-    background:
-      "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "clamp(50px, 8vh, 80px) clamp(20px, 5vw, 40px)", // ✅ Reduce top/bottom padding
-    position: "relative",
-    overflow: "hidden",
-    textAlign: "center",
-    // Responsive adjustments
-    "@media (max-width: 768px)": {
-      padding: "120px 15px 60px",
-      minHeight: "90vh",
-    },
-    "@media (max-width: 480px)": {
-      padding: "100px 12px 40px",
-      minHeight: "85vh",
-    },
-  },
-
-  heroContent: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
-    position: "relative",
-    zIndex: 2,
-    maxWidth: "800px",
-    margin: "0 auto",
-    // Responsive width
-    "@media (max-width: 768px)": {
-      maxWidth: "100%",
-    },
-  },
-
-  heroSubtitle: {
-    fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-    fontWeight: "600",
-    marginBottom: "1rem",
-    margin: "0 0 1rem 0",
-    opacity: "0.9",
-    color: "#ffffff",
-    lineHeight: "1.3",
-    "@media (max-width: 480px)": {
-      fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
-      marginBottom: "1.2rem",
-    },
-  },
-
-  heroDescription: {
-    fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
-    color: "#cccccc",
-    lineHeight: "1.6",
-    marginTop: "0 !important",
-    marginBottom: "0 !important", // Let CSS class handle it
-    paddingBottom: "0 !important",
-    opacity: "0.95",
-
-    // Mobile responsiveness
-    "@media (max-width: 768px)": {
-      marginBottom: "2rem",
-    },
-    "@media (max-width: 480px)": {
-      fontSize: "clamp(0.85rem, 4vw, 1rem)",
-      lineHeight: "1.6",
-      marginBottom: "1.5rem",
-    },
-  },
-
-  heroForegroundContent: {
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-    padding: "clamp(1rem, 2vw, 1.5rem)",
-    borderRadius: "15px",
-    backdropFilter: "blur(6px)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    maxWidth: "1000px",
-    width: "100%",
-
-    textAlign: "center",
-
-    marginBottom: "10rem",
-    marginTop: "-100px",
-    "@media (max-width: 768px)": {
-      padding: "1.5rem 1rem",
-      gap: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "1.2rem 0.8rem",
-      gap: "0.8rem",
-    },
-  },
-
-  heroTopImage: {
-    width: "clamp(250px, 40vw, 500px)",
-    height: "auto",
-    opacity: 0.9,
-    pointerEvents: "none",
-    marginTop: "-80px",
-  },
-
-  heroButtons: {
-    display: "flex",
-    gap: "1rem",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    marginTop: "2rem",
-    margin: "0 !important", // Force reset
-    padding: "0 !important",
-    position: "relative",
-    zIndex: "1",
-    // Mobile adjustments
-    "@media (max-width: 768px)": {
-      gap: "0.8rem",
-      marginTop: "1.5rem",
-    },
-    "@media (max-width: 480px)": {
-      flexDirection: "column",
-      gap: "0.8rem",
-      alignItems: "center",
-    },
-  },
-
-  ctaButtonPrimary: {
-    background: "#0edb61",
-    color: "#ffffff",
-    border: "none",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-    // Responsive button sizing
-    "@media (max-width: 768px)": {
-      padding: "0.9rem 1.8rem",
-      fontSize: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "0.8rem 1.5rem",
-      fontSize: "0.9rem",
-      width: "200px",
-    },
-  },
-
-  ctaButtonSecondary: {
-    background: "transparent",
-    color: "#ffffff",
-    border: "2px solid #ffffff",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-    // Responsive sizing
-    "@media (max-width: 768px)": {
-      padding: "0.9rem 1.8rem",
-      fontSize: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "0.8rem 1.5rem",
-      fontSize: "0.9rem",
-      width: "200px",
-    },
-  },
-
-  ctaButtonRed: {
-    background: "#ff1f2c",
-    color: "#ffffff",
-    border: "none",
-    padding: "1rem 2rem",
-    fontSize: "1.1rem",
-    fontWeight: "600",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    textTransform: "uppercase",
-    // Responsive sizing
-    "@media (max-width: 768px)": {
-      padding: "0.9rem 1.8rem",
-      fontSize: "1rem",
-    },
-    "@media (max-width: 480px)": {
-      padding: "0.8rem 1.5rem",
-      fontSize: "0.9rem",
-      width: "200px",
-    },
-  },
-
-  aboutSection: {
-    background: "#ffffff",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  sectionTitle: {
-    fontSize: "clamp(2rem, 5vw, 2.5rem)",
-    fontWeight: "700",
-    color: "#0edb61",
-    textAlign: "center",
-    marginBottom: "2rem",
-  },
-
-  aboutText: {
-    fontSize: "clamp(1rem, 3vw, 1.2rem)",
-    textAlign: "center",
-    maxWidth: "800px",
-    margin: "0 auto 3rem",
-    color: "#000000",
-    lineHeight: "1.8",
-  },
-
-  strongText: {
-    color: "#ff1f2c",
-    fontWeight: "700",
-  },
-
-  statsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-    gap: "2rem",
-    marginTop: "3rem",
-  },
-
-  statCard: {
-    textAlign: "center",
-    padding: "2rem",
-    background: "#000000",
-    borderRadius: "15px",
-    border: "2px solid #0edb61",
-  },
-
-  statNumber: {
-    fontSize: "clamp(2rem, 5vw, 3rem)",
-    fontWeight: "bold",
-    color: "#0edb61",
-    marginBottom: "0.5rem",
-  },
-
-  statLabel: {
-    fontSize: "1.1rem",
-    color: "#ffffff",
-    fontWeight: "600",
-  },
-
-  toolsSection: {
-    background: "#000000",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-
-  toolsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-    gap: "2rem",
-    marginTop: "3rem",
-  },
-
-  toolCard: {
-    background: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-    border: "2px solid #0edb61",
-    transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-    cursor: "pointer",
-    textAlign: "center",
-    position: "relative",
-    overflow: "hidden",
-  },
-
-  toolTitle: {
-    fontSize: "1.3rem",
-    fontWeight: "700",
-    color: "#000000",
-    marginBottom: "1rem",
-  },
-
-  toolDescription: {
-    fontSize: "1rem",
-    color: "#000000",
-    marginBottom: "1.5rem",
-    lineHeight: "1.6",
-  },
-
-  toolFeatures: {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-    textAlign: "left",
-  },
-
-  solutionsSection: {
-    background: "#ffffff",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  solutionsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-    gap: "2rem",
-    marginTop: "3rem",
-  },
-
-  solutionCard: {
-    background: "#f8f9fa",
-    padding: "2.5rem",
-    borderRadius: "15px",
-    border: "2px solid #0edb61",
-    textAlign: "center",
-  },
-
-  solutionTitle: {
-    fontSize: "1.4rem",
-    fontWeight: "700",
-    color: "#0edb61",
-    marginBottom: "1rem",
-  },
-
-  solutionDescription: {
-    fontSize: "1rem",
-    color: "#000000",
-    marginBottom: "1.5rem",
-    lineHeight: "1.6",
-  },
-
-  solutionFeatures: {
-    listStyle: "none",
-    padding: 0,
-    margin: "0 0 2rem 0",
-    textAlign: "left",
-  },
-
-  solutionButton: {
-    background: "#0edb61",
-    color: "#ffffff",
-    padding: "12px 24px",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontWeight: "600",
-    transition: "all 0.3s ease",
-    display: "inline-block",
-  },
-
-  whyChooseSection: {
-    background: "#ffffff",
-    padding: "80px 20px",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  benefitsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "2rem",
-    marginTop: "3rem",
-  },
-
-  benefitCard: {
-    background: "#ffffff",
-    padding: "2rem",
-    borderRadius: "15px",
-    boxShadow: "0 8px 25px rgba(14, 219, 97, 0.1)",
-    textAlign: "center",
-    border: "2px solid transparent",
-    transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-    cursor: "pointer",
-  },
-
-  benefitTitle: {
-    fontSize: "1.4rem",
-    fontWeight: "700",
-    color: "#0edb61",
-    marginBottom: "1rem",
-  },
-
-  benefitDescription: {
-    fontSize: "1rem",
-    color: "#000000",
-    lineHeight: "1.7",
-  },
-
-  ctaSection: {
-    background: "#000000",
-    color: "#000000",
-    padding: "80px 20px",
-    textAlign: "center",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-
-  ctaTitle: {
-    fontSize: "clamp(2.2rem, 5vw, 2.8rem)",
-    fontWeight: "700",
-    marginBottom: "2rem",
-    color: "#000000",
-    background: "linear-gradient(135deg, #0edb61 0%, #ff1f2c 100%)",
-    backgroundClip: "text",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    textAlign: "center",
-  },
-
-  ctaDescription: {
-    fontSize: "clamp(1.1rem, 3vw, 1.3rem)",
-    lineHeight: "1.8",
-    maxWidth: "900px",
-    margin: "0 auto 2.5rem",
-    color: "#ffffff",
-    fontWeight: "500",
-  },
-
-  ctaHighlight: {
-    background: "#0edb61",
-    padding: "1.8rem 2rem",
-    borderRadius: "15px",
-    fontSize: "clamp(1.2rem, 3vw, 1.4rem)",
-    maxWidth: "800px",
-    margin: "0 auto 2rem",
-    border: "2px solid #0edb61",
-    color: "#ffffff",
-    cursor: "pointer",
-    transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-    boxShadow: "0 8px 25px rgba(14, 219, 97, 0.2)",
-    fontWeight: "700",
-  },
-
-  // ctaFeatures: {
-  //   display: "flex",
-  //   justifyContent: "center",
-  //   gap: "2rem",
-  //   marginTop: "2rem",
-  //   flexWrap: "wrap",
-  //   "@media (max-width: 768px)": {
-  //     flexDirection: "column",
-  //     alignItems: "center",
-  //     gap: "1rem",
-  //   },
-  // },
-
-  // ctaFeature: {
-  //   display: "flex",
-  //   alignItems: "center",
-  //   gap: "0.8rem",
-  //   padding: "1rem 1.8rem",
-  //   background: "rgba(14, 219, 97, 0.1)",
-  //   borderRadius: "30px",
-  //   border: "2px solid #0edb61",
-  //   fontSize: "1.1rem",
-  //   fontWeight: "600",
-  //   color: "#000000",
-  //   transition: "all 0.3s ease",
-  //   cursor: "default",
-  //   minWidth: "200px",
-  //   justifyContent: "center",
-  // },
-
-  // ctaFeatureIcon: {
-  //   fontSize: "1.4rem",
-  //   display: "flex",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   minWidth: "24px",
-  // },
 };
 
 export default ConEdge;

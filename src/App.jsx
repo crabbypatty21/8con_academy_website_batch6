@@ -45,7 +45,7 @@ function App() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#000",
+            backgroundColor: "var(--splash-bg)",
           }}
         >
           <Loader />

@@ -21,23 +21,22 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section
-      id="home"
-      className="hero-section"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${images[currentIndex]})`,
-        transition: "background-image 1s ease-in-out",
-      }}
-    >
+    <section id="home" className="hero-section">
+      {images.map((img, index) => (
+        <div
+          key={index}
+          className={`hero-bg-slide ${index === currentIndex ? "active" : ""}`}
+          style={{ backgroundImage: `url(${img})` }}
+        />
+      ))}
       <div className="hero-overlay" />
 
       <div className="hero-container">
         <div className="hero-content">
-          <img src="/src/assets/images/8con_logo.png" alt="pn" style={{ width: '200px', height: 'auto' }} />
           <h1 className="hero-title">
             <span className="text-green">Empowering</span> Every Filipino <span className="text-coral">Household</span>
             <br />
-            With A Skilled And Profitable <span className="text-green">Forex Trader</span>
+            With A <span className="text-coral">Skilled</span> And <span className="text-green"> Profitable</span> <span>Forex Trader</span>
           </h1>
           
           <p className="hero-subtitle">
@@ -61,15 +60,30 @@ const HeroSection = () => {
       <style>{`
         .hero-section {
           position: relative;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
           min-height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 80px 20px 20px;
-          transition: background-image 1s ease-in-out;
+          overflow: hidden;
+        }
+
+        .hero-bg-slide {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          opacity: 0;
+          transition: opacity 1.5s ease-in-out;
+          z-index: 0;
+        }
+
+        .hero-bg-slide.active {
+          opacity: 1;
         }
 
         .hero-overlay {
@@ -78,7 +92,7 @@ const HeroSection = () => {
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.5); /* Darkened slightly for better text readability */
+          background: rgba(0, 0, 0, 0.6);
           z-index: 0;
         }
 
@@ -111,13 +125,14 @@ const HeroSection = () => {
           margin: 0;
         }
 
-        .text-green {
-          color: #21e67b; /* Matches the green in the image */
+        .hero-section .text-green {
+          color: #32EA7C !important;
         }
 
         .text-coral {
-          color: #ff5a5a; /* Matches the coral/red in the image */
+          color: #F95545;
         }
+
 
         .hero-subtitle {
           color: #ffffff;
@@ -151,7 +166,7 @@ const HeroSection = () => {
 
         .btn-secondary {
           background-color: rgba(255, 254, 254, 0.24);
-          border: 1px solid #ffffff;
+          border: 1px solid rgba(255, 255, 255, 0.3);
           color: #ffffff;
         }
 

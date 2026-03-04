@@ -1,6 +1,7 @@
 import React from "react";
 
 import uptrendChart from "../assets/images/uptrend.png";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 const CoreBrandSection = ({
   currentIndex = 0,
@@ -9,8 +10,9 @@ const CoreBrandSection = ({
   nextSlide,
   goToSlide,
 }) => {
+  const { colors } = useTheme();
   return (
-    <div style={{ fontFamily: '"Geist Sans", sans-serif', color: "#ffffff" }}>
+    <div style={{ fontFamily: '"Geist Sans", sans-serif', color: colors.textPrimary }}>
       
       {/* ============================== */}
       {/* PAGE 1: Course Details & Image */}
@@ -22,7 +24,7 @@ const CoreBrandSection = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#131B21",
+          backgroundColor: colors.bgSecondary,
         }}
       >
         <div
@@ -51,7 +53,7 @@ const CoreBrandSection = ({
               }}
             >
               Forex Derivative <br />
-              Trading <span style={{ color: "#00e676" }}>Level II</span>
+              Trading <span style={{ color: colors.accentGreen }}>Level II</span>
             </h1>
 
             <p
@@ -62,7 +64,7 @@ const CoreBrandSection = ({
                 lineHeight: 1.5,
               }}
             >
-              An <span style={{ color: "#00e676" }}>Advanced Course</span>{" "}
+              An <span style={{ color: colors.accentGreen }}>Advanced Course</span>{" "}
               designed to equip students with comprehensive knowledge and
               hands-on skills in{" "}
               <span style={{ color: "#ef4444", fontWeight: "bold" }}>
@@ -90,8 +92,8 @@ const CoreBrandSection = ({
                 >
                   <span
                     style={{
-                      backgroundColor: "#00e676",
-                      color: "white",
+                      backgroundColor: colors.accentGreen,
+                      color: "#ffffff",
                       borderRadius: "50%",
                       width: "22px",
                       height: "22px",
@@ -167,7 +169,7 @@ const CoreBrandSection = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#19232A", 
+          backgroundColor: colors.bgTertiary,
           fontFamily: '"Geist Sans", sans-serif',
         }}
       >
@@ -190,7 +192,7 @@ const CoreBrandSection = ({
                 fontWeight: "bold",
                 fontFamily: '"Unbounded", sans-serif',
                 margin: 0,
-                color: "white",
+                color: colors.textPrimary,
                 letterSpacing: "0.5px",
                 marginLeft: "-100px",
               }}
@@ -265,7 +267,7 @@ const CoreBrandSection = ({
                     >
                       <p
                         style={{
-                          color: "#d1d5db", 
+                          color: colors.textSecondary,
                           fontSize: "1.25rem",
                           lineHeight: "1.6",
                           marginBottom: "80px",
@@ -277,7 +279,7 @@ const CoreBrandSection = ({
 
                       <h3
                         style={{
-                          color: "white",
+                          color: colors.textPrimary,
                           fontSize: "36px",
                           fontWeight: "bold",
                           fontFamily: '"Unbounded", sans-serif',
@@ -364,7 +366,7 @@ const CoreBrandSection = ({
             <button
               style={{
                 backgroundColor: "#404040",
-                color: "white",
+                color: colors.textPrimary,
                 border: "none",
                 borderRadius: "50%",
                 width: "36px",
@@ -395,7 +397,7 @@ const CoreBrandSection = ({
                     width: index === currentIndex ? "24px" : "10px", 
                     height: "10px",
                     borderRadius: "10px",
-                    backgroundColor: index === currentIndex ? "#00e676" : "#4b5563",
+                    backgroundColor: index === currentIndex ? colors.accentGreen : "#4b5563",
                     border: "none",
                     cursor: "pointer",
                     transition: "all 0.3s ease",
@@ -409,7 +411,7 @@ const CoreBrandSection = ({
             <button
               style={{
                 backgroundColor: "#404040",
-                color: "white",
+                color: colors.textPrimary,
                 border: "none",
                 borderRadius: "50%",
                 width: "36px",

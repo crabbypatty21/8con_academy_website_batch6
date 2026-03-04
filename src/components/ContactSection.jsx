@@ -196,7 +196,7 @@ const ContactSection = () => {
                 style={{
                   textAlign: "center",
                   marginBottom: "16px",
-                  color: "#ffffff",
+                  color: "var(--text-primary)",
                 }}
               >
                 <strong>Where you can find us?</strong>
