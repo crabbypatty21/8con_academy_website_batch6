@@ -43,7 +43,7 @@ const CoreBrandSection = ({
           <div style={{ flex: "1 1 50%", minWidth: "300px" }}>
             <h1
               style={{
-                fontSize: "3rem",
+                fontSize: "3.5rem",
                 fontWeight: "bold",
                 fontFamily: '"Unbounded", sans-serif',
                 lineHeight: 1.1,
@@ -52,13 +52,13 @@ const CoreBrandSection = ({
                 paddingBottom: "20px"
               }}
             >
-              Forex Derivative <br />
+              <span style={{ color: "#F95545" }}>Forex</span> Derivative <br />
               Trading <span style={{ color: colors.accentGreen }}>Level II</span>
             </h1>
 
             <p
               style={{
-                fontSize: "1.1rem",
+                fontSize: "1.2rem",
                 marginBottom: "30px",
                 maxWidth: "90%",
                 lineHeight: 1.5,
@@ -67,7 +67,7 @@ const CoreBrandSection = ({
               An <span style={{ color: colors.accentGreen }}>Advanced Course</span>{" "}
               designed to equip students with comprehensive knowledge and
               hands-on skills in{" "}
-              <span style={{ color: "#ef4444", fontWeight: "bold" }}>
+              <span style={{ color: "#F95545", fontWeight: "bold" }}>
                 Forex Trading
               </span>{" "}
               to become profitable traders.
@@ -86,7 +86,7 @@ const CoreBrandSection = ({
                     display: "flex",
                     alignItems: "flex-start",
                     marginBottom: "16px",
-                    fontSize: "1rem",
+                    fontSize: "1.05rem",
                     lineHeight: 1.4,
                   }}
                 >
@@ -116,10 +116,10 @@ const CoreBrandSection = ({
               style={{
                 display: "block",      // Change to block
                 margin: "0 0 0 210px",     // Center horizontally
-                backgroundColor: "#990f17",
+                backgroundColor: "#F95545",
                 color: "white",
                 padding: "12px 32px",
-                borderRadius: "5px",
+                borderRadius: "35px",
                 border: "none",
                 fontWeight: "bold",
                 cursor: "pointer",
@@ -140,20 +140,34 @@ const CoreBrandSection = ({
               minWidth: "300px",
             }}
           >
-            <div>
-              {/* Replace with your actual chart image path */}
+            <div style={{
+              position: "relative",
+              display: "inline-block",
+              borderRadius: "15px",
+              overflow: "hidden",
+              maxWidth: "350px",
+            }}>
               <img
                 src={uptrendChart}
                 alt="Forex Chart"
                 style={{
                   width: "100%",
-                  maxWidth: "320px",
                   borderRadius: "15px",
                   display: "block",
-                  filter: "contrast(1.5) brightness(0.9)", 
+                  filter: "contrast(1.5) brightness(0.9)",
                   mixBlendMode: "screen",
                 }}
               />
+              <div style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                borderRadius: "15px",
+                boxShadow: "inset 0 10px 50px rgba(0, 0, 0, 0.85), inset 0 -10px 50px rgba(0, 0, 0, 0.85), inset 10px 0 50px rgba(0, 0, 0, 0.7), inset -10px 0 50px rgba(0, 0, 0, 0.7)",
+                pointerEvents: "none",
+              }} />
             </div>
           </div>
         </div>
@@ -201,10 +215,10 @@ const CoreBrandSection = ({
             </h2>
             <button
               style={{
-                backgroundColor: "#990f17", 
+                backgroundColor: "#F95545", 
                 color: "white",
                 padding: "10px 24px",
-                borderRadius: "5px", 
+                borderRadius: "35px", 
                 border: "none",
                 fontWeight: "bold",
                 cursor: "pointer",
@@ -329,8 +343,8 @@ const CoreBrandSection = ({
                           objectFit: "contain", 
                           // CHANGE 2: Move from bottom left to bottom right
                           objectPosition: "bottom right", 
-                          WebkitMaskImage: "linear-gradient(to top left, black 40%, transparent 95%)",
-                          maskImage: "linear-gradient(to top left, black 40%, transparent 95%)",
+                          WebkitMaskImage: "linear-gradient(to top left, black 60%, transparent 100%)",
+                          maskImage: "linear-gradient(to top left, black 60%, transparent 100%)",
                         }}
                       />
                     </div>
@@ -352,6 +366,18 @@ const CoreBrandSection = ({
                 </div>
               )}
             </div>
+            {/* Inset shadow overlay */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              borderRadius: "12px",
+              boxShadow: "inset 0 8px 40px rgba(0, 0, 0, 0.8), inset 0 -8px 40px rgba(0, 0, 0, 0.8), inset 8px 0 40px rgba(0, 0, 0, 0.6), inset -8px 0 20px rgba(0, 0, 0, 0.3)",
+              pointerEvents: "none",
+              zIndex: 3,
+            }} />
           </div>
 
           {/* Controls: Left Arrow, Center Dots, Right Arrow */}

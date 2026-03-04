@@ -104,7 +104,7 @@ const testimonials = [
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 10000);
+    const interval = setInterval(nextSlide, 8000);
     return () => clearInterval(interval);
   }, []);
 
