@@ -1,28 +1,19 @@
 import React, { useState } from "react";
-import { ChevronDown, Phone, Mail, MapPin } from "lucide-react";
+import { ChevronDown, Phone, Mail, MapPin, CheckCircle, XCircle, X, Send } from "lucide-react";
 
 const capitalizeFirstLetter = (str) => {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const FAQItem = ({ question, answer }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const FAQItem = ({ question, answer, isOpen, onClick }) => {
   return (
     <div className={`faq-item ${isOpen ? "open" : ""}`}>
-      <div className="faq-summary" onClick={() => setIsOpen(!isOpen)}>
+      <div className="faq-summary" onClick={onClick}>
         <span>{question}</span>
         <ChevronDown className="faq-icon" />
       </div>
-      <div
-        className="faq-answer-wrapper"
-        style={{
-          maxHeight: isOpen ? "200px" : "0",
-          overflow: "hidden",
-          transition: "max-height 0.4s ease",
-        }}
-      >
+      <div className="faq-answer-wrapper">
         <p className="faq-answer">{answer}</p>
       </div>
     </div>
@@ -30,41 +21,52 @@ const FAQItem = ({ question, answer }) => {
 };
 
 const ContactSection = () => {
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [modal, setModal] = useState({ show: false, type: "confirm", message: "" });
+  const [pendingPayload, setPendingPayload] = useState(null);
+  const [sending, setSending] = useState(false);
   const [name, setName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleContactSubmit = async (e) => {
+  const handleContactSubmit = (e) => {
     e.preventDefault();
+    const payload = { name, email: contactEmail, contactNumber, message };
+    setPendingPayload(payload);
+    setModal({ show: true, type: "confirm", message: "Are you sure you want to send this message?" });
+  };
 
-    const payload = {
-      name,
-      email: contactEmail,
-      contactNumber,
-      message,
-    };
-
+  const handleConfirmSend = async () => {
+    if (!pendingPayload) return;
+    setSending(true);
     try {
-      const response = await fetch("http://localhost:3001/contact", {
+      const apiUrl = import.meta.env.PROD
+        ? "https://8conacademy.com/contact"
+        : "http://localhost:3001/contact";
+      const response = await fetch(apiUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pendingPayload),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert("Message sent successfully!");
+        setModal({ show: true, type: "success", message: "Your message has been sent successfully! We'll get back to you soon." });
+        setName("");
+        setContactEmail("");
+        setContactNumber("");
+        setMessage("");
       } else {
-        alert(`Error: ${data.error}`);
+        setModal({ show: true, type: "error", message: data.error || "Failed to send message." });
       }
     } catch (error) {
       console.error("Submit error:", error);
-      alert("Something went wrong.");
+      setModal({ show: true, type: "error", message: "Something went wrong. Please try again." });
     }
+    setSending(false);
+    setPendingPayload(null);
   };
 
   const faqs = [
@@ -122,6 +124,69 @@ const ContactSection = () => {
 
   return (
     <>
+      {/* Contact Modal */}
+      {modal.show && (
+        <div className="contact-modal-overlay" onClick={() => !sending && setModal({ ...modal, show: false })}>
+          <div className={`contact-modal contact-modal-${modal.type}`} onClick={(e) => e.stopPropagation()}>
+            <button className="contact-modal-close" onClick={() => !sending && setModal({ ...modal, show: false })}>
+              <X size={20} />
+            </button>
+
+            {modal.type === "success" && (
+              <div className="contact-modal-particles">
+                {[...Array(6)].map((_, i) => (
+                  <span key={i} className={`particle particle-${i}`} />
+                ))}
+              </div>
+            )}
+
+            <div className="contact-modal-icon-wrapper">
+              <div className="contact-modal-icon">
+                {modal.type === "confirm" && <Send size={28} />}
+                {modal.type === "success" && <CheckCircle size={28} />}
+                {modal.type === "error" && <XCircle size={28} />}
+              </div>
+            </div>
+
+            <h3 className="contact-modal-title">
+              {modal.type === "confirm" && "Send Message?"}
+              {modal.type === "success" && "Message Sent!"}
+              {modal.type === "error" && "Oops!"}
+            </h3>
+
+            <p className="contact-modal-message">{modal.message}</p>
+
+            <div className="contact-modal-actions">
+              {modal.type === "confirm" ? (
+                <>
+                  <button
+                    className="contact-modal-btn contact-modal-btn-cancel"
+                    onClick={() => setModal({ ...modal, show: false })}
+                    disabled={sending}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="contact-modal-btn contact-modal-btn-confirm"
+                    onClick={handleConfirmSend}
+                    disabled={sending}
+                  >
+                    {sending ? "Sending..." : "Yes, Send"}
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="contact-modal-btn contact-modal-btn-confirm"
+                  onClick={() => setModal({ ...modal, show: false })}
+                >
+                  OK
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ============================== */}
       {/* CONTACT US SECTION             */}
       {/* ============================== */}
@@ -129,7 +194,7 @@ const ContactSection = () => {
         <div className="contact-wrapper">
           <div className="contact-header">
             <h2 className="contact-title fade-in">CONTACT US</h2>
-            <p className="contact-subtitle fade-in">We'd love to hear from you</p>
+
           </div>
 
           <div className="contact-grid">
@@ -240,7 +305,12 @@ const ContactSection = () => {
           </div>
           <div className="faq-list fade-in">
             {faqs.map((faq, index) => (
-              <FAQItem key={index} {...faq} />
+              <FAQItem
+                key={index}
+                {...faq}
+                isOpen={openFaqIndex === index}
+                onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+              />
             ))}
           </div>
         </div>

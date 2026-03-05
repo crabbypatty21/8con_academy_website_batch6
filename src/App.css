@@ -68,8 +68,8 @@ html {
   --form-label: #ffffff;
   --input-border: #ccc;
 
-  --internship-bg: #19232A;
-  --intcard-bg: #19232A;
+  --internship-bg: #131B21;
+  --intcard-bg: #131B21;
   --intcard-shadow: rgba(255, 255, 255, 0.25);
   --intcard-shadow-hover: rgba(255, 255, 255, 0.35);
   --intcard-icon: #ffffff;
@@ -79,8 +79,8 @@ html {
   --intapply-text: #121411;
   --intapply-hover: #65e03e;
 
-  --careerpath-bg: #131B21;
-  --career-card-bg: #131B21;
+  --careerpath-bg: #19232A;
+  --career-card-bg: #19232A;
   --career-card-shadow: 0px 0px 4.9px 1px #FFFFFF;
   --career-card-shadow-hover: 0px 0px 12px 3px rgba(255, 255, 255, 0.4);
 
@@ -102,7 +102,7 @@ html {
   --testimonial-text: #ffffff;
 
   --body-color: #000000;
-  --splash-bg: #000000;
+  --splash-bg: #131B21;
 
   --footer-bg: #000000;
   --footer-text: #ffffff;
@@ -1440,16 +1440,16 @@ body {
 
 .internship-title {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .internship-title h2 {
   font-family: "Unbounded", sans-serif;
   font-weight: 800;
-  font-size: 48px;
+  font-size: 40px;
   line-height: 1.2;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .internship-title p {
@@ -1477,6 +1477,7 @@ body {
   overflow: hidden;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 420px;
 }
 
 .intcard:hover {
@@ -1485,7 +1486,7 @@ body {
 }
 
 .intcard .intcontent {
-  padding: 30px 28px;
+  padding: 20px 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1495,38 +1496,38 @@ body {
 }
 
 .intcard-icon {
-  width: 90px;
-  height: 90px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-top: 20px;
+  margin-bottom: 12px;
 }
 
 .intcard-icon img {
-  width: 90px;
-  height: 90px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
 }
 
 .intcard-title {
   font-family: "Unbounded", sans-serif;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.3;
   color: var(--intcard-title);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .intcard-description {
   font-family: "Geist Sans", sans-serif;
   font-weight: 400;
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--intcard-desc);
   text-align: center;
-  margin-bottom: 20px;
-  flex-grow: 1;
+  margin-bottom: 2px;
 }
 
 .intbutton-container {
@@ -1534,21 +1535,21 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  margin-top: auto;
+  margin-top: 30px;
 }
 
 .intapply-btn {
   display: inline-block;
   background-color: var(--intapply-bg);
   border: none;
-  padding: 0 40px;
-  height: 48px;
+  padding: 0 32px;
+  height: 40px;
   border-radius: 40px;
   color: var(--intapply-text);
   font-family: "Geist Sans", sans-serif;
   font-weight: 600;
-  font-size: 16px;
-  line-height: 48px;
+  font-size: 14px;
+  line-height: 40px;
   cursor: pointer;
   text-transform: uppercase;
   text-align: center;
@@ -2341,6 +2342,205 @@ body {
 /* ==========================================
    CONTACT SECTION
    ========================================== */
+/* Contact Modal */
+.contact-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(6px);
+  animation: modalOverlayIn 0.25s ease;
+}
+
+@keyframes modalOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.contact-modal {
+  background: linear-gradient(160deg, #1e2b35, #19232A);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 44px 36px 36px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.contact-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-modal-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.contact-modal-icon-wrapper {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-modal-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-modal-confirm .contact-modal-icon {
+  background: rgba(117, 249, 76, 0.1);
+  border: 2px solid rgba(117, 249, 76, 0.25);
+  color: #75F94C;
+}
+
+.contact-modal-success .contact-modal-icon {
+  background: rgba(117, 249, 76, 0.12);
+  border: 2px solid rgba(117, 249, 76, 0.3);
+  color: #75F94C;
+  animation: iconPop 0.4s ease 0.1s both;
+}
+
+.contact-modal-error .contact-modal-icon {
+  background: rgba(255, 31, 44, 0.1);
+  border: 2px solid rgba(255, 31, 44, 0.25);
+  color: #ff1f2c;
+}
+
+@keyframes iconPop {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+
+/* Particles */
+.contact-modal-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: particleBurst 0.8s ease-out 0.2s both;
+}
+
+.particle-0 { background: #75F94C; --px: -40px; --py: -50px; }
+.particle-1 { background: #4ade80; --px: 45px; --py: -35px; }
+.particle-2 { background: #75F94C; --px: -50px; --py: 20px; }
+.particle-3 { background: #22c55e; --px: 40px; --py: 30px; }
+.particle-4 { background: #4ade80; --px: -20px; --py: -55px; }
+.particle-5 { background: #75F94C; --px: 25px; --py: -50px; }
+
+@keyframes particleBurst {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; }
+}
+
+.contact-modal-title {
+  font-family: "Geist Sans", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 10px;
+}
+
+.contact-modal-success .contact-modal-title {
+  background: linear-gradient(135deg, #75F94C, #4ade80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 24px;
+}
+
+.contact-modal-message {
+  font-family: "Geist Sans", sans-serif;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 28px;
+  line-height: 1.6;
+}
+
+.contact-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.contact-modal-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 28px;
+  font-family: "Geist Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.contact-modal-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-modal-btn-cancel {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.contact-modal-btn-cancel:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.contact-modal-btn-confirm {
+  background: #75F94C;
+  color: #121411;
+}
+
+.contact-modal-btn-confirm:hover:not(:disabled) {
+  background: #65e03e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(117, 249, 76, 0.25);
+}
+
 .contact-section {
   height: 100vh;
   background: #19232A;
@@ -2348,7 +2548,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 100px 5% 40px;
+  padding: 100px 5% 30px;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -2360,81 +2560,86 @@ body {
 
 .contact-header {
   text-align: center;
-  margin-bottom: clamp(20px, 3vw, 40px);
+  margin-bottom: clamp(16px, 2vw, 28px);
 }
 
 .contact-title {
   font-family: "Unbounded", sans-serif;
   font-weight: 800;
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(24px, 3vw, 40px);
   color: #ffffff;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
 }
 
 .contact-subtitle {
   font-family: "Geist Sans", sans-serif;
   font-weight: 400;
-  font-size: clamp(14px, 1.2vw, 18px);
-  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(13px, 1vw, 16px);
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
 }
 
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(20px, 3vw, 40px);
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(16px, 2vw, 28px);
   align-items: stretch;
 }
 
+/* Form card */
 .contact-form {
-  background: #131B21;
-  border-radius: 16px;
-  padding: clamp(20px, 2.5vw, 32px);
+  background: linear-gradient(160deg, #131B21, #151f28);
+  border-radius: 20px;
+  padding: clamp(24px, 2.5vw, 36px);
   display: flex;
   flex-direction: column;
-  gap: clamp(12px, 1.5vw, 18px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: clamp(14px, 1.5vw, 20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  justify-content: center;
 }
 
 .contact-form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(12px, 1.5vw, 18px);
+  gap: clamp(10px, 1vw, 14px);
 }
 
 .contact-form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .contact-label {
   font-family: "Geist Sans", sans-serif;
-  font-weight: 600;
-  font-size: clamp(12px, 1vw, 14px);
-  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  font-size: clamp(13px, 1vw, 15px);
+  color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .contact-input {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
-  padding: clamp(10px, 1vw, 14px) clamp(12px, 1.2vw, 16px);
+  padding: clamp(12px, 1vw, 16px) clamp(14px, 1.2vw, 18px);
   font-family: "Geist Sans", sans-serif;
-  font-size: clamp(13px, 1vw, 15px);
+  font-size: clamp(15px, 1.1vw, 17px);
   color: #ffffff;
   outline: none;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.2);
 }
 
 .contact-input:focus {
-  border-color: #39CC2F;
+  border-color: #75F94C;
+  background: rgba(117, 249, 76, 0.03);
+  box-shadow: 0 0 0 3px rgba(117, 249, 76, 0.06);
 }
 
 .contact-textarea {
@@ -2443,38 +2648,42 @@ body {
 }
 
 .contact-submit-btn {
-  background: #F95545;
-  color: #ffffff;
+  background: #75F94C;
+  color: #0a0f13;
   border: none;
-  border-radius: 35px;
-  padding: clamp(10px, 1.2vw, 14px) 32px;
+  border-radius: 12px;
+  padding: clamp(12px, 1.1vw, 16px) 28px;
   font-family: "Geist Sans", sans-serif;
   font-weight: 700;
-  font-size: clamp(13px, 1vw, 16px);
+  font-size: clamp(14px, 1vw, 16px);
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  align-self: flex-start;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
+  width: 100%;
+  margin-top: 2px;
 }
 
 .contact-submit-btn:hover {
   transform: translateY(-2px);
-  opacity: 0.9;
+  box-shadow: 0 6px 20px rgba(117, 249, 76, 0.25);
 }
 
+/* Right: Map + Info */
 .contact-info {
   display: flex;
   flex-direction: column;
-  gap: clamp(12px, 1.5vw, 20px);
+  gap: clamp(10px, 1vw, 14px);
 }
 
 .contact-map-card {
   background: #131B21;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
   flex: 1;
-  min-height: clamp(180px, 20vw, 280px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: clamp(120px, 14vw, 200px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .contact-map-card iframe {
@@ -2484,9 +2693,14 @@ body {
 }
 
 .contact-details {
+  background: linear-gradient(160deg, #131B21, #151f28);
+  border-radius: 16px;
+  padding: clamp(14px, 1.2vw, 20px);
   display: flex;
   flex-direction: column;
   gap: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .contact-detail-item {
@@ -2494,17 +2708,26 @@ body {
   align-items: center;
   gap: 12px;
   font-family: "Geist Sans", sans-serif;
-  font-size: clamp(13px, 1vw, 15px);
-  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(14px, 1.1vw, 16px);
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.2s ease;
+}
+
+.contact-detail-item:hover {
+  color: #ffffff;
 }
 
 .contact-detail-item svg {
-  color: #39CC2F;
+  color: #75F94C;
   flex-shrink: 0;
 }
 
 /* Contact responsive */
 @media (max-width: 768px) {
+  .contact-section {
+    padding: 40px 5% 20px;
+  }
+
   .contact-grid {
     grid-template-columns: 1fr;
   }
@@ -2514,7 +2737,7 @@ body {
   }
 
   .contact-map-card {
-    min-height: 200px;
+    min-height: 180px;
   }
 }
 
@@ -2523,7 +2746,7 @@ body {
    ========================================== */
 .faq-section {
   height: 100vh;
-  padding: 100px 5% 40px;
+  padding: 80px 5% 40px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -2541,13 +2764,13 @@ body {
 
 .faq-header {
   text-align: center;
-  margin-bottom: clamp(20px, 3vw, 40px);
+  margin-bottom: clamp(20px, 3vw, 36px);
 }
 
 .faq-title {
   font-family: "Unbounded", sans-serif;
   font-weight: 800;
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(32px, 4vw, 52px);
   color: #ffffff;
   margin: 0 0 8px;
 }
@@ -2555,34 +2778,38 @@ body {
 .faq-subtitle {
   font-family: "Geist Sans", sans-serif;
   font-weight: 400;
-  font-size: clamp(14px, 1.2vw, 18px);
-  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(14px, 1.1vw, 17px);
+  color: rgba(255, 255, 255, 0.45);
   margin: 0;
 }
 
 .faq-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(8px, 1vw, 14px);
+  gap: clamp(10px, 1.2vw, 16px);
+  align-items: start;
 }
 
 .faq-item {
   display: flex;
   flex-direction: column;
-  background: #19232A;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: clamp(12px, 1.5vw, 18px);
-  transition: border-color 0.3s ease;
+  background: linear-gradient(160deg, #19232A, #1c2730);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: clamp(14px, 1.5vw, 20px);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   overflow: hidden;
 }
 
 .faq-item:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 .faq-item.open {
-  border-color: rgba(57, 204, 47, 0.3);
+  border-color: rgba(117, 249, 76, 0.25);
+  box-shadow: 0 4px 24px rgba(117, 249, 76, 0.06);
 }
 
 .faq-summary {
@@ -2595,10 +2822,11 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+  user-select: none;
 }
 
 .faq-icon {
-  color: #39CC2F;
+  color: #75F94C;
   flex-shrink: 0;
   transition: transform 0.4s ease;
   width: 18px;
@@ -2620,12 +2848,15 @@ body {
 }
 
 .faq-answer {
-  padding-top: 10px;
+  padding-top: 12px;
   font-family: "Geist Sans", sans-serif;
-  font-size: clamp(12px, 0.9vw, 14px);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.55);
   margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 12px;
+  margin-top: 12px;
 }
 
 /* FAQ responsive */

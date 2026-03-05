@@ -30,7 +30,7 @@ const InternshipSection = ({
       description:
         'Brainstorms hooks faster than TikTok trends\u2014driving campaigns, growing communities, and turning scrollers into confident traders. Handles copywriting, social posts, email funnels, light ad tweaks, and community engagement on Discord and Facebook. Checks the data to answer: \u201CDid that reel convert?\u201D',
       key: "Marketing",
-      icon: "/assets/icons/commercial.png",
+      icon: "/assets/icons/megaphone-fill.svg",
     },
     {
       title: "IT DEPARTMENT",
@@ -68,7 +68,11 @@ const InternshipSection = ({
             <div className="intcard fade-in" key={role.key}>
               <div className="intcontent">
                 <div className="intcard-icon">
-                  <img src={role.icon} alt={role.title} width={90} height={90} />
+                  {typeof role.icon === "string" ? (
+                    <img src={role.icon} alt={role.title} style={role.key === "Marketing" ? { width: "45px", height: "45px" } : {}} />
+                  ) : (
+                    role.icon
+                  )}
                 </div>
                 <h3 className="intcard-title">{role.title}</h3>
                 <p className="intcard-description">{role.description}</p>

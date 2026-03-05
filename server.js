@@ -48,7 +48,7 @@ function makeTransport() {
     service: "gmail",
     auth: {
       user: "staff.8conacademy@gmail.com",
-      pass: "dpuf bzwg anym exkb",
+      pass: "ugju axtg busv blba",
     },
     tls: { rejectUnauthorized: false },
   });
@@ -64,8 +64,9 @@ app.post("/contact", async (req, res) => {
 
     const transporter = makeTransport();
     await transporter.sendMail({
-      from: email,
-      to: "staff.8conacademy@gmail.com",
+      from: `"${name} via 8Con Academy" <staff.8conacademy@gmail.com>`,
+      replyTo: email,
+      to: "assyrah.alcantara@gmail.com",
       subject: `Inquiry from ${name}`,
       text: `You have received a new inquiry:\n\nName: ${name}\nEmail: ${email}\nPhone: ${contactNumber}\n\nMessage:\n${message}`,
     });
