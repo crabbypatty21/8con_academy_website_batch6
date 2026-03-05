@@ -135,17 +135,34 @@ const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Validate captcha first
     if (captchaInput !== captcha) {
       setCaptchaError("Captcha verification failed. Please try again.");
       return;
     }
     
+    // Validate all fields
     const newErrors = {};
-    if (!validateFullName(formData.fullName)) newErrors.fullName = "Full name must contain only letters, spaces, hyphens, and periods";
-    if (!validateEmail(formData.email)) newErrors.email = "Please enter a valid email address";
-    if (!validateContact(formData.contact)) newErrors.contact = "Contact number must be in format +63XXXXXXXXXX";
-    if (!validateLocation(formData.location)) newErrors.location = "Location must contain only letters, spaces, hyphens, commas, and periods";
-    if (!validateBusinessProfession(formData.businessProfession)) newErrors.businessProfession = "Business/Profession must contain only letters, spaces, hyphens, commas, periods, and forward slashes";
+    
+    if (!validateFullName(formData.fullName)) {
+      newErrors.fullName = "Full name must contain only letters, spaces, hyphens, and periods";
+    }
+    
+    if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    
+    if (!validateContact(formData.contact)) {
+      newErrors.contact = "Contact number must be in format +63XXXXXXXXXX";
+    }
+    
+    if (!validateLocation(formData.location)) {
+      newErrors.location = "Location must contain only letters, spaces, hyphens, commas, and periods";
+    }
+    
+    if (!validateBusinessProfession(formData.businessProfession)) {
+      newErrors.businessProfession = "Business/Profession must contain only letters, spaces, hyphens, commas, periods, and forward slashes";
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -155,36 +172,41 @@ const Registration = () => {
     setIsSubmitting(true);
     
     try {
-      const apiUrl = `${API_BASE_URL}/registration`;
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-        signal: AbortSignal.timeout(10000), 
-      });
-
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Server returned non-JSON response");
-      }
-
-      await response.json();
-      alert("Registration successful! Your seat has been reserved and details sent to 8Con Academy.");
+      console.log("Submitting registration data:", formData);
       
-      setFormData({
-        fullName: "", email: "", contact: "+63", location: "", businessProfession: "",
+      // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwz8131H9pOp56Iu8OQpV4pf9df1DdNvHX-Gn1MmmF_fcZqIeDrOxjRrtZDPf0Ai5KE/exec";
+      
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        // Notice we are NOT sending 'Content-Type': 'application/json' in the headers here.
+        // Google Apps Script CORS handles plain text bodies better to avoid preflight (OPTIONS) errors.
+        body: JSON.stringify(formData),
       });
-      generateCaptcha();
+
+      const data = await response.json();
+      
+      if (data.status === "success") {
+        alert("Registration successful! Your seat has been reserved and details sent to 8Con Academy.");
+        
+        // Reset form
+        setFormData({
+          fullName: "",
+          email: "",
+          contact: "+63",
+          location: "",
+          businessProfession: "",
+        });
+        
+        // Generate new captcha
+        generateCaptcha();
+      } else {
+        throw new Error(data.message || "Failed to save to Google Sheets");
+      }
       
     } catch (error) {
       console.error("Submit error:", error);
-      if (error.name === 'AbortError' || error.name === 'TimeoutError') {
-        alert("Request timed out. Please check your internet connection and try again.");
-      } else {
-        alert("Something went wrong. Please try again later.");
-      }
+      alert("Something went wrong. Please check your internet connection and try again.");
     } finally {
       setIsSubmitting(false);
     }
