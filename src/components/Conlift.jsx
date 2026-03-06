@@ -365,7 +365,7 @@ const ConLift = () => {
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       textAlign: "center",
       marginBottom: "3rem",
     },
@@ -443,7 +443,7 @@ const ConLift = () => {
       borderRadius: "15px",
       boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
       textAlign: "center",
-      border: "2px solid #f0f0f0",
+      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
       transition: "all 0.3s ease",
       cursor: "pointer",
     },
@@ -497,7 +497,7 @@ const ConLift = () => {
     whyChooseTitle: {
       fontSize: "1.4rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "1rem",
     },
 

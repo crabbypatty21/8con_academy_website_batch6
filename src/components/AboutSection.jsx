@@ -1,14 +1,16 @@
 import React from "react";
 import ScrollLink from "./ScrollLink";
 import { MoveRight } from "lucide-react";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 const AboutSection = () => {
+  const { isDark } = useTheme();
   return (
     <section id="about" className="about-section">
       <div className="about-container">
         <div className="about-header">
           <h1 className="aboutUsTitle fade-in">ABOUT US</h1>
-          <p className="subTitle fade-in">Confluence is Confidence</p>
+          <p className="subTitle fade-in" style={{ color: isDark ? "#ffffff" : "#373737" }}>Confluence is Confidence</p>
         </div>
 
         <div className="content-grid">
@@ -23,7 +25,7 @@ const AboutSection = () => {
             <h3 className="whoWeAre fade-in">WHO WE ARE</h3>
             <h2 className="weAre fade-in">8CON <span style={{ color: "#39CC2F" }}>ACADEMY</span></h2>
             <p className="weAreParagraph">
-              <span className="text-green-highlight fade-in">8CON Academy</span>{" "}
+              <span className="text-green-highlight fade-in" style={{ color: "#39CC2F" }}>8CON Academy</span>{" "}
               is a pioneering financial education institution in Meycauayan,
               Bulacan, Philippines. We specialize in forex trading education
               with a mission to make{" "}
@@ -59,8 +61,8 @@ const AboutSection = () => {
   justify-content: center;
   height: 100vh;
   margin: 0 auto;
-  background: #131B21;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.36);
+  background: var(--bg-primary);
+  box-shadow: none;
   position: relative;
   overflow: hidden;
   padding: 100px 40px 40px;
@@ -83,10 +85,10 @@ const AboutSection = () => {
   font-weight: 800;
   font-size: clamp(32px, 4vw, 52px);
   line-height: 1.2;
-  color: #FFFFFF;
+  color: var(--text-primary);
   text-align: center;
   margin-bottom: 10px;
-  -webkit-text-fill-color: #FFFFFF;
+  -webkit-text-fill-color: var(--text-primary);
   background: none;
   -webkit-background-clip: unset;
   background-clip: unset;
@@ -97,7 +99,7 @@ const AboutSection = () => {
   font-weight: 400;
   font-size: clamp(16px, 1.5vw, 22px);
   line-height: 1.3;
-  color: #FFFFFF;
+  color: #373737;
   text-align: center;
 }
 
@@ -141,7 +143,7 @@ const AboutSection = () => {
   font-weight: 700;
   font-size: clamp(14px, 1.5vw, 20px);
   line-height: 1.4;
-  color: #FFFFFF;
+  color: var(--text-primary);
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -152,7 +154,7 @@ const AboutSection = () => {
   font-weight: 700;
   font-size: clamp(24px, 3.5vw, 44px);
   line-height: 1.1;
-  color: #FFFFFF;
+  color: var(--text-primary);
   margin-bottom: 25px;
   text-align: left;
 }
@@ -162,7 +164,7 @@ const AboutSection = () => {
   font-weight: 600;
   font-size: clamp(14px, 1.2vw, 17px);
   line-height: 1.7;
-  color: #FFFFFF;
+  color: var(--text-primary);
   margin-bottom: 30px;
   text-align: justify;
 }

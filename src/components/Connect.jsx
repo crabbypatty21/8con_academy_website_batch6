@@ -372,7 +372,7 @@ const ConNect = () => {
       textAlign: "center",
       boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
       transition: "all 0.3s ease",
-      border: "1px solid #f0f0f0",
+      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
     },
 
     howItWorksIcon: {
@@ -447,7 +447,9 @@ const ConNect = () => {
 
     // Why Connect Section
     whyConnectSection: {
-      background: "linear-gradient(135deg, #0edb61 0%, #0cb851 100%)",
+      background: isDark
+        ? "linear-gradient(135deg, #0edb61 0%, #0cb851 100%)"
+        : "linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)",
       padding: "100px 0",
     },
 
@@ -483,13 +485,13 @@ const ConNect = () => {
     featureTitle: {
       fontSize: "1.2rem",
       fontWeight: "700",
-      color: "#ffffff",
+      color: isDark ? "#ffffff" : colors.textPrimary,
       marginBottom: "8px",
     },
 
     featureDescription: {
       fontSize: "1rem",
-      color: "#ffffff",
+      color: isDark ? "#ffffff" : colors.textPrimary,
       opacity: "0.9",
       lineHeight: "1.5",
     },
@@ -513,7 +515,7 @@ const ConNect = () => {
       textAlign: "center",
       boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
       transition: "all 0.3s ease",
-      border: "1px solid #f0f0f0",
+      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
     },
 
     memberIcon: {

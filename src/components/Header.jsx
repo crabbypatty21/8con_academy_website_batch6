@@ -26,7 +26,7 @@ const Header = () => {
         <div className="logo-section">
           <a href="#home" className="logo">
             <img
-              src="/assets/logo/8con Academy Logo White.png"
+              src={!isDark && scrolled ? "/assets/logo/8con Academy Logo.png" : "/assets/logo/8con Academy Logo White.png"}
               alt="8Con Academy Logo"
               className="logo-img"
             />

@@ -24,8 +24,8 @@ html {
    THEME VARIABLES
    ========================================== */
 :root {
-  --bg-primary: #000000;
-  --bg-secondary: #131B21;
+  --bg-primary: #131B21;
+  --bg-secondary: #19232A;
   --bg-tertiary: #19232A;
   --bg-quaternary: #1a2630;
   --bg-surface: #121411;
@@ -52,6 +52,7 @@ html {
 
   --header-scrolled-bg: rgba(19, 27, 33, 0.87);
   --header-text: #ffffff;
+  --header-scrolled-text: #ffffff;
   --header-dropdown-bg: #1a2630;
   --header-dropdown-text: #ffffff;
   --header-mobile-bg: rgba(19, 27, 33, 0.97);
@@ -110,65 +111,66 @@ html {
 }
 
 html.light-mode {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f1f5f9;
-  --bg-tertiary: #e2e8f0;
+  --bg-primary: #E9F1F9;
+  --bg-secondary: #EFF9FF;
+  --bg-tertiary: #EFF9FF;
   --bg-quaternary: #cbd5e1;
   --bg-surface: #f8f9fa;
 
-  --text-primary: #1a1a2e;
-  --text-secondary: #334155;
-  --text-muted: #64748b;
-  --text-heading: #0f172a;
-  --text-body: #334155;
+  --text-primary: #373737;
+  --text-secondary: #373737;
+  --text-muted: #828282;
+  --text-heading: #373737;
+  --text-body: #373737;
 
   --accent-green: #059669;
   --accent-green-light: #10b981;
   --accent-green-dark: #047857;
-  --accent-green-hover: #059669;
+  --accent-green-hover: #2DB062;
   --accent-green-bright: #16a34a;
   --accent-red: #dc2626;
   --accent-red-dark: #b91c1c;
   --accent-blue: #2563eb;
 
-  --card-bg: #ffffff;
+  --card-bg: #EFF9FF;
   --card-bg-light: rgba(0, 0, 0, 0.03);
   --card-border: #e2e8f0;
   --card-shadow: rgba(0, 0, 0, 0.08);
 
-  --header-scrolled-bg: rgba(255, 255, 255, 0.95);
+  --header-scrolled-bg: #E9F1F9;
   --header-text: #ffffff;
+  --header-scrolled-text: #373737;
   --header-dropdown-bg: #ffffff;
-  --header-dropdown-text: #334155;
+  --header-dropdown-text: #373737;
   --header-mobile-bg: rgba(255, 255, 255, 0.98);
-  --header-mobile-text: #334155;
+  --header-mobile-text: #373737;
   --header-mobile-border: #e2e8f0;
 
-  --contact-form-bg: #ffffff;
+  --contact-form-bg: #E9F1F9;
   --contact-form-border: #d1d5db;
   --contact-form-shadow: rgba(0, 0, 0, 0.1);
   --map-bg: #ffffff;
   --map-border: #d1d5db;
   --map-shadow: rgba(0, 0, 0, 0.1);
 
-  --form-label: #334155;
+  --form-label: #373737;
   --input-border: #d1d5db;
 
-  --internship-bg: #f1f5f9;
-  --intcard-bg: #ffffff;
+  --internship-bg: #E9F1F9;
+  --intcard-bg: #EFF9FF;
   --intcard-shadow: rgba(0, 0, 0, 0.1);
   --intcard-shadow-hover: rgba(0, 0, 0, 0.18);
   --intcard-icon: #059669;
-  --intcard-title: #0f172a;
-  --intcard-desc: #334155;
-  --intapply-bg: #059669;
-  --intapply-text: #ffffff;
-  --intapply-hover: #047857;
+  --intcard-title: #373737;
+  --intcard-desc: #373737;
+  --intapply-bg: #75F94C;
+  --intapply-text: #121411;
+  --intapply-hover: #65e03e;
 
-  --careerpath-bg: #f8fafc;
-  --career-card-bg: #ffffff;
-  --career-card-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.12);
-  --career-card-shadow-hover: 0px 0px 16px 4px rgba(0, 0, 0, 0.18);
+  --careerpath-bg: #EFF9FF;
+  --career-card-bg: #E9F1F9;
+  --career-card-shadow: 0px 6px 20px rgba(0, 0, 0, 0.25), 0px 3px 8px rgba(0, 0, 0, 0.15);
+  --career-card-shadow-hover: 0px 12px 32px rgba(0, 0, 0, 0.3), 0px 6px 12px rgba(0, 0, 0, 0.2);
 
   --modal-bg: #fff;
   --modal-text: #333;
@@ -178,16 +180,16 @@ html.light-mode {
 
   --sub-brands-bg: #f8f9fa;
 
-  --carousel-btn-svg: #334155;
+  --carousel-btn-svg: #373737;
   --indicator-bg: #cbd5e1;
   --indicator-hover: #dc2626;
   --indicator-active: #059669;
 
   --contact-info-bg: #f0fdf4;
 
-  --testimonial-text: #334155;
+  --testimonial-text: #373737;
 
-  --body-color: #1a1a2e;
+  --body-color: #373737;
   --splash-bg: #ffffff;
 
   /* Footer stays dark in both modes — intentional design pattern */
@@ -2543,7 +2545,7 @@ body {
 
 .contact-section {
   height: 100vh;
-  background: #19232A;
+  background: var(--bg-secondary);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2567,7 +2569,7 @@ body {
   font-family: "Unbounded", sans-serif;
   font-weight: 800;
   font-size: clamp(24px, 3vw, 40px);
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 6px;
 }
 
@@ -2575,7 +2577,7 @@ body {
   font-family: "Geist Sans", sans-serif;
   font-weight: 400;
   font-size: clamp(13px, 1vw, 16px);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -2588,14 +2590,14 @@ body {
 
 /* Form card */
 .contact-form {
-  background: linear-gradient(160deg, #131B21, #151f28);
+  background: var(--card-bg);
   border-radius: 20px;
   padding: clamp(24px, 2.5vw, 36px);
   display: flex;
   flex-direction: column;
   gap: clamp(14px, 1.5vw, 20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px var(--card-shadow), 0 4px 12px rgba(0, 0, 0, 0.15);
   justify-content: center;
 }
 
@@ -2613,27 +2615,27 @@ body {
 
 .contact-label {
   font-family: "Geist Sans", sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   font-size: clamp(13px, 1vw, 15px);
-  color: #ffffff;
+  color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .contact-input {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--card-bg-light);
+  border: 1px solid var(--card-border);
   border-radius: 10px;
   padding: clamp(12px, 1vw, 16px) clamp(14px, 1.2vw, 18px);
   font-family: "Geist Sans", sans-serif;
   font-size: clamp(15px, 1.1vw, 17px);
-  color: #ffffff;
+  color: var(--text-primary);
   outline: none;
   transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-input::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--text-muted);
 }
 
 .contact-input:focus {
@@ -2677,13 +2679,13 @@ body {
 }
 
 .contact-map-card {
-  background: #131B21;
+  background: var(--card-bg);
   border-radius: 20px;
   overflow: hidden;
   flex: 1;
   min-height: clamp(120px, 14vw, 200px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px var(--card-shadow), 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .contact-map-card iframe {
@@ -2693,14 +2695,14 @@ body {
 }
 
 .contact-details {
-  background: linear-gradient(160deg, #131B21, #151f28);
+  background: var(--card-bg);
   border-radius: 16px;
   padding: clamp(14px, 1.2vw, 20px);
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px var(--card-shadow), 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .contact-detail-item {
@@ -2709,12 +2711,12 @@ body {
   gap: 12px;
   font-family: "Geist Sans", sans-serif;
   font-size: clamp(14px, 1.1vw, 16px);
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   transition: color 0.2s ease;
 }
 
 .contact-detail-item:hover {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .contact-detail-item svg {
@@ -2754,7 +2756,7 @@ body {
   justify-content: center;
   box-sizing: border-box;
   overflow: hidden;
-  background: #131B21;
+  background: var(--bg-primary);
 }
 
 .faq-wrapper {
@@ -2771,7 +2773,7 @@ body {
   font-family: "Unbounded", sans-serif;
   font-weight: 800;
   font-size: clamp(32px, 4vw, 52px);
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 8px;
 }
 
@@ -2779,7 +2781,7 @@ body {
   font-family: "Geist Sans", sans-serif;
   font-weight: 400;
   font-size: clamp(14px, 1.1vw, 17px);
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -2793,12 +2795,13 @@ body {
 .faq-item {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(160deg, #19232A, #1c2730);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 16px;
   padding: clamp(14px, 1.5vw, 20px);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .faq-item:hover {
@@ -2817,7 +2820,7 @@ body {
   font-family: "Geist Sans", sans-serif;
   font-weight: 600;
   font-size: clamp(13px, 1vw, 15px);
-  color: #ffffff;
+  color: var(--text-primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2852,9 +2855,9 @@ body {
   font-family: "Geist Sans", sans-serif;
   font-size: clamp(14px, 1.1vw, 17px);
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-muted);
   margin: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--card-border);
   padding-top: 12px;
   margin-top: 12px;
 }
