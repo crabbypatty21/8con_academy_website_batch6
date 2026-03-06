@@ -348,7 +348,7 @@ const Registration = () => {
           }
 
           .registration-section {
-            background-color: #161e24; /* Solid background */
+            background-color: #19232A;
             min-height: 80vh;
             display: flex;
             align-items: center;
@@ -362,7 +362,7 @@ const Registration = () => {
           }
 
           .registration-container {
-            max-width: 1000px;
+            max-width: 1000px; 
             margin: 0 auto;
             width: 100%;
             padding: 40px 20px;
@@ -374,7 +374,7 @@ const Registration = () => {
             flex-direction: row;
             width: 100%;
             background-color: #1a2329;
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden; 
             box-shadow: 0 0 20px rgba(109, 186, 214, 0.4), 0 10px 30px rgba(0, 0, 0, 0.5); /* #6DBAD6 shadow */
             border: 1px solid #293842;
@@ -382,7 +382,7 @@ const Registration = () => {
 
           /* Left Side: Form */
           .form-column {
-            flex: 1 1 40%;
+            flex: 1 1 55%;
             width: 40%;
             padding: 24px 36px; 
             display: flex;
@@ -392,12 +392,13 @@ const Registration = () => {
 
           /* Right Side: Image Container */
           .image-column {
-            flex: 1 1 60%;
+            flex: 1 1 70%;
             width: 60%;
             display: block; 
             background-color: #1a2329;
             padding: 0;
             margin: 0;
+            box-shadow: 0 0 20px rgba(109, 186, 214, 0.4), 0 10px 30px rgba(0, 0, 0, 0.5);
           }
 
           .workshop-image {

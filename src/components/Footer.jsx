@@ -142,7 +142,7 @@ const Footer = () => {
         </div>
       </div>
       <style>{`.footer {
-  background-color: var(--footer-bg);
+  background-color: #131b21; /* Changed background color here */
   color: var(--footer-text);
   padding: 32px 16px;
 }
