@@ -433,7 +433,8 @@ const Registration = () => {
           }
 
           .form-input::placeholder {
-            color: #8c9ba5;
+            color: #f2f2f2;
+            opacity: 1;
           }
 
           .form-input:focus {
