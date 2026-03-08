@@ -27,7 +27,7 @@ const Header = () => {
         <div className="logo-section">
           <ScrollLink to="/#home" className="logo">
             <img
-              src="/assets/logo/8con Academy Logo White.png"
+              src={!isDark && scrolled ? "/assets/logo/8con Academy Logo.png" : "/assets/logo/8con Academy Logo White.png"}
               alt="8Con Academy Logo"
               className="logo-img"
             />
@@ -72,13 +72,17 @@ const Header = () => {
             </div>
           </div>
           
-          <a 
-            href="https://www.8connews.org/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <a
+            href="https://www.8connews.org/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="nav-link"
           >
             Newsletters
+          </a>
+
+          <a href="#contact" className="nav-link">
+            Contact Us
           </a>
         </nav>
 
@@ -162,13 +166,22 @@ const Header = () => {
             >
               About Us
             </ScrollLink>
-            <ScrollLink
-              to="/registration"
+      
+            <a
+              href="#contact"
+              className="mobile-nav-link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Contact Us
+            </a>
+            {/* Added Register to Mobile Menu as well since it hides on desktop */}
+            <a
+              href="/registration"
               className="mobile-nav-link highlight-link"
               onClick={() => setMobileMenuOpen(false)}
             >
               Register Here!
-            </ScrollLink>
+            </a>
             <button
               className="mobile-nav-link theme-toggle-mobile"
               onClick={toggleTheme}

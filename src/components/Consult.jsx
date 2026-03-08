@@ -464,7 +464,7 @@ const ConSult = () => {
     statNumber: {
       fontSize: "2.5rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "0.5rem",
     },
 
@@ -564,7 +564,7 @@ const ConSult = () => {
     approachTitle: {
       fontSize: "1.4rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "1rem",
     },
 
@@ -592,7 +592,7 @@ const ConSult = () => {
     clientTitle: {
       fontSize: "1.3rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "1.5rem",
       textAlign: "center",
     },

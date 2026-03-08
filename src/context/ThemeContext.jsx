@@ -46,17 +46,17 @@ export const ThemeProvider = ({ children }) => {
   }, []);
 
   const colors = {
-    bgPrimary: isDark ? "#000000" : "#ffffff",
-    bgSecondary: isDark ? "#131B21" : "#f1f5f9",
-    bgTertiary: isDark ? "#19232A" : "#e2e8f0",
+    bgPrimary: isDark ? "#131B21" : "#E9F1F9",
+    bgSecondary: isDark ? "#19232A" : "#EFF9FF",
+    bgTertiary: isDark ? "#19232A" : "#EFF9FF",
     bgSurface: isDark ? "#121411" : "#f8f9fa",
     bgCard: isDark ? "#19232A" : "#ffffff",
 
-    textPrimary: isDark ? "#ffffff" : "#1a1a2e",
-    textSecondary: isDark ? "rgba(255,255,255,0.8)" : "#334155",
-    textMuted: isDark ? "#cccccc" : "#64748b",
-    textHeading: isDark ? "#ffffff" : "#0f172a",
-    textBody: isDark ? "#E4EED3" : "#334155",
+    textPrimary: isDark ? "#ffffff" : "#373737",
+    textSecondary: isDark ? "rgba(255,255,255,0.8)" : "#373737",
+    textMuted: isDark ? "#cccccc" : "#828282",
+    textHeading: isDark ? "#ffffff" : "#373737",
+    textBody: isDark ? "#E4EED3" : "#373737",
 
     accentGreen: isDark ? "#0edb61" : "#059669",
     accentGreenLight: isDark ? "#75F94C" : "#10b981",

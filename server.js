@@ -47,8 +47,8 @@ function makeTransport() {
   return nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "staff.8conacademy@gmail.com",
-      pass: "dpuf bzwg anym exkb",
+      user: "assyrah.alcantara@gmail.com",
+      pass: "ugju axtg busv blba",
     },
     tls: { rejectUnauthorized: false },
   });
@@ -64,8 +64,9 @@ app.post("/contact", async (req, res) => {
 
     const transporter = makeTransport();
     await transporter.sendMail({
-      from: email,
-      to: "staff.8conacademy@gmail.com",
+      from: `"${name} via 8Con Academy" <assyrah.alcantara@gmail.com>`,
+      replyTo: email,
+      to: "assyrah.alcantara@gmail.com",
       subject: `Inquiry from ${name}`,
       text: `You have received a new inquiry:\n\nName: ${name}\nEmail: ${email}\nPhone: ${contactNumber}\n\nMessage:\n${message}`,
     });
@@ -98,8 +99,9 @@ app.post("/apply", upload.single("resumeFile"), async (req, res) => {
     const transporter = makeTransport();
 
     await transporter.sendMail({
-      from: email,
-      to: "staff.8conacademy@gmail.com",
+      from: `"${fullName} via 8Con Academy" <assyrah.alcantara@gmail.com>`,
+      replyTo: email,
+      to: "assyrah.alcantara@gmail.com",
       subject: `Internship Application - ${fullName} for ${selectedPosition}`,
       text: `Name: ${fullName}\nEmail: ${email}\nPhone: ${phoneNumber}\nAddress: ${address}\nDepartment: ${selectedPosition}`,
       attachments: [
@@ -128,8 +130,9 @@ app.post("/registration", async (req, res) => {
 
     const transporter = makeTransport();
     await transporter.sendMail({
-      from: email,
-      to: "staff.8conacademy@gmail.com",
+      from: `"${fullName} via 8Con Academy" <assyrah.alcantara@gmail.com>`,
+      replyTo: email,
+      to: "assyrah.alcantara@gmail.com",
       subject: `Workshop Registration - ${fullName}`,
       text: `New Registration:\n\nFull Name: ${fullName}\nEmail: ${email}\nContact: ${contact}\nLocation: ${location}\nProfession: ${businessProfession}`,
     });

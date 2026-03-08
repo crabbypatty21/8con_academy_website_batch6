@@ -468,7 +468,7 @@ const ConSpace = () => {
     statNumber: {
       fontSize: "2.5rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "0.5rem",
     },
 
@@ -601,7 +601,7 @@ const ConSpace = () => {
     clientTitle: {
       fontSize: "1.3rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "1.5rem",
       textAlign: "center",
     },

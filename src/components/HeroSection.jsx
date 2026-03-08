@@ -16,7 +16,7 @@ const HeroSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000);
+    }, 8000);
     return () => clearInterval(interval);
   }, []);
 
@@ -60,12 +60,13 @@ const HeroSection = () => {
       <style>{`
         .hero-section {
           position: relative;
-          min-height: 100vh;
+          height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 80px 20px 20px;
+          padding: 100px 20px 20px;
           overflow: hidden;
+          box-sizing: border-box;
         }
 
         .hero-bg-slide {
