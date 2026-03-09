@@ -35,6 +35,12 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.38);
 }
 
+.header.scrolled .nav-link,
+.header.scrolled .theme-toggle-btn,
+.header.scrolled .mobile-menu-toggle {
+  color: var(--header-scrolled-text);
+}
+
 /* LAYOUT: 3-column grid for logo | nav | actions */
 .header-container {
   width: 100%;

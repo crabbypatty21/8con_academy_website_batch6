@@ -7,250 +7,341 @@ import {
   Phone,
   Mail,
   Clock,
+  MapPin,
 } from "lucide-react";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 const Footer = () => {
+  const { isDark } = useTheme();
   return (
     <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-grid">
-          {/* Partnership */}
-          <div className="footer-container">
-            <h4 className="footer-title">Partnership</h4>
-            <ul className="footer-list">
-              <div className="footer-logo">
-                <img
-                  src="/assets/logo/tickmill.png"
-                  alt="Tickmill Logo"
-                  className="footer-logo-img"
-                />
-                <img
-                  src="/assets/logo/dupoin.png"
-                  alt="Dupoin Logo"
-                  className="footer-logo-img"
-                />
-              </div>
-            </ul>
+      <div className="footer-main">
+        {/* Top: Logo + tagline */}
+        <div className="footer-brand">
+          <img
+            src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
+            alt="8Con Academy"
+            className="footer-brand-logo"
+          />
+          <p className="footer-tagline">Confluence is Confidence</p>
+          <div className="footer-social">
+            <a
+              href="https://www.facebook.com/8ConAcademy"
+              className="social-icon fb-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Facebook size={16} />
+            </a>
+            <a
+              href="https://www.instagram.com/8conacademy/"
+              className="social-icon ig-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Instagram size={16} />
+            </a>
+            <a
+              href="https://ph.linkedin.com/company/8con-academy"
+              className="social-icon li-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Linkedin size={16} />
+            </a>
           </div>
+        </div>
 
+        <div className="footer-grid">
           {/* Quick Links */}
-          <div className="footer-container">
+          <div className="footer-col">
             <h4 className="footer-title">Quick Links</h4>
             <ul className="footer-list">
-              <li>
-                <a href="#core-brand" className="quick-link">
-                  Brands
-                </a>
-              </li>
-              <li>
-                <a href="#" className="quick-link">
-                  Newsletters
-                </a>
-              </li>
-              <li>
-                <a href="#internship" className="quick-link">
-                  Careers
-                </a>
-              </li>
-              <li>
-                <a href="#about" className="quick-link">
-                  About
-                </a>
-              </li>
+              <li><a href="#home" className="quick-link">Home</a></li>
+              <li><a href="#about" className="quick-link">About Us</a></li>
+              <li><a href="#core-brand" className="quick-link">Brands</a></li>
+              <li><a href="#internship" className="quick-link">Careers</a></li>
+              <li><a href="#contact" className="quick-link">Contact</a></li>
             </ul>
           </div>
 
           {/* Programs */}
-          <div className="footer-container">
+          <div className="footer-col">
             <h4 className="footer-title">Programs</h4>
             <ul className="footer-list">
-              <li>
-                <a href="#core-brand" className="program-link">
-                  Core brands
-                </a>
-              </li>
-              <li>
-                <a href="#sub-brands" className="program-link">
-                  Sub-brands
-                </a>
-              </li>
+              <li><a href="#core-brand" className="program-link">Core Brands</a></li>
+              <li><a href="#sub-brands" className="program-link">Sub-brands</a></li>
+              <li><a href="#" className="program-link">Newsletters</a></li>
             </ul>
           </div>
 
+          {/* Partnership */}
+          <div className="footer-col">
+            <h4 className="footer-title">Partnership</h4>
+            <div className="footer-logo">
+              <img src="/assets/logo/tickmill.png" alt="Tickmill" className="footer-logo-img" />
+              <img src="/assets/logo/dupoin.png" alt="Dupoin" className="footer-logo-img" />
+            </div>
+          </div>
+
           {/* Contact Info */}
-          <div className="footer-container">
+          <div className="footer-col">
             <h4 className="footer-title">Contact Info</h4>
             <div className="footer-contact-info">
-              <p>
-                <Phone
-                  size={18}
-                  style={{ marginRight: "8px", verticalAlign: "middle" }}
-                />
-                +63 954 996 1125
-              </p>
-              <p>
-                <Mail
-                  size={18}
-                  style={{ marginRight: "8px", verticalAlign: "middle" }}
-                />
-                8ConAcademy@gmail.com
-              </p>
-              <p style={{ marginBottom: "16px" }}>
-                <Clock
-                  size={18}
-                  style={{ marginRight: "8px", verticalAlign: "middle" }}
-                />
-                Mon–Fri 11:00 AM – 8:00 PM
-              </p>
-              <div className="footer-social">
-                <a
-                  href="https://www.facebook.com/8ConAcademy"
-                  className="fb-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Facebook size={18} />
-                </a>
-                <a
-                  href="https://www.instagram.com/8conacademy/"
-                  className="ig-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Instagram size={18} />
-                </a>
-                <a
-                  href="https://ph.linkedin.com/company/8con-academy"
-                  className="li-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Linkedin size={18} />
-                </a>
-              </div>
+              <p><Phone size={14} className="footer-icon" /> +63 954 996 1125</p>
+              <p><Mail size={14} className="footer-icon" /> 8ConAcademy@gmail.com</p>
+              <p><Clock size={14} className="footer-icon" /> Mon–Fri 11:00 AM – 8:00 PM</p>
+              <p><MapPin size={14} className="footer-icon" /> Meycauayan, Bulacan, Philippines</p>
             </div>
           </div>
         </div>
-
-        {/* Bottom Footer */}
-        <div className="footer-bottom">
-          <div className="footer-bottom-content">
-            <p>
-              &copy; 2025 <strong>8Con Academy</strong>. All rights reserved.
-            </p>
-          </div>
-        </div>
       </div>
+
+      {/* Bottom Footer */}
+      <div className="footer-bottom">
+        <p>&copy; 2025 <strong>8Con Academy</strong>. All rights reserved.</p>
+      </div>
+
       <style>{`.footer {
-  background-color: var(--footer-bg);
-  color: var(--footer-text);
-  padding: 32px 16px;
+  background: ${isDark ? "#19232A" : "#EFF9FF"};
+  color: ${isDark ? "#ffffff" : "#373737"};
+  padding: 20px 5% 0;
+  font-family: "Geist Sans", sans-serif;
 }
 
-.footer-container {
+.footer-main {
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.footer-logo {
   display: flex;
-  align-items: center;
-  justify-content: left;
-  gap: 5px;
+  gap: 30px;
+  padding-bottom: 16px;
 }
 
-.footer-logo img {
-  height: 100px;
-  width: auto;
+.footer-brand {
+  flex: 0 0 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-brand-logo {
+  width: 90px;
+  height: auto;
   object-fit: contain;
 }
 
-.footer-description {
-  color: var(--footer-text);
-  font-size: 14px;
+.footer-tagline {
+  font-size: 10px;
+  color: ${isDark ? "rgba(255, 255, 255, 0.5)" : "#828282"};
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }
 
+.footer-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.footer-col {}
+
 .footer-title {
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-family: "Unbounded", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  margin-bottom: 8px;
+  color: ${isDark ? "#ffffff" : "#373737"};
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 6px;
+}
+
+.footer-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background: #0ED85F;
+  border-radius: 2px;
 }
 
 .footer-list {
   list-style: none;
   padding: 0;
-  font-size: 14px;
+  margin: 0;
 }
 
 .footer-list li {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .quick-link,
 .program-link {
-  color: var(--footer-text);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  color: ${isDark ? "rgba(255, 255, 255, 0.65)" : "#666666"};
   text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+  display: block;
 }
 
-.footer-social a {
-  color: var(--footer-text);
+.quick-link:hover {
+  color: #0ED85F;
+  padding-left: 4px;
+}
+
+.program-link:hover {
+  color: #F95545;
+  padding-left: 4px;
+}
+
+.footer-logo {
   display: flex;
   align-items: center;
-  gap: 6px;
-  text-decoration: none;
+  gap: 8px;
+  flex-wrap: wrap;
 }
-.fb-link:hover {
-  color: #1877f2;
+
+.footer-logo img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  filter: ${isDark ? "brightness(0) invert(1)" : "brightness(0)"};
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
 }
-.ig-link:hover {
-  color: #d62976;
-}
-.li-link:hover {
-  color: #0077b5;
-}
-.quick-link:hover {
-  color: var(--accent-green);
-}
-.program-link:hover {
-  color: var(--accent-red);
+
+.footer-logo img:hover {
+  opacity: 1;
 }
 
 .footer-contact-info {
-  font-size: 14px;
-  color: var(--footer-text);
+  font-size: 11px;
+  color: ${isDark ? "rgba(255, 255, 255, 0.65)" : "#666666"};
 }
 
 .footer-contact-info p {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.footer-icon {
+  color: #0ED85F;
+  flex-shrink: 0;
 }
 
 .footer-social {
   display: flex;
-  gap: 12px;
-  margin-top: 16px;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.social-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: ${isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.06)"};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${isDark ? "rgba(255, 255, 255, 0.7)" : "#666666"};
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.social-icon.fb-link:hover {
+  background: #1877f2;
+  color: #ffffff;
+}
+
+.social-icon.ig-link:hover {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: #ffffff;
+}
+
+.social-icon.li-link:hover {
+  background: #0077b5;
+  color: #ffffff;
 }
 
 .footer-bottom {
-  border-top: 1px solid #ccc;
-  margin-top: 32px;
-  padding-top: 24px;
+  border-top: 1px solid ${isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.1)"};
+  padding: 12px 0;
   text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.footer-bottom-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  color: var(--footer-bottom-text);
+.footer-bottom p {
+  font-size: 11px;
+  color: ${isDark ? "rgba(255, 255, 255, 0.4)" : "#828282"};
+  margin: 0;
+}
+
+.footer-bottom strong {
+  color: ${isDark ? "rgba(255, 255, 255, 0.6)" : "#373737"};
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .footer-main {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .footer-brand {
+    flex: none;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 600px) {
+  .footer {
+    padding: 40px 5% 0;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .footer-list li {
+    margin-bottom: 8px;
+  }
+
+  .footer-logo {
+    justify-content: center;
+  }
+
+  .footer-contact-info p {
+    justify-content: center;
+  }
 }
 
 .footer-bottom-links {

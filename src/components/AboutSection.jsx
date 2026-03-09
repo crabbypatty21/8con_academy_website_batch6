@@ -1,14 +1,16 @@
 import React from "react";
-import ScrollLink from "./ScrollLink"; // Ensure this component handles smooth scroll or routing
+import ScrollLink from "./ScrollLink";
 import { MoveRight } from "lucide-react";
+import { useTheme } from "../context/ThemeContext.jsx";
 
 const AboutSection = () => {
+  const { isDark } = useTheme();
   return (
     <section id="about" className="about-section">
       <div className="about-container">
         <div className="about-header">
-          <h1 className="aboutUsTitle fade-in">About Us</h1>
-          <p className="subTitle fade-in">Confluence is Confidence</p>
+          <h1 className="aboutUsTitle fade-in">ABOUT US</h1>
+          <p className="subTitle fade-in" style={{ color: isDark ? "#ffffff" : "#373737" }}>Confluence is Confidence</p>
         </div>
 
         <div className="content-grid">
@@ -21,9 +23,9 @@ const AboutSection = () => {
           </div>
           <div className="text-content fade-in">
             <h3 className="whoWeAre fade-in">WHO WE ARE</h3>
-            <h2 className="weAre fade-in">8Con Academy</h2>
+            <h2 className="weAre fade-in">8CON <span style={{ color: "#39CC2F" }}>ACADEMY</span></h2>
             <p className="weAreParagraph">
-              <span className="text-green-highlight fade-in">8CON Academy</span>{" "}
+              <span className="text-green-highlight fade-in" style={{ color: "#39CC2F" }}>8CON Academy</span>{" "}
               is a pioneering financial education institution in Meycauayan,
               Bulacan, Philippines. We specialize in forex trading education
               with a mission to make{" "}
@@ -40,7 +42,7 @@ const AboutSection = () => {
             >
               <ScrollLink
                 to="/aboutus"
-                className="intapply-btn fade-in"
+                className="about-readmore-btn fade-in"
                 style={{ display: "flex", alignItems: "center" }}
                 onClick={(e) => e.currentTarget.blur()}
               >
@@ -55,39 +57,67 @@ const AboutSection = () => {
         {`.about-section {
   display: flex;
   flex-direction: column;
-  align-items: center; /* ✅ Center horizontally */
-  justify-content: center; /* ✅ Optional: center vertically */
-  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
   margin: 0 auto;
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
+  box-shadow: none;
   position: relative;
   overflow: hidden;
-  padding: 60px 40px 40px;
+  padding: 100px 40px 40px;
+  box-sizing: border-box;
 }
+
 .about-header {
   text-align: center;
+  margin-bottom: 40px;
 }
+
 .about-container {
   margin: 0 auto;
   max-width: 1200px;
+  width: 100%;
 }
 
 .aboutUsTitle {
-  font-size: 3.5rem;
-  font-weight: 700;
+  font-family: "Unbounded", sans-serif;
+  font-weight: 800;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.2;
+  color: var(--text-primary);
   text-align: center;
-  justify-self: center;
-  margin-bottom: 20px;
-  background: var(--text-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  position: relative;
+  margin-bottom: 10px;
+  -webkit-text-fill-color: var(--text-primary);
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
 }
-.aboutus-logo {
-  display: left;
-  align-items: center;
-  justify-content: center;
+
+.subTitle {
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 400;
+  font-size: clamp(16px, 1.5vw, 22px);
+  line-height: 1.3;
+  color: #373737;
+  text-align: center;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 40px;
+  align-items: start;
+  gap: 50px;
+}
+
+.image-container {
+  max-width: 100%;
+  height: auto;
+  max-height: 450px;
+  border-radius: 3px;
+  overflow: hidden;
+  justify-self: center;
 }
 
 .aboutus-logo-img {
@@ -98,147 +128,124 @@ const AboutSection = () => {
 }
 
 .aboutus-logo-img:hover {
-  transform: scale(1.02); /* Slight zoom on hover */
-}
-
-.subTitle {
-  text-align: center;
-  justify-self: center;
-  font-size: 1.3rem;
-  color: var(--text-primary);
-  font-weight: 300;
-}
-
-.content-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-top: 20px;
-  align-items: center; /* vertical centering */
-  gap: 40px;
+  transform: scale(1.02);
 }
 
 .text-content {
   text-align: left;
-  padding-right: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
 .whoWeAre {
-  font-size: 0.9rem;
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 700;
+  font-size: clamp(14px, 1.5vw, 20px);
+  line-height: 1.4;
   color: var(--text-primary);
-  font-weight: 600;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   text-transform: uppercase;
-  text-align: left;
+  letter-spacing: 2px;
 }
 
 .weAre {
-  font-size: 2.8rem;
+  font-family: "Unbounded", sans-serif;
   font-weight: 700;
+  font-size: clamp(24px, 3.5vw, 44px);
+  line-height: 1.1;
   color: var(--text-primary);
   margin-bottom: 25px;
-  line-height: 1.2;
   text-align: left;
 }
 
 .weAreParagraph {
-  font-size: 1.1rem;
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 600;
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.7;
   color: var(--text-primary);
-  line-height: 1.8;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
   text-align: justify;
 }
 
-.image-container {
-  max-width: 100%;
-  height: auto;
-  max-height: 500px;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  justify-self: center;
-}
-
-.read-more-btn {
-  background: linear-gradient(45deg, var(--accent-red) 0%, var(--bg-primary), var(--accent-green-dark) 100%);
-  color: var(--text-primary);
+.about-readmore-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #F95545;
+  color: #FFFFFF;
   border: none;
-  padding: 15px 35px;
-  font-size: 1.1rem;
+  width: 190px;
+  height: 48px;
+  border-radius: 40px;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
-  border-radius: 50px;
+  font-size: 16px;
+  line-height: 48px;
+  text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-  position: relative;
-  overflow: hidden;
 }
 
-.text-content .read-more-btn {
-  margin: 0; /* No auto margin on desktop */
-  align-self: flex-start; /* Align to start on desktop */
-  display: inline-block;
-  width: auto;
-}
-
-.read-more-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transition: left 0.5s ease;
-}
-
-.read-more-btn:hover::before {
-  left: 100%;
-}
-
-.read-more-btn:hover {
+.about-readmore-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+  opacity: 0.9;
 }
 
-.read-more-btn:active {
-  transform: translateY(-1px);
-}
-
-.background {
-  width: 100%;
-  height: 250px;
-}@media (max-width: 1024px) {
-  .about-section {
-    padding: 50px 30px 30px;
-  }
-
-  .about-container {
-    margin: 0 20px;
-  }
-
-  .content-grid {
-    gap: 30px;
-  }
-
+/* Large desktop */
+@media (max-width: 1280px) {
   .aboutUsTitle {
-    font-size: 3rem;
+    font-size: 56px;
+    line-height: 70px;
+  }
+
+  .subTitle {
+    font-size: 24px;
   }
 
   .weAre {
-    font-size: 2.5rem;
+    font-size: 50px;
+    line-height: 45px;
   }
 
   .weAreParagraph {
-    font-size: 1rem;
+    font-size: 22px;
+    line-height: 34px;
+  }
+
+  .whoWeAre {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .about-section {
+    padding: 60px 30px 40px;
+  }
+
+  .aboutUsTitle {
+    font-size: 48px;
+    line-height: 60px;
+  }
+
+  .subTitle {
+    font-size: 22px;
+  }
+
+  .weAre {
+    font-size: 42px;
+    line-height: 40px;
+    margin-bottom: 30px;
+  }
+
+  .whoWeAre {
+    font-size: 22px;
+  }
+
+  .weAreParagraph {
+    font-size: 18px;
+    line-height: 30px;
   }
 }
 
@@ -246,72 +253,57 @@ const AboutSection = () => {
 @media (max-width: 768px) {
   .about-section {
     padding: 40px 20px 30px;
-    min-height: auto; /* Allow natural height on mobile */
-  }
-
-  .about-container {
-    margin: 0 10px;
+    height: 100vh;
   }
 
   .content-grid {
-    grid-template-columns: 1fr; /* Stack vertically */
+    grid-template-columns: 1fr;
     gap: 30px;
-    text-align: center; /* Center content on mobile */
-  }
-
-  .text-content {
-    text-align: center; /* Center text on mobile */
-    padding-right: 0; /* Remove right padding */
-    order: 2; /* Put text below image */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center all content including button */
-  }
-
-  .image-container {
-    order: 1; /* Put image above text */
-    max-height: 400px;
-    margin: 0 auto; /* Center the image container */
-    max-width: 400px; /* Limit image width on mobile */
-  }
-
-  .aboutUsTitle {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-  }
-
-  .subTitle {
-    font-size: 1.1rem;
-    padding: 0 20px; /* Add horizontal padding */
+    text-align: center;
   }
 
   .text-content {
     text-align: center;
-    justify-content: center;
+    padding-right: 0;
+    order: 2;
+    display: flex;
+    flex-direction: column;
     align-items: center;
   }
 
+  .image-container {
+    order: 1;
+    max-height: 400px;
+    margin: 0 auto;
+    max-width: 500px;
+  }
+
+  .aboutUsTitle {
+    font-size: 40px;
+    line-height: 50px;
+  }
+
+  .subTitle {
+    font-size: 20px;
+  }
+
   .whoWeAre {
-    font-size: 0.8rem;
+    font-size: 20px;
     text-align: center;
   }
 
   .weAre {
-    font-size: 2.2rem;
+    font-size: 36px;
+    line-height: 36px;
     text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .weAreParagraph {
-    font-size: 1rem;
-    padding: 0 10px;
     margin-bottom: 25px;
   }
 
-  .read-more-btn {
-    margin: 0 auto; /* Center the button */
-    display: block;
-    width: fit-content; /* Ensure button only takes needed width */
+  .weAreParagraph {
+    font-size: 16px;
+    line-height: 28px;
+    padding: 0 10px;
+    text-align: center;
   }
 }
 
@@ -321,62 +313,39 @@ const AboutSection = () => {
     padding: 30px 15px 20px;
   }
 
-  .about-container {
-    margin: 0 5px;
-  }
-
-  .content-grid {
-    gap: 20px;
-  }
-
-  .text-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center everything on mobile */
-  }
-
   .image-container {
     max-height: 300px;
     max-width: 300px;
-    border-radius: 15px; /* Slightly smaller border radius */
   }
 
   .aboutUsTitle {
-    font-size: 2rem;
-    margin-bottom: 10px;
+    font-size: 32px;
+    line-height: 40px;
   }
 
   .subTitle {
-    font-size: 1rem;
-    padding: 0 15px;
+    font-size: 16px;
   }
 
   .whoWeAre {
-    font-size: 0.7rem;
+    font-size: 16px;
     letter-spacing: 1px;
-    margin-bottom: 10px;
   }
 
   .weAre {
-    font-size: 1.8rem;
-    line-height: 1.1;
-    margin-bottom: 15px;
-  }
-
-  .weAreParagraph {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    padding: 0 5px;
+    font-size: 28px;
+    line-height: 30px;
     margin-bottom: 20px;
   }
 
-  .text-content .read-more-btn {
-    padding: 10px 25px;
+  .weAreParagraph {
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .about-readmore-btn {
+    padding: 12px 30px;
     font-size: 0.9rem;
-    margin: 0 auto; /* Center the button */
-    align-self: center; /* Override desktop alignment */
-    display: block;
-    width: fit-content; /* Ensure button only takes needed width */
   }
 }
 
@@ -386,45 +355,33 @@ const AboutSection = () => {
     padding: 25px 10px 15px;
   }
 
-  .text-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center everything on mobile */
-  }
-
   .image-container {
     max-height: 250px;
     max-width: 280px;
-    border-radius: 12px;
+    border-radius: 3px;
   }
 
   .aboutUsTitle {
-    font-size: 1.7rem;
+    font-size: 26px;
+    line-height: 34px;
   }
 
   .subTitle {
-    font-size: 0.9rem;
-    padding: 0 10px;
+    font-size: 14px;
   }
 
   .weAre {
-    font-size: 1.5rem;
+    font-size: 22px;
+    line-height: 26px;
   }
 
   .weAreParagraph {
-    font-size: 0.85rem;
-    padding: 0;
+    font-size: 13px;
+    line-height: 22px;
   }
+}
 
-  .text-content .read-more-btn {
-    padding: 10px 25px;
-    font-size: 0.9rem;
-    margin: 0 auto; /* Center the button */
-    align-self: center; /* Override desktop alignment */
-    display: block;
-    width: fit-content; /* Ensure button only takes needed width */
-  }
-}@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   .aboutus-logo-img,
   .image-container,
   .text-content * {
@@ -438,32 +395,9 @@ const AboutSection = () => {
   }
 }
 
-/* Focus states for better accessibility */
-.read-more-btn:focus-visible {
-  outline: 2px solid var(--accent-green);
+.about-readmore-btn:focus-visible {
+  outline: 2px solid #F95545;
   outline-offset: 4px;
-}@media (prefers-contrast: high) {
-  .about-section {
-    background: var(--bg-primary);
-  }
-
-  .aboutUsTitle,
-  .subTitle,
-  .whoWeAre,
-  .weAre,
-  .weAreParagraph {
-    color: var(--text-primary);
-  }
-
-  .image-container {
-    border: 2px solid var(--text-primary);
-  }
-}@media (max-width: 768px) {
-  @media (max-width: 768px) {
-
-  .about-main-title {
-    font-size: 2.5rem;
-  }
 }`}
       </style>
     </section>

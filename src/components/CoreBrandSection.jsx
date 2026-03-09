@@ -10,7 +10,7 @@ const CoreBrandSection = ({
   nextSlide,
   goToSlide,
 }) => {
-  const { colors } = useTheme();
+  const { colors, isDark } = useTheme();
   return (
     <div style={{ fontFamily: '"Geist Sans", sans-serif', color: colors.textPrimary }}>
       
@@ -18,13 +18,16 @@ const CoreBrandSection = ({
       {/* PAGE 1: Course Details & Image */}
       {/* ============================== */}
       <section
+        id="core-brand"
         style={{
-          minHeight: "100vh",
-          padding: "80px 5%",
+          height: "100vh",
+          padding: "100px 5% 40px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: colors.bgSecondary,
+          backgroundColor: isDark ? "#131B21" : "#E9F1F9",
+          overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
         <div
@@ -43,7 +46,7 @@ const CoreBrandSection = ({
           <div style={{ flex: "1 1 50%", minWidth: "300px" }}>
             <h1
               style={{
-                fontSize: "3rem",
+                fontSize: "clamp(2rem, 3.5vw, 4rem)",
                 fontWeight: "bold",
                 fontFamily: '"Unbounded", sans-serif',
                 lineHeight: 1.1,
@@ -52,22 +55,23 @@ const CoreBrandSection = ({
                 paddingBottom: "20px"
               }}
             >
-              Forex Derivative <br />
-              Trading <span style={{ color: colors.accentGreen }}>Level II</span>
+              <span style={{ color: "#F95545" }}>Forex</span> Derivative <br />
+              Trading <span style={{ color: "#0ED85F" }}>Level II</span>
             </h1>
 
             <p
               style={{
-                fontSize: "1.1rem",
+                fontSize: "clamp(1rem, 1.2vw, 1.35rem)",
+                fontWeight: "bold",
                 marginBottom: "30px",
                 maxWidth: "90%",
                 lineHeight: 1.5,
               }}
             >
-              An <span style={{ color: colors.accentGreen }}>Advanced Course</span>{" "}
+              An <span style={{ color: "#0ED85F", fontWeight: "bold" }}>Advanced Course</span>{" "}
               designed to equip students with comprehensive knowledge and
               hands-on skills in{" "}
-              <span style={{ color: "#ef4444", fontWeight: "bold" }}>
+              <span style={{ color: "#F95545", fontWeight: "bold" }}>
                 Forex Trading
               </span>{" "}
               to become profitable traders.
@@ -86,13 +90,13 @@ const CoreBrandSection = ({
                     display: "flex",
                     alignItems: "flex-start",
                     marginBottom: "16px",
-                    fontSize: "1rem",
+                    fontSize: "clamp(0.9rem, 1.1vw, 1.15rem)",
                     lineHeight: 1.4,
                   }}
                 >
                   <span
                     style={{
-                      backgroundColor: colors.accentGreen,
+                      backgroundColor: "#0ED85F",
                       color: "#ffffff",
                       borderRadius: "50%",
                       width: "22px",
@@ -114,12 +118,12 @@ const CoreBrandSection = ({
             </ul>
             <button
               style={{
-                display: "block",      // Change to block
-                margin: "0 0 0 210px",     // Center horizontally
-                backgroundColor: "#990f17",
+                display: "block",
+                margin: "0 auto",
+                backgroundColor: "#F95545",
                 color: "white",
                 padding: "12px 32px",
-                borderRadius: "5px",
+                borderRadius: "35px",
                 border: "none",
                 fontWeight: "bold",
                 cursor: "pointer",
@@ -140,20 +144,32 @@ const CoreBrandSection = ({
               minWidth: "300px",
             }}
           >
-            <div>
-              {/* Replace with your actual chart image path */}
+            <div style={{
+              position: "relative",
+              display: "inline-block",
+              borderRadius: "35px",
+              overflow: "hidden",
+              maxWidth: "350px",
+            }}>
               <img
                 src={uptrendChart}
                 alt="Forex Chart"
                 style={{
                   width: "100%",
-                  maxWidth: "320px",
-                  borderRadius: "15px",
+                  borderRadius: "35px",
                   display: "block",
-                  filter: "contrast(1.5) brightness(0.9)", 
-                  mixBlendMode: "screen",
                 }}
               />
+              <div style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                borderRadius: "35px",
+                boxShadow: "inset 0px 0px 37.5px 44px #0F0F0F",
+                pointerEvents: "none",
+              }} />
             </div>
           </div>
         </div>
@@ -164,53 +180,55 @@ const CoreBrandSection = ({
       {/* ============================== */}
       <section
         style={{
-          minHeight: "100vh",
-          padding: "80px 5%",
+          height: "100vh",
+          padding: "100px 5% 40px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: colors.bgTertiary,
+          backgroundColor: isDark ? "#19232A" : "#EFF9FF",
+          overflow: "hidden",
           fontFamily: '"Geist Sans", sans-serif',
+          boxSizing: "border-box",
         }}
       >
         <div style={{ width: "100%", maxWidth: "1000px", margin: "0 auto" }}>
-          
+
           {/* Header */}
           <div
             style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: "40px",
+              marginBottom: "4px",
               flexWrap: "wrap",
               gap: "20px",
+              width: "calc(100% + 120px)",
+              marginLeft: "-60px",
             }}
           >
             <h2
               style={{
-                fontSize: "3rem",
+                fontSize: "clamp(1.8rem, 3vw, 3rem)",
                 fontWeight: "bold",
                 fontFamily: '"Unbounded", sans-serif',
                 margin: 0,
                 color: colors.textPrimary,
                 letterSpacing: "0.5px",
-                marginLeft: "-100px",
               }}
             >
               Testimonies
             </h2>
             <button
               style={{
-                backgroundColor: "#990f17", 
+                backgroundColor: "#F95545", 
                 color: "white",
                 padding: "10px 24px",
-                borderRadius: "5px", 
+                borderRadius: "35px", 
                 border: "none",
                 fontWeight: "bold",
                 cursor: "pointer",
                 fontSize: "0.85rem",
                 letterSpacing: "1px",
-                marginRight: "-80px",
                 fontFamily: '"Geist Sans", sans-serif',
               }}
             >
@@ -223,10 +241,10 @@ const CoreBrandSection = ({
             style={{
               background: "radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%, #000000 100%)", 
               width: "100%",
-              height: "450px", 
+              height: "clamp(300px, 40vw, 450px)",
               borderRadius: "12px",
               overflow: "hidden",
-              marginBottom: "30px",
+              marginBottom: "20px",
               position: "relative",
               boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
             }}
@@ -259,7 +277,7 @@ const CoreBrandSection = ({
                     <div 
                       style={{ 
                         flex: 1, 
-                        padding: "0 20px 0 60px", 
+                        padding: "0 20px 0 clamp(20px, 4vw, 60px)",
                         maxWidth: "70%", // <-- CHANGE: Increased from 50% to 70%
                         zIndex: 2,
                         position: "relative", // <-- ADD THIS to ensure zIndex works perfectly
@@ -268,9 +286,9 @@ const CoreBrandSection = ({
                       <p
                         style={{
                           color: colors.textSecondary,
-                          fontSize: "1.25rem",
+                          fontSize: "clamp(0.9rem, 1.2vw, 1.25rem)",
                           lineHeight: "1.6",
-                          marginBottom: "80px",
+                          marginBottom: "clamp(30px, 6vw, 80px)",
                           fontWeight: "600",
                         }}
                       >
@@ -280,7 +298,7 @@ const CoreBrandSection = ({
                       <h3
                         style={{
                           color: colors.textPrimary,
-                          fontSize: "36px",
+                          fontSize: "clamp(1.2rem, 2.5vw, 2.25rem)",
                           fontWeight: "bold",
                           fontFamily: '"Unbounded", sans-serif',
                           margin: "0 0 10px 0",
@@ -307,15 +325,15 @@ const CoreBrandSection = ({
                     {/* RIGHT: Profile Image */}
                     <div
                       style={{
-                        width: "50%", 
+                        width: "40%",
                         height: "100%",
-                        flexShrink: 0,
-                        position: "absolute", // <-- CHANGE: Make it absolute
-                        right: 0,             // <-- ADD THIS: Pin it to the right edge
-                        display: "flex", 
-                        alignItems: "flex-end", 
-                        justifyContent: "flex-end", 
-                        paddingRight: "50px",
+                        position: "absolute",
+                        right: 0,
+                        bottom: 0,
+                        overflow: "hidden",
+                        display: "flex",
+                        alignItems: "flex-start",
+                        justifyContent: "center",
                         zIndex: 1,
                       }}
                     >
@@ -323,14 +341,12 @@ const CoreBrandSection = ({
                         src={testimonial.backgroundImage}
                         alt={`${testimonial.name}'s Profile`}
                         style={{
-                          width: "auto", 
-                          height: "90%", 
-                          maxWidth: "100%", 
-                          objectFit: "contain", 
-                          // CHANGE 2: Move from bottom left to bottom right
-                          objectPosition: "bottom right", 
-                          WebkitMaskImage: "linear-gradient(to top left, black 40%, transparent 95%)",
-                          maskImage: "linear-gradient(to top left, black 40%, transparent 95%)",
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          objectPosition: "top center",
+                          WebkitMaskImage: "linear-gradient(to left, black 60%, transparent 100%)",
+                          maskImage: "linear-gradient(to left, black 60%, transparent 100%)",
                         }}
                       />
                     </div>
@@ -352,6 +368,18 @@ const CoreBrandSection = ({
                 </div>
               )}
             </div>
+            {/* Inset shadow overlay */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              borderRadius: "12px",
+              boxShadow: "inset 0 8px 40px rgba(0, 0, 0, 0.8), inset 0 -8px 40px rgba(0, 0, 0, 0.8), inset 8px 0 40px rgba(0, 0, 0, 0.6), inset -8px 0 20px rgba(0, 0, 0, 0.3)",
+              pointerEvents: "none",
+              zIndex: 3,
+            }} />
           </div>
 
           {/* Controls: Left Arrow, Center Dots, Right Arrow */}
@@ -365,8 +393,8 @@ const CoreBrandSection = ({
           >
             <button
               style={{
-                backgroundColor: "#404040",
-                color: colors.textPrimary,
+                backgroundColor: "#434343",
+                color: "#ffffff",
                 border: "none",
                 borderRadius: "50%",
                 width: "36px",
@@ -397,7 +425,7 @@ const CoreBrandSection = ({
                     width: index === currentIndex ? "24px" : "10px", 
                     height: "10px",
                     borderRadius: "10px",
-                    backgroundColor: index === currentIndex ? colors.accentGreen : "#4b5563",
+                    backgroundColor: index === currentIndex ? "#0ED85F" : "#4b5563",
                     border: "none",
                     cursor: "pointer",
                     transition: "all 0.3s ease",
@@ -410,8 +438,8 @@ const CoreBrandSection = ({
 
             <button
               style={{
-                backgroundColor: "#404040",
-                color: colors.textPrimary,
+                backgroundColor: "#434343",
+                color: "#ffffff",
                 border: "none",
                 borderRadius: "50%",
                 width: "36px",

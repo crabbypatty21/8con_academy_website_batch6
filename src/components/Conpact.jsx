@@ -362,7 +362,7 @@ const ConPact = () => {
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       textAlign: "center",
       marginBottom: "3rem",
     },
@@ -468,7 +468,7 @@ const ConPact = () => {
       borderRadius: "15px",
       boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
       textAlign: "center",
-      border: "2px solid #f0f0f0",
+      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
       transition: "all 0.3s ease",
       cursor: "pointer",
     },
@@ -1085,7 +1085,7 @@ const ConPact = () => {
         <div style={styles.container2}>
           <h2
             className="fade-item"
-            style={{ ...styles.sectionTitle, color: "#0edb61" }}
+            style={{ ...styles.sectionTitle, color: colors.accentGreen }}
           >
             How 8ConPact Aligns with CSR Priorities
           </h2>

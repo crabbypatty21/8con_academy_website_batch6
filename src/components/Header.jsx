@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
+import ScrollLink from "./ScrollLink"; // Import your ScrollLink component
 import "../App.css";
 import "../ConponentCSS/Header.css";
 
@@ -24,61 +25,64 @@ const Header = () => {
         
         {/* LEFT: Logo Section */}
         <div className="logo-section">
-          <a href="#home" className="logo">
+          <ScrollLink to="/#home" className="logo">
             <img
-              src="/assets/logo/8con Academy Logo White.png"
+              src={!isDark && scrolled ? "/assets/logo/8con Academy Logo.png" : "/assets/logo/8con Academy Logo White.png"}
               alt="8Con Academy Logo"
               className="logo-img"
             />
-          </a>
+          </ScrollLink>
         </div>
 
         {/* CENTER: Main Navigation */}
         <nav className="desktop-nav center-nav">
-          <a href="#home" className="nav-link">
+          <ScrollLink to="/#home" className="nav-link">
             Home
-          </a>
+          </ScrollLink>
 
-
-          <a href="#about" className="nav-link">
+          <ScrollLink to="/#about" className="nav-link">
             About Us
-          </a>
+          </ScrollLink>
 
           <div className="dropdown">
-            <a href="#internship" className="nav-link">
+            <ScrollLink to="/#internship" className="nav-link">
               Careers ▾
-            </a>
+            </ScrollLink>
             <div className="dropdown-content">
-              <a href="#careerpath" className="dropdown-link">
+              <ScrollLink to="/#careerpath" className="dropdown-link">
                 Career Paths
-              </a>
-              <a href="#internship" className="dropdown-link">
+              </ScrollLink>
+              <ScrollLink to="/#internship" className="dropdown-link">
                 Internship
-              </a>
+              </ScrollLink>
             </div>
           </div>
 
          <div className="dropdown">
-            <a href="#core-brand" className="nav-link">
+            <ScrollLink to="/#core-brand" className="nav-link">
               Brands ▾
-            </a>
+            </ScrollLink>
             <div className="dropdown-content">
-              <a href="#core-brand" className="dropdown-link">
+              <ScrollLink to="/#core-brand" className="dropdown-link">
                 Core Brands
-              </a>
+              </ScrollLink>
               <Link to="/sub-brands" className="dropdown-link">
                 Sub-brands
               </Link>
             </div>
           </div>
           
-          <a 
-            href="https://www.8connews.org/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <a
+            href="https://www.8connews.org/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="nav-link"
           >
             Newsletters
+          </a>
+
+          <a href="#contact" className="nav-link">
+            Contact Us
           </a>
         </nav>
 
@@ -94,9 +98,9 @@ const Header = () => {
           </button>
 
           {/* Register Button (Desktop Only) */}
-          <a href="/registration" className="register-btn desktop-only">
+          <ScrollLink to="/registration" className="register-btn desktop-only">
             Register
-          </a>
+          </ScrollLink>
 
           {/* Mobile Toggle Button */}
           <button
@@ -111,20 +115,20 @@ const Header = () => {
         {/* Mobile Navigation Overlay */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
-            <a
-              href="#home"
+            <ScrollLink
+              to="/#home"
               className="mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
-            </a>
-            <a
-              href="#core-brand"
+            </ScrollLink>
+            <ScrollLink
+              to="/#core-brand"
               className="mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
               Core Brands
-            </a>
+            </ScrollLink>
             <Link
               to="/sub-brands"
               className="mobile-nav-link"
@@ -133,32 +137,42 @@ const Header = () => {
               Sub-brands
             </Link>
             <a
-              href="#news"
+              href="https://www.8connews.org/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
               className="mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
               Newsletters
             </a>
-            <a
-              href="#internship"
+            <ScrollLink
+              to="/#internship"
               className="mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
               Internship
-            </a>
-            <a
-              href="#careerpath"
+            </ScrollLink>
+            <ScrollLink
+              to="/#careerpath"
               className="mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
               Career Paths
-            </a>
-            <a
-              href="#about"
+            </ScrollLink>
+            <ScrollLink
+              to="/#about"
               className="mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
               About Us
+            </ScrollLink>
+      
+            <a
+              href="#contact"
+              className="mobile-nav-link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Contact Us
             </a>
             {/* Added Register to Mobile Menu as well since it hides on desktop */}
             <a
