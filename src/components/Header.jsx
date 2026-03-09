@@ -5,9 +5,12 @@ import { useTheme } from "../context/ThemeContext.jsx";
 import "../App.css";
 import "../ConponentCSS/Header.css";
 
+const sectionIds = ["home", "core-brand", "about", "careerpath", "internship", "contact"];
+
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
@@ -16,6 +19,25 @@ const Header = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observers = [];
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { rootMargin: "-40% 0px -55% 0px" }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   return (
@@ -35,17 +57,16 @@ const Header = () => {
 
         {/* CENTER: Main Navigation */}
         <nav className="desktop-nav center-nav">
-          <a href="#home" className="nav-link">
+          <a href="#home" className={`nav-link ${activeSection === "home" ? "active" : ""}`}>
             Home
           </a>
 
-
-          <a href="#about" className="nav-link">
+          <a href="#about" className={`nav-link ${activeSection === "about" ? "active" : ""}`}>
             About Us
           </a>
 
           <div className="dropdown">
-            <a href="#internship" className="nav-link">
+            <a href="#internship" className={`nav-link ${activeSection === "careerpath" || activeSection === "internship" ? "active" : ""}`}>
               Careers ▾
             </a>
             <div className="dropdown-content">
@@ -59,7 +80,7 @@ const Header = () => {
           </div>
 
          <div className="dropdown">
-            <a href="#core-brand" className="nav-link">
+            <a href="#core-brand" className={`nav-link ${activeSection === "core-brand" ? "active" : ""}`}>
               Brands ▾
             </a>
             <div className="dropdown-content">
@@ -81,7 +102,7 @@ const Header = () => {
             Newsletters
           </a>
 
-          <a href="#contact" className="nav-link">
+          <a href="#contact" className={`nav-link ${activeSection === "contact" ? "active" : ""}`}>
             Contact Us
           </a>
         </nav>
@@ -117,14 +138,14 @@ const Header = () => {
           <nav className="mobile-nav">
             <a
               href="#home"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === "home" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </a>
             <a
               href="#core-brand"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === "core-brand" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Core Brands
@@ -145,28 +166,28 @@ const Header = () => {
             </a>
             <a
               href="#internship"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === "internship" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Internship
             </a>
             <a
               href="#careerpath"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === "careerpath" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Career Paths
             </a>
             <a
               href="#about"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === "about" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               About Us
             </a>
             <a
               href="#contact"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === "contact" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact Us
