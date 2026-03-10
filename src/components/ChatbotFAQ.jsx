@@ -142,6 +142,7 @@ const ChatbotFAQ = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [activeCategory, setActiveCategory] = useState(null);
+  const [askedQuestions, setAskedQuestions] = useState([]);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -157,6 +158,7 @@ const ChatbotFAQ = () => {
   };
 
   const handleFaqClick = (faq) => {
+    setAskedQuestions((prev) => [...prev, faq.question]);
     setMessages((prev) => [...prev, { from: "user", text: faq.question }]);
     setIsTyping(true);
     setTimeout(() => {
@@ -237,6 +239,7 @@ const ChatbotFAQ = () => {
     setView("home");
     setMessages([]);
     setActiveCategory(null);
+    setAskedQuestions([]);
   };
 
   return (
@@ -363,17 +366,19 @@ const ChatbotFAQ = () => {
                 )}
 
                 {/* FAQ suggestions for active category */}
-                {activeCategory && !isTyping && (
+                {activeCategory && !isTyping && activeCategory.faqs.filter((faq) => !askedQuestions.includes(faq.question)).length > 0 && (
                   <div className="chatbot-faq-list">
-                    {activeCategory.faqs.map((faq, i) => (
-                      <button
-                        key={i}
-                        className="chatbot-faq-btn"
-                        onClick={() => handleFaqClick(faq)}
-                      >
-                        {faq.question}
-                      </button>
-                    ))}
+                    {activeCategory.faqs
+                      .filter((faq) => !askedQuestions.includes(faq.question))
+                      .map((faq, i) => (
+                        <button
+                          key={i}
+                          className="chatbot-faq-btn"
+                          onClick={() => handleFaqClick(faq)}
+                        >
+                          {faq.question}
+                        </button>
+                      ))}
                   </div>
                 )}
 

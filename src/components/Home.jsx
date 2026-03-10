@@ -194,16 +194,19 @@ const testimonials = [
     }
   };
 
-  // Fade-in animation on scroll
+  // Scroll animations — replay every time elements scroll in/out of view
   useEffect(() => {
-    const elements = document.querySelectorAll(".fade-in");
+    const elements = document.querySelectorAll(
+      ".fade-in, .slide-in-left, .slide-in-right, .scale-up, .fade-in-up"
+    );
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
+          } else {
+            entry.target.classList.remove("visible");
           }
         });
       },

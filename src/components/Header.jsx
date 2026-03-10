@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
+import { useRegistration } from "../context/RegistrationContext.jsx";
 import ScrollLink from "./ScrollLink"; // Import your ScrollLink component
 import "../App.css";
 import "../ConponentCSS/Header.css";
@@ -9,6 +10,7 @@ import "../ConponentCSS/Header.css";
 const sectionIds = ["home", "core-brand", "about", "careerpath", "internship", "contact"];
 
 const Header = () => {
+  const { openRegistration } = useRegistration();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -121,9 +123,9 @@ const Header = () => {
           </button>
 
           {/* Register Button (Desktop Only) */}
-          <ScrollLink to="/registration" className="register-btn desktop-only">
+          <button onClick={openRegistration} className="register-btn desktop-only">
             Register
-          </ScrollLink>
+          </button>
 
           {/* Mobile Toggle Button */}
           <button
@@ -197,14 +199,13 @@ const Header = () => {
             >
               Contact Us
             </a>
-            {/* Added Register to Mobile Menu as well since it hides on desktop */}
-            <a
-              href="/registration"
+            {/* Added Register to Mobile Menu as well */}
+            <button
               className="mobile-nav-link highlight-link"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => { setMobileMenuOpen(false); openRegistration(); }}
             >
               Register Here!
-            </a>
+            </button>
             <button
               className="mobile-nav-link theme-toggle-mobile"
               onClick={toggleTheme}

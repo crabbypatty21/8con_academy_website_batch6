@@ -57,15 +57,15 @@ const InternshipSection = ({
 
   return (
     <section id="internship" className="section section-internship">
-      <div className="internship-title fade-in">
+      <div className="internship-title fade-in-up">
         <h2>INTERNSHIP</h2>
         <p>Join our team and kickstart your career</p>
       </div>
 
       <div className="intcards-container">
-        {internshipRoles.map((role) => {
+        {internshipRoles.map((role, index) => {
           return (
-            <div className="intcard fade-in" key={role.key}>
+            <div className={`intcard slide-in-right anim-delay-${index + 1}`} key={role.key}>
               <div className="intcontent">
                 <div className="intcard-icon">
                   {typeof role.icon === "string" ? (

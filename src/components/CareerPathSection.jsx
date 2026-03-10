@@ -30,7 +30,7 @@ const CareerPathSection = () => {
 
   return (
     <section id="careerpath" className="section section-careerpath">
-      <div className="careerpath-title fade-in">
+      <div className="careerpath-title fade-in-up">
         <h2>CAREER PATH</h2>
         <div className="careerpath-underline"></div>
         <p>From learner to leader, your forex journey starts here.</p>
@@ -38,7 +38,7 @@ const CareerPathSection = () => {
 
       <div className="careerpath-cards">
         {careerPaths.map((path, index) => (
-          <div className="career-card fade-in" key={index}>
+          <div className={`career-card scale-up anim-delay-${index + 1}`} key={index}>
             <div
               className="career-card-topline"
               style={{ background: path.borderColor }}
