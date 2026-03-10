@@ -1,12 +1,17 @@
-import { RefreshCw } from "lucide-react";
+import { Menu, RefreshCw, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTheme } from "../context/ThemeContext.jsx";
 import "../App.css";
+import "../ConponentCSS/Registration.css";
+
 import Footer from "./Footer";
-import Header from "./Header";
+import ScrollLink from "./ScrollLink";
 
 const Registration = () => {
-  const API_BASE = import.meta.env.PROD ? 'https://8conacademy.com' : 'http://localhost:3001';
-  
+  const { isDark, toggleTheme } = useTheme();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
   // Registration form state
   const [formData, setFormData] = useState({
     fullName: "",
@@ -15,14 +20,28 @@ const Registration = () => {
     location: "",
     businessProfession: "",
   });
-  
+
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Captcha state
   const [captcha, setCaptcha] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
   const [captchaError, setCaptchaError] = useState("");
+
+  // OTP Verification state
+  const [step, setStep] = useState(1); // 1: Registration Form, 2: OTP Verification
+  const [otp, setOtp] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [timer, setTimer] = useState(300); // 5 minutes in seconds
+
+  // Define API base URL based on environment
+  const API_BASE_URL = process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3001'
+    : 'https://8conacademy.com';
+
+  // PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzkGl3HPfl_V6A2yqbTMU0TvKgD9mEObFzU5XNToy1txKgFuQ-RBXZnamhFWgJf2nLMmw/exec";
 
   // Generate random captcha
   const generateCaptcha = () => {
@@ -38,6 +57,14 @@ const Registration = () => {
 
   useEffect(() => {
     generateCaptcha();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -61,9 +88,20 @@ const Registration = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Handle countdown timer for OTP
+  useEffect(() => {
+    let interval;
+    if (step === 2 && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [step, timer]);
+
   // Validation functions
   const validateFullName = (name) => {
-    const nameRegex = /^[a-zA-Z\s\-.]+$/;
+    const nameRegex = /^[a-zA-Z\s\-\.]+$/;
     return nameRegex.test(name) && name.trim().length >= 2;
   };
 
@@ -78,12 +116,12 @@ const Registration = () => {
   };
 
   const validateLocation = (location) => {
-    const locationRegex = /^[a-zA-Z\s\-,..]+$/;
+    const locationRegex = /^[a-zA-Z\s\-\,\.]+$/;
     return locationRegex.test(location) && location.trim().length >= 2;
   };
 
   const validateBusinessProfession = (profession) => {
-    const professionRegex = /^[a-zA-Z\s\-,./]+$/;
+    const professionRegex = /^[a-zA-Z\s\-\,\.\/]+$/;
     return professionRegex.test(profession) && profession.trim().length >= 2;
   };
 
@@ -116,34 +154,35 @@ const Registration = () => {
     }
   };
 
+  // STEP 1: Handle Form Submission (Request OTP)
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+    if (e) e.preventDefault();
+
     // Validate captcha first
     if (captchaInput !== captcha) {
       setCaptchaError("Captcha verification failed. Please try again.");
       return;
     }
-    
+
     // Validate all fields
     const newErrors = {};
-    
+
     if (!validateFullName(formData.fullName)) {
       newErrors.fullName = "Full name must contain only letters, spaces, hyphens, and periods";
     }
-    
+
     if (!validateEmail(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
-    
+
     if (!validateContact(formData.contact)) {
       newErrors.contact = "Contact number must be in format +63XXXXXXXXXX";
     }
-    
+
     if (!validateLocation(formData.location)) {
       newErrors.location = "Location must contain only letters, spaces, hyphens, commas, and periods";
     }
-    
+
     if (!validateBusinessProfession(formData.businessProfession)) {
       newErrors.businessProfession = "Business/Profession must contain only letters, spaces, hyphens, commas, periods, and forward slashes";
     }
@@ -154,36 +193,25 @@ const Registration = () => {
     }
 
     setIsSubmitting(true);
-    
+
     try {
-      console.log("Submitting registration data:", formData);
-      
-      const response = await fetch(`${API_BASE}/registration`, {
+      console.log("Requesting OTP for:", formData.email);
+
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, action: "requestOTP" }),
       });
 
       const data = await response.json();
-      
-      if (response.ok) {
-        alert("Registration successful! Your seat has been reserved and details sent to 8Con Academy.");
-        
-        setFormData({
-          fullName: "",
-          email: "",
-          contact: "+63",
-          location: "",
-          businessProfession: "",
-        });
-        
-        generateCaptcha();
+
+      if (data.status === "success") {
+        setStep(2);        // Move to OTP step
+        setTimer(300);     // Reset timer to 5 minutes
+        setOtpError("");
       } else {
-        throw new Error(data.error || "Failed to submit registration");
+        alert(data.message || "Failed to request OTP. Email might be registered already.");
       }
-      
+
     } catch (error) {
       console.error("Submit error:", error);
       alert("Something went wrong. Please check your internet connection and try again.");
@@ -192,146 +220,298 @@ const Registration = () => {
     }
   };
 
+  // STEP 2: Handle OTP Verification (Final Submission)
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    
+    if (otp.length < 6) {
+      setOtpError("Please enter the complete 6-digit OTP.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ ...formData, action: "verifyAndRegister", otp: otp }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        alert("Registration successful! Your seat has been reserved and details sent to 8Con Academy.");
+
+        // Reset Everything
+        setStep(1);
+        setFormData({
+          fullName: "",
+          email: "",
+          contact: "+63",
+          location: "",
+          businessProfession: "",
+        });
+        setOtp("");
+        setCaptchaInput("");
+        generateCaptcha();
+      } else {
+        setOtpError(data.message || "Invalid OTP");
+      }
+    } catch (error) {
+      console.error("Verify error:", error);
+      alert("Verification failed. Please check your internet connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Format Timer output
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
   return (
     <div className="app-container">
-      {/* Used the Header Component Here */}
-      <Header />
+      <header className={`header ${scrolled ? "scrolled" : ""}`}>
+        <div className="header-container">
+          <button
+            className="mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X /> : <Menu />}
+          </button>
+          <nav className="desktop-nav">
+            <ScrollLink
+              to="/#home"
+              className="nav-link"
+              style={{ display: "flex", alignItems: "center" }}
+              onClick={(e) => e.currentTarget.blur()}
+            >
+              Home
+            </ScrollLink>
+          </nav>
+        </div>
+        {mobileMenuOpen && (
+          <nav className="mobile-nav">
+            <ScrollLink
+              to="/#home"
+              className="mobile-nav-link"
+              style={{ display: "flex", alignItems: "center" }}
+              onClick={(e) => e.currentTarget.blur()}
+            >
+              Home
+            </ScrollLink>
+          </nav>
+        )}
+      </header>
 
       <section id="registration_form" className="registration-section">
         <div className="registration-container">
           <div className="mobile-workshop-header">
-            <img 
-              src="/assets/images/workshop-mobile-title-8conacademy.png" 
+            <img
+              src="/assets/images/workshop-mobile-title-8conacademy.png"
               alt="8Con Academy Workshop Title"
               className="mobile-header-image"
             />
           </div>
-          
+
           <div className="registration-content">
             <div className="registration-card">
               
               {/* Left Column - Form */}
               <div className="form-column">
-                <form onSubmit={handleSubmit} className="registration-form">
-                  <div className="form-group2">
-                    <input
-                      type="text"
-                      id="fullName"
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleInputChange}
-                      className={`form-input ${errors.fullName ? 'error' : ''}`}
-                      placeholder="Full Name"
-                      required
-                    />
-                    {errors.fullName && <span className="error-message">{errors.fullName}</span>}
-                  </div>
-
-                  <div className="form-group2">
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className={`form-input ${errors.email ? 'error' : ''}`}
-                      placeholder="Email Address"
-                      required
-                    />
-                    {errors.email && <span className="error-message">{errors.email}</span>}
-                  </div>
-
-                  <div className="form-group2">
-                    <input
-                      type="tel"
-                      id="contact"
-                      name="contact"
-                      value={formData.contact}
-                      onChange={handleInputChange}
-                      className={`form-input ${errors.contact ? 'error' : ''}`}
-                      placeholder="Phone Number (+63XXXXXXXXXX)"
-                      required
-                    />
-                    {errors.contact && <span className="error-message">{errors.contact}</span>}
-                  </div>
-
-                  <div className="form-group2">
-                    <input
-                      type="text"
-                      id="location"
-                      name="location"
-                      value={formData.location}
-                      onChange={handleInputChange}
-                      className={`form-input ${errors.location ? 'error' : ''}`}
-                      placeholder="Your Location"
-                      required
-                    />
-                    {errors.location && <span className="error-message">{errors.location}</span>}
-                  </div>
-
-                  <div className="form-group2">
-                    <input
-                      type="text"
-                      id="businessProfession"
-                      name="businessProfession"
-                      value={formData.businessProfession}
-                      onChange={handleInputChange}
-                      className={`form-input ${errors.businessProfession ? 'error' : ''}`}
-                      placeholder="Your business or profession"
-                      required
-                    />
-                    {errors.businessProfession && <span className="error-message">{errors.businessProfession}</span>}
-                  </div>
-
-                  {/* Captcha Section */}
-                  <div className="captcha-section">
-                    <div className="captcha-container">
-                      <div className="captcha-display">
-                        <span className="captcha-text">{captcha}</span>
-                        <button
-                          type="button"
-                          onClick={generateCaptcha}
-                          className="captcha-refresh"
-                          title="Generate new captcha"
-                        >
-                          <RefreshCw size={16} />
-                        </button>
-                      </div>
+                
+                {step === 1 ? (
+                  // ----------------------------------------
+                  // STEP 1: REGISTRATION FORM
+                  // ----------------------------------------
+                  <form onSubmit={handleSubmit} className="registration-form">
+                    <div className="form-group2">
                       <input
                         type="text"
-                        value={captchaInput}
-                        onChange={handleCaptchaChange}
-                        className={`form-input captcha-input ${captchaError ? 'error' : ''}`}
-                        placeholder="Enter Captcha"
+                        id="fullName"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleInputChange}
+                        className={`form-input ${errors.fullName ? 'error' : ''}`}
+                        placeholder="Full Name"
                         required
                       />
+                      {errors.fullName && <span className="error-message">{errors.fullName}</span>}
                     </div>
-                    {captchaError && <span className="error-message">{captchaError}</span>}
-                  </div>
 
-                  {/* Privacy Policy Section */}
-                  <div className="privacy-policy-section">
-                    <h3 className="privacy-title">Privacy Policy</h3>
-                    <p className="privacy-text">
-                      8Con Academy respects your privacy and is committed to protecting any personal information you provide when registering for our workshops, courses, or events.
+                    <div className="form-group2">
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className={`form-input ${errors.email ? 'error' : ''}`}
+                        placeholder="Email Address"
+                        required
+                      />
+                      {errors.email && <span className="error-message">{errors.email}</span>}
+                    </div>
+
+                    <div className="form-group2">
+                      <input
+                        type="tel"
+                        id="contact"
+                        name="contact"
+                        value={formData.contact}
+                        onChange={handleInputChange}
+                        className={`form-input ${errors.contact ? 'error' : ''}`}
+                        placeholder="Phone Number (+63XXXXXXXXXX)"
+                        required
+                      />
+                      {errors.contact && <span className="error-message">{errors.contact}</span>}
+                    </div>
+
+                    <div className="form-group2">
+                      <input
+                        type="text"
+                        id="location"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleInputChange}
+                        className={`form-input ${errors.location ? 'error' : ''}`}
+                        placeholder="Your Location"
+                        required
+                      />
+                      {errors.location && <span className="error-message">{errors.location}</span>}
+                    </div>
+
+                    <div className="form-group2">
+                      <input
+                        type="text"
+                        id="businessProfession"
+                        name="businessProfession"
+                        value={formData.businessProfession}
+                        onChange={handleInputChange}
+                        className={`form-input ${errors.businessProfession ? 'error' : ''}`}
+                        placeholder="Your business or profession"
+                        required
+                      />
+                      {errors.businessProfession && <span className="error-message">{errors.businessProfession}</span>}
+                    </div>
+
+                    {/* Captcha Section */}
+                    <div className="captcha-section">
+                      <div className="captcha-container">
+                        <div className="captcha-display">
+                          <span className="captcha-text">{captcha}</span>
+                          <button
+                            type="button"
+                            onClick={generateCaptcha}
+                            className="captcha-refresh"
+                            title="Generate new captcha"
+                          >
+                            <RefreshCw size={16} />
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          value={captchaInput}
+                          onChange={handleCaptchaChange}
+                          className={`form-input captcha-input ${captchaError ? 'error' : ''}`}
+                          placeholder="Enter Captcha"
+                          required
+                        />
+                      </div>
+                      {captchaError && <span className="error-message">{captchaError}</span>}
+                    </div>
+
+                    {/* Privacy Policy Section */}
+                    <div className="privacy-policy-section">
+                      <h3 className="privacy-title">Privacy Policy</h3>
+                      <p className="privacy-text">
+                        8Con Academy respects your privacy and is committed to protecting any personal information you provide when registering for our workshops, courses, or events.
+                      </p>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="reserve-btn"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "RESERVING..." : "RESERVE MY SEAT"}
+                    </button>
+                  </form>
+                ) : (
+                  // ----------------------------------------
+                  // STEP 2: OTP VERIFICATION FORM
+                  // ----------------------------------------
+                  <form onSubmit={handleVerifyOTP} className="registration-form">
+                    <h2 style={{ color: 'white', fontFamily: '"Montserrat", sans-serif', marginBottom: '8px' }}>
+                      Verify Email
+                    </h2>
+                    <p style={{ color: '#8c9ba5', fontSize: '13px', marginBottom: '24px', lineHeight: '1.5' }}>
+                      We sent a 6-digit verification code to <strong style={{ color: 'white' }}>{formData.email}</strong>.
                     </p>
-                  </div>
 
-                  <button 
-                    type="submit" 
-                    className="reserve-btn"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "RESERVING..." : "RESERVE MY SEAT"}
-                  </button>
-                </form>
+                    <div className="form-group2">
+                      <input
+                        type="text"
+                        value={otp}
+                        onChange={(e) => {
+                          setOtp(e.target.value.replace(/\D/g, '').substring(0, 6)); // Only digits, max 6
+                          setOtpError("");
+                        }}
+                        className={`form-input ${otpError ? 'error' : ''}`}
+                        placeholder="Enter 6-digit OTP"
+                        style={{ textAlign: 'center', letterSpacing: '4px', fontSize: '18px' }}
+                        required
+                      />
+                      {otpError && <span className="error-message">{otpError}</span>}
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', fontSize: '13px' }}>
+                      <span style={{ color: timer > 0 ? '#8c9ba5' : '#dc3545' }}>
+                        {timer > 0 ? `Code expires in ${formatTime(timer)}` : "Code expired."}
+                      </span>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="reserve-btn"
+                      disabled={isSubmitting || timer === 0 || otp.length < 6}
+                    >
+                      {isSubmitting ? "VERIFYING..." : "VERIFY & REGISTER"}
+                    </button>
+
+                    {/* Additional Options */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '16px' }}>
+                      <button
+                        type="button"
+                        onClick={handleSubmit} // Re-triggers the requestOTP logic
+                        className="reserve-btn"
+                        style={{ background: 'transparent', border: '1px solid #4a555e', marginTop: '0' }}
+                        disabled={isSubmitting || timer > 0} // Only resend if expired
+                      >
+                        RESEND OTP
+                      </button>
+                      
+                      <button
+                        type="button"
+                        onClick={() => { setStep(1); setOtp(""); setTimer(0); }}
+                        style={{ background: 'transparent', border: 'none', color: '#8c9ba5', cursor: 'pointer', textDecoration: 'underline', marginTop: '8px' }}
+                      >
+                        Change Email Address
+                      </button>
+                    </div>
+                  </form>
+                )}
+
               </div>
 
               {/* Right Column - Images */}
               <div className="image-column">
-                <img 
-                  src="/assets/images/workshop_pic.jpg" 
-                  alt="8Con Academy Workshop" 
+                <img
+                  src="/assets/images/workshop_pic.jpg"
+                  alt="8Con Academy Workshop"
                   className="workshop-image"
                 />
               </div>
@@ -341,268 +521,11 @@ const Registration = () => {
         </div>
       </section>
 
-    <style>{`
-          body {
-            padding-top: 60px;
-            background-color: #1a2228;
-          }
-
-          .registration-section {
-            background-color: #161e24; /* Solid background */
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-          }
-
-          .registration-section > * {
-            position: relative;
-            z-index: 2;
-          }
-
-          .registration-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 40px 20px;
-          }
-
-          /* --- UNIFIED CARD LAYOUT --- */
-          .registration-card {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            background-color: #1a2329;
-            border-radius: 12px;
-            overflow: hidden; 
-            box-shadow: 0 0 20px rgba(109, 186, 214, 0.4), 0 10px 30px rgba(0, 0, 0, 0.5); /* #6DBAD6 shadow */
-            border: 1px solid #293842;
-          }
-
-          /* Left Side: Form */
-          .form-column {
-            flex: 1 1 40%;
-            width: 40%;
-            padding: 24px 36px; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-          }
-
-          /* Right Side: Image Container */
-          .image-column {
-            flex: 1 1 60%;
-            width: 60%;
-            display: block; 
-            background-color: #1a2329;
-            padding: 0;
-            margin: 0;
-          }
-
-          .workshop-image {
-            width: 100%;
-            height: 100%;
-            object-fit: fill; 
-            display: block;
-          }
-          /* --------------------------- */
-
-          .registration-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-          }
-
-          .form-group2 {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-          }
-
-          .form-input {
-            padding: 12px 14px;
-            border: none;
-            border-radius: 6px;
-            font-size: 13px;
-            font-family: "Montserrat", sans-serif;
-            background-color: #27343e;
-            color: #f2f2f2;
-            transition: all 0.3s ease;
-          }
-
-          .form-input::placeholder {
-            color: #8c9ba5;
-          }
-
-          .form-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px #4caf50;
-            background-color: #2e3d48;
-          }
-
-          .form-input.error {
-            box-shadow: 0 0 0 2px #dc3545;
-          }
-
-          .error-message {
-            color: #ff6b6b;
-            font-size: 12px;
-            margin-top: 4px;
-            font-family: "Montserrat", sans-serif;
-          }
-
-          /* Captcha Styles */
-          .captcha-section {
-            margin: 4px 0;
-          }
-
-          .captcha-container {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-          }
-
-          .captcha-display {
-            display: flex;
-            align-items: center;
-            background-color: #27343e;
-            border-radius: 6px;
-            padding: 12px 14px;
-            min-width: 140px;
-            height: 44px;
-            justify-content: space-between;
-          }
-
-          .captcha-text {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 600;
-            color: #ffffff;
-            letter-spacing: 2px;
-            user-select: none;
-          }
-
-          .captcha-refresh {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #8c9ba5;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.3s ease;
-          }
-
-          .captcha-refresh:hover {
-            color: #ffffff;
-          }
-
-          .captcha-input {
-            flex: 1;
-            height: 44px;
-          }
-
-          /* Privacy Policy Styles */
-          .privacy-policy-section {
-            margin: 8px 0;
-            padding: 14px;
-            background-color: #7b9e7d;
-            border-radius: 4px;
-            border-left: 5px solid #a32939;
-          }
-
-          .privacy-title {
-            font-family: "Montserrat", sans-serif;
-            font-size: 12px;
-            font-weight: 700;
-            color: #ffffff;
-            margin: 0 0 4px 0;
-            text-transform: uppercase;
-          }
-
-          .privacy-text {
-            font-family: "Montserrat", sans-serif;
-            font-size: 11px;
-            color: #e2ede3;
-            line-height: 1.4;
-            margin: 0;
-          }
-
-          /* Submit Button */
-          .reserve-btn {
-            background-color: #a3293a;
-            color: white;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: "Montserrat", sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 6px;
-          }
-
-          .reserve-btn:hover {
-            background-color: #8a202f;
-          }
-
-          .reserve-btn:disabled {
-            background-color: #4a555e;
-            cursor: not-allowed;
-            color: #8c9ba5;
-          }
-
-          .mobile-workshop-header {
-            display: none;
-          }
-
-          /* Responsive Design */
-          @media (max-width: 900px) {
-            .registration-card {
-              flex-direction: column;
-              max-width: 500px;
-              margin: 0 auto;
-            }
-              
-            .form-column {
-              width: 100%;
-              padding: 30px 20px;
-            }
-
-            .image-column {
-              width: 100%;
-              order: -1; 
-            }
-
-            .workshop-image {
-              width: 100%;
-              height: auto;
-              object-fit: contain; 
-            }
-          }
-
-          @media (max-width: 768px) {
-            .captcha-container {
-              flex-direction: column;
-              align-items: stretch;
-            }
-
-            .captcha-display {
-              justify-content: center;
-              gap: 20px;
-            }
-          }
-        `}</style>
-        
-        <div className="footer-hidden-mobile">
-          <Footer />
-        </div>
+      <div className="footer-hidden-mobile">
+        <Footer />
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default Registration;

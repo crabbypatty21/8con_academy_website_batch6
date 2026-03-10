@@ -48,7 +48,7 @@ function makeTransport() {
     service: "gmail",
     auth: {
       user: "assyrah.alcantara@gmail.com",
-      pass: "ugju axtg busv blba",
+      pass: "eoxd vhye mucn uxzg",
     },
     tls: { rejectUnauthorized: false },
   });
