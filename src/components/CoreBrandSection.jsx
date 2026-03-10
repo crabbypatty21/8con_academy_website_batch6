@@ -272,86 +272,18 @@ const CoreBrandSection = ({
                       position: "relative", // <-- ADD THIS LINE to trap the image inside its slide!
                     }}
                   >
-                    
-                      {/* LEFT: Text Content */}
-                    <div 
-                      style={{ 
-                        flex: 1, 
-                        padding: "0 20px 0 clamp(20px, 4vw, 60px)",
-                        maxWidth: "70%", // <-- CHANGE: Increased from 50% to 70%
-                        zIndex: 2,
-                        position: "relative", // <-- ADD THIS to ensure zIndex works perfectly
-                      }}
-                    >
-                      <p
-                        style={{
-                          color: colors.textSecondary,
-                          fontSize: "clamp(0.9rem, 1.2vw, 1.25rem)",
-                          lineHeight: "1.6",
-                          marginBottom: "clamp(30px, 6vw, 80px)",
-                          fontWeight: "600",
-                        }}
-                      >
-                        "{testimonial.message}"
-                      </p>
-
-                      <h3
-                        style={{
-                          color: colors.textPrimary,
-                          fontSize: "clamp(1.2rem, 2.5vw, 2.25rem)",
-                          fontWeight: "bold",
-                          fontFamily: '"Unbounded", sans-serif',
-                          margin: "0 0 10px 0",
-                        }}
-                      >
-                        {testimonial.name}
-                      </h3>
-
-                      <div style={{ display: "flex", gap: "6px" }}>
-                        {[...Array(5)].map((_, i) => (
-                          <svg
-                            key={i}
-                            width="25"
-                            height="25"
-                            viewBox="0 0 24 24"
-                            fill="#FACC15" 
-                          >
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                          </svg>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* RIGHT: Profile Image */}
-                    <div
+                    <img
+                      src={testimonial.backgroundImage}
+                      alt={`${testimonial.name}'s Profile`}
                       style={{
-                        width: "40%",
+                        width: "100%",
                         height: "100%",
-                        position: "absolute",
-                        right: 0,
-                        bottom: 0,
-                        overflow: "hidden",
-                        display: "flex",
-                        alignItems: "flex-start",
-                        justifyContent: "center",
-                        zIndex: 1,
+                        objectFit: "cover",
+                        objectPosition: "top center",
                       }}
-                    >
-                      <img
-                        src={testimonial.backgroundImage}
-                        alt={`${testimonial.name}'s Profile`}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          objectPosition: "top center",
-                          WebkitMaskImage: "linear-gradient(to left, black 60%, transparent 100%)",
-                          maskImage: "linear-gradient(to left, black 60%, transparent 100%)",
-                        }}
-                      />
-                    </div>
+                    />
                   </div>
-                ))
+                ))  
               ) : (
                 <div
                   style={{
@@ -376,7 +308,7 @@ const CoreBrandSection = ({
               width: "100%",
               height: "100%",
               borderRadius: "12px",
-              boxShadow: "inset 0 8px 40px rgba(0, 0, 0, 0.8), inset 0 -8px 40px rgba(0, 0, 0, 0.8), inset 8px 0 40px rgba(0, 0, 0, 0.6), inset -8px 0 20px rgba(0, 0, 0, 0.3)",
+              boxShadow: "inset 0 13px 70px rgba(0, 0, 0, 0.88), inset 0 -13px 70px rgba(0, 0, 0, 0.88), inset 13px 0 70px rgba(0, 0, 0, 0.75), inset -13px 0 50px rgba(0, 0, 0, 0.55)",
               pointerEvents: "none",
               zIndex: 3,
             }} />

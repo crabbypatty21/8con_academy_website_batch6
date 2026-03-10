@@ -6,9 +6,12 @@ import ScrollLink from "./ScrollLink"; // Import your ScrollLink component
 import "../App.css";
 import "../ConponentCSS/Header.css";
 
+const sectionIds = ["home", "core-brand", "about", "careerpath", "internship", "contact"];
+
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
@@ -17,6 +20,25 @@ const Header = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observers = [];
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { rootMargin: "-40% 0px -55% 0px" }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   return (
@@ -36,16 +58,17 @@ const Header = () => {
 
         {/* CENTER: Main Navigation */}
         <nav className="desktop-nav center-nav">
-          <ScrollLink to="/#home" className="nav-link">
+        
+          <ScrollLink to="/#home" className={`nav-link ${activeSection === "home" ? "active" : ""}`}>
             Home
           </ScrollLink>
 
-          <ScrollLink to="/#about" className="nav-link">
+          <ScrollLink to="/#about" className={`nav-link ${activeSection === "about" ? "active" : ""}`}>
             About Us
           </ScrollLink>
 
           <div className="dropdown">
-            <ScrollLink to="/#internship" className="nav-link">
+            <ScrollLink to="/#internship" className={`nav-link ${activeSection === "careerpath" || activeSection === "internship" ? "active" : ""}`}>
               Careers ▾
             </ScrollLink>
             <div className="dropdown-content">
@@ -59,7 +82,7 @@ const Header = () => {
           </div>
 
          <div className="dropdown">
-            <ScrollLink to="/#core-brand" className="nav-link">
+            <ScrollLink to="/#core-brand" className={`nav-link ${activeSection === "core-brand" ? "active" : ""}`}>
               Brands ▾
             </ScrollLink>
             <div className="dropdown-content">
@@ -81,9 +104,9 @@ const Header = () => {
             Newsletters
           </a>
 
-          <a href="#contact" className="nav-link">
+          <ScrollLink to="/#contact" className={`nav-link ${activeSection === "contact" ? "active" : ""}`}>
             Contact Us
-          </a>
+          </ScrollLink>
         </nav>
 
         {/* RIGHT: Theme Toggle, Register & Mobile Toggle */}
@@ -115,16 +138,16 @@ const Header = () => {
         {/* Mobile Navigation Overlay */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
-            <ScrollLink
-              to="/#home"
-              className="mobile-nav-link"
+            <a
+              href="#home"
+              className={`mobile-nav-link ${activeSection === "home" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
-            </ScrollLink>
+            </a>
             <ScrollLink
               to="/#core-brand"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === "core-brand" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Core Brands
@@ -145,23 +168,23 @@ const Header = () => {
             >
               Newsletters
             </a>
-            <ScrollLink
-              to="/#internship"
-              className="mobile-nav-link"
+            <a
+              href="#internship"
+              className={`mobile-nav-link ${activeSection === "internship" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Internship
-            </ScrollLink>
-            <ScrollLink
-              to="/#careerpath"
-              className="mobile-nav-link"
+            </a>
+            <a
+              href="#careerpath"
+              className={`mobile-nav-link ${activeSection === "careerpath" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Career Paths
-            </ScrollLink>
+            </a>
             <ScrollLink
               to="/#about"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === "about" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               About Us
@@ -169,7 +192,7 @@ const Header = () => {
       
             <a
               href="#contact"
-              className="mobile-nav-link"
+              className={`mobile-nav-link ${activeSection === "contact" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact Us
