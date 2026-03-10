@@ -58,16 +58,17 @@ const Header = () => {
 
         {/* CENTER: Main Navigation */}
         <nav className="desktop-nav center-nav">
-          <a href="#home" className={`nav-link ${activeSection === "home" ? "active" : ""}`}>
+        
+          <ScrollLink to="/#home" className={`nav-link ${activeSection === "home" ? "active" : ""}`}>
             Home
           </ScrollLink>
 
-          <a href="#about" className={`nav-link ${activeSection === "about" ? "active" : ""}`}>
+          <ScrollLink to="/#about" className={`nav-link ${activeSection === "about" ? "active" : ""}`}>
             About Us
           </ScrollLink>
 
           <div className="dropdown">
-            <a href="#internship" className={`nav-link ${activeSection === "careerpath" || activeSection === "internship" ? "active" : ""}`}>
+            <ScrollLink to="/#internship" className={`nav-link ${activeSection === "careerpath" || activeSection === "internship" ? "active" : ""}`}>
               Careers ▾
             </ScrollLink>
             <div className="dropdown-content">
@@ -81,7 +82,7 @@ const Header = () => {
           </div>
 
          <div className="dropdown">
-            <a href="#core-brand" className={`nav-link ${activeSection === "core-brand" ? "active" : ""}`}>
+            <ScrollLink to="/#core-brand" className={`nav-link ${activeSection === "core-brand" ? "active" : ""}`}>
               Brands ▾
             </ScrollLink>
             <div className="dropdown-content">
@@ -103,9 +104,9 @@ const Header = () => {
             Newsletters
           </a>
 
-          <a href="#contact" className={`nav-link ${activeSection === "contact" ? "active" : ""}`}>
+          <ScrollLink to="/#contact" className={`nav-link ${activeSection === "contact" ? "active" : ""}`}>
             Contact Us
-          </a>
+          </ScrollLink>
         </nav>
 
         {/* RIGHT: Theme Toggle, Register & Mobile Toggle */}
@@ -144,8 +145,8 @@ const Header = () => {
             >
               Home
             </a>
-            <a
-              href="#core-brand"
+            <ScrollLink
+              to="/#core-brand"
               className={`mobile-nav-link ${activeSection === "core-brand" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -181,8 +182,8 @@ const Header = () => {
             >
               Career Paths
             </a>
-            <a
-              href="#about"
+            <ScrollLink
+              to="/#about"
               className={`mobile-nav-link ${activeSection === "about" ? "active" : ""}`}
               onClick={() => setMobileMenuOpen(false)}
             >
