@@ -1,12 +1,11 @@
 import { RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useTheme } from "../context/ThemeContext.jsx";
 import "../App.css";
 import Footer from "./Footer";
 import Header from "./Header";
 
 const Registration = () => {
-  const { isDark, toggleTheme } = useTheme();
+  const API_BASE = import.meta.env.PROD ? 'https://8conacademy.com' : 'http://localhost:3001';
   
   // Registration form state
   const [formData, setFormData] = useState({
@@ -64,7 +63,7 @@ const Registration = () => {
 
   // Validation functions
   const validateFullName = (name) => {
-    const nameRegex = /^[a-zA-Z\s\-\.]+$/;
+    const nameRegex = /^[a-zA-Z\s\-.]+$/;
     return nameRegex.test(name) && name.trim().length >= 2;
   };
 
@@ -79,12 +78,12 @@ const Registration = () => {
   };
 
   const validateLocation = (location) => {
-    const locationRegex = /^[a-zA-Z\s\-\,\.]+$/;
+    const locationRegex = /^[a-zA-Z\s\-,..]+$/;
     return locationRegex.test(location) && location.trim().length >= 2;
   };
 
   const validateBusinessProfession = (profession) => {
-    const professionRegex = /^[a-zA-Z\s\-\,\.\/]+$/;
+    const professionRegex = /^[a-zA-Z\s\-,./]+$/;
     return professionRegex.test(profession) && profession.trim().length >= 2;
   };
 
@@ -159,16 +158,17 @@ const Registration = () => {
     try {
       console.log("Submitting registration data:", formData);
       
-      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwz8131H9pOp56Iu8OQpV4pf9df1DdNvHX-Gn1MmmF_fcZqIeDrOxjRrtZDPf0Ai5KE/exec";
-      
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
+      const response = await fetch(`${API_BASE}/registration`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
       
-      if (data.status === "success") {
+      if (response.ok) {
         alert("Registration successful! Your seat has been reserved and details sent to 8Con Academy.");
         
         setFormData({
@@ -181,7 +181,7 @@ const Registration = () => {
         
         generateCaptcha();
       } else {
-        throw new Error(data.message || "Failed to save to Google Sheets");
+        throw new Error(data.error || "Failed to submit registration");
       }
       
     } catch (error) {

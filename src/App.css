@@ -1,9 +1,7 @@
 /* ==========================================
    IMPORTS & FONTS
    ========================================== */
-/* Replace Montserrat and Roboto imports with these */
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/geist@1.2.1/dist/fonts/geist-sans/style.css');
+/* Fonts loaded in index.html */
 
 /* ==========================================
    SCROLL SNAP
