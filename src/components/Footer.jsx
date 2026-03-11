@@ -10,6 +10,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { isDark } = useTheme();
@@ -70,8 +71,8 @@ const Footer = () => {
             <h4 className="footer-title">Programs</h4>
             <ul className="footer-list">
               <li><a href="#core-brand" className="program-link">Core Brands</a></li>
-              <li><a href="#sub-brands" className="program-link">Sub-brands</a></li>
-              <li><a href="#" className="program-link">Newsletters</a></li>
+              <li><Link to="/sub-brands" className="program-link">Sub-brands</Link></li>
+              <li><a href="https://www.8connews.org/" target="_blank" rel="noopener noreferrer" className="program-link">Newsletters</a></li>
             </ul>
           </div>
 
