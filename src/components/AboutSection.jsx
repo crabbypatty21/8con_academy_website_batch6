@@ -14,14 +14,14 @@ const AboutSection = () => {
         </div>
 
         <div className="content-grid">
-          <div className="image-container fade-in">
+          <div className="image-container slide-in-left">
             <img
               src="/assets/images/aboutus.jpg"
               alt="8Con Logo"
               className="aboutus-logo-img"
             />
           </div>
-          <div className="text-content fade-in">
+          <div className="text-content slide-in-right">
             <h3 className="whoWeAre fade-in">WHO WE ARE</h3>
             <h2 className="weAre fade-in">8CON <span style={{ color: "#39CC2F" }}>ACADEMY</span></h2>
             <p className="weAreParagraph">

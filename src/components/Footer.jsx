@@ -10,6 +10,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { isDark } = useTheme();
@@ -17,7 +18,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-main">
         {/* Top: Logo + tagline */}
-        <div className="footer-brand">
+        <div className="footer-brand fade-in-up">
           <img
             src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
             alt="8Con Academy"
@@ -52,7 +53,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer-grid">
+        <div className="footer-grid fade-in-up anim-delay-2">
           {/* Quick Links */}
           <div className="footer-col">
             <h4 className="footer-title">Quick Links</h4>
@@ -70,8 +71,8 @@ const Footer = () => {
             <h4 className="footer-title">Programs</h4>
             <ul className="footer-list">
               <li><a href="#core-brand" className="program-link">Core Brands</a></li>
-              <li><a href="#sub-brands" className="program-link">Sub-brands</a></li>
-              <li><a href="#" className="program-link">Newsletters</a></li>
+              <li><Link to="/sub-brands" className="program-link">Sub-brands</Link></li>
+              <li><a href="https://www.8connews.org/" target="_blank" rel="noopener noreferrer" className="program-link">Newsletters</a></li>
             </ul>
           </div>
 

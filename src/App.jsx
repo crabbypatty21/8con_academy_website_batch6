@@ -14,8 +14,35 @@ import ConSpace from "./components/Conspace";
 import ConSult from "./components/Consult";
 import AboutUs from "./components/AboutUs";
 import Loader from "./components/Loader";
-import Registration from "./components/Registration";
+import RegistrationModal from "./components/RegistrationModal";
 import ChatbotFAQ from "./components/ChatbotFAQ";
+import { RegistrationProvider, useRegistration } from "./context/RegistrationContext";
+
+function AppContent() {
+  const { showRegistration, closeRegistration } = useRegistration();
+
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/sub-brands" element={<SubBrands />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/8construct" element={<Construct />} />
+        <Route path="/8conedge" element={<ConEdge />} />
+        <Route path="/8concise" element={<ConCise />} />
+        <Route path="/8converse" element={<ConVerse />} />
+        <Route path="/8connect" element={<ConNect />} />
+        <Route path="/8conlift" element={<ConLift />} />
+        <Route path="/8conpact" element={<ConPact />} />
+        <Route path="/8conquest" element={<ConQuest />} />
+        <Route path="/8conspace" element={<ConSpace />} />
+        <Route path="/8consult" element={<ConSult />} />
+      </Routes>
+      <ChatbotFAQ />
+      <RegistrationModal isOpen={showRegistration} onClose={closeRegistration} />
+    </>
+  );
+}
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -52,23 +79,9 @@ function App() {
         </div>
       ) : (
         <Router>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/sub-brands" element={<SubBrands />} />
-              <Route path="/aboutus" element={<AboutUs />} />
-              <Route path="/8construct" element={<Construct />} />
-              <Route path="/8conedge" element={<ConEdge />} />
-              <Route path="/8concise" element={<ConCise />} />
-              <Route path="/8converse" element={<ConVerse />} />
-              <Route path="/8connect" element={<ConNect />} />
-              <Route path="/8conlift" element={<ConLift />} />
-              <Route path="/8conpact" element={<ConPact />} />
-              <Route path="/8conquest" element={<ConQuest />} />
-              <Route path="/8conspace" element={<ConSpace />} />
-              <Route path="/8consult" element={<ConSult />} />
-              <Route path="/registration" element={<Registration />} />
-          </Routes>
-          <ChatbotFAQ />
+          <RegistrationProvider>
+            <AppContent />
+          </RegistrationProvider>
         </Router>
       )}
     </>

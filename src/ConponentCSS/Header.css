@@ -73,7 +73,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 20px;
 }
 
 .nav-link {
@@ -88,17 +88,19 @@
   transition: color 0.3s ease, transform 0.3s ease;
   text-transform: none;
   white-space: nowrap;
+  width: fit-content;
 }
 
 .nav-link::before {
   content: "";
   position: absolute;
-  bottom: -2px;
+  bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #2DB062, #39CC2F);
+  height: 3px;
+  border-radius: 2px;
+  background: #ff1f2c;
   transition: width 0.3s ease;
 }
 
@@ -108,7 +110,7 @@
 }
 
 .nav-link:hover::before {
-  width: 60%;
+  width: 80%;
 }
 
 .nav-link.active {
@@ -116,7 +118,7 @@
 }
 
 .nav-link.active::before {
-  width: 60%;
+  width: 80%;
   background: #ff1f2c;
 }
 
@@ -202,6 +204,9 @@
   background-color: var(--accent-green-hover);
   padding: 6px 22px;
   border-radius: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
   margin-right: -40px;
   transition: all 0.3s ease;
   font-family: "Geist Sans", sans-serif;

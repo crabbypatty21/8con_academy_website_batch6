@@ -43,7 +43,7 @@ const CoreBrandSection = ({
           }}
         >
           {/* Left Content */}
-          <div style={{ flex: "1 1 50%", minWidth: "300px" }}>
+          <div className="slide-in-left" style={{ flex: "1 1 50%", minWidth: "300px" }}>
             <h1
               style={{
                 fontSize: "clamp(2rem, 3.5vw, 4rem)",
@@ -137,6 +137,7 @@ const CoreBrandSection = ({
 
           {/* Right Image */}
           <div
+            className="slide-in-right anim-delay-2"
             style={{
               flex: "1 1 40%",
               display: "flex",
@@ -195,6 +196,7 @@ const CoreBrandSection = ({
 
           {/* Header */}
           <div
+            className="fade-in-up"
             style={{
               display: "flex",
               justifyContent: "space-between",
@@ -216,7 +218,7 @@ const CoreBrandSection = ({
                 letterSpacing: "0.5px",
               }}
             >
-              Testimonies
+              TESTIMONIES
             </h2>
             <button
               style={{
@@ -238,8 +240,9 @@ const CoreBrandSection = ({
 
           {/* The Carousel Card with Gradient Background */}
           <div
+            className="scale-up anim-delay-2"
             style={{
-              background: "radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%, #000000 100%)", 
+              background: "radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%, #000000 100%)",
               width: "100%",
               height: "clamp(300px, 40vw, 450px)",
               borderRadius: "12px",
@@ -279,7 +282,7 @@ const CoreBrandSection = ({
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
-                        objectPosition: "top center",
+                        objectPosition: "0% 60%",
                       }}
                     />
                   </div>
@@ -300,18 +303,6 @@ const CoreBrandSection = ({
                 </div>
               )}
             </div>
-            {/* Inset shadow overlay */}
-            <div style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              borderRadius: "12px",
-              boxShadow: "inset 0 13px 70px rgba(0, 0, 0, 0.88), inset 0 -13px 70px rgba(0, 0, 0, 0.88), inset 13px 0 70px rgba(0, 0, 0, 0.75), inset -13px 0 50px rgba(0, 0, 0, 0.55)",
-              pointerEvents: "none",
-              zIndex: 3,
-            }} />
           </div>
 
           {/* Controls: Left Arrow, Center Dots, Right Arrow */}

@@ -33,17 +33,17 @@ const HeroSection = () => {
 
       <div className="hero-container">
         <div className="hero-content">
-          <h1 className="hero-title">
+          <h1 className="hero-title fade-in-up">
             <span className="text-green">Empowering</span> Every Filipino <span className="text-coral">Household</span>
             <br />
             With A <span className="text-coral">Skilled</span> And <span className="text-green"> Profitable</span> <span>Forex Trader</span>
           </h1>
           
-          <p className="hero-subtitle">
+          <p className="hero-subtitle fade-in-up anim-delay-2">
             Hands-on training with real-time market simulations.
           </p>
 
-          <div className="hero-buttons">
+          <div className="hero-buttons fade-in-up anim-delay-4">
             <a href="#core-brand" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center' }}>
               Learn Forex Today
               <span className="arrow-box" style={{ marginLeft: '8px', display: 'inline-flex', alignItems: 'center' }}>
