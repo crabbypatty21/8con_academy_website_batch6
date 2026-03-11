@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
-import uptrendChart from "../assets/images/uptrend.png";
+import uptrendChart from "../assets/images/yellow_arrow_png.png";
 import { useTheme } from "../context/ThemeContext.jsx";
+import EnrollModal from "./EnrollModal.jsx";
+import TradingBackground from "./TradingBackground.jsx";
 
 const CoreBrandSection = ({
   currentIndex = 0,
@@ -11,6 +13,7 @@ const CoreBrandSection = ({
   goToSlide,
 }) => {
   const { colors, isDark } = useTheme();
+  const [showEnroll, setShowEnroll] = useState(false);
   return (
     <div style={{ fontFamily: '"Geist Sans", sans-serif', color: colors.textPrimary }}>
       
@@ -25,11 +28,13 @@ const CoreBrandSection = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: isDark ? "#131B21" : "#E9F1F9",
+          backgroundColor: isDark ? "#19232A" : "#E9F1F9",
           overflow: "hidden",
           boxSizing: "border-box",
+          position: "relative",
         }}
       >
+        <TradingBackground variant={1} />
         <div
           style={{
             width: "100%",
@@ -117,6 +122,7 @@ const CoreBrandSection = ({
               ))}
             </ul>
             <button
+              onClick={() => setShowEnroll(true)}
               style={{
                 display: "block",
                 margin: "0 auto",
@@ -135,7 +141,7 @@ const CoreBrandSection = ({
             </button>
           </div>
 
-          {/* Right Image */}
+          {/* Right Image — behind the trading animation */}
           <div
             className="slide-in-right anim-delay-2"
             style={{
@@ -143,35 +149,21 @@ const CoreBrandSection = ({
               display: "flex",
               justifyContent: "flex-end",
               minWidth: "300px",
+              position: "relative",
+              zIndex: 0,
             }}
           >
-            <div style={{
-              position: "relative",
-              display: "inline-block",
-              borderRadius: "35px",
-              overflow: "hidden",
-              maxWidth: "350px",
-            }}>
-              <img
-                src={uptrendChart}
-                alt="Forex Chart"
-                style={{
-                  width: "100%",
-                  borderRadius: "35px",
-                  display: "block",
-                }}
-              />
-              <div style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
+            <img
+              src={uptrendChart}
+              alt="Forex Chart"
+              className="yellow-arrow-img"
+              style={{
                 width: "100%",
-                height: "100%",
-                borderRadius: "35px",
-                boxShadow: "inset 0px 0px 37.5px 44px #0F0F0F",
-                pointerEvents: "none",
-              }} />
-            </div>
+                maxWidth: "350px",
+                display: "block",
+                filter: "drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)) drop-shadow(0 0 20px rgba(255, 165, 0, 0.15))",
+              }}
+            />
           </div>
         </div>
       </section>
@@ -190,9 +182,11 @@ const CoreBrandSection = ({
           overflow: "hidden",
           fontFamily: '"Geist Sans", sans-serif',
           boxSizing: "border-box",
+          position: "relative",
         }}
       >
-        <div style={{ width: "100%", maxWidth: "1000px", margin: "0 auto" }}>
+        <TradingBackground variant={2} />
+        <div style={{ width: "100%", maxWidth: "1000px", margin: "0 auto", position: "relative", zIndex: 1 }}>
 
           {/* Header */}
           <div
@@ -220,22 +214,7 @@ const CoreBrandSection = ({
             >
               TESTIMONIES
             </h2>
-            <button
-              style={{
-                backgroundColor: "#F95545", 
-                color: "white",
-                padding: "10px 24px",
-                borderRadius: "35px", 
-                border: "none",
-                fontWeight: "bold",
-                cursor: "pointer",
-                fontSize: "0.85rem",
-                letterSpacing: "1px",
-                fontFamily: '"Geist Sans", sans-serif',
-              }}
-            >
-              ENROLL NOW!
-            </button>
+            
           </div>
 
           {/* The Carousel Card with Gradient Background */}
@@ -388,6 +367,7 @@ const CoreBrandSection = ({
 
         </div>
       </section>
+      <EnrollModal isOpen={showEnroll} onClose={() => setShowEnroll(false)} />
     </div>
   );
 };

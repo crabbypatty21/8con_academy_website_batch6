@@ -113,7 +113,7 @@
     border: none;
     border-radius: 6px;
     font-size: 13px;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Geist Sans", sans-serif;
     background-color: #27343e;
     color: #f2f2f2;
     transition: all 0.3s ease;
@@ -137,7 +137,7 @@
     color: #ff6b6b;
     font-size: 12px;
     margin-top: 4px;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Geist Sans", sans-serif;
 }
 
 /* Captcha */
@@ -163,7 +163,7 @@
 }
 
 .reg-modal-content .captcha-text {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Geist Sans", sans-serif;
     font-weight: 600;
     color: #ffffff;
     letter-spacing: 2px;
@@ -201,16 +201,16 @@
 }
 
 .reg-modal-content .privacy-title {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Geist Sans", sans-serif;
     font-size: 12px;
     font-weight: 700;
-    color: #ffffff;
+    color: #000000;
     margin: 0 0 4px 0;
-    text-transform: uppercase;
+    
 }
 
 .reg-modal-content .privacy-text {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Geist Sans", sans-serif;
     font-size: 11px;
     color: #e2ede3;
     line-height: 1.4;
@@ -228,7 +228,7 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Geist Sans", sans-serif;
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-top: 6px;
