@@ -497,7 +497,7 @@ const ConStruct = () => {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
       background: isDark
         ? "linear-gradient(135deg, #1a1a1a 0%, #000000 100%)"
-        : "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+        : "linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)",
     },
     servicesGrid: {
       display: "grid",
@@ -571,7 +571,7 @@ const ConStruct = () => {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
       background: isDark
         ? "linear-gradient(135deg, #000000 0%, #1a1a1a 100%)"
-        : "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+        : "linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%)",
     },
     clientsGrid: {
       display: "grid",

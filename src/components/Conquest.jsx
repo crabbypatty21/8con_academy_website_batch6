@@ -480,7 +480,7 @@ const ConQuest = () => {
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       textAlign: "center",
       marginBottom: "3rem",
     },
@@ -511,7 +511,7 @@ const ConQuest = () => {
     focusAreaTitle: {
       fontSize: "1.3rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "1rem",
     },
 
@@ -569,7 +569,7 @@ const ConQuest = () => {
       borderRadius: "15px",
       boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
       textAlign: "center",
-      border: "2px solid #f0f0f0",
+      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
       transition: "all 0.3s ease",
       cursor: "pointer",
     },
@@ -629,7 +629,7 @@ const ConQuest = () => {
     whoBenefitsTitle: {
       fontSize: "1.4rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "1rem",
     },
 
@@ -654,7 +654,7 @@ const ConQuest = () => {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontWeight: "700",
       marginBottom: "2rem",
-      color: "#ffffff",
+      color: colors.textPrimary,
     },
 
     ctaDescription: {
@@ -663,7 +663,7 @@ const ConQuest = () => {
       maxWidth: "800px",
       margin: "0 auto 2rem",
       opacity: "0.95",
-      color: "#ffffff",
+      color: colors.textPrimary,
     },
 
     ctaButtons: {
@@ -682,7 +682,7 @@ const ConQuest = () => {
       maxWidth: "700px",
       margin: "0 auto",
       border: "2px solid #0edb61",
-      color: "#ffffff",
+      color: colors.textPrimary,
       transition: "all 0.3s ease",
       cursor: "pointer",
     },
@@ -1512,7 +1512,7 @@ const ConQuest = () => {
       >
         <div style={styles.container2}>
           <h2
-            style={{ ...styles.sectionTitle, color: "#0edb61" }}
+            style={{ ...styles.sectionTitle, color: colors.accentGreen }}
             className="animate-section-title animate-on-scroll"
           >
             Key Focus Areas of 8ConQuest
@@ -1792,7 +1792,7 @@ const ConQuest = () => {
       >
         <div style={styles.container2}>
           <h2
-            style={{ ...styles.sectionTitle, color: "#000000" }}
+            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
             className="animate-section-title animate-on-scroll"
           >
             Who Can Benefit from 8ConQuest?

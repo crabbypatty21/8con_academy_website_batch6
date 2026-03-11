@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
 import {
   Menu,
   X,
   ChevronDown,
-  Brain,
-  Target,
-  Globe,
-  Award,
-  Network,
-  TrendingUp,
-  ArrowRight,
-  Home,
-  BookOpen,
-  Users,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import "../ConponentCSS/SubBrand.css";
 
@@ -25,169 +16,70 @@ const SubBrand = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
-  const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] =
-    useState(false);
+  const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] = useState(false);
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const subBrandsData = [
     {
       id: "construct",
       name: "8ConStruct",
       route: "/8construct",
-      desc: "Research and statistical consultancy to empower decision-making.",
-      detailedDesc:
-        "Comprehensive research and statistical analysis services for businesses, academic institutions, and organizations. We provide data-driven insights to help you make informed decisions and achieve your strategic objectives.",
-      icon: <Brain size={60} />,
       image: "/assets/logo/7.png",
-      services: [
-        "Market Research",
-        "Statistical Analysis",
-        "Data Visualization",
-        "Business Intelligence",
-      ],
     },
     {
       id: "conedge",
       name: "8ConEdge",
       route: "/8conedge",
-      desc: "Proprietary Forex tools to enhance trading efficiency.",
-      detailedDesc:
-        "Cutting-edge trading tools and analytics designed specifically for Forex traders. Gain a competitive advantage with our proprietary indicators, automated systems, and market analysis tools.",
-      icon: <TrendingUp size={60} />,
       image: "/assets/logo/5.png",
-      services: [
-        "Trading Indicators",
-        "Market Analysis",
-        "Automated Systems",
-        "Risk Management Tools",
-      ],
     },
     {
       id: "concise",
       name: "8ConCise",
       route: "/8concise",
-      desc: "Entrepreneur networking hub to grow business relationships.",
-      detailedDesc:
-        "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
-      icon: <Network size={60} />,
       image: "/assets/logo/8.png",
-      services: [
-        "Networking Events",
-        "Business Matching",
-        "Investor Relations",
-        "Partnership Development",
-      ],
     },
     {
       id: "conquest",
       name: "8ConQuest",
       route: "/8conquest",
-      desc: "Thesis and career coaching for students and professionals.",
-      detailedDesc:
-        "Professional guidance for academic and career development. From thesis writing support to career transition coaching, we help individuals achieve their educational and professional goals.",
-      icon: <Target size={60} />,
       image: "/assets/logo/3.png",
-      services: [
-        "Thesis Writing Support",
-        "Career Coaching",
-        "Interview Preparation",
-        "Professional Development",
-      ],
     },
     {
       id: "converse",
       name: "8ConVerse",
       route: "/8converse",
-      desc: "Language certification courses to broaden opportunities.",
-      detailedDesc:
-        "Comprehensive language learning programs designed to enhance communication skills and open global opportunities. Master new languages with our expert instructors and proven methodologies.",
-      icon: <Globe size={60} />,
       image: "/assets/logo/4.png",
-      services: [
-        "English Proficiency",
-        "Business Communication",
-        "IELTS/TOEFL Prep",
-        "Multilingual Training",
-      ],
     },
     {
       id: "connect",
       name: "8ConNect",
       route: "/8connect",
-      desc: "Entrepreneur networking hub to grow business relationships.",
-      detailedDesc:
-        "A dynamic platform connecting entrepreneurs, investors, and business leaders. Build meaningful relationships, discover collaboration opportunities, and accelerate your business growth.",
-      icon: <Network size={60} />,
       image: "/assets/logo/1.png",
-      services: [
-        "Networking Events",
-        "Business Matching",
-        "Investor Relations",
-        "Partnership Development",
-      ],
     },
     {
       id: "conlift",
       name: "8ConLift",
       route: "/8conlift",
-      desc: "Scholarship and training programs for deserving students.",
-      detailedDesc:
-        "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
-      icon: <Award size={60} />,
       image: "/assets/logo/2.png",
-      services: [
-        "Full Scholarships",
-        "Skills Training",
-        "Mentorship Programs",
-        "Community Outreach", 
-      ],
     },
     {
       id: "conpact",
       name: "8ConPact",
       route: "/8conpact",
-      desc: "Scholarship and training programs for deserving students.",
-      detailedDesc:
-        "Educational empowerment through scholarships and specialized training programs. We believe in lifting communities by providing access to quality education and skill development opportunities.",
-      icon: <Award size={60} />,
       image: "/assets/logo/6.png",
-      services: [
-        "Full Scholarships",
-        "Skills Training",
-        "Mentorship Programs",
-        "Community Outreach",
-      ],
     },
     {
       id: "conspace",
       name: "8ConSpace",
       route: "/8conspace",
-      desc: "Co-working space and virtual office solutions for professionals and students.",
-      detailedDesc:
-        "A dynamic, productivity-driven space for freelancers, entrepreneurs, online professionals, and students. Whether you're building a startup or finishing your research, 8ConSpace gives you a professional and collaborative environment to grow and execute.",
-      icon: <Users size={60} />,
       image: "/assets/logo/10.png",
-      services: [
-        "Flexible Desk Rentals",
-        "Virtual Office Solutions",
-        "Startup Environment",
-        "Student Pods",
-      ],
     },
     {
       id: "consult",
       name: "8ConSult",
       route: "/8consult",
-      desc: "Business development and startup advisory with Sir Nigel Santos.",
-      detailedDesc:
-        "A consultation arm powered by real-world experience in entrepreneurship. Spearheaded by Sir Nigel Santos, this service provides personalized startup coaching and business model refinement to help entrepreneurs thrive.",
-      icon: <BookOpen size={60} />,
       image: "/assets/logo/9.png",
-      services: [
-        "Startup Coaching",
-        "Business Model Analysis",
-        "Sales Strategy & Growth Blueprint",
-        "Investor Deck & Pitch Support",
-      ],
     },
   ];
 
@@ -209,22 +101,34 @@ const SubBrand = () => {
   useEffect(() => {
     if (location.hash) {
       const id = location.hash.replace("#", "");
-      const element = document.getElementById(id);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100);
+      const brandIndex = subBrandsData.findIndex((b) => b.id === id);
+      
+      if (brandIndex !== -1) {
+        setCurrentIndex(brandIndex);
+        const carouselElement = document.getElementById("subbrands-carousel");
+        if (carouselElement) {
+          setTimeout(() => {
+            carouselElement.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 100);
+        }
       }
     }
   }, [location]);
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  const handleDropdownNavigation = (brandId) => {
+    const brandIndex = subBrandsData.findIndex((b) => b.id === brandId);
+    if (brandIndex !== -1) {
+      setCurrentIndex(brandIndex);
     }
+    
+    const carouselElement = document.getElementById("subbrands-carousel");
+    if (carouselElement) {
+      carouselElement.scrollIntoView({ behavior: "smooth" });
+    }
+    
     setMobileMenuOpen(false);
     setSubBrandsDropdownOpen(false);
+    setMobileSubBrandsDropdownOpen(false);
   };
 
   const handleLearnMore = (brandName) => {
@@ -235,72 +139,32 @@ const SubBrand = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }, 100);
     } else {
-      console.log(
-        `Learn more about ${brandName} - Component not yet available`
-      );
+      console.log(`Learn more about ${brandName} - Component not yet available`);
     }
   };
 
-  const handleDropdownNavigation = (brand, action = "scroll") => {
-    if (action === "navigate" && brand.route) {
-      navigate(brand.route);
-    } else {
-      scrollToSection(brand.id);
-    }
-    setMobileMenuOpen(false);
-    setSubBrandsDropdownOpen(false);
-    setMobileSubBrandsDropdownOpen(false);
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === subBrandsData.length - 1 ? 0 : prevIndex + 1
+    );
   };
 
-  // New scroll-based animation effect
-  useEffect(() => {
-    const animatedImages = document.querySelectorAll(".animated-image");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          } else {
-            entry.target.classList.remove("visible");
-          }
-        });
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "0px 0px -100px 0px",
-      }
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? subBrandsData.length - 1 : prevIndex - 1
     );
+  };
 
-    animatedImages.forEach((img) => observer.observe(img));
-
-    return () => {
-      animatedImages.forEach((img) => observer.unobserve(img));
-    };
-  }, []);
-
-  useEffect(() => {
-    const fadeSections = document.querySelectorAll(".fade-section");
-
-    const fadeObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          } else {
-            entry.target.classList.remove("visible");
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    fadeSections.forEach((section) => fadeObserver.observe(section));
-
-    return () => {
-      fadeSections.forEach((section) => fadeObserver.unobserve(section));
-    };
-  }, []);
+  // Upgraded to calculate 2 items on the left and 2 on the right
+  const getSlidePosition = (index) => {
+    const total = subBrandsData.length;
+    if (index === currentIndex) return "active";
+    if (index === (currentIndex - 1 + total) % total) return "prev";
+    if (index === (currentIndex - 2 + total) % total) return "prev2";
+    if (index === (currentIndex + 1) % total) return "next";
+    if (index === (currentIndex + 2) % total) return "next2";
+    return "hidden";
+  };
 
   return (
     <div className="app-container">
@@ -332,14 +196,13 @@ const SubBrand = () => {
               <span className="nav-link">Sub-brands ▾</span>
               <div className="dropdown-content">
                 {subBrandsData.map((brand, index) => (
-                  
                   <a
                     key={index}
                     href={`#${brand.id}`}
                     className="dropdown-link"
                     onClick={(e) => {
                       e.preventDefault();
-                      scrollToSection(brand.id);
+                      handleDropdownNavigation(brand.id);
                     }}
                   >
                     {brand.name}
@@ -390,9 +253,7 @@ const SubBrand = () => {
                       className="mobile-nav-sublink"
                       onClick={(e) => {
                         e.preventDefault();
-                        setMobileMenuOpen(false);
-                        setMobileSubBrandsDropdownOpen(false);
-                        scrollToSection(brand.id);
+                        handleDropdownNavigation(brand.id);
                       }}
                     >
                       {brand.name}
@@ -417,81 +278,85 @@ const SubBrand = () => {
             </p>
             <button
               className="btn-enroll"
-              onClick={() => scrollToSection("construct")}
+              onClick={() => {
+                setCurrentIndex(0);
+                document.getElementById("subbrands-carousel")?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
-              ENROLL NOW!
+              EXPLORE NOW
             </button>
           </div>
         </section>
 
-        {/* Sub-brands Sections */}
-        {subBrandsData.map((brand, index) => (
-          <section
-            key={index}
-            id={brand.id}
-            className={`brand-section parallax-container ${
-              index % 2 === 1 ? "alternate-bg" : ""
-            }`}
-          >
-            <div className="brand-container">
-              <div
-                className={`brand-content-wrapper ${
-                  index % 2 === 1 ? "reverse" : ""
-                }`}
-              >
-                <div
-                  className="brand-content fade-section"
-                  data-speed="0.2"
-                  data-id={brand.id}
-                >
-                  <div className="brand-description-highlight">
-                    <p className="brand-description-bold">
-                      {brand.detailedDesc}
-                    </p>
-                  </div>
+        {/* --- CAROUSEL SECTION --- */}
+        <section id="subbrands-carousel" className="carousel-section">
+          <div className="carousel-wrapper coverflow-wrapper">
+            
+            <button className="carousel-nav-btn left" onClick={prevSlide}>
+              <ChevronLeft size={70} strokeWidth={4} />
+            </button>
 
-                  <div className="services-grid">
-                    {brand.services.map((service, serviceIndex) => (
-                      <div key={serviceIndex} className="service-item">
-                        <span className="service-bullet">✓</span>
-                        {service}
-                      </div>
-                    ))}
-                  </div>
+            <div className="coverflow-track">
+              {subBrandsData.map((brand, index) => {
+                const position = getSlidePosition(index);
 
-                  <span
-                    className="learn-more-btn"
-                    onClick={() => handleLearnMore(brand.name)}
+                return (
+                  <div 
+                    key={brand.id}
+                    className={`coverflow-slide ${position}`}
+                    onClick={() => {
+                      if (position === "active") {
+                        handleLearnMore(brand.name);
+                      } else if (position !== "hidden") {
+                        setCurrentIndex(index);
+                      }
+                    }}
+                    title={position === "active" ? `Explore ${brand.name}` : ""}
                   >
-                    Learn More
-                    <ArrowRight size={18} />
-                  </span>
-                </div>
-
-                <div className="brand-visual">
-                  <div className="brand-visual-content animated-image">
-                    <div className="image-container">
-                      <img
-                        src={brand.image}
-                        alt={brand.name}
-                        className="brand-image"
-                        onError={(e) => {
-                          e.target.src = "/assets/logo/7.png";
-                        }}
-                      />
-                      <div className="image-overlay"></div>
-                      <div className="floating-dots">
-                        <div className="dot dot-1"></div>
-                        <div className="dot dot-2"></div>
-                        <div className="dot dot-3"></div>
-                      </div>
-                    </div>
+                    <img
+                      src={brand.image}
+                      alt={brand.name}
+                      className="brand-image"
+                      onError={(e) => {
+                        e.target.src = "/assets/logo/7.png";
+                      }}
+                    />
+                    
+                    {/* NEW LEARN MORE BUTTON */}
+                    <button 
+                      className="card-learn-btn"
+                      onClick={(e) => {
+                        if (position === "active") {
+                          e.stopPropagation(); // Prevents the card's onClick from firing twice
+                          handleLearnMore(brand.name);
+                        }
+                      }}
+                    >
+                      Learn More
+                    </button>
                   </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
-          </section>
-        ))}
+
+            <button className="carousel-nav-btn right" onClick={nextSlide}>
+              <ChevronRight size={70} strokeWidth={4} />
+            </button>
+          </div>
+
+          {/* Pagination Dots */}
+          <div className="carousel-pagination">
+            {subBrandsData.map((_, index) => (
+              <button
+                key={index}
+                className={`pagination-dot ${index === currentIndex ? "active" : ""}`}
+                onClick={() => setCurrentIndex(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </section>
+        
       </main>
     </div>
   );

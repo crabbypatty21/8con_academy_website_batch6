@@ -1,5 +1,5 @@
 import React from "react";
-import { Paperclip, X, Megaphone, Monitor, Calculator, Video } from "lucide-react";
+import { Paperclip, X } from "lucide-react";
 
 const InternshipSection = ({
   handleApplyClick,
@@ -30,46 +30,49 @@ const InternshipSection = ({
       description:
         'Brainstorms hooks faster than TikTok trends\u2014driving campaigns, growing communities, and turning scrollers into confident traders. Handles copywriting, social posts, email funnels, light ad tweaks, and community engagement on Discord and Facebook. Checks the data to answer: \u201CDid that reel convert?\u201D',
       key: "Marketing",
-      icon: Megaphone,
+      icon: "/assets/icons/megaphone-fill.svg",
     },
     {
       title: "IT DEPARTMENT",
       description:
         "Thinks in Python, dreams in SQL, and debugs in their sleep. Builds trading dashboards, APIs, and features for 8ConEdge. Works on front-end tweaks (React, Next, or Vue), scripts data feeds, maintains servers, runs security checks, and automates tasks to streamline trading workflows.",
       key: "IT",
-      icon: Monitor,
+      icon: "/assets/icons/laptop-coding.png",
     },
     {
       title: "ACCOUNTING",
       description:
         "Spreadsheets sing under their fingertips. Keeps ledgers clean while linking PIPs to P&L. Manages daily bookkeeping, tracks costs for events and courses, builds reports management actually reads, and forecasts budgets with precision and yes, macros\u2014making every number count behind the scenes.",
       key: "Accounting",
-      icon: Calculator,
+      icon: "/assets/icons/receipt.png",
     },
     {
       title: "MULTIMEDIA",
       description:
         "Camera roll is 90% B-roll. Shoots, edits, and animates nonstop to make forex visually unforgettable. Cuts short-form content like Reels and YouTube Shorts, adds motion graphics and lower thirds, captures event photos, and designs branded assets that stand out across every feed.",
       key: "Multimedia",
-      icon: Video,
+      icon: "/assets/icons/camcorder.png",
     },
   ];
 
   return (
     <section id="internship" className="section section-internship">
-      <div className="internship-title fade-in">
+      <div className="internship-title fade-in-up">
         <h2>INTERNSHIP</h2>
         <p>Join our team and kickstart your career</p>
       </div>
 
       <div className="intcards-container">
-        {internshipRoles.map((role) => {
-          const IconComponent = role.icon;
+        {internshipRoles.map((role, index) => {
           return (
-            <div className="intcard fade-in" key={role.key}>
+            <div className={`intcard slide-in-right anim-delay-${index + 1}`} key={role.key}>
               <div className="intcontent">
                 <div className="intcard-icon">
-                  <IconComponent size={50} strokeWidth={1.5} />
+                  {typeof role.icon === "string" ? (
+                    <img src={role.icon} alt={role.title} style={role.key === "Marketing" ? { width: "45px", height: "45px" } : {}} />
+                  ) : (
+                    role.icon
+                  )}
                 </div>
                 <h3 className="intcard-title">{role.title}</h3>
                 <p className="intcard-description">{role.description}</p>

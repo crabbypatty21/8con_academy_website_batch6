@@ -407,7 +407,7 @@ const ConEdge = () => {
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       textAlign: "center",
       marginBottom: "2rem",
     },
@@ -530,7 +530,7 @@ const ConEdge = () => {
     solutionTitle: {
       fontSize: "1.4rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "1rem",
     },
 
@@ -588,7 +588,7 @@ const ConEdge = () => {
     benefitTitle: {
       fontSize: "1.4rem",
       fontWeight: "700",
-      color: "#0edb61",
+      color: colors.accentGreen,
       marginBottom: "1rem",
     },
 
@@ -1292,7 +1292,7 @@ const ConEdge = () => {
 
   heroDescription: {
     fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
-    color: "#cccccc",
+    color: colors.textMuted,
     lineHeight: "1.6",
     marginTop: "0 !important",
     marginBottom: "0 !important", // Let CSS class handle it
@@ -2182,7 +2182,7 @@ const ConEdge = () => {
       >
         <div style={styles.container2}>
           <h2
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
+            style={styles.sectionTitle}
             className={`tools-section-title ${
               animatedSections.has("tools") ? "animate" : ""
             }`}
@@ -2383,7 +2383,7 @@ const ConEdge = () => {
         }`}
       >
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: colors.textHeading }}>
+          <h2 style={styles.sectionTitle}>
             Why Choose 8ConEdge?
           </h2>
           <div style={styles.benefitsGrid}>

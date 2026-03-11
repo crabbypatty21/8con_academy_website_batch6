@@ -1,11 +1,7 @@
 /* ==========================================
    1. IMPORT FONTS
    ========================================== */
-/* Unbounded (Google Fonts) */
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&display=swap');
-
-/* Geist Sans (CDN - Vercel's Font) */
-@import url('https://cdn.jsdelivr.net/npm/geist@1.2.1/dist/fonts/geist-sans/style.css');
+/* Fonts loaded in index.html */
 
 /* ==========================================
    BASE STYLES (Desktop 1440px+)
@@ -33,6 +29,12 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.38);
+}
+
+.header.scrolled .nav-link,
+.header.scrolled .theme-toggle-btn,
+.header.scrolled .mobile-menu-toggle {
+  color: var(--header-scrolled-text);
 }
 
 /* LAYOUT: 3-column grid for logo | nav | actions */
@@ -71,7 +73,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 20px;
 }
 
 .nav-link {
@@ -86,16 +88,19 @@
   transition: color 0.3s ease, transform 0.3s ease;
   text-transform: none;
   white-space: nowrap;
+  width: fit-content;
 }
 
 .nav-link::before {
   content: "";
   position: absolute;
-  bottom: -2px;
-  left: 0;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #2DB062, #39CC2F);
+  height: 3px;
+  border-radius: 2px;
+  background: #ff1f2c;
   transition: width 0.3s ease;
 }
 
@@ -105,7 +110,20 @@
 }
 
 .nav-link:hover::before {
-  width: 100%;
+  width: 80%;
+}
+
+.nav-link.active {
+  color: #ff1f2c;
+}
+
+.nav-link.active::before {
+  width: 80%;
+  background: #ff1f2c;
+}
+
+.header.scrolled .nav-link.active {
+  color: #ff1f2c;
 }
 
 /* Dropdown specific styles */
@@ -186,6 +204,9 @@
   background-color: var(--accent-green-hover);
   padding: 6px 22px;
   border-radius: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
   margin-right: -40px;
   transition: all 0.3s ease;
   font-family: "Geist Sans", sans-serif;
@@ -373,6 +394,12 @@
     color: #ffffff;
     background: rgba(45, 176, 98, 0.1);
     padding-left: 36px;
+  }
+
+  .mobile-nav-link.active {
+    color: #ff1f2c;
+    border-left: 3px solid #ff1f2c;
+    background: rgba(255, 31, 44, 0.05);
   }
 
   .highlight-link {

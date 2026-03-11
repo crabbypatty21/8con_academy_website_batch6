@@ -52,32 +52,32 @@ const testimonials = [
     {
       name: "Hajie, Trader",
       message: "In less than six weeks on 8Con Academy’s Basic Competency course, I turned their FREE account into over $100 profit. The step-by-step lessons, strong focus on risk management, and a truly supportive community proved that even a beginner like me can trade confidently and aim for real financial freedom.",
-      backgroundImage: "/src/assets/images/upscalemedia-transformed-removebg-preview.png", //assets/images/hajie.png" 
+      backgroundImage: "/assets/images/testimonial/Hajie Trader.png",
     },
     {
       name: "Ken, Trader",
       message: "At first, I struggled to understand forex terms - until I joined 8Con Academy. Through step-by-step guidance, I learned to read fundamentals and analyze technicals, helping me predict market movements with confidence. What sets 8Con apart is you can already trade profitably even before finishing the course. This experience made me realize my goal: to achieve financial freedom through trading.",
-      backgroundImage: "/src/assets/images/upscalemedia-transformed-removebg-preview.png",//"/assets/images/ken.png",
+      backgroundImage: "/assets/images/testimonial/Ken Trader.png",
     },
     {
       name: "Clarence, Trader",
       message: "At 8Con, I’ve learned not just technical and fundamental analysis, but also the importance of trading psychology. I used to think forex was just 50/50 luck, until I realized it only feels that way without the right education. Learning this shifted my mindset and helped me pursue forex seriously as a potential source of income.",
-      backgroundImage: "/src/assets/images/upscalemedia-transformed-removebg-preview.png",//"/assets/images/clarence.png",
+      backgroundImage: "/assets/images/testimonial/Clarence Trader.png",
     },
     {
       name: "Jhames, Entreprenuer",
       message: "8Con Academy’s curriculum, expert mentorship, and practical guidance have equipped me with the skills and confidence to navigate the markets effectively. I now trade with a clear strategy and a disciplined approach, thanks to their support.",
-      backgroundImage: "/src/assets/images/upscalemedia-transformed-removebg-preview.png",//"/assets/images/jhames.png",
+      backgroundImage: "/assets/images/testimonial/Jhames Entrepreneur.png",
     },
     {
       name: "CJ, Trader",
       message: "8Con provides a supportive and professional environment where OJT students and interns gain valuable, hands-on experience, fostering growth, confidence, and real-world skills across any field of work.",
-      backgroundImage: "/src/assets/images/upscalemedia-transformed-removebg-preview.png",//"/assets/images/cj.png",
+      backgroundImage: "/assets/images/testimonial/CJ Trader.png",
     },
     {
       name: "Ryan, Trader",
       message: "8Con Academy’s practical approach gave me real-world trading skills and the mindset needed for long-term success. Their support and mentorship helped me grow into a confident, disciplined trader, ready to navigate today’s fast-paced market.",
-      backgroundImage: "/src/assets/images/upscalemedia-transformed-removebg-preview.png",//"/assets/images/ryan.png",
+      backgroundImage: "/assets/images/testimonial/Ryan Trader.png",
     },
   ];
 
@@ -104,7 +104,7 @@ const testimonials = [
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 10000);
+    const interval = setInterval(nextSlide, 8000);
     return () => clearInterval(interval);
   }, []);
 
@@ -194,16 +194,19 @@ const testimonials = [
     }
   };
 
-  // Fade-in animation on scroll
+  // Scroll animations — replay every time elements scroll in/out of view
   useEffect(() => {
-    const elements = document.querySelectorAll(".fade-in");
+    const elements = document.querySelectorAll(
+      ".fade-in, .slide-in-left, .slide-in-right, .scale-up, .fade-in-up"
+    );
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
+          } else {
+            entry.target.classList.remove("visible");
           }
         });
       },
@@ -260,9 +263,8 @@ const testimonials = [
         />
 
         <ContactSection />
+        <Footer />
       </main>
-
-      <Footer />
     </div>
   );
 };

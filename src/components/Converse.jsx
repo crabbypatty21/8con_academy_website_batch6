@@ -454,7 +454,7 @@ const ConVerse = () => {
       borderRadius: "15px",
       boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
       textAlign: "center",
-      border: "2px solid #f0f0f0",
+      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
       transition: "all 0.3s ease",
       cursor: "pointer",
     },

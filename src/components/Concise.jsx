@@ -591,7 +591,7 @@ const ConCise = () => {
       borderRadius: "15px",
       boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
       textAlign: "center",
-      border: "2px solid #f0f0f0",
+      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
       transition: "all 0.3s ease",
       cursor: "pointer",
       "@media (max-width: 768px)": {
@@ -1630,7 +1630,7 @@ const ConCise = () => {
       <section id="services" ref={servicesRef} style={styles.servicesSection}>
         <div style={styles.container2}>
           <h2
-            style={{ ...styles.sectionTitle, color: "#0edb61" }}
+            style={{ ...styles.sectionTitle, color: colors.accentGreen }}
             className={`animate-on-scroll ${
               isAnimated("services") ? "animate-slide-in-top" : ""
             }`}
@@ -1758,7 +1758,7 @@ const ConCise = () => {
       >
         <div style={styles.container2}>
           <h2
-            style={{ ...styles.sectionTitle, color: "#ffffff" }}
+            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
             className={`animate-on-scroll ${
               isAnimated("highlights") ? "animate-slide-in-top" : ""
             }`}
@@ -1939,7 +1939,7 @@ const ConCise = () => {
       <section id="benefits" ref={benefitsRef} style={styles.benefitsSection}>
         <div style={styles.container2}>
           <h2
-            style={{ ...styles.sectionTitle, color: "#ffffff" }}
+            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
             className={`animate-on-scroll ${
               isAnimated("benefits") ? "animate-slide-in-top" : ""
             }`}
