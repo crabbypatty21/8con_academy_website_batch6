@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "../context/ThemeContext.jsx";
 import "../App.css";
 import "../ConponentCSS/Registration.css";
-
+main
 import Footer from "./Footer";
 import ScrollLink from "./ScrollLink";
 
