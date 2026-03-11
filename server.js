@@ -1,4 +1,5 @@
 // server.js
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import multer from "multer";
@@ -47,8 +48,8 @@ function makeTransport() {
   return nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "assyrah.alcantara@gmail.com",
-      pass: "ugju axtg busv blba",
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD,
     },
     tls: { rejectUnauthorized: false },
   });
@@ -64,11 +65,28 @@ app.post("/contact", async (req, res) => {
 
     const transporter = makeTransport();
     await transporter.sendMail({
-      from: `"${name} via 8Con Academy" <assyrah.alcantara@gmail.com>`,
+      from: `"${name} via 8Con Academy" <${process.env.GMAIL_USER}>`,
       replyTo: email,
-      to: "assyrah.alcantara@gmail.com",
+      to: process.env.RECIPIENT_EMAIL || process.env.GMAIL_USER,
       subject: `Inquiry from ${name}`,
-      text: `You have received a new inquiry:\n\nName: ${name}\nEmail: ${email}\nPhone: ${contactNumber}\n\nMessage:\n${message}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="background: #000; padding: 20px; border-radius: 8px 8px 0 0;">
+            <h2 style="color: #fff; margin: 0;">New Inquiry</h2>
+          </div>
+          <div style="padding: 20px; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px;">
+            <h3 style="color: #ff1f2c; margin-top: 0;">From: ${name}</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 8px 0; font-weight: bold; width: 100px;">Name:</td><td style="padding: 8px 0;">${name}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Email:</td><td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Phone:</td><td style="padding: 8px 0;">${contactNumber}</td></tr>
+            </table>
+            <hr style="margin: 16px 0; border: none; border-top: 1px solid #e0e0e0;" />
+            <p style="font-weight: bold; margin-bottom: 4px;">Message:</p>
+            <p style="background: #f5f5f5; padding: 12px; border-radius: 6px; white-space: pre-wrap;">${message}</p>
+          </div>
+        </div>
+      `,
     });
 
     return res.json({ message: "Inquiry submitted successfully!" });
@@ -99,11 +117,28 @@ app.post("/apply", upload.single("resumeFile"), async (req, res) => {
     const transporter = makeTransport();
 
     await transporter.sendMail({
-      from: `"${fullName} via 8Con Academy" <assyrah.alcantara@gmail.com>`,
+      from: `"${fullName} via 8Con Academy" <${process.env.GMAIL_USER}>`,
       replyTo: email,
-      to: "assyrah.alcantara@gmail.com",
+      to: process.env.RECIPIENT_EMAIL || process.env.GMAIL_USER,
       subject: `Internship Application - ${fullName} for ${selectedPosition}`,
-      text: `Name: ${fullName}\nEmail: ${email}\nPhone: ${phoneNumber}\nAddress: ${address}\nDepartment: ${selectedPosition}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="background: #000; padding: 20px; border-radius: 8px 8px 0 0;">
+            <h2 style="color: #fff; margin: 0;">Internship Application</h2>
+          </div>
+          <div style="padding: 20px; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px;">
+            <h3 style="color: #ff1f2c; margin-top: 0;">From: ${fullName}</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Name:</td><td style="padding: 8px 0;">${fullName}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Email:</td><td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Phone:</td><td style="padding: 8px 0;">${phoneNumber}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Address:</td><td style="padding: 8px 0;">${address}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Department:</td><td style="padding: 8px 0;">${selectedPosition}</td></tr>
+            </table>
+            <p style="color: #666; margin-top: 16px; font-size: 13px;">📎 Resume attached as PDF</p>
+          </div>
+        </div>
+      `,
       attachments: [
         {
           filename: req.file.originalname,
@@ -130,11 +165,27 @@ app.post("/registration", async (req, res) => {
 
     const transporter = makeTransport();
     await transporter.sendMail({
-      from: `"${fullName} via 8Con Academy" <assyrah.alcantara@gmail.com>`,
+      from: `"${fullName} via 8Con Academy" <${process.env.GMAIL_USER}>`,
       replyTo: email,
-      to: "assyrah.alcantara@gmail.com",
+      to: process.env.RECIPIENT_EMAIL || process.env.GMAIL_USER,
       subject: `Workshop Registration - ${fullName}`,
-      text: `New Registration:\n\nFull Name: ${fullName}\nEmail: ${email}\nContact: ${contact}\nLocation: ${location}\nProfession: ${businessProfession}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="background: #000; padding: 20px; border-radius: 8px 8px 0 0;">
+            <h2 style="color: #fff; margin: 0;">Workshop Registration</h2>
+          </div>
+          <div style="padding: 20px; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px;">
+            <h3 style="color: #ff1f2c; margin-top: 0;">From: ${fullName}</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Full Name:</td><td style="padding: 8px 0;">${fullName}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Email:</td><td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Contact:</td><td style="padding: 8px 0;">${contact}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Location:</td><td style="padding: 8px 0;">${location}</td></tr>
+              <tr><td style="padding: 8px 0; font-weight: bold;">Profession:</td><td style="padding: 8px 0;">${businessProfession}</td></tr>
+            </table>
+          </div>
+        </div>
+      `,
     });
 
     return res.json({ message: "Registration successful and email sent!" });

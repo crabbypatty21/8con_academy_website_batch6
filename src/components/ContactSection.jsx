@@ -193,13 +193,13 @@ const ContactSection = () => {
       <section id="contact" className="contact-section">
         <div className="contact-wrapper">
           <div className="contact-header">
-            <h2 className="contact-title fade-in">CONTACT US</h2>
+            <h2 className="contact-title fade-in-up">CONTACT US</h2>
 
           </div>
 
           <div className="contact-grid">
             {/* Left: Form */}
-            <form onSubmit={handleContactSubmit} className="contact-form fade-in">
+            <form onSubmit={handleContactSubmit} className="contact-form slide-in-left">
               <div className="contact-form-row">
                 <div className="contact-form-group">
                   <label htmlFor="name" className="contact-label">Name</label>
@@ -262,7 +262,7 @@ const ContactSection = () => {
             </form>
 
             {/* Right: Map + Info */}
-            <div className="contact-info fade-in">
+            <div className="contact-info slide-in-right">
               <div className="contact-map-card">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.6238108973216!2d120.96140770000001!3d14.733848199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b386f399c96b%3A0x485afd33f61c132c!2s8Con%20Academy%20-%20Forex%20Trading%20%26%20Financial%20Literacy%20School!5e0!3m2!1sen!2sph!4v1750479622554!5m2!1sen!2sph"
@@ -300,10 +300,10 @@ const ContactSection = () => {
       <section id="faq" className="faq-section">
         <div className="faq-wrapper">
           <div className="faq-header">
-            <h2 className="faq-title fade-in">FAQ</h2>
-            <p className="faq-subtitle fade-in">Frequently Asked Questions</p>
+            <h2 className="faq-title fade-in-up">FAQ</h2>
+            <p className="faq-subtitle fade-in-up anim-delay-1">Frequently Asked Questions</p>
           </div>
-          <div className="faq-list fade-in">
+          <div className="faq-list fade-in-up anim-delay-2">
             {faqs.map((faq, index) => (
               <FAQItem
                 key={index}

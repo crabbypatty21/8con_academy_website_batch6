@@ -18,7 +18,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-main">
         {/* Top: Logo + tagline */}
-        <div className="footer-brand">
+        <div className="footer-brand fade-in-up">
           <img
             src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
             alt="8Con Academy"
@@ -53,7 +53,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer-grid">
+        <div className="footer-grid fade-in-up anim-delay-2">
           {/* Quick Links */}
           <div className="footer-col">
             <h4 className="footer-title">Quick Links</h4>

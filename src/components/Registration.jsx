@@ -348,7 +348,7 @@ const Registration = () => {
           }
 
           .registration-section {
-            background-color: #161e24; /* Solid background */
+            background-color: #161e24;
             min-height: 80vh;
             display: flex;
             align-items: center;
@@ -375,8 +375,8 @@ const Registration = () => {
             width: 100%;
             background-color: #1a2329;
             border-radius: 12px;
-            overflow: hidden; 
-            box-shadow: 0 0 20px rgba(109, 186, 214, 0.4), 0 10px 30px rgba(0, 0, 0, 0.5); /* #6DBAD6 shadow */
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(109, 186, 214, 0.4), 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid #293842;
           }
 
@@ -384,7 +384,7 @@ const Registration = () => {
           .form-column {
             flex: 1 1 40%;
             width: 40%;
-            padding: 24px 36px; 
+            padding: 24px 36px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -394,7 +394,7 @@ const Registration = () => {
           .image-column {
             flex: 1 1 60%;
             width: 60%;
-            display: block; 
+            display: block;
             background-color: #1a2329;
             padding: 0;
             margin: 0;
@@ -403,7 +403,7 @@ const Registration = () => {
           .workshop-image {
             width: 100%;
             height: 100%;
-            object-fit: fill; 
+            object-fit: fill;
             display: block;
           }
           /* --------------------------- */
@@ -560,6 +560,101 @@ const Registration = () => {
             display: none;
           }
 
+          /* ===== LIGHT MODE ===== */
+          html.light-mode body {
+            background-color: #E9F1F9;
+          }
+
+          html.light-mode .registration-section {
+            background-color: #E9F1F9;
+          }
+
+          html.light-mode .registration-card {
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(109, 186, 214, 0.2), 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+          }
+
+          html.light-mode .image-column {
+            background-color: #ffffff;
+          }
+
+          html.light-mode .form-input {
+            background-color: #f1f5f9;
+            color: #373737;
+            border: 1px solid #e2e8f0;
+          }
+
+          html.light-mode .form-input::placeholder {
+            color: #94a3b8;
+          }
+
+          html.light-mode .form-input:focus {
+            background-color: #ffffff;
+            box-shadow: 0 0 0 2px #4caf50;
+          }
+
+          html.light-mode .captcha-display {
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+          }
+
+          html.light-mode .captcha-text {
+            color: #373737;
+          }
+
+          html.light-mode .captcha-refresh {
+            color: #64748b;
+          }
+
+          html.light-mode .captcha-refresh:hover {
+            color: #373737;
+          }
+
+          html.light-mode .privacy-policy-section {
+            background-color: #a3c9a5;
+          }
+
+          html.light-mode .privacy-title {
+            color: #1a1a1a;
+          }
+
+          html.light-mode .privacy-text {
+            color: #2d4a2e;
+          }
+
+          html.light-mode .reserve-btn:disabled {
+            background-color: #cbd5e1;
+            color: #94a3b8;
+          }
+
+          html.light-mode .error-message {
+            color: #dc2626;
+          }
+
+          html.light-mode .header {
+            --header-text: #373737;
+          }
+
+          html.light-mode .header .nav-link {
+            color: #373737;
+          }
+
+          html.light-mode .header .theme-toggle-btn,
+          html.light-mode .header .mobile-menu-toggle {
+            color: #373737;
+          }
+
+          html.light-mode .header.scrolled {
+            background: #E9F1F9;
+          }
+
+          html.light-mode .header.scrolled .nav-link,
+          html.light-mode .header.scrolled .theme-toggle-btn,
+          html.light-mode .header.scrolled .mobile-menu-toggle {
+            color: #373737;
+          }
+
           /* Responsive Design */
           @media (max-width: 900px) {
             .registration-card {
@@ -567,7 +662,7 @@ const Registration = () => {
               max-width: 500px;
               margin: 0 auto;
             }
-              
+
             .form-column {
               width: 100%;
               padding: 30px 20px;
@@ -575,13 +670,13 @@ const Registration = () => {
 
             .image-column {
               width: 100%;
-              order: -1; 
+              order: -1;
             }
 
             .workshop-image {
               width: 100%;
               height: auto;
-              object-fit: contain; 
+              object-fit: contain;
             }
           }
 

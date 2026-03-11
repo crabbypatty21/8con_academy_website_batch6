@@ -2545,6 +2545,66 @@ body {
   box-shadow: 0 4px 16px rgba(117, 249, 76, 0.25);
 }
 
+/* ===== CONTACT MODAL LIGHT MODE ===== */
+html.light-mode .contact-modal {
+  background: #EFF9FF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+html.light-mode .contact-modal-close {
+  background: rgba(0, 0, 0, 0.06);
+  color: rgba(0, 0, 0, 0.4);
+}
+
+html.light-mode .contact-modal-close:hover {
+  color: #373737;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+html.light-mode .contact-modal-title {
+  color: #373737;
+}
+
+html.light-mode .contact-modal-message {
+  color: rgba(55, 55, 55, 0.65);
+}
+
+html.light-mode .contact-modal-btn-cancel {
+  background: rgba(0, 0, 0, 0.06);
+  color: rgba(55, 55, 55, 0.7);
+}
+
+html.light-mode .contact-modal-btn-cancel:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.1);
+  color: #373737;
+}
+
+html.light-mode .contact-modal-confirm .contact-modal-icon {
+  background: rgba(5, 150, 105, 0.1);
+  border-color: rgba(5, 150, 105, 0.25);
+  color: #059669;
+}
+
+html.light-mode .contact-modal-success .contact-modal-icon {
+  background: rgba(5, 150, 105, 0.12);
+  border-color: rgba(5, 150, 105, 0.3);
+  color: #059669;
+}
+
+html.light-mode .contact-modal-success .contact-modal-title {
+  background: linear-gradient(135deg, #059669, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html.light-mode .contact-modal-error .contact-modal-icon {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.25);
+  color: #dc2626;
+}
+
 .contact-section {
   height: 100vh;
   background: var(--bg-secondary);
@@ -4097,6 +4157,7 @@ img {
   }
 }
 
+/* ==================== Scroll Animations ==================== */
 .fade-in {
   opacity: 0;
   transform: translateY(30px);
@@ -4106,6 +4167,70 @@ img {
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.slide-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.slide-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scale-up {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scale-up.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for child animations */
+.anim-delay-1 { transition-delay: 0.1s; }
+.anim-delay-2 { transition-delay: 0.2s; }
+.anim-delay-3 { transition-delay: 0.3s; }
+.anim-delay-4 { transition-delay: 0.4s; }
+.anim-delay-5 { transition-delay: 0.5s; }
+.anim-delay-6 { transition-delay: 0.6s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in,
+  .slide-in-left,
+  .slide-in-right,
+  .scale-up,
+  .fade-in-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ==================== Chatbot FAQ (Slide-in Sidebar) ==================== */
