@@ -323,17 +323,17 @@ const SubBrand = () => {
                     />
                     
                     {/* NEW LEARN MORE BUTTON */}
-                    <button 
-                      className="card-learn-btn"
-                      onClick={(e) => {
-                        if (position === "active") {
+                    {position === "active" && (
+                      <button 
+                        className="card-learn-btn"
+                        onClick={(e) => {
                           e.stopPropagation(); // Prevents the card's onClick from firing twice
                           handleLearnMore(brand.name);
-                        }
-                      }}
-                    >
-                      Learn More
-                    </button>
+                        }}
+                      >
+                        Learn More
+                      </button>
+                    )}
                   </div>
                 );
               })}

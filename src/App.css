@@ -6250,22 +6250,32 @@ html.light-mode .chatbot-send-btn:disabled {
   transition: transform 0.3s ease;
 }
 
-/* --- NEW BUTTON STYLES --- */
 .card-learn-btn {
-  margin-top: auto;
-  padding: 0.6rem 1.5rem;
-  background-color: white;
-  color: #04A946;
+  /* Positioning */
+  position: relative;
+  bottom: 40px; /* Keep whichever number you decided on */
+  
+  /* Button Styling */
+  background: #F95545; /* Changed to your new color */
+  color: white; /* Default text color */
   border: none;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 0.9rem;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  z-index: 10;
+  transition: color 0.3s ease; /* Adds a smooth fade effect for the text color */
 }
+
+.card-learn-btn:hover {
+  /* Lock it completely in place */
+  transform: none !important; 
+  bottom: 40px !important; /* Make sure this matches the bottom value above */
+  
+  /* New hover text color */
+  color: black !important; 
+}
+
 
 /* Hover effect only works when the card is currently in the center */
 .coverflow-slide.active .card-learn-btn:hover {
@@ -6280,8 +6290,10 @@ html.light-mode .chatbot-send-btn:disabled {
   z-index: 10;
   opacity: 1;
   filter: blur(0px); 
-  box-shadow: 0 15px 40px rgba(4, 169, 70, 0.4);
+  /* Reduced the blur from 40px/25px to 25px/15px and lowered the opacity */
+  box-shadow: 0 10px 25px rgba(117, 249, 76, 0.4), 0 0 15px rgba(117, 249, 76, 0.5);
 }
+
 .coverflow-slide.active:hover .brand-image {
   transform: scale(1.08); 
 }
@@ -6388,5 +6400,52 @@ html.light-mode .chatbot-send-btn:disabled {
   .coverflow-slide.prev { transform: translateX(-75%) scale(0.8); }
   .coverflow-slide.next { transform: translateX(75%) scale(0.8); }
 }
+
+/* Color suffix green specifically */
+.green-suffix {
+  color: #77FF28 !important;
+  -webkit-text-fill-color: #77FF28 !important;
+}
+
+/* Label above the button in carousel */
+.carousel-brand-name {
+  color: white;
+  margin-bottom: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* Button styling - matches your requirements */
+.card-learn-btn {
+  position: relative;
+  bottom: 40px; /* Adjust this to move higher/lower */
+  background: #F95545 !important;
+  color: white !important;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+/* Hover: Text turns black, button stays in place */
+.card-learn-btn:hover {
+  transform: none !important; 
+  bottom: 40px !important; /* Keep same as above to prevent moving down */
+  color: black !important;
+  background: #F95545 !important;
+}
+
+/* Active slide shadow reduction */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.15); 
+  z-index: 10;
+  opacity: 1;
+  box-shadow: 0 10px 25px rgba(117, 249, 76, 0.4), 0 0 15px rgba(117, 249, 76, 0.5) !important;
+}
+
+
 
 
