@@ -48,8 +48,13 @@ function makeTransport() {
   return nodemailer.createTransport({
     service: "gmail",
     auth: {
+<<<<<<< HEAD
+      user: "assyrah.alcantara@gmail.com",
+      pass: "eoxd vhye mucn uxzg",
+=======
       user: process.env.GMAIL_USER,
       pass: process.env.GMAIL_APP_PASSWORD,
+>>>>>>> origin/main
     },
     tls: { rejectUnauthorized: false },
   });

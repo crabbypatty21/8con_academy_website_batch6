@@ -1,5 +1,6 @@
 import React from "react";
 import { Paperclip, X } from "lucide-react";
+import TradingBackground from "./TradingBackground.jsx";
 
 const InternshipSection = ({
   handleApplyClick,
@@ -56,8 +57,9 @@ const InternshipSection = ({
   ];
 
   return (
-    <section id="internship" className="section section-internship">
-      <div className="internship-title fade-in-up">
+    <section id="internship" className="section section-internship" style={{ position: "relative" }}>
+      <TradingBackground variant={5} />
+      <div className="internship-title fade-in-up" style={{ position: "relative", zIndex: 1 }}>
         <h2>INTERNSHIP</h2>
         <p>Join our team and kickstart your career</p>
       </div>

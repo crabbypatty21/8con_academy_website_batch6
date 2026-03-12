@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ChevronDown, Phone, Mail, MapPin, CheckCircle, XCircle, X, Send } from "lucide-react";
+import TradingBackground from "./TradingBackground.jsx";
 
 const capitalizeFirstLetter = (str) => {
   if (!str) return "";
@@ -41,25 +42,27 @@ const ContactSection = () => {
     if (!pendingPayload) return;
     setSending(true);
     try {
-      const apiUrl = import.meta.env.PROD
-        ? "https://8conacademy.com/contact"
-        : "http://localhost:3001/contact";
-      const response = await fetch(apiUrl, {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(pendingPayload),
+        body: JSON.stringify({
+          access_key: "5f8976e9-6357-4533-bd55-71314277e2f9",
+          from_name: pendingPayload.name,
+          subject: `New Contact Message from ${pendingPayload.name}`,
+          ...pendingPayload,
+        }),
       });
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (data.success) {
         setModal({ show: true, type: "success", message: "Your message has been sent successfully! We'll get back to you soon." });
         setName("");
         setContactEmail("");
         setContactNumber("");
         setMessage("");
       } else {
-        setModal({ show: true, type: "error", message: data.error || "Failed to send message." });
+        setModal({ show: true, type: "error", message: data.message || "Failed to send message." });
       }
     } catch (error) {
       console.error("Submit error:", error);
@@ -190,8 +193,9 @@ const ContactSection = () => {
       {/* ============================== */}
       {/* CONTACT US SECTION             */}
       {/* ============================== */}
-      <section id="contact" className="contact-section">
-        <div className="contact-wrapper">
+      <section id="contact" className="contact-section" style={{ position: "relative" }}>
+        <TradingBackground variant={1} />
+        <div className="contact-wrapper" style={{ position: "relative", zIndex: 1 }}>
           <div className="contact-header">
             <h2 className="contact-title fade-in-up">CONTACT US</h2>
 
@@ -297,8 +301,9 @@ const ContactSection = () => {
       {/* ============================== */}
       {/* FAQ SECTION                    */}
       {/* ============================== */}
-      <section id="faq" className="faq-section">
-        <div className="faq-wrapper">
+      <section id="faq" className="faq-section" style={{ position: "relative" }}>
+        <TradingBackground variant={3} />
+        <div className="faq-wrapper" style={{ position: "relative", zIndex: 1 }}>
           <div className="faq-header">
             <h2 className="faq-title fade-in-up">FAQ</h2>
             <p className="faq-subtitle fade-in-up anim-delay-1">Frequently Asked Questions</p>
