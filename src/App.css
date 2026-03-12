@@ -4782,3 +4782,1685 @@ html.light-mode .chatbot-send-btn:disabled {
   color: #94a3b8;
 }
 
+/* --- CAROUSEL STYLES --- */
+.carousel-section {
+  padding: 6rem 2rem;
+  background-color: var(--bg-color, #ffffff); /* Adapts if you have a theme var */
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  gap: 1rem;
+}
+
+.carousel-viewport {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #f9fafb); 
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  width: 100%;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  padding: 3rem;
+  box-sizing: border-box;
+}
+
+.slide-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4rem;
+}
+
+.slide-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Image container styling reused from your previous layout */
+.slide-visual .image-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-visual .brand-image {
+  width: 60%;
+  height: auto;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.slide-visual .image-container:hover .brand-image {
+  transform: scale(1.05);
+}
+
+.slide-info {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.brand-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.brand-icon {
+  color: #1a56db; /* Adjust to match your brand color */
+}
+
+.brand-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary, #111827);
+  margin: 0;
+}
+
+.carousel-learn-btn {
+  margin-top: 2rem;
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #1a56db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.carousel-learn-btn:hover {
+  background: #1e40af;
+}
+
+/* Navigation Buttons */
+.carousel-nav-btn {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.carousel-nav-btn:hover {
+  background: #f3f4f6;
+  color: #1a56db;
+  transform: translateY(-2px);
+}
+
+/* Pagination Dots */
+.carousel-pagination {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.pagination-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pagination-dot.active {
+  background-color: #1a56db;
+  width: 32px;
+  border-radius: 6px;
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 968px) {
+  .slide-content-wrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .carousel-wrapper {
+    position: relative;
+  }
+
+  /* Position arrows absolutely over the card on mobile so they don't squish */
+  .carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .carousel-nav-btn.left {
+    left: -15px;
+  }
+
+  .carousel-nav-btn.right {
+    right: -15px;
+  }
+
+  .brand-header {
+    justify-content: center;
+  }
+
+  .carousel-learn-btn {
+    align-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-slide {
+    padding: 1.5rem;
+  }
+
+  .carousel-nav-btn {
+    display: none; /* Hide side arrows on very small screens, rely on dots/swipe */
+  }
+}
+
+.slide-content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centers the single image block */
+  width: 100%;
+}
+
+.slide-visual {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  cursor: pointer; /* Makes it clear the image is clickable */
+}
+
+/* Specific styling for the picture-only container */
+.slide-visual .image-only-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px; /* Made slightly larger since text is gone */
+  aspect-ratio: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1f2937, #111827); /* Darker background to make logos pop like in your screenshot */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.slide-visual .image-only-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(26, 86, 219, 0.3); /* Adds a nice glow on hover */
+}
+
+.slide-visual .brand-image {
+  width: 65%; /* Adjusted size */
+  height: auto;
+  z-index: 2;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.slide-visual .image-only-container:hover .brand-image {
+  transform: scale(1.1);
+}
+
+/* --- COVERFLOW CAROUSEL STYLES --- */
+.carousel-section {
+  padding: 6rem 2rem;
+  background-color: transparent; /* Seamless blend */
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.coverflow-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  gap: 1rem;
+}
+
+/* Track holds the absolute positioned images */
+.coverflow-track {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 400px; /* Adjust depending on logo sizes */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Base style for every image wrapper */
+.coverflow-slide {
+  position: absolute;
+  width: 300px; /* Max size of the central logo */
+  height: 300px;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.6s ease, 
+              filter 0.6s ease;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Image styling - No background, just the logo */
+.brand-logo-only {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Keeps ratio intact */
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); /* Nice subtle shadow since it has no background */
+  transition: transform 0.3s ease;
+}
+
+/* ACTIVE (Center) */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.1);
+  z-index: 10;
+  opacity: 1;
+  filter: blur(0px); /* Crystal clear */
+}
+.coverflow-slide.active:hover .brand-logo-only {
+  transform: scale(1.05); /* Slight bounce on hover */
+}
+
+/* PREVIOUS (Left side) */
+.coverflow-slide.prev {
+  transform: translateX(-80%) scale(0.65);
+  z-index: 5;
+  opacity: 0.5;
+  filter: blur(8px); /* Blurry */
+}
+
+/* NEXT (Right side) */
+.coverflow-slide.next {
+  transform: translateX(80%) scale(0.65);
+  z-index: 5;
+  opacity: 0.5;
+  filter: blur(8px); /* Blurry */
+}
+
+/* HIDDEN (Any other slides) */
+.coverflow-slide.hidden {
+  transform: translateX(0) scale(0.4);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none; /* Ignore clicks */
+}
+
+
+/* Navigation Buttons */
+.carousel-nav-btn {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+.carousel-nav-btn:hover {
+  background: #f3f4f6;
+  color: #1a56db;
+  transform: translateY(-2px);
+}
+
+/* Pagination Dots */
+.carousel-pagination {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  z-index: 20;
+}
+
+.pagination-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pagination-dot.active {
+  background-color: #1a56db;
+  width: 32px;
+  border-radius: 6px;
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 968px) {
+  .coverflow-slide {
+    width: 250px;
+    height: 250px;
+  }
+  .coverflow-slide.prev {
+    transform: translateX(-60%) scale(0.6);
+  }
+  .coverflow-slide.next {
+    transform: translateX(60%) scale(0.6);
+  }
+}
+
+@media (max-width: 600px) {
+  .coverflow-slide {
+    width: 200px;
+    height: 200px;
+  }
+  .carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .carousel-nav-btn.left { left: 0px; }
+  .carousel-nav-btn.right { right: 0px; }
+  
+  .coverflow-slide.prev {
+    transform: translateX(-50%) scale(0.5);
+  }
+  .coverflow-slide.next {
+    transform: translateX(50%) scale(0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-nav-btn {
+    display: none; /* Hide side arrows on small screens */
+  }
+}
+
+/* --- COVERFLOW CAROUSEL STYLES --- */
+.carousel-section {
+  padding: 6rem 2rem;
+  background-color: transparent; 
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.coverflow-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  gap: 1rem;
+}
+
+.coverflow-track {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 400px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* This is the background card for the Sub Brand */
+.coverflow-slide {
+  position: absolute;
+  width: 300px; 
+  height: 300px;
+  background-color: #04A946; /* THE GREEN BACKGROUND COLOR */
+  border-radius: 24px; /* Soft rounded corners */
+  padding: 2rem; /* Adds breathing room between the logo and edge of the box */
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.6s ease, 
+              filter 0.6s ease,
+              box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Standard image, no masks */
+.brand-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  transition: transform 0.3s ease;
+}
+
+/* ACTIVE (Center) */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.1);
+  z-index: 10;
+  opacity: 1;
+  filter: blur(0px); 
+  box-shadow: 0 15px 40px rgba(4, 169, 70, 0.4); /* Subtle green glow */
+}
+.coverflow-slide.active:hover .brand-image {
+  transform: scale(1.08); 
+}
+
+/* PREVIOUS (Left side) */
+.coverflow-slide.prev {
+  transform: translateX(-80%) scale(0.65);
+  z-index: 5;
+  opacity: 0.5;
+  filter: blur(8px); 
+}
+
+/* NEXT (Right side) */
+.coverflow-slide.next {
+  transform: translateX(80%) scale(0.65);
+  z-index: 5;
+  opacity: 0.5;
+  filter: blur(8px); 
+}
+
+/* HIDDEN (Any other slides) */
+.coverflow-slide.hidden {
+  transform: translateX(0) scale(0.4);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none; 
+}
+
+/* Navigation Buttons */
+.carousel-nav-btn {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+.carousel-nav-btn:hover {
+  background: #f3f4f6;
+  color: #04A946; 
+  border-color: #04A946;
+  transform: translateY(-2px);
+}
+
+/* Pagination Dots */
+.carousel-pagination {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  z-index: 20;
+}
+
+.pagination-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pagination-dot.active {
+  background-color: #04A946; 
+  width: 32px;
+  border-radius: 6px;
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 968px) {
+  .coverflow-slide {
+    width: 250px;
+    height: 250px;
+    padding: 1.5rem;
+  }
+  .coverflow-slide.prev {
+    transform: translateX(-60%) scale(0.6);
+  }
+  .coverflow-slide.next {
+    transform: translateX(60%) scale(0.6);
+  }
+}
+
+@media (max-width: 600px) {
+  .coverflow-slide {
+    width: 200px;
+    height: 200px;
+    padding: 1rem;
+  }
+  .carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .carousel-nav-btn.left { left: 0px; }
+  .carousel-nav-btn.right { right: 0px; }
+  
+  .coverflow-slide.prev {
+    transform: translateX(-50%) scale(0.5);
+  }
+  .coverflow-slide.next {
+    transform: translateX(50%) scale(0.5);
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-nav-btn {
+    display: none; 
+  }
+}
+
+/* --- WIDE COVERFLOW CAROUSEL STYLES --- */
+.carousel-section {
+  padding: 6rem 2rem;
+  background-color: transparent; 
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.coverflow-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1400px; /* Made wider to fit 5 cards */
+  position: relative;
+  gap: 1rem;
+}
+
+.coverflow-track {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  height: 400px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Base style for the card */
+.coverflow-slide {
+  position: absolute;
+  width: 300px; 
+  height: 300px;
+  background-color: #04A946; /* THE GREEN BACKGROUND COLOR */
+  border-radius: 24px;
+  padding: 2rem; 
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.6s ease, 
+              filter 0.6s ease,
+              box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.brand-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  transition: transform 0.3s ease;
+}
+
+/* ACTIVE (Center) */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.1);
+  z-index: 10;
+  opacity: 1;
+  filter: blur(0px); 
+  box-shadow: 0 15px 40px rgba(4, 169, 70, 0.4);
+}
+.coverflow-slide.active:hover .brand-image {
+  transform: scale(1.08); 
+}
+
+/* PREVIOUS 1 (Immediate Left) */
+.coverflow-slide.prev {
+  transform: translateX(-80%) scale(0.75);
+  z-index: 5;
+  opacity: 0.6;
+  filter: blur(4px); 
+}
+
+/* NEXT 1 (Immediate Right) */
+.coverflow-slide.next {
+  transform: translateX(80%) scale(0.75);
+  z-index: 5;
+  opacity: 0.6;
+  filter: blur(4px); 
+}
+
+/* PREVIOUS 2 (Far Left) */
+.coverflow-slide.prev2 {
+  transform: translateX(-150%) scale(0.5);
+  z-index: 3;
+  opacity: 0.25;
+  filter: blur(8px); 
+}
+
+/* NEXT 2 (Far Right) */
+.coverflow-slide.next2 {
+  transform: translateX(150%) scale(0.5);
+  z-index: 3;
+  opacity: 0.25;
+  filter: blur(8px); 
+}
+
+/* HIDDEN (Any other slides) */
+.coverflow-slide.hidden {
+  transform: translateX(0) scale(0.4);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none; 
+}
+
+
+/* Navigation Buttons */
+.carousel-nav-btn {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+.carousel-nav-btn:hover {
+  background: #f3f4f6;
+  color: #04A946; 
+  border-color: #04A946;
+  transform: translateY(-2px);
+}
+
+/* Pagination Dots */
+.carousel-pagination {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  z-index: 20;
+}
+
+.pagination-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pagination-dot.active {
+  background-color: #04A946; 
+  width: 32px;
+  border-radius: 6px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .coverflow-slide {
+    width: 250px;
+    height: 250px;
+    padding: 1.5rem;
+  }
+  .coverflow-slide.prev { transform: translateX(-70%) scale(0.7); }
+  .coverflow-slide.next { transform: translateX(70%) scale(0.7); }
+  .coverflow-slide.prev2 { transform: translateX(-130%) scale(0.45); }
+  .coverflow-slide.next2 { transform: translateX(130%) scale(0.45); }
+}
+
+@media (max-width: 768px) {
+  .coverflow-slide {
+    width: 200px;
+    height: 200px;
+    padding: 1.25rem;
+  }
+  .carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .carousel-nav-btn.left { left: 10px; }
+  .carousel-nav-btn.right { right: 10px; }
+  
+  .coverflow-slide.prev { transform: translateX(-65%) scale(0.65); }
+  .coverflow-slide.next { transform: translateX(65%) scale(0.65); }
+  
+  /* Hide the 2nd outer elements on smaller tablets so they don't overflow screen */
+  .coverflow-slide.prev2, 
+  .coverflow-slide.next2 { 
+    opacity: 0; 
+    pointer-events: none; 
+  }
+}
+
+@media (max-width: 480px) {
+  .coverflow-slide {
+    width: 180px;
+    height: 180px;
+    padding: 1rem;
+  }
+  .carousel-nav-btn {
+    display: none; 
+  }
+  .coverflow-slide.prev { transform: translateX(-55%) scale(0.6); }
+  .coverflow-slide.next { transform: translateX(55%) scale(0.6); }
+}
+
+/* --- WIDE COVERFLOW CAROUSEL STYLES --- */
+.carousel-section {
+  padding: 6rem 2rem;
+  background-color: transparent; 
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.coverflow-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1400px; 
+  position: relative;
+  gap: 1rem;
+}
+
+.coverflow-track {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  height: 400px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Base style for the card */
+.coverflow-slide {
+  position: absolute;
+  width: 300px; 
+  height: 300px;
+  background-color: #04A946; 
+  border-radius: 24px;
+  padding: 2rem; 
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.6s ease, 
+              filter 0.6s ease,
+              box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.brand-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  transition: transform 0.3s ease;
+}
+
+/* ACTIVE (Center) */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.1);
+  z-index: 10;
+  opacity: 1;
+  filter: blur(0px); 
+  box-shadow: 0 15px 40px rgba(4, 169, 70, 0.4);
+}
+.coverflow-slide.active:hover .brand-image {
+  transform: scale(1.08); 
+}
+
+/* PREVIOUS 1 (Immediate Left) - Increased Scale & Adjusted X */
+.coverflow-slide.prev {
+  transform: translateX(-85%) scale(0.85); 
+  z-index: 5;
+  opacity: 0.7; /* Made slightly more visible */
+  filter: blur(4px); 
+}
+
+/* NEXT 1 (Immediate Right) - Increased Scale & Adjusted X */
+.coverflow-slide.next {
+  transform: translateX(85%) scale(0.85); 
+  z-index: 5;
+  opacity: 0.7; 
+  filter: blur(4px); 
+}
+
+/* PREVIOUS 2 (Far Left) - Increased Scale & Adjusted X */
+.coverflow-slide.prev2 {
+  transform: translateX(-165%) scale(0.65); 
+  z-index: 3;
+  opacity: 0.35; 
+  filter: blur(8px); 
+}
+
+/* NEXT 2 (Far Right) - Increased Scale & Adjusted X */
+.coverflow-slide.next2 {
+  transform: translateX(165%) scale(0.65); 
+  z-index: 3;
+  opacity: 0.35; 
+  filter: blur(8px); 
+}
+
+/* HIDDEN (Any other slides) */
+.coverflow-slide.hidden {
+  transform: translateX(0) scale(0.4);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none; 
+}
+
+
+/* Navigation Buttons */
+.carousel-nav-btn {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+.carousel-nav-btn:hover {
+  background: #f3f4f6;
+  color: #04A946; 
+  border-color: #04A946;
+  transform: translateY(-2px);
+}
+
+/* Pagination Dots */
+.carousel-pagination {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  z-index: 20;
+}
+
+.pagination-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pagination-dot.active {
+  background-color: #04A946; 
+  width: 32px;
+  border-radius: 6px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .coverflow-slide {
+    width: 250px;
+    height: 250px;
+    padding: 1.5rem;
+  }
+  .coverflow-slide.prev { transform: translateX(-75%) scale(0.8); }
+  .coverflow-slide.next { transform: translateX(75%) scale(0.8); }
+  .coverflow-slide.prev2 { transform: translateX(-145%) scale(0.55); }
+  .coverflow-slide.next2 { transform: translateX(145%) scale(0.55); }
+}
+
+@media (max-width: 768px) {
+  .coverflow-slide {
+    width: 200px;
+    height: 200px;
+    padding: 1.25rem;
+  }
+  .carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .carousel-nav-btn.left { left: 10px; }
+  .carousel-nav-btn.right { right: 10px; }
+  
+  .coverflow-slide.prev { transform: translateX(-70%) scale(0.75); }
+  .coverflow-slide.next { transform: translateX(70%) scale(0.75); }
+  
+  /* Hide the 2nd outer elements on smaller tablets so they don't overflow screen */
+  .coverflow-slide.prev2, 
+  .coverflow-slide.next2 { 
+    opacity: 0; 
+    pointer-events: none; 
+  }
+}
+
+@media (max-width: 480px) {
+  .coverflow-slide {
+    width: 180px;
+    height: 180px;
+    padding: 1rem;
+  }
+  .carousel-nav-btn {
+    display: none; 
+  }
+  .coverflow-slide.prev { transform: translateX(-60%) scale(0.7); }
+  .coverflow-slide.next { transform: translateX(60%) scale(0.7); }
+}
+
+/* --- WIDE COVERFLOW CAROUSEL STYLES --- */
+.carousel-section {
+  padding: 6rem 2rem;
+  background-color: transparent; 
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.coverflow-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1400px; 
+  position: relative;
+  gap: 1rem;
+}
+
+.coverflow-track {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  height: 400px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Base style for the card */
+.coverflow-slide {
+  position: absolute;
+  width: 300px; 
+  height: 300px;
+  background-color: #04A946; 
+  border-radius: 24px;
+  padding: 2rem; 
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.6s ease, 
+              filter 0.6s ease,
+              box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.brand-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  transition: transform 0.3s ease;
+}
+
+/* ACTIVE (Center) - Bumped up slightly to maintain hierarchy */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.15); 
+  z-index: 10;
+  opacity: 1;
+  filter: blur(0px); 
+  box-shadow: 0 15px 40px rgba(4, 169, 70, 0.4);
+}
+.coverflow-slide.active:hover .brand-image {
+  transform: scale(1.08); 
+}
+
+/* PREVIOUS 1 (Immediate Left) - MUCH LARGER */
+.coverflow-slide.prev {
+  transform: translateX(-105%) scale(0.95); 
+  z-index: 5;
+  opacity: 0.85; /* Brighter */
+  filter: blur(3px); /* Less blurry since it's bigger */
+}
+
+/* NEXT 1 (Immediate Right) - MUCH LARGER */
+.coverflow-slide.next {
+  transform: translateX(105%) scale(0.95); 
+  z-index: 5;
+  opacity: 0.85; 
+  filter: blur(3px); 
+}
+
+/* PREVIOUS 2 (Far Left) - MUCH LARGER */
+.coverflow-slide.prev2 {
+  transform: translateX(-205%) scale(0.80); 
+  z-index: 3;
+  opacity: 0.5; 
+  filter: blur(6px); 
+}
+
+/* NEXT 2 (Far Right) - MUCH LARGER */
+.coverflow-slide.next2 {
+  transform: translateX(205%) scale(0.80); 
+  z-index: 3;
+  opacity: 0.5; 
+  filter: blur(6px); 
+}
+
+/* HIDDEN (Any other slides) */
+.coverflow-slide.hidden {
+  transform: translateX(0) scale(0.4);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none; 
+}
+
+
+/* Navigation Buttons */
+.carousel-nav-btn {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+.carousel-nav-btn:hover {
+  background: #f3f4f6;
+  color: #04A946; 
+  border-color: #04A946;
+  transform: translateY(-2px);
+}
+
+/* Pagination Dots */
+.carousel-pagination {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  z-index: 20;
+}
+
+.pagination-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pagination-dot.active {
+  background-color: #04A946; 
+  width: 32px;
+  border-radius: 6px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .coverflow-slide {
+    width: 250px;
+    height: 250px;
+    padding: 1.5rem;
+  }
+  .coverflow-slide.prev { transform: translateX(-100%) scale(0.9); }
+  .coverflow-slide.next { transform: translateX(100%) scale(0.9); }
+  .coverflow-slide.prev2 { transform: translateX(-190%) scale(0.7); }
+  .coverflow-slide.next2 { transform: translateX(190%) scale(0.7); }
+}
+
+@media (max-width: 768px) {
+  .coverflow-slide {
+    width: 200px;
+    height: 200px;
+    padding: 1.25rem;
+  }
+  .carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .carousel-nav-btn.left { left: 10px; }
+  .carousel-nav-btn.right { right: 10px; }
+  
+  .coverflow-slide.prev { transform: translateX(-90%) scale(0.85); }
+  .coverflow-slide.next { transform: translateX(90%) scale(0.85); }
+  
+  /* Hide the 2nd outer elements on smaller tablets so they don't overflow screen */
+  .coverflow-slide.prev2, 
+  .coverflow-slide.next2 { 
+    opacity: 0; 
+    pointer-events: none; 
+  }
+}
+
+@media (max-width: 480px) {
+  .coverflow-slide {
+    width: 180px;
+    height: 180px;
+    padding: 1rem;
+  }
+  .carousel-nav-btn {
+    display: none; 
+  }
+  .coverflow-slide.prev { transform: translateX(-80%) scale(0.8); }
+  .coverflow-slide.next { transform: translateX(80%) scale(0.8); }
+}
+
+/* ACTIVE (Center) - Maintains larger size */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.15); 
+  z-index: 10;
+  opacity: 1;
+  filter: blur(0px); 
+  box-shadow: 0 15px 40px rgba(4, 169, 70, 0.4);
+}
+.coverflow-slide.active:hover .brand-image {
+  transform: scale(1.08); 
+}
+
+/* PREVIOUS 1 (Immediate Left) - Brought closer (was 105%, now 90%) */
+.coverflow-slide.prev {
+  transform: translateX(-90%) scale(0.95); 
+  z-index: 5;
+  opacity: 0.85; 
+  filter: blur(3px); 
+}
+
+/* NEXT 1 (Immediate Right) - Brought closer (was 105%, now 90%) */
+.coverflow-slide.next {
+  transform: translateX(90%) scale(0.95); 
+  z-index: 5;
+  opacity: 0.85; 
+  filter: blur(3px); 
+}
+
+/* PREVIOUS 2 (Far Left) - Brought closer (was 205%, now 175%) */
+.coverflow-slide.prev2 {
+  transform: translateX(-175%) scale(0.80); 
+  z-index: 3;
+  opacity: 0.5; 
+  filter: blur(6px); 
+}
+
+/* NEXT 2 (Far Right) - Brought closer (was 205%, now 175%) */
+.coverflow-slide.next2 {
+  transform: translateX(175%) scale(0.80); 
+  z-index: 3;
+  opacity: 0.5; 
+  filter: blur(6px); 
+}
+
+/* HIDDEN (Any other slides) */
+.coverflow-slide.hidden {
+  transform: translateX(0) scale(0.4);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none; 
+}
+
+
+/* Navigation Buttons */
+.carousel-nav-btn {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+.carousel-nav-btn:hover {
+  background: #f3f4f6;
+  color: #04A946; 
+  border-color: #04A946;
+  transform: translateY(-2px);
+}
+
+/* Pagination Dots */
+.carousel-pagination {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  z-index: 20;
+}
+
+.pagination-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pagination-dot.active {
+  background-color: #04A946; 
+  width: 32px;
+  border-radius: 6px;
+}
+
+/* Responsive Styles - Adjusted spacing to match the closer look */
+@media (max-width: 1024px) {
+  .coverflow-slide {
+    width: 250px;
+    height: 250px;
+    padding: 1.5rem;
+  }
+  .coverflow-slide.prev { transform: translateX(-85%) scale(0.9); }
+  .coverflow-slide.next { transform: translateX(85%) scale(0.9); }
+  .coverflow-slide.prev2 { transform: translateX(-160%) scale(0.7); }
+  .coverflow-slide.next2 { transform: translateX(160%) scale(0.7); }
+}
+
+@media (max-width: 768px) {
+  .coverflow-slide {
+    width: 200px;
+    height: 200px;
+    padding: 1.25rem;
+  }
+  .carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .carousel-nav-btn.left { left: 10px; }
+  .carousel-nav-btn.right { right: 10px; }
+  
+  .coverflow-slide.prev { transform: translateX(-80%) scale(0.85); }
+  .coverflow-slide.next { transform: translateX(80%) scale(0.85); }
+  
+  /* Hide the 2nd outer elements on smaller tablets so they don't overflow screen */
+  .coverflow-slide.prev2, 
+  .coverflow-slide.next2 { 
+    opacity: 0; 
+    pointer-events: none; 
+  }
+}
+
+@media (max-width: 480px) {
+  .coverflow-slide {
+    width: 180px;
+    height: 180px;
+    padding: 1rem;
+  }
+  .carousel-nav-btn {
+    display: none; 
+  }
+  .coverflow-slide.prev { transform: translateX(-75%) scale(0.8); }
+  .coverflow-slide.next { transform: translateX(75%) scale(0.8); }
+}
+
+/* ACTIVE (Center) - Maintains larger size with #75F94C shadow */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.15); 
+  z-index: 10;
+  opacity: 1;
+  filter: blur(0px); 
+  /* Adding a double-layered shadow for a nice glowing effect using #75F94C */
+  box-shadow: 0 15px 40px rgba(117, 249, 76, 0.6), 0 0 25px rgba(117, 249, 76, 0.8);
+}
+
+.coverflow-slide.active:hover .brand-image {
+  transform: scale(1.08); 
+}
+
+/* Navigation Buttons */
+.carousel-nav-btn {
+  background: transparent; /* Removed white background */
+  border: none;            /* Removed border */
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #77FF28;          /* Changed icon color to requested green */
+  box-shadow: none;        /* Removed circle shadow */
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+
+.carousel-nav-btn:hover {
+  background: transparent; /* Ensure background stays hidden on hover */
+  color: #ffffff;          /* Slightly darker green when hovered for feedback */
+  transform: scale(1.15);  /* Slightly enlarges the arrow instead of moving it up */
+}
+
+/* Base style for the card */
+.coverflow-slide {
+  position: absolute;
+  width: 300px; 
+  height: 320px; /* Made slightly taller to comfortably fit the button */
+  background-color: #04A946; 
+  border-radius: 24px;
+  padding: 1.5rem; /* Slightly reduced to give more inner space */
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.6s ease, 
+              filter 0.6s ease,
+              box-shadow 0.3s ease;
+  cursor: pointer;
+  
+  /* Flexbox to stack image and button */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-image {
+  width: 100%;
+  height: 65%; /* Leaves 35% of the card height for the button */
+  object-fit: contain; 
+  transition: transform 0.3s ease;
+}
+
+.card-learn-btn {
+  /* Positioning */
+  position: relative;
+  bottom: 40px; /* Keep whichever number you decided on */
+  
+  /* Button Styling */
+  background: #F95545; /* Changed to your new color */
+  color: white; /* Default text color */
+  border: none;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s ease; /* Adds a smooth fade effect for the text color */
+}
+
+.card-learn-btn:hover {
+  /* Lock it completely in place */
+  transform: none !important; 
+  bottom: 40px !important; /* Make sure this matches the bottom value above */
+  
+  /* New hover text color */
+  color: black !important; 
+}
+
+
+/* Hover effect only works when the card is currently in the center */
+.coverflow-slide.active .card-learn-btn:hover {
+  background-color: #f0fdf4;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* ACTIVE (Center) */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.15); 
+  z-index: 10;
+  opacity: 1;
+  filter: blur(0px); 
+  /* Reduced the blur from 40px/25px to 25px/15px and lowered the opacity */
+  box-shadow: 0 10px 25px rgba(117, 249, 76, 0.4), 0 0 15px rgba(117, 249, 76, 0.5);
+}
+
+.coverflow-slide.active:hover .brand-image {
+  transform: scale(1.08); 
+}
+
+/* PREVIOUS 1 (Immediate Left) */
+.coverflow-slide.prev {
+  transform: translateX(-90%) scale(0.95); 
+  z-index: 5;
+  opacity: 0.85; 
+  filter: blur(3px); 
+}
+
+/* NEXT 1 (Immediate Right) */
+.coverflow-slide.next {
+  transform: translateX(90%) scale(0.95); 
+  z-index: 5;
+  opacity: 0.85; 
+  filter: blur(3px); 
+}
+
+/* PREVIOUS 2 (Far Left) */
+.coverflow-slide.prev2 {
+  transform: translateX(-175%) scale(0.80); 
+  z-index: 3;
+  opacity: 0.5; 
+  filter: blur(6px); 
+}
+
+/* NEXT 2 (Far Right) */
+.coverflow-slide.next2 {
+  transform: translateX(175%) scale(0.80); 
+  z-index: 3;
+  opacity: 0.5; 
+  filter: blur(6px); 
+}
+
+/* HIDDEN (Any other slides) */
+.coverflow-slide.hidden {
+  transform: translateX(0) scale(0.4);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none; 
+}
+
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .coverflow-slide {
+    width: 250px;
+    height: 270px;
+    padding: 1.25rem;
+  }
+  .card-learn-btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.8rem;
+  }
+  .coverflow-slide.prev { transform: translateX(-85%) scale(0.9); }
+  .coverflow-slide.next { transform: translateX(85%) scale(0.9); }
+  .coverflow-slide.prev2 { transform: translateX(-160%) scale(0.7); }
+  .coverflow-slide.next2 { transform: translateX(160%) scale(0.7); }
+}
+
+@media (max-width: 768px) {
+  .coverflow-slide {
+    width: 200px;
+    height: 220px;
+    padding: 1rem;
+  }
+  .card-learn-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+  }
+  .carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .carousel-nav-btn.left { left: 10px; }
+  .carousel-nav-btn.right { right: 10px; }
+  
+  .coverflow-slide.prev { transform: translateX(-80%) scale(0.85); }
+  .coverflow-slide.next { transform: translateX(80%) scale(0.85); }
+  
+  .coverflow-slide.prev2, 
+  .coverflow-slide.next2 { 
+    opacity: 0; 
+    pointer-events: none; 
+  }
+}
+
+@media (max-width: 480px) {
+  .coverflow-slide {
+    width: 180px;
+    height: 200px;
+    padding: 0.8rem;
+  }
+  .card-learn-btn {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.7rem;
+  }
+  .carousel-nav-btn {
+    display: none; 
+  }
+  .coverflow-slide.prev { transform: translateX(-75%) scale(0.8); }
+  .coverflow-slide.next { transform: translateX(75%) scale(0.8); }
+}
+
+/* Color suffix green specifically */
+.green-suffix {
+  color: #77FF28 !important;
+  -webkit-text-fill-color: #77FF28 !important;
+}
+
+/* Label above the button in carousel */
+.carousel-brand-name {
+  color: white;
+  margin-bottom: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* Button styling - matches your requirements */
+.card-learn-btn {
+  position: relative;
+  bottom: 40px; /* Adjust this to move higher/lower */
+  background: #F95545 !important;
+  color: white !important;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+/* Hover: Text turns black, button stays in place */
+.card-learn-btn:hover {
+  transform: none !important; 
+  bottom: 40px !important; /* Keep same as above to prevent moving down */
+  color: black !important;
+  background: #F95545 !important;
+}
+
+/* Active slide shadow reduction */
+.coverflow-slide.active {
+  transform: translateX(0) scale(1.15); 
+  z-index: 10;
+  opacity: 1;
+  box-shadow: 0 10px 25px rgba(117, 249, 76, 0.4), 0 0 15px rgba(117, 249, 76, 0.5) !important;
+}
+
+
+
+

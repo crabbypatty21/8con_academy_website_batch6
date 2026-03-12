@@ -104,10 +104,16 @@ const Footer = () => {
       </div>
 
       <style>{`.footer {
+<<<<<<< HEAD
+  background-color: #131b21; /* Changed background color here */
+  color: var(--footer-text);
+  padding: 32px 16px;
+=======
   background: ${isDark ? "#19232A" : "#EFF9FF"};
   color: ${isDark ? "#ffffff" : "#373737"};
   padding: 20px 5% 0;
   font-family: "Geist Sans", sans-serif;
+>>>>>>> origin/registration
 }
 
 .footer-main {
