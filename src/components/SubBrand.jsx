@@ -155,7 +155,6 @@ const SubBrand = () => {
     );
   };
 
-  // Upgraded to calculate 2 items on the left and 2 on the right
   const getSlidePosition = (index) => {
     const total = subBrandsData.length;
     if (index === currentIndex) return "active";
@@ -168,6 +167,62 @@ const SubBrand = () => {
 
   return (
     <div className="app-container">
+      {/* Injecting CSS Keyframes for the animations */}
+      <style>
+        {`
+          @keyframes pulseZoom {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+          }
+          
+          /* Base text styling holding the centering transform */
+          .brand-text-fx {
+            transform: translate(-50%, -50%);
+            text-shadow: 0 0 10px #04EC00;
+          }
+
+          /* Star pulse effect applied only when active */
+          .brand-text-fx.active {
+            animation: starBright 1.5s ease-out forwards;
+          }
+
+          /* The left-to-right light sweep beam - Now scaled to text size */
+          .brand-text-fx.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20%;
+            width: 40px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+            transform: skewX(-20deg);
+            filter: blur(2px);
+            mix-blend-mode: screen;
+            animation: sweepLeftToRight 0.8s ease-in-out forwards;
+            pointer-events: none;
+            opacity: 0;
+          }
+
+          @keyframes sweepLeftToRight {
+            0% { left: -20%; opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { left: 110%; opacity: 0; }
+          }
+
+          @keyframes starBright {
+            0% { text-shadow: 0 0 10px #04EC00; transform: translate(-50%, -50%) scale(1); }
+            40% { text-shadow: 0 0 10px #04EC00; transform: translate(-50%, -50%) scale(1); }
+            70% { 
+              text-shadow: 0 0 20px #fff, 0 0 40px #04EC00, 0 0 80px #77FF28, 0 0 120px #fff; 
+              transform: translate(-50%, -50%) scale(1.12); 
+            }
+            100% { text-shadow: 0 0 15px #04EC00; transform: translate(-50%, -50%) scale(1); }
+          }
+        `}
+      </style>
+
       {/* Header */}
       <header className={`header ${scrolled ? "scrolled" : ""}`}>
         <div className="header-container">
@@ -313,26 +368,55 @@ const SubBrand = () => {
                     }}
                     title={position === "active" ? `Explore ${brand.name}` : ""}
                   >
-                    <img
-                      src={brand.image}
-                      alt={brand.name}
-                      className="brand-image"
-                      onError={(e) => {
-                        e.target.src = "/assets/logo/7.png";
+                    {/* Width changed to 'max-content' and 'whiteSpace: nowrap' to make animation hug the text perfectly */}
+                    <h2 
+                      className={`brand-name-display brand-text-fx ${position === "active" ? "active" : ""}`} 
+                      style={{ 
+                        color: 'white', 
+                        textAlign: 'center', 
+                        textTransform: 'uppercase',
+                        fontFamily: '"Unbounded", sans-serif',
+                        fontSize: '2rem',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        width: 'max-content',
+                        whiteSpace: 'nowrap',
+                        margin: 0
                       }}
-                    />
+                    >
+                        {/* Splits "8Con" and the rest of the brand name to apply different colors */}
+                        {brand.name.substring(0, 4).toUpperCase()}
+                        <span style={{ color: '#77FF28' }}>
+                          {brand.name.substring(4).toUpperCase()}
+                        </span>
+                    </h2>
                     
-                    {/* NEW LEARN MORE BUTTON */}
+                    {/* LEARN MORE BUTTON - Wrapped to prevent hover jumping */}
                     {position === "active" && (
-                      <button 
-                        className="card-learn-btn"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevents the card's onClick from firing twice
-                          handleLearnMore(brand.name);
-                        }}
-                      >
-                        Learn More
-                      </button>
+                      <div style={{
+                        position: 'absolute',
+                        bottom: '20px', // Distance from the bottom
+                        left: '0',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        pointerEvents: 'none' // Ensures the wrapper doesn't block other clicks
+                      }}>
+                        <button 
+                          className="card-learn-btn"
+                          style={{ 
+                            pointerEvents: 'auto',
+                            animation: 'pulseZoom 2s infinite ease-in-out' // Zooming animation for the button
+                          }} 
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevents the card's onClick from firing twice
+                            handleLearnMore(brand.name);
+                          }}
+                        >
+                          Learn More
+                        </button>
+                      </div>
                     )}
                   </div>
                 );
