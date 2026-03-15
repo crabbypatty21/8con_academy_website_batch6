@@ -3,11 +3,61 @@ import { Link } from "react-router-dom";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useRegistration } from "../context/RegistrationContext.jsx";
-import ScrollLink from "./ScrollLink"; // Import your ScrollLink component
+import ScrollLink from "./ScrollLink";
 import "../App.css";
 import "../ConponentCSS/Header.css";
 
 const sectionIds = ["home", "core-brand", "about", "careerpath", "internship", "contact"];
+
+/**
+ * Desktop nav items. Each entry is one of:
+ *   - { label, to, section }                      — a plain ScrollLink
+ *   - { label, to, section, dropdown: [...] }     — a ScrollLink with a dropdown
+ *   - { label, href, external: true }             — an external <a> tag
+ */
+const desktopNavItems = [
+  { label: "Home", to: "/#home", section: "home" },
+  { label: "About Us", to: "/#about", section: "about" },
+  {
+    label: "Careers ▾",
+    to: "/#internship",
+    section: "careers",
+    activeSections: ["careerpath", "internship"],
+    dropdown: [
+      { label: "Career Paths", to: "/#careerpath" },
+      { label: "Internship", to: "/#internship" },
+    ],
+  },
+  {
+    label: "Brands ▾",
+    to: "/#core-brand",
+    section: "core-brand",
+    dropdown: [
+      { label: "Core Brands", to: "/#core-brand", scrollLink: true },
+      { label: "Sub-brands", to: "/sub-brands", routerLink: true },
+    ],
+  },
+  { label: "Newsletters", href: "https://www.8connews.org/", external: true },
+  { label: "Contact Us", to: "/#contact", section: "contact" },
+];
+
+/**
+ * Mobile nav items. Each entry is one of:
+ *   - { label, href, section }                  — plain <a> (hash link, works on home page)
+ *   - { label, to, section, scrollLink: true }  — ScrollLink
+ *   - { label, to, routerLink: true }           — React Router <Link>
+ *   - { label, href, external: true }           — external <a>
+ */
+const mobileNavItems = [
+  { label: "Home", href: "#home", section: "home" },
+  { label: "Core Brands", to: "/#core-brand", section: "core-brand", scrollLink: true },
+  { label: "Sub-brands", to: "/sub-brands", routerLink: true },
+  { label: "Newsletters", href: "https://www.8connews.org/", external: true },
+  { label: "Internship", href: "#internship", section: "internship" },
+  { label: "Career Paths", href: "#careerpath", section: "careerpath" },
+  { label: "About Us", to: "/#about", section: "about", scrollLink: true },
+  { label: "Contact Us", href: "#contact", section: "contact" },
+];
 
 const Header = () => {
   const { openRegistration } = useRegistration();
@@ -43,10 +93,12 @@ const Header = () => {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
   return (
     <header className={`header ${scrolled ? "scrolled" : ""}`}>
       <div className="header-container">
-        
+
         {/* LEFT: Logo Section */}
         <div className="logo-section">
           <ScrollLink to="/#home" className="logo">
@@ -60,55 +112,54 @@ const Header = () => {
 
         {/* CENTER: Main Navigation */}
         <nav className="desktop-nav center-nav">
-        
-          <ScrollLink to="/#home" className={`nav-link ${activeSection === "home" ? "active" : ""}`}>
-            Home
-          </ScrollLink>
+          {desktopNavItems.map((item) => {
+            if (item.external) {
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nav-link"
+                >
+                  {item.label}
+                </a>
+              );
+            }
 
-          <ScrollLink to="/#about" className={`nav-link ${activeSection === "about" ? "active" : ""}`}>
-            About Us
-          </ScrollLink>
+            const activeSections = item.activeSections ?? (item.section ? [item.section] : []);
+            const isActive = activeSections.some((s) => activeSection === s);
+            const linkClass = `nav-link${isActive ? " active" : ""}`;
 
-          <div className="dropdown">
-            <ScrollLink to="/#internship" className={`nav-link ${activeSection === "careerpath" || activeSection === "internship" ? "active" : ""}`}>
-              Careers ▾
-            </ScrollLink>
-            <div className="dropdown-content">
-              <ScrollLink to="/#careerpath" className="dropdown-link">
-                Career Paths
+            if (item.dropdown) {
+              return (
+                <div key={item.label} className="dropdown">
+                  <ScrollLink to={item.to} className={linkClass}>
+                    {item.label}
+                  </ScrollLink>
+                  <div className="dropdown-content">
+                    {item.dropdown.map((child) =>
+                      child.routerLink ? (
+                        <Link key={child.label} to={child.to} className="dropdown-link">
+                          {child.label}
+                        </Link>
+                      ) : (
+                        <ScrollLink key={child.label} to={child.to} className="dropdown-link">
+                          {child.label}
+                        </ScrollLink>
+                      )
+                    )}
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <ScrollLink key={item.label} to={item.to} className={linkClass}>
+                {item.label}
               </ScrollLink>
-              <ScrollLink to="/#internship" className="dropdown-link">
-                Internship
-              </ScrollLink>
-            </div>
-          </div>
-
-         <div className="dropdown">
-            <ScrollLink to="/#core-brand" className={`nav-link ${activeSection === "core-brand" ? "active" : ""}`}>
-              Brands ▾
-            </ScrollLink>
-            <div className="dropdown-content">
-              <ScrollLink to="/#core-brand" className="dropdown-link">
-                Core Brands
-              </ScrollLink>
-              <Link to="/sub-brands" className="dropdown-link">
-                Sub-brands
-              </Link>
-            </div>
-          </div>
-          
-          <a
-            href="https://www.8connews.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-link"
-          >
-            Newsletters
-          </a>
-
-          <ScrollLink to="/#contact" className={`nav-link ${activeSection === "contact" ? "active" : ""}`}>
-            Contact Us
-          </ScrollLink>
+            );
+          })}
         </nav>
 
         {/* RIGHT: Theme Toggle, Register & Mobile Toggle */}
@@ -140,69 +191,66 @@ const Header = () => {
         {/* Mobile Navigation Overlay */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
-            <a
-              href="#home"
-              className={`mobile-nav-link ${activeSection === "home" ? "active" : ""}`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Home
-            </a>
-            <ScrollLink
-              to="/#core-brand"
-              className={`mobile-nav-link ${activeSection === "core-brand" ? "active" : ""}`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Core Brands
-            </ScrollLink>
-            <Link
-              to="/sub-brands"
-              className="mobile-nav-link"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Sub-brands
-            </Link>
-            <a
-              href="https://www.8connews.org/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="mobile-nav-link"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Newsletters
-            </a>
-            <a
-              href="#internship"
-              className={`mobile-nav-link ${activeSection === "internship" ? "active" : ""}`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Internship
-            </a>
-            <a
-              href="#careerpath"
-              className={`mobile-nav-link ${activeSection === "careerpath" ? "active" : ""}`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Career Paths
-            </a>
-            <ScrollLink
-              to="/#about"
-              className={`mobile-nav-link ${activeSection === "about" ? "active" : ""}`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About Us
-            </ScrollLink>
-      
-            <a
-              href="#contact"
-              className={`mobile-nav-link ${activeSection === "contact" ? "active" : ""}`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact Us
-            </a>
-            {/* Added Register to Mobile Menu as well */}
+            {mobileNavItems.map((item) => {
+              if (item.routerLink) {
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.to}
+                    className="mobile-nav-link"
+                    onClick={closeMobileMenu}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              }
+
+              if (item.scrollLink) {
+                const isActive = activeSection === item.section;
+                return (
+                  <ScrollLink
+                    key={item.label}
+                    to={item.to}
+                    className={`mobile-nav-link${isActive ? " active" : ""}`}
+                    onClick={closeMobileMenu}
+                  >
+                    {item.label}
+                  </ScrollLink>
+                );
+              }
+
+              if (item.external) {
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mobile-nav-link"
+                    onClick={closeMobileMenu}
+                  >
+                    {item.label}
+                  </a>
+                );
+              }
+
+              // Plain hash link — works on home page
+              const isActive = activeSection === item.section;
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`mobile-nav-link${isActive ? " active" : ""}`}
+                  onClick={closeMobileMenu}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
+
             <button
               className="mobile-nav-link highlight-link"
-              onClick={() => { setMobileMenuOpen(false); openRegistration(); }}
+              onClick={() => { closeMobileMenu(); openRegistration(); }}
             >
               Register Here!
             </button>

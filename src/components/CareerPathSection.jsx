@@ -1,4 +1,5 @@
 import React from "react";
+import "../ConponentCSS/CareerPath.css";
 import TradingBackground from "./TradingBackground.jsx";
 
 const CareerPathSection = () => {
