@@ -135,8 +135,8 @@ html.light-mode {
   --card-border: #e2e8f0;
   --card-shadow: rgba(0, 0, 0, 0.08);
 
-  --header-scrolled-bg: #E9F1F9;
-  --header-text: #ffffff;
+  --header-scrolled-bg: #373737;
+  --header-text: #373737;
   --header-scrolled-text: #373737;
   --header-dropdown-bg: #ffffff;
   --header-dropdown-text: #373737;

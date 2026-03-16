@@ -105,6 +105,9 @@ const Footer = () => {
 
       <style>{`
 .footer {
+  background-color: #131b21; /* Changed background color here */
+  color: var(--footer-text);
+  padding: 32px 16px;
   background: ${isDark ? "#19232A" : "#EFF9FF"};
   color: ${isDark ? "#ffffff" : "#373737"};
   padding: 20px 5% 0;
