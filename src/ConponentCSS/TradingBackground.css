@@ -313,6 +313,25 @@
   100% { transform: translateX(-50%); }
 }
 
+/* ===== TEXT READABILITY OVER ANIMATION ===== */
+.trading-bg ~ * h1,
+.trading-bg ~ * h2,
+.trading-bg ~ * h3,
+.trading-bg ~ * p,
+.trading-bg ~ * span,
+.trading-bg ~ * label {
+  text-shadow: 0 0 10px var(--bg-primary), 0 0 20px var(--bg-primary), 0 0 40px var(--bg-primary);
+}
+
+html.light-mode .trading-bg ~ * h1,
+html.light-mode .trading-bg ~ * h2,
+html.light-mode .trading-bg ~ * h3,
+html.light-mode .trading-bg ~ * p,
+html.light-mode .trading-bg ~ * span,
+html.light-mode .trading-bg ~ * label {
+  text-shadow: 0 0 10px var(--bg-primary), 0 0 20px var(--bg-primary), 0 0 40px var(--bg-primary);
+}
+
 /* ===== VARIANTS ===== */
 .trading-bg-v1 { opacity: 0.18; }
 .trading-bg-v2 { opacity: 0.14; transform: scaleX(-1); }
@@ -321,7 +340,7 @@
 .trading-bg-v5 { opacity: 0.16; }
 
 /* ===== LIGHT MODE ===== */
-html.light-mode .trading-bg { opacity: 0.10; }
+html.light-mode .trading-bg { opacity: 0.14; }
 html.light-mode .tb-label { color: rgba(0, 0, 0, 0.3); }
 html.light-mode .tb-level-mid { background: repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 4px, transparent 4px, transparent 12px); }
 html.light-mode .tb-bb-fill { fill: rgba(0, 0, 0, 0.01); }

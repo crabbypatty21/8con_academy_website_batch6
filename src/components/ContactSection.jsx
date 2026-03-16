@@ -1,11 +1,67 @@
 import React, { useState } from "react";
+import "../ConponentCSS/Contact.css";
 import { ChevronDown, Phone, Mail, MapPin, CheckCircle, XCircle, X, Send } from "lucide-react";
 import TradingBackground from "./TradingBackground.jsx";
+
+const WEB3FORMS_ACCESS_KEY = "5f8976e9-6357-4533-bd55-71314277e2f9";
 
 const capitalizeFirstLetter = (str) => {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+const faqs = [
+  {
+    question: "How can I enroll in the Forex Derivative Course?",
+    answer:
+      "You may visit us personally at 8Con Academy, Meycauayan, Bulacan, or message us on our official Facebook fan page. We highly recommend attending our FREE Forex Workshop every Saturday as a first step before enrolling.",
+  },
+  {
+    question: "Do you offer scholarships?",
+    answer:
+      "Yes! We currently offer FULL SCHOLARSHIPS to all OJT interns and Private Scholars. However, Cooperative (Coop) Scholarships are on hold until further notice.",
+  },
+  {
+    question: "How long does the Forex Derivatives course take?",
+    answer:
+      "The course runs for a total of 276 hours. Most students complete it within 2 to 3 months, depending on your schedule and commitment.",
+  },
+  {
+    question: "What are the requirements to start learning forex?",
+    answer:
+      "You just need basic comprehension skills and the tools for digital trading, such as a mobile phone with data or a laptop with internet connection.",
+  },
+  {
+    question: "What is your Enrollment to Employment program?",
+    answer:
+      "All 8Con graduates are eligible for our Enrollment to Employment program. You can explore our available career paths by visiting the Career section of our website.",
+  },
+  {
+    question: "Can I enroll without a trading background?",
+    answer:
+      "Yes! Our course is designed for beginners, so no prior experience is required.",
+  },
+  {
+    question: "What are your payment options?",
+    answer:
+      "We accept cash, bank transfer, and credit card payments via PayPal.",
+  },
+  {
+    question: "Do I get a certificate after finishing the course?",
+    answer:
+      "Yes, a Certificate of Completion is issued to all successful graduates of the course.",
+  },
+  {
+    question: "Can I have a consultation before enrolling?",
+    answer:
+      "Absolutely! We encourage all prospective students to attend our FREE Forex Workshop and schedule a consultation to better understand the course.",
+  },
+  {
+    question: "Do you offer corporate training?",
+    answer:
+      "Yes, we offer corporate training packages. We require a minimum of 10 participants per batch.",
+  },
+];
 
 const FAQItem = ({ question, answer, isOpen, onClick }) => {
   return (
@@ -16,6 +72,87 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
       </div>
       <div className="faq-answer-wrapper">
         <p className="faq-answer">{answer}</p>
+      </div>
+    </div>
+  );
+};
+
+/**
+ * Renders the confirmation, success, and error modal for the contact form.
+ *
+ * @param {object} props
+ * @param {{ show: boolean, type: "confirm"|"success"|"error", message: string }} props.modal
+ * @param {boolean} props.sending - Whether the form submission is in progress.
+ * @param {() => void} props.onClose - Called when the modal should be dismissed.
+ * @param {() => void} props.onConfirm - Called when the user confirms sending.
+ */
+const ContactModal = ({ modal, sending, onClose, onConfirm }) => {
+  if (!modal.show) return null;
+
+  return (
+    <div className="contact-modal-overlay" onClick={() => !sending && onClose()}>
+      <div
+        className={`contact-modal contact-modal-${modal.type}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="contact-modal-close"
+          onClick={() => !sending && onClose()}
+        >
+          <X size={20} />
+        </button>
+
+        {modal.type === "success" && (
+          <div className="contact-modal-particles">
+            {[...Array(6)].map((_, i) => (
+              <span key={i} className={`particle particle-${i}`} />
+            ))}
+          </div>
+        )}
+
+        <div className="contact-modal-icon-wrapper">
+          <div className="contact-modal-icon">
+            {modal.type === "confirm" && <Send size={28} />}
+            {modal.type === "success" && <CheckCircle size={28} />}
+            {modal.type === "error" && <XCircle size={28} />}
+          </div>
+        </div>
+
+        <h3 className="contact-modal-title">
+          {modal.type === "confirm" && "Send Message?"}
+          {modal.type === "success" && "Message Sent!"}
+          {modal.type === "error" && "Oops!"}
+        </h3>
+
+        <p className="contact-modal-message">{modal.message}</p>
+
+        <div className="contact-modal-actions">
+          {modal.type === "confirm" ? (
+            <>
+              <button
+                className="contact-modal-btn contact-modal-btn-cancel"
+                onClick={onClose}
+                disabled={sending}
+              >
+                Cancel
+              </button>
+              <button
+                className="contact-modal-btn contact-modal-btn-confirm"
+                onClick={onConfirm}
+                disabled={sending}
+              >
+                {sending ? "Sending..." : "Yes, Send"}
+              </button>
+            </>
+          ) : (
+            <button
+              className="contact-modal-btn contact-modal-btn-confirm"
+              onClick={onClose}
+            >
+              OK
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -46,7 +183,7 @@ const ContactSection = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: "5f8976e9-6357-4533-bd55-71314277e2f9",
+          access_key: WEB3FORMS_ACCESS_KEY,
           from_name: pendingPayload.name,
           subject: `New Contact Message from ${pendingPayload.name}`,
           ...pendingPayload,
@@ -72,123 +209,16 @@ const ContactSection = () => {
     setPendingPayload(null);
   };
 
-  const faqs = [
-    {
-      question: "How can I enroll in the Forex Derivative Course?",
-      answer:
-        "You may visit us personally at 8Con Academy, Meycauayan, Bulacan, or message us on our official Facebook fan page. We highly recommend attending our FREE Forex Workshop every Saturday as a first step before enrolling.",
-    },
-    {
-      question: "Do you offer scholarships?",
-      answer:
-        "Yes! We currently offer FULL SCHOLARSHIPS to all OJT interns and Private Scholars. However, Cooperative (Coop) Scholarships are on hold until further notice.",
-    },
-    {
-      question: "How long does the Forex Derivatives course take?",
-      answer:
-        "The course runs for a total of 276 hours. Most students complete it within 2 to 3 months, depending on your schedule and commitment.",
-    },
-    {
-      question: "What are the requirements to start learning forex?",
-      answer:
-        "You just need basic comprehension skills and the tools for digital trading, such as a mobile phone with data or a laptop with internet connection.",
-    },
-    {
-      question: "What is your Enrollment to Employment program?",
-      answer:
-        "All 8Con graduates are eligible for our Enrollment to Employment program. You can explore our available career paths by visiting the Career section of our website.",
-    },
-    {
-      question: "Can I enroll without a trading background?",
-      answer:
-        "Yes! Our course is designed for beginners, so no prior experience is required.",
-    },
-    {
-      question: "What are your payment options?",
-      answer:
-        "We accept cash, bank transfer, and credit card payments via PayPal.",
-    },
-    {
-      question: "Do I get a certificate after finishing the course?",
-      answer:
-        "Yes, a Certificate of Completion is issued to all successful graduates of the course.",
-    },
-    {
-      question: "Can I have a consultation before enrolling?",
-      answer:
-        "Absolutely! We encourage all prospective students to attend our FREE Forex Workshop and schedule a consultation to better understand the course.",
-    },
-    {
-      question: "Do you offer corporate training?",
-      answer:
-        "Yes, we offer corporate training packages. We require a minimum of 10 participants per batch.",
-    },
-  ];
+  const handleCloseModal = () => setModal({ ...modal, show: false });
 
   return (
     <>
-      {/* Contact Modal */}
-      {modal.show && (
-        <div className="contact-modal-overlay" onClick={() => !sending && setModal({ ...modal, show: false })}>
-          <div className={`contact-modal contact-modal-${modal.type}`} onClick={(e) => e.stopPropagation()}>
-            <button className="contact-modal-close" onClick={() => !sending && setModal({ ...modal, show: false })}>
-              <X size={20} />
-            </button>
-
-            {modal.type === "success" && (
-              <div className="contact-modal-particles">
-                {[...Array(6)].map((_, i) => (
-                  <span key={i} className={`particle particle-${i}`} />
-                ))}
-              </div>
-            )}
-
-            <div className="contact-modal-icon-wrapper">
-              <div className="contact-modal-icon">
-                {modal.type === "confirm" && <Send size={28} />}
-                {modal.type === "success" && <CheckCircle size={28} />}
-                {modal.type === "error" && <XCircle size={28} />}
-              </div>
-            </div>
-
-            <h3 className="contact-modal-title">
-              {modal.type === "confirm" && "Send Message?"}
-              {modal.type === "success" && "Message Sent!"}
-              {modal.type === "error" && "Oops!"}
-            </h3>
-
-            <p className="contact-modal-message">{modal.message}</p>
-
-            <div className="contact-modal-actions">
-              {modal.type === "confirm" ? (
-                <>
-                  <button
-                    className="contact-modal-btn contact-modal-btn-cancel"
-                    onClick={() => setModal({ ...modal, show: false })}
-                    disabled={sending}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="contact-modal-btn contact-modal-btn-confirm"
-                    onClick={handleConfirmSend}
-                    disabled={sending}
-                  >
-                    {sending ? "Sending..." : "Yes, Send"}
-                  </button>
-                </>
-              ) : (
-                <button
-                  className="contact-modal-btn contact-modal-btn-confirm"
-                  onClick={() => setModal({ ...modal, show: false })}
-                >
-                  OK
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      <ContactModal
+        modal={modal}
+        sending={sending}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmSend}
+      />
 
       {/* ============================== */}
       {/* CONTACT US SECTION             */}
@@ -198,7 +228,6 @@ const ContactSection = () => {
         <div className="contact-wrapper" style={{ position: "relative", zIndex: 1 }}>
           <div className="contact-header">
             <h2 className="contact-title fade-in-up">CONTACT US</h2>
-
           </div>
 
           <div className="contact-grid">
@@ -213,6 +242,7 @@ const ContactSection = () => {
                     required
                     className="contact-input"
                     placeholder="Your full name"
+                    value={name}
                     onChange={(e) => setName(capitalizeFirstLetter(e.target.value))}
                   />
                 </div>
@@ -224,9 +254,8 @@ const ContactSection = () => {
                     required
                     className="contact-input"
                     placeholder="you@example.com"
-                    onChange={(e) =>
-                      setContactEmail(capitalizeFirstLetter(e.target.value))
-                    }
+                    value={contactEmail}
+                    onChange={(e) => setContactEmail(capitalizeFirstLetter(e.target.value))}
                   />
                 </div>
               </div>
@@ -238,8 +267,7 @@ const ContactSection = () => {
                   id="contactNumber"
                   value={contactNumber}
                   onChange={(e) => {
-                    const input = e.target.value;
-                    const digitsOnly = input.replace(/\D/g, "");
+                    const digitsOnly = e.target.value.replace(/\D/g, "");
                     setContactNumber(`+${digitsOnly}`);
                   }}
                   maxLength={14}
@@ -255,9 +283,8 @@ const ContactSection = () => {
                   required
                   className="contact-input contact-textarea"
                   placeholder="How can we help you?"
-                  onChange={(e) =>
-                    setMessage(capitalizeFirstLetter(e.target.value))
-                  }
+                  value={message}
+                  onChange={(e) => setMessage(capitalizeFirstLetter(e.target.value))}
                 ></textarea>
               </div>
               <button type="submit" className="contact-submit-btn">

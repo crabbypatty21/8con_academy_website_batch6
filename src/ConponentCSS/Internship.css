@@ -1,0 +1,365 @@
+/* ==========================================
+   INTERNSHIP SECTION
+   ========================================== */
+.section-internship {
+  background: var(--internship-bg);
+  font-family: "Geist Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 100px 60px 40px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.internship-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.internship-title h2 {
+  font-family: "Unbounded", sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.internship-title p {
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.intcards-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1400px;
+  width: 100%;
+}
+
+.intcard {
+  background: var(--intcard-bg);
+  box-shadow: 0px 0px 15.9px -1px var(--intcard-shadow);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 420px;
+}
+
+.intcard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0px 0px 25px 2px var(--intcard-shadow-hover);
+}
+
+.intcard .intcontent {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex-grow: 1;
+  z-index: 1;
+}
+
+.intcard-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.intcard-icon img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.intcard-title {
+  font-family: "Unbounded", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--intcard-title);
+  margin-bottom: 16px;
+}
+
+.intcard-description {
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--intcard-desc);
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+.intbutton-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 30px;
+}
+
+.intapply-btn {
+  display: inline-block;
+  background-color: var(--intapply-bg);
+  border: none;
+  padding: 0 32px;
+  height: 40px;
+  border-radius: 40px;
+  color: var(--intapply-text);
+  font-family: "Geist Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 40px;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.intapply-btn:hover {
+  background-color: var(--intapply-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(117, 249, 76, 0.3);
+}
+
+/* Focus state for accessibility */
+.intapply-btn:focus-visible {
+  outline: 2px solid #75F94C;
+  outline-offset: 2px;
+}
+
+/* ==========================================
+   INTERNSHIP RESPONSIVE
+   ========================================== */
+
+/* Large desktop */
+@media (max-width: 1400px) {
+  .intcards-container {
+    gap: 20px;
+  }
+
+  .intcard-title {
+    font-size: 22px;
+  }
+
+  .intcard-description {
+    font-size: 14px;
+  }
+}
+
+/* Medium desktop: 2x2 grid */
+@media (max-width: 1100px) {
+  .section-internship {
+    padding: 50px 30px;
+  }
+
+  .internship-title h2 {
+    font-size: 40px;
+  }
+
+  .internship-title p {
+    font-size: 18px;
+  }
+
+  .intcards-container {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 720px;
+    gap: 20px;
+  }
+
+  .intcard-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .intcard-description {
+    font-size: 15px;
+  }
+
+  .intcard .intcontent {
+    padding: 25px 22px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .section-internship {
+    padding: 40px 20px;
+  }
+
+  .internship-title {
+    margin-bottom: 30px;
+  }
+
+  .internship-title h2 {
+    font-size: 34px;
+  }
+
+  .internship-title p {
+    font-size: 16px;
+  }
+
+  .intcards-container {
+    max-width: 600px;
+    gap: 16px;
+  }
+
+  .intcard-title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .intcard-description {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .intcard .intcontent {
+    padding: 20px 16px;
+  }
+
+  .intapply-btn {
+    font-size: 14px;
+    padding: 0 30px;
+    height: 42px;
+    line-height: 42px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Small tablet / large phone - single column */
+@media (max-width: 600px) {
+  .section-internship {
+    padding: 35px 15px;
+  }
+
+  .internship-title h2 {
+    font-size: 30px;
+  }
+
+  .internship-title p {
+    font-size: 15px;
+  }
+
+  .intcards-container {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    gap: 16px;
+  }
+
+  .intcard-title {
+    font-size: 22px;
+  }
+
+  .intcard-description {
+    font-size: 14px;
+  }
+
+  .intcard .intcontent {
+    padding: 24px 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .section-internship {
+    padding: 30px 12px;
+  }
+
+  .internship-title {
+    margin-bottom: 24px;
+  }
+
+  .internship-title h2 {
+    font-size: 26px;
+  }
+
+  .internship-title p {
+    font-size: 14px;
+  }
+
+  .intcards-container {
+    max-width: 340px;
+  }
+
+  .intcard-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 12px;
+  }
+
+  .intcard-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .intcard-description {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  .intcard .intcontent {
+    padding: 20px 16px;
+  }
+
+  .intapply-btn {
+    font-size: 14px;
+    padding: 0 28px;
+    height: 42px;
+    line-height: 42px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 360px) {
+  .internship-title h2 {
+    font-size: 22px;
+  }
+
+  .internship-title p {
+    font-size: 13px;
+  }
+
+  .intcards-container {
+    max-width: 300px;
+  }
+
+  .intcard-title {
+    font-size: 18px;
+  }
+
+  .intcard-description {
+    font-size: 12px;
+  }
+
+  .intcard .intcontent {
+    padding: 16px 14px;
+  }
+
+  .intapply-btn {
+    font-size: 13px;
+    padding: 0 22px;
+    height: 40px;
+    line-height: 40px;
+  }
+}
