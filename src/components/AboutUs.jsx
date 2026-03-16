@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Footer from "./Footer";
 import { Menu, X, Goal, Eye, Atom, HeartHandshake } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
 import "../ConponentCSS/aboutus.css";
 import ScrollLink from "./ScrollLink";
 import "../App.css";
+import Footer from "./Footer.jsx";
 const AboutUs = () => {
   const { isDark } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -464,20 +464,13 @@ const AboutUs = () => {
                 </ul>
               </div>
             </div>
-
-
               <div className="about-us-card">
                 <div className="about-us-card-header fade-in">
-                  <Eye
-                    size={32}
-                    style={{ color: "#ff1f2c" }}
-                    className="about-us-card-icon"
-                  />
-                  <h2 className="about-us-card-title fade-in">Our Vision</h2>
+                  <h2 className="about-us-card-title fade-in" style={{ textAlign: 'left', width: '100%' }}> Our <span style={{ color: "#75F94C" }}> Vision</span></h2>
                 </div>
                 <p className="about-us-card-text justified-text fade-in fade-in">
                   To be the Philippines’ most trusted and recognized hub for Forex education, 
-                  building a ripple effect of <span className="text-red-highlight">empowered traders, impact-driven coaches</span>, and 
+                  building a ripple effect of empowered traders, impact-driven coaches, and 
                   ethical fund managers who uplift communities locally and globally.
                 </p>
               </div>
@@ -485,20 +478,18 @@ const AboutUs = () => {
               {/* Our Mission */}
               <div className="about-us-card">
                 <div className="about-us-card-header fade-in">
-                  <Goal
-                    size={32}
-                    style={{ color: "#ff1f2c" }}
-                    className="about-us-card-icon"
-                  />
-                  <h2 className="about-us-card-title fade-in">Our Mission</h2>
+                  <h2 className="about-us-card-title fade-in"style={{ textAlign: 'right', width: '100%' }}>Our <span style={{ color: "#75F94C" }}> Mision</span></h2>
                 </div>
-                <p className="about-us-card-text justified-text fade-in fade-in">
-                  To raise a new generation of <span className="text-red-highlight">disciplined, confident, and financially literate Filipino traders </span>
+                <p
+                  className="about-us-card-text justified-text fade-in fade-in"
+                  style={{ textAlign: "right" }}
+                >
+                  To raise a new generation of disciplined, confident, and financially literate Filipino traders
                   through structured education, confluence-based strategies, and personalized coaching. 
-                   Powered by <span className="text-red-highlight">data-driven tools</span> and <span className="text-red-highlight">real-world applications</span>, our goal is simple yet bold:
-                  < br/>
-                  < br/>
-                  <span className="text-red-highlight">Create a profitable trader in every Filipino household, one person at a time.</span>
+                  Powered by data-driven tools and real-world applications, our goal is simple yet bold:
+                  <br/>
+                  <br/>
+                  Create a profitable trader in every Filipino household, one person at a time.
                 </p>
               </div>
             </div>
@@ -508,35 +499,78 @@ const AboutUs = () => {
               {/* Core Values */}
               <div className="about-us-card">
                 <div className="about-us-card-header fade-in">
-                  <Atom
-                    size={32}
-                    style={{ color: "#ff1f2c" }}
-                    className="about-us-card-icon"
-                  />
-                  <h2 className="about-us-card-title fade-in">Core Values</h2>
+                  <h2 className="about-us-card-title fade-in" style={{ textAlign: 'left', width: '100%' }}>Core <span style={{ color: "#75F94C" }}>Values</span></h2>
                 </div>
                 <div className="about-us-card-section">
                   <ul className="about-us-card-text justified-list fade-in">
                     <li className="justified-text fade-in">
                       <p className="fade-in">
-                        <strong>Empowerment Through Education</strong> We believe that real change begins with 
-                        knowledge. We are committed to transforming lives by providing access to financial 
-                        literacy and trading skills that promote independence, resilience, and long-term 
+                        <span
+                          style={{
+                            display: "inline-block",
+                            width: "20px",
+                            height: "20px",
+                            borderRadius: "50%",
+                            backgroundColor: "#75F94C",
+                            color: "white",
+                            textAlign: "center",
+                            lineHeight: "20px",
+                            marginRight: "8px",
+                          }}
+                        >
+                          ✓
+                        </span>
+                        <strong>Empowerment Through Education</strong> We believe that real change begins with
+                        knowledge. We are committed to transforming lives by providing access to financial
+                        literacy and trading skills that promote independence, resilience, and long-term
                         success.
                       </p>
                     </li>
+
                     <li className="justified-text fade-in">
                       <p className="fade-in">
-                        <strong>Innovation With Purpose</strong> We harness technology and forward-thinking strategies to continuously 
-                        evolve our programs. By staying ahead of market trends, we ensure our students are equipped to thrive in a 
-                        dynamic global economy.
+                        <span
+                          style={{
+                            display: "inline-block",
+                            width: "20px",
+                            height: "20px",
+                            borderRadius: "50%",
+                            backgroundColor: "#75F94C",
+                            color: "white",
+                            textAlign: "center",
+                            lineHeight: "20px",
+                            marginRight: "8px",
+                          }}
+                        >
+                          ✓
+                        </span>
+                        <strong>Innovation With Purpose</strong> We harness technology and forward-thinking
+                        strategies to continuously evolve our programs. By staying ahead of market trends,
+                        we ensure our students are equipped to thrive in a dynamic global economy.
                       </p>
                     </li>
+
                     <li className="justified-text fade-in">
                       <p className="fade-in">
-                        <strong>Collaboration and Community</strong> We grow stronger together. Through inclusive partnerships and a collaborative learning 
-                        culture, we create a nurturing environment where students, educators, and partners 
-                        support one another in achieving shared goals.
+                        <span
+                          style={{
+                            display: "inline-block",
+                            width: "20px",
+                            height: "20px",
+                            borderRadius: "50%",
+                            backgroundColor: "#75F94C",
+                            color: "white",
+                            textAlign: "center",
+                            lineHeight: "20px",
+                            marginRight: "8px",
+                          }}
+                        >
+                          ✓
+                        </span>
+                        <strong>Collaboration and Community</strong> We grow stronger together. Through
+                        inclusive partnerships and a collaborative learning culture, we create a nurturing
+                        environment where students, educators, and partners support one another in
+                        achieving shared goals.
                       </p>
                     </li>
                   </ul>
@@ -546,13 +580,8 @@ const AboutUs = () => {
               {/* Corporate Social Responsibility Initiatives */}
               <div className="about-us-card">
                 <div className="about-us-card-header fade-in">
-                  <HeartHandshake
-                    size={32}
-                    style={{ color: "#ff1f2c" }}
-                    className="about-us-card-icon"
-                  />
                   <h2 className="about-us-card-title fade-in">
-                    Corporate Social Responsibility
+                    <span style={{ color: "#75F94C" }}>Corporate</span> Social <span style={{ color: "#75F94C" }}>Responsibility</span>
                   </h2>
                 </div>
                 <div className="about-us-card-section">
@@ -570,30 +599,93 @@ const AboutUs = () => {
                   <p className="about-us-card-text justified-text fade-in fade-in">
                     <strong>That’s why we support:</strong>
                   </p>
-                  <ul className="about-us-card-text justified-list fade-in">
-                    <li className="justified-text fade-in">
-                      <p className="fade-in">
-                        Free educational outreach in public universities and
-                        barangays.
-                      </p>
-                    </li>
-                    <li className="justified-text fade-in">
-                      <p className="fade-in">
-                        Scholarships for marginalized but talented youth.
-                      </p>
-                    </li>
-                    <li className="justified-text fade-in">
-                      <p className="fade-in">
-                        Mental health and psychology talks for traders.
-                      </p>
-                    </li>
-                    <li className="justified-text fade-in">
-                      <p className="fade-in">
-                        Community business mentorships for aspiring
-                        entrepreneurs.
-                      </p>
-                    </li>
-                  </ul>
+                    <ul className="about-us-card-text justified-list fade-in">
+
+                      <li className="justified-text fade-in">
+                        <p className="fade-in">
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "20px",
+                              height: "20px",
+                              borderRadius: "50%",
+                              backgroundColor: "#75F94C",
+                              color: "white",
+                              textAlign: "center",
+                              lineHeight: "20px",
+                              marginRight: "8px",
+                            }}
+                          >
+                            ✓
+                          </span>
+                          Free educational outreach in public universities and barangays.
+                        </p>
+                      </li>
+
+                      <li className="justified-text fade-in">
+                        <p className="fade-in">
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "20px",
+                              height: "20px",
+                              borderRadius: "50%",
+                              backgroundColor: "#75F94C",
+                              color: "white",
+                              textAlign: "center",
+                              lineHeight: "20px",
+                              marginRight: "8px",
+                            }}
+                          >
+                            ✓
+                          </span>
+                          Scholarships for marginalized but talented youth.
+                        </p>
+                      </li>
+
+                      <li className="justified-text fade-in">
+                        <p className="fade-in">
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "20px",
+                              height: "20px",
+                              borderRadius: "50%",
+                              backgroundColor: "#75F94C",
+                              color: "white",
+                              textAlign: "center",
+                              lineHeight: "20px",
+                              marginRight: "8px",
+                            }}
+                          >
+                            ✓
+                          </span>
+                          Mental health and psychology talks for traders.
+                        </p>
+                      </li>
+
+                      <li className="justified-text fade-in">
+                        <p className="fade-in">
+                          <span
+                            style={{
+                              display: "inline-block",
+                              width: "20px",
+                              height: "20px",
+                              borderRadius: "50%",
+                              backgroundColor: "#75F94C",
+                              color: "white",
+                              textAlign: "center",
+                              lineHeight: "20px",
+                              marginRight: "8px",
+                            }}
+                          >
+                            ✓
+                          </span>
+                          Community business mentorships for aspiring entrepreneurs.
+                        </p>
+                      </li>
+
+                    </ul>
                   <p className="about-us-card-text justified-text fade-in fade-in">
                     Our commitment is to multiply impact, one student, one
                     family, and one community at a time.
@@ -603,8 +695,8 @@ const AboutUs = () => {
             </div>
           </div>
         </section>
+        <Footer />
       </main>
-      <Footer />
     </div>
   );
 };
