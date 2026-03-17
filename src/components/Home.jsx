@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Header from "./Header";
 import HeroSection from "./HeroSection.jsx";
 import CoreBrandSection from "./CoreBrandSection.jsx";
@@ -74,57 +74,20 @@ const getTestimonials = (isDark) => [
   },
 ];
 
-const INITIAL_FORM_DATA = {
-  firstName: "",
-  middleName: "",
-  lastName: "",
-  email: "",
-  address: "",
-  phoneNumber: "+63",
-  resumeFile: null,
-};
-
-const INITIAL_CONTACT_DATA = {
-  name: "",
-  contactEmail: "",
-  contactNumber: "",
-  message: "",
-};
-
 const Home = () => {
   const { isDark } = useTheme();
   const [scrolled, setScrolled] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1); // start at 1 because of prepended clone
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState("");
-  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
-  const [contactData, setContactData] = useState(INITIAL_CONTACT_DATA);
-
   const testimonials = getTestimonials(isDark);
   const totalSlides = testimonials.length;
 
-  const capitalizeFirstLetter = (str) => {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
-
-  const handleResumeChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const isPDF = file.type === "application/pdf";
-      const isTooLarge = file.size > 10 * 1024 * 1024; // 10MB
-
-      if (!isPDF) {
-        alert("Only PDF files are allowed.");
-        e.target.value = null;
-      } else if (isTooLarge) {
-        alert("File must be less than 10MB.");
-        e.target.value = null;
-      } else {
-        setFormData((prev) => ({ ...prev, resumeFile: file }));
-      }
-    }
-  };
+  // Create extended slides: [last, ...all, first] for infinite loop
+  const extendedTestimonials = testimonials.length > 0
+    ? [testimonials[testimonials.length - 1], ...testimonials, testimonials[0]]
+    : [];
 
   const handleApplyClick = (position) => {
     setSelectedPosition(position);
@@ -133,37 +96,6 @@ const Home = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setFormData(INITIAL_FORM_DATA);
-  };
-
-  const handleSubmit = async () => {
-    const payload = new FormData();
-    payload.append("firstName", formData.firstName);
-    payload.append("middleName", formData.middleName);
-    payload.append("lastName", formData.lastName);
-    payload.append("email", formData.email);
-    payload.append("address", formData.address);
-    payload.append("phoneNumber", formData.phoneNumber);
-    payload.append("resumeFile", formData.resumeFile);
-    payload.append("selectedPosition", selectedPosition);
-
-    try {
-      const res = await fetch(`${API_BASE_URL}/apply`, {
-        method: "POST",
-        body: payload,
-      });
-
-      const result = await res.json();
-      if (res.ok) {
-        alert(result.message);
-        handleCloseModal();
-      } else {
-        alert(result.error || "Application failed");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Submission error");
-    }
   };
 
   const handleContactSubmit = async (e) => {
@@ -198,17 +130,51 @@ const Home = () => {
     }
   };
 
+  const handleTransitionEnd = useCallback(() => {
+    // When we land on the clone of the first slide (end), jump to the real first
+    if (currentIndex === extendedTestimonials.length - 1) {
+      setIsTransitioning(false);
+      setCurrentIndex(1);
+    }
+    // When we land on the clone of the last slide (beginning), jump to the real last
+    if (currentIndex === 0) {
+      setIsTransitioning(false);
+      setCurrentIndex(extendedTestimonials.length - 2);
+    }
+  }, [currentIndex, extendedTestimonials.length]);
+
+  // Re-enable transition after instant jump
+  useEffect(() => {
+    if (!isTransitioning) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setIsTransitioning(true);
+        });
+      });
+    }
+  }, [isTransitioning]);
+
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % totalSlides);
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev + 1);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev - 1);
   };
 
   const goToSlide = (index) => {
-    setCurrentIndex(index);
+    setIsTransitioning(true);
+    setCurrentIndex(index + 1); // offset by 1 because of prepended clone
   };
+
+  // Map currentIndex to actual slide index for dots
+  const actualIndex = (() => {
+    if (currentIndex === 0) return totalSlides - 1;
+    if (currentIndex === extendedTestimonials.length - 1) return 0;
+    return currentIndex - 1;
+  })();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -219,8 +185,13 @@ const Home = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const nextSlideRef = useRef(nextSlide);
   useEffect(() => {
-    const interval = setInterval(nextSlide, 8000);
+    nextSlideRef.current = nextSlide;
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => nextSlideRef.current(), 8000);
     return () => clearInterval(interval);
   }, []);
 
@@ -258,7 +229,11 @@ const Home = () => {
 
         <CoreBrandSection
           currentIndex={currentIndex}
+          actualIndex={actualIndex}
+          extendedTestimonials={extendedTestimonials}
           testimonials={testimonials}
+          isTransitioning={isTransitioning}
+          onTransitionEnd={handleTransitionEnd}
           prevSlide={prevSlide}
           nextSlide={nextSlide}
           goToSlide={goToSlide}
@@ -269,15 +244,10 @@ const Home = () => {
         <CareerPathSection />
 
         <InternshipSection
-          formData={formData}
-          setFormData={setFormData}
           handleApplyClick={handleApplyClick}
           handleCloseModal={handleCloseModal}
-          handleSubmit={handleSubmit}
-          handleResumeChange={handleResumeChange}
           showModal={showModal}
           selectedPosition={selectedPosition}
-          capitalizeFirstLetter={capitalizeFirstLetter}
         />
 
         <ContactSection />
