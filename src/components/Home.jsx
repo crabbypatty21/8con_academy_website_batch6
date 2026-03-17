@@ -30,7 +30,7 @@ const getTestimonials = (isDark) => [
       "In less than six weeks on 8Con Academy's Basic Competency course, I turned their FREE account into over $100 profit. The step-by-step lessons, strong focus on risk management, and a truly supportive community proved that even a beginner like me can trade confidently and aim for real financial freedom.",
     backgroundImage: isDark
       ? "/assets/images/testimonial/Hajie Trader.png"
-      : "/assets/images/testimonial/light mode/Group 876.png",
+      : "/assets/images/light update/Hajie light.png",
   },
   {
     name: "Ken, Trader",
@@ -38,7 +38,7 @@ const getTestimonials = (isDark) => [
       "At first, I struggled to understand forex terms - until I joined 8Con Academy. Through step-by-step guidance, I learned to read fundamentals and analyze technicals, helping me predict market movements with confidence. What sets 8Con apart is you can already trade profitably even before finishing the course. This experience made me realize my goal: to achieve financial freedom through trading.",
     backgroundImage: isDark
       ? "/assets/images/testimonial/Ken Trader.png"
-      : "/assets/images/testimonial/light mode/Group 880.png",
+      : "/assets/images/light update/ken light.png",
   },
   {
     name: "Clarence, Trader",
@@ -46,7 +46,7 @@ const getTestimonials = (isDark) => [
       "At 8Con, I've learned not just technical and fundamental analysis, but also the importance of trading psychology. I used to think forex was just 50/50 luck, until I realized it only feels that way without the right education. Learning this shifted my mindset and helped me pursue forex seriously as a potential source of income.",
     backgroundImage: isDark
       ? "/assets/images/testimonial/Clarence Trader.png"
-      : "/assets/images/testimonial/light mode/Group 881.png",
+      : "/assets/images/light update/Clarence light.png",
   },
   {
     name: "Jhames, Entreprenuer",
@@ -54,7 +54,7 @@ const getTestimonials = (isDark) => [
       "8Con Academy's curriculum, expert mentorship, and practical guidance have equipped me with the skills and confidence to navigate the markets effectively. I now trade with a clear strategy and a disciplined approach, thanks to their support.",
     backgroundImage: isDark
       ? "/assets/images/testimonial/Jhames Entrepreneur.png"
-      : "/assets/images/testimonial/light mode/Group 882.png",
+      : "/assets/images/light update/jhames light.png",
   },
   {
     name: "CJ, Trader",
@@ -62,7 +62,7 @@ const getTestimonials = (isDark) => [
       "8Con provides a supportive and professional environment where OJT students and interns gain valuable, hands-on experience, fostering growth, confidence, and real-world skills across any field of work.",
     backgroundImage: isDark
       ? "/assets/images/testimonial/CJ Trader.png"
-      : "/assets/images/testimonial/light mode/Group 883.png",
+      : "/assets/images/light update/Cj light.png",
   },
   {
     name: "Ryan, Trader",
@@ -70,7 +70,7 @@ const getTestimonials = (isDark) => [
       "8Con Academy's practical approach gave me real-world trading skills and the mindset needed for long-term success. Their support and mentorship helped me grow into a confident, disciplined trader, ready to navigate today's fast-paced market.",
     backgroundImage: isDark
       ? "/assets/images/testimonial/Ryan Trader.png"
-      : "/assets/images/testimonial/light mode/Group 884.png",
+      : "/assets/images/light update/ryan trader (1).png",
   },
 ];
 

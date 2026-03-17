@@ -3,7 +3,6 @@ import "../App.css";
 import {
   Facebook,
   Linkedin,
-  Instagram,
   Phone,
   Mail,
   Clock,
@@ -27,23 +26,15 @@ const Footer = () => {
           <p className="footer-tagline">Confluence is Confidence</p>
           <div className="footer-social">
             <a
-              href="https://www.facebook.com/8ConAcademy"
+              href="https://www.facebook.com/profile.php?id=61584489577286"
               className="social-icon fb-link"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Facebook size={16} />
             </a>
-            <a
-              href="https://www.instagram.com/8conacademy/"
-              className="social-icon ig-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Instagram size={16} />
-            </a>
-            <a
-              href="https://ph.linkedin.com/company/8con-academy"
+<a
+              href="https://www.linkedin.com/company/8conacademy/posts/?feedView=all"
               className="social-icon li-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -261,11 +252,6 @@ const Footer = () => {
 
 .social-icon.fb-link:hover {
   background: #1877f2;
-  color: #ffffff;
-}
-
-.social-icon.ig-link:hover {
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
   color: #ffffff;
 }
 
