@@ -15,6 +15,7 @@ import {
   Users,
   BookOpen,
   AlignCenter,
+  Check, // Added Check icon here
 } from "lucide-react";
 
 const ConStruct = () => {
@@ -390,10 +391,15 @@ const ConStruct = () => {
     },
 
     leadershipSection: {
-      padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      backgroundColor: colors.bgSurface,
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)", // Increased padding
+      minHeight: "80vh", // Added minimum height (40% of the viewport height)
+      display: "flex", // Added flexbox to vertically center the text
+      flexDirection: "column",
+      justifyContent: "center",
+      backgroundColor: "#131B21",
       textAlign: "center",
     },
+    
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontWeight: "700",
@@ -412,11 +418,11 @@ const ConStruct = () => {
       color: colors.accentGreen,
       fontWeight: "700",
     },
+    
+    // UPDATED SERVICES SECTION
     servicesSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      background: isDark
-        ? "linear-gradient(135deg, #1a1a1a 0%, #000000 100%)"
-        : "linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)",
+      backgroundColor: "#19232A", 
     },
     servicesGrid: {
       display: "grid",
@@ -425,22 +431,24 @@ const ConStruct = () => {
       marginTop: "3rem",
     },
     serviceCard: {
-      backgroundColor: colors.bgCard,
+      backgroundColor: "#131B21", // New card background color
       padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+      borderRadius: "5px", // CHANGED TO 5px
+      // BRIGHTER White Shadow for resting state (0.25 opacity):
+      boxShadow: "0 2px 10px rgba(255, 255, 255, 0.25)",
       transition: "all 0.3s ease",
-      border: "2px solid transparent",
+      position: "relative", // Needed for the top colored bar to work perfectly
+      overflow: "hidden", // Forces the top colored bar to match the border-radius perfectly!
     },
     serviceTitle: {
       fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
       fontWeight: "700",
-      color: colors.textPrimary,
+      color: "#ffffff", // Make sure text stands out on dark card
       marginBottom: "1rem",
     },
     serviceDescription: {
       fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-      color: colors.textMuted,
+      color: "#A0ABB5",
       lineHeight: "1.6",
       marginBottom: "1.5rem",
     },
@@ -451,11 +459,14 @@ const ConStruct = () => {
     },
     serviceListItem: {
       fontSize: "0.95rem",
-      color: colors.textMuted,
+      color: "#A0ABB5",
       lineHeight: "1.6",
       marginBottom: "8px",
       paddingLeft: "0",
+      display: "flex", // Enables flexbox to align checkmark with text
+      alignItems: "flex-start", // Keeps checkmark at top if text wraps
     },
+
     whyChooseSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
       backgroundColor: colors.bgSurface,
@@ -1104,10 +1115,14 @@ const ConStruct = () => {
         }`}
       >
         <div style={styles.container2}>
-          <h2 style={styles.sectionTitle}>Led by Expert Leadership</h2>
+          {/* Apply the Unbounded font family and specific word color right here */}
+          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff" }}>
+            Led by <span style={{ color: "#75F94C" }}>Expert Leadership</span>
+          </h2>
           <p style={styles.leadershipText}>
             Services led by{" "}
-            <strong style={styles.strongText}>Doc May L. Francisco</strong>, an
+            {/* Apply the new hex color here */}
+            <strong style={{ color: "#39CC2F", fontWeight: "700" }}>Doc May L. Francisco</strong>, an
             expert with extensive experience in academic and business research,
             ensuring precision, reliability, and results that empower clients to
             excel in their respective fields.
@@ -1125,8 +1140,9 @@ const ConStruct = () => {
         }`}
       >
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: colors.textPrimary }}>
-            Our Services
+          {/* Changed text to ALL CAPS using textTransform and strictly typing "OUR SERVICES" */}
+          <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }}>
+            OUR SERVICES
           </h2>
           <div style={styles.servicesGrid}>
             {[
@@ -1190,34 +1206,46 @@ const ConStruct = () => {
                   "• Employee Insights: Organizational culture improvement",
                 ],
               },
-            ].map((service, index) => (
-              <div
-                key={index}
-                ref={(el) => (serviceCardsRef.current[index] = el)}
-                style={styles.serviceCard}
-                className="animate-fade-up"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <h3 style={styles.serviceTitle}>{service.title}</h3>
-                <p style={styles.serviceDescription}>{service.description}</p>
-                <ul style={styles.serviceList}>
-                  {service.items.map((item, itemIndex) => (
-                    <li key={itemIndex} style={styles.serviceListItem}>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            ].map((service, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#F51616";
+
+              return (
+                <div
+                  key={index}
+                  ref={(el) => (serviceCardsRef.current[index] = el)}
+                  style={styles.serviceCard}
+                  className="animate-fade-up"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-5px)";
+                    // BRIGHTER Hover White Glow (0.5 opacity):
+                    e.currentTarget.style.boxShadow = "0 6px 16px rgba(255, 255, 255, 0.50)"; 
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    // BRIGHTER Resting White Shadow (0.25 opacity):
+                    e.currentTarget.style.boxShadow = "0 2px 10px rgba(255, 255, 255, 0.25)";
+                  }}
+                >
+                  {/* PERFECT TOP COLOR BAR: Uses absolute positioning inside the hidden overflow card */}
+                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
+
+                  <h3 style={{ ...styles.serviceTitle, fontFamily: "'Unbounded', sans-serif" }}>{service.title}</h3>
+                  <p style={styles.serviceDescription}>{service.description}</p>
+                  <ul style={styles.serviceList}>
+                    {service.items.map((item, itemIndex) => {
+                      const cleanText = item.replace("• ", "");
+
+                      return (
+                        <li key={itemIndex} style={styles.serviceListItem}>
+                          <Check size={18} color="#39CC2F" strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                          <span>{cleanText}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
