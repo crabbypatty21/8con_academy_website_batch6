@@ -61,7 +61,11 @@ const CarouselArrowIcon = ({ direction }) => {
 
 const CoreBrandSection = ({
   currentIndex = 0,
+  actualIndex = 0,
+  extendedTestimonials = [],
   testimonials = [],
+  isTransitioning = true,
+  onTransitionEnd,
   prevSlide,
   nextSlide,
   goToSlide,
@@ -276,15 +280,16 @@ const CoreBrandSection = ({
             }}
           >
             <div
+              onTransitionEnd={onTransitionEnd}
               style={{
                 display: "flex",
                 height: "100%",
-                transition: "transform 0.4s ease-in-out",
+                transition: isTransitioning ? "transform 0.4s ease-in-out" : "none",
                 transform: `translateX(-${currentIndex * 100}%)`,
               }}
             >
-              {testimonials.length > 0 ? (
-                testimonials.map((testimonial, index) => (
+              {extendedTestimonials.length > 0 ? (
+                extendedTestimonials.map((testimonial, index) => (
                   <div
                     key={index}
                     style={{
@@ -346,10 +351,10 @@ const CoreBrandSection = ({
                 <button
                   key={index}
                   style={{
-                    width: index === currentIndex ? "24px" : "10px",
+                    width: index === actualIndex ? "24px" : "10px",
                     height: "10px",
                     borderRadius: "10px",
-                    backgroundColor: index === currentIndex ? "#0ED85F" : "#4b5563",
+                    backgroundColor: index === actualIndex ? "#0ED85F" : "#4b5563",
                     border: "none",
                     cursor: "pointer",
                     transition: "all 0.3s ease",
