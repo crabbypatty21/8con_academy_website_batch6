@@ -1,0 +1,355 @@
+/* ===== CONTAINER ===== */
+.trading-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.07;
+}
+
+/* ===== SUPPORT / RESISTANCE LEVELS ===== */
+.tb-levels {
+  position: absolute;
+  inset: 0;
+}
+
+.tb-level {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  display: flex;
+  align-items: center;
+}
+
+.tb-level span {
+  font-family: "Geist Sans", monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.tb-level-support {
+  top: 75%;
+  background: repeating-linear-gradient(90deg, #0ED85F 0, #0ED85F 8px, transparent 8px, transparent 16px);
+  animation: levelPulse 3s ease-in-out infinite;
+}
+
+.tb-level-support span {
+  color: #0ED85F;
+  background: rgba(14, 216, 95, 0.1);
+}
+
+.tb-level-resist {
+  top: 20%;
+  background: repeating-linear-gradient(90deg, #F95545 0, #F95545 8px, transparent 8px, transparent 16px);
+  animation: levelPulse 3s ease-in-out infinite 1.5s;
+}
+
+.tb-level-resist span {
+  color: #F95545;
+  background: rgba(249, 85, 69, 0.1);
+}
+
+.tb-level-mid {
+  top: 48%;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,0.15) 0, rgba(255,255,255,0.15) 4px, transparent 4px, transparent 12px);
+}
+
+@keyframes levelPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* ===== CANDLESTICKS ===== */
+.tb-candles {
+  position: absolute;
+  bottom: 12%;
+  left: 0;
+  right: 0;
+  height: 65%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 0 2%;
+}
+
+.tb-candle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: bottom center;
+}
+
+.tb-wick, .tb-wick-b { width: 2px; }
+.tb-body { width: 10px; border-radius: 1px; }
+
+/* Zigzag candlestick pattern — alternating up/down price movement */
+/* Pattern: start mid, dip, rally, pullback, spike, drop, recover, dip, rally high, sell-off, bounce, dip, push up, drop, rally, pullback, push, dip */
+
+.tb-c0 .tb-wick { height: 12px; background: #0ED85F; } .tb-c0 .tb-body { height: 35px; background: #0ED85F; box-shadow: 0 0 6px rgba(14,216,95,0.4); } .tb-c0 .tb-wick-b { height: 8px; background: #0ED85F; } .tb-c0 { margin-bottom: 80px; animation: candleBull 5s ease-in-out infinite 0s; }
+
+.tb-c1 .tb-wick { height: 14px; background: #F95545; } .tb-c1 .tb-body { height: 28px; background: #F95545; box-shadow: 0 0 6px rgba(249,85,69,0.4); } .tb-c1 .tb-wick-b { height: 18px; background: #F95545; } .tb-c1 { margin-bottom: 45px; animation: candleBear 4.5s ease-in-out infinite 0.3s; }
+
+.tb-c2 .tb-wick { height: 10px; background: #F95545; } .tb-c2 .tb-body { height: 22px; background: #F95545; box-shadow: 0 0 5px rgba(249,85,69,0.3); } .tb-c2 .tb-wick-b { height: 15px; background: #F95545; } .tb-c2 { margin-bottom: 20px; animation: candleBear 4.2s ease-in-out infinite 0.5s; }
+
+.tb-c3 .tb-wick { height: 20px; background: #0ED85F; } .tb-c3 .tb-body { height: 50px; background: #0ED85F; box-shadow: 0 0 8px rgba(14,216,95,0.5); } .tb-c3 .tb-wick-b { height: 6px; background: #0ED85F; } .tb-c3 { margin-bottom: 55px; animation: candleBull 5.5s ease-in-out infinite 0.7s; }
+
+.tb-c4 .tb-wick { height: 25px; background: #0ED85F; } .tb-c4 .tb-body { height: 65px; background: #0ED85F; box-shadow: 0 0 10px rgba(14,216,95,0.6); } .tb-c4 .tb-wick-b { height: 5px; background: #0ED85F; } .tb-c4 { margin-bottom: 110px; animation: candleBull 6s ease-in-out infinite 0.2s; }
+
+.tb-c5 .tb-wick { height: 16px; background: #F95545; } .tb-c5 .tb-body { height: 40px; background: #F95545; box-shadow: 0 0 7px rgba(249,85,69,0.4); } .tb-c5 .tb-wick-b { height: 12px; background: #F95545; } .tb-c5 { margin-bottom: 70px; animation: candleBear 4.8s ease-in-out infinite 1.1s; }
+
+.tb-c6 .tb-wick { height: 13px; background: #F95545; } .tb-c6 .tb-body { height: 25px; background: #F95545; box-shadow: 0 0 5px rgba(249,85,69,0.3); } .tb-c6 .tb-wick-b { height: 20px; background: #F95545; } .tb-c6 { margin-bottom: 35px; animation: candleBear 4.4s ease-in-out infinite 0.4s; }
+
+.tb-c7 .tb-wick { height: 18px; background: #0ED85F; } .tb-c7 .tb-body { height: 42px; background: #0ED85F; box-shadow: 0 0 7px rgba(14,216,95,0.5); } .tb-c7 .tb-wick-b { height: 10px; background: #0ED85F; } .tb-c7 { margin-bottom: 65px; animation: candleBull 5.3s ease-in-out infinite 0.9s; }
+
+.tb-c8 .tb-wick { height: 30px; background: #0ED85F; } .tb-c8 .tb-body { height: 80px; background: #0ED85F; box-shadow: 0 0 12px rgba(14,216,95,0.7); } .tb-c8 .tb-wick-b { height: 4px; background: #0ED85F; } .tb-c8 { margin-bottom: 140px; animation: candleBull 6.2s ease-in-out infinite 0.6s; }
+
+.tb-c9 .tb-wick { height: 18px; background: #F95545; } .tb-c9 .tb-body { height: 45px; background: #F95545; box-shadow: 0 0 8px rgba(249,85,69,0.5); } .tb-c9 .tb-wick-b { height: 14px; background: #F95545; } .tb-c9 { margin-bottom: 90px; animation: candleBear 4.6s ease-in-out infinite 0.8s; }
+
+.tb-c10 .tb-wick { height: 12px; background: #F95545; } .tb-c10 .tb-body { height: 30px; background: #F95545; box-shadow: 0 0 6px rgba(249,85,69,0.4); } .tb-c10 .tb-wick-b { height: 22px; background: #F95545; } .tb-c10 { margin-bottom: 50px; animation: candleBear 4.3s ease-in-out infinite 1s; }
+
+.tb-c11 .tb-wick { height: 22px; background: #0ED85F; } .tb-c11 .tb-body { height: 55px; background: #0ED85F; box-shadow: 0 0 9px rgba(14,216,95,0.5); } .tb-c11 .tb-wick-b { height: 8px; background: #0ED85F; } .tb-c11 { margin-bottom: 95px; animation: candleBull 5.6s ease-in-out infinite 1.2s; }
+
+.tb-c12 .tb-wick { height: 15px; background: #F95545; } .tb-c12 .tb-body { height: 32px; background: #F95545; box-shadow: 0 0 6px rgba(249,85,69,0.4); } .tb-c12 .tb-wick-b { height: 16px; background: #F95545; } .tb-c12 { margin-bottom: 60px; animation: candleBear 4.5s ease-in-out infinite 0.3s; }
+
+.tb-c13 .tb-wick { height: 28px; background: #0ED85F; } .tb-c13 .tb-body { height: 70px; background: #0ED85F; box-shadow: 0 0 11px rgba(14,216,95,0.6); } .tb-c13 .tb-wick-b { height: 5px; background: #0ED85F; } .tb-c13 { margin-bottom: 125px; animation: candleBull 5.8s ease-in-out infinite 0.1s; }
+
+.tb-c14 .tb-wick { height: 14px; background: #F95545; } .tb-c14 .tb-body { height: 35px; background: #F95545; box-shadow: 0 0 6px rgba(249,85,69,0.4); } .tb-c14 .tb-wick-b { height: 20px; background: #F95545; } .tb-c14 { margin-bottom: 85px; animation: candleBear 4.7s ease-in-out infinite 1.3s; }
+
+.tb-c15 .tb-wick { height: 20px; background: #0ED85F; } .tb-c15 .tb-body { height: 48px; background: #0ED85F; box-shadow: 0 0 8px rgba(14,216,95,0.5); } .tb-c15 .tb-wick-b { height: 10px; background: #0ED85F; } .tb-c15 { margin-bottom: 105px; animation: candleBull 5.4s ease-in-out infinite 0.6s; }
+
+.tb-c16 .tb-wick { height: 11px; background: #F95545; } .tb-c16 .tb-body { height: 26px; background: #F95545; box-shadow: 0 0 5px rgba(249,85,69,0.3); } .tb-c16 .tb-wick-b { height: 18px; background: #F95545; } .tb-c16 { margin-bottom: 75px; animation: candleBear 4.2s ease-in-out infinite 0.9s; }
+
+.tb-c17 .tb-wick { height: 16px; background: #0ED85F; } .tb-c17 .tb-body { height: 38px; background: #0ED85F; box-shadow: 0 0 7px rgba(14,216,95,0.4); } .tb-c17 .tb-wick-b { height: 9px; background: #0ED85F; } .tb-c17 { margin-bottom: 55px; animation: candleBull 5.2s ease-in-out infinite 1.5s; }
+
+/* Bullish candle — grows taller */
+@keyframes candleBull {
+  0%, 100% { transform: scaleY(1); }
+  30% { transform: scaleY(1.2); }
+  60% { transform: scaleY(0.9); }
+  80% { transform: scaleY(1.1); }
+}
+
+/* Bearish candle — shrinks */
+@keyframes candleBear {
+  0%, 100% { transform: scaleY(1); }
+  30% { transform: scaleY(0.8); }
+  60% { transform: scaleY(1.15); }
+  80% { transform: scaleY(0.9); }
+}
+
+/* ===== PRICE LINES (EMA + BOLLINGER) ===== */
+.tb-lines {
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  width: 100%;
+  height: 55%;
+}
+
+.tb-priceline {
+  stroke-dasharray: 2200;
+  stroke-dashoffset: 2200;
+}
+
+.tb-ema-fast {
+  stroke: #0ED85F;
+  animation: plDraw 12s ease-in-out infinite;
+}
+
+.tb-ema-slow {
+  stroke: #FFD700;
+  animation: plDraw 14s ease-in-out infinite 2s;
+}
+
+.tb-bb-upper {
+  stroke: rgba(255, 255, 255, 0.3);
+  animation: plDraw 16s ease-in-out infinite 1s;
+}
+
+.tb-bb-lower {
+  stroke: rgba(255, 255, 255, 0.3);
+  animation: plDraw 16s ease-in-out infinite 1s;
+}
+
+.tb-bb-fill {
+  fill: rgba(255, 255, 255, 0.015);
+  animation: bbFade 16s ease-in-out infinite 1s;
+}
+
+@keyframes plDraw {
+  0% { stroke-dashoffset: 2200; }
+  35% { stroke-dashoffset: 0; }
+  65% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -2200; }
+}
+
+@keyframes bbFade {
+  0%, 100% { opacity: 0; }
+  35% { opacity: 1; }
+  65% { opacity: 1; }
+}
+
+/* ===== BID / ASK / SPREAD ===== */
+.tb-prices {
+  position: absolute;
+  top: 8%;
+  right: 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: pricesBlink 4s ease-in-out infinite;
+}
+
+.tb-bid, .tb-ask, .tb-spread {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tb-label {
+  font-family: "Geist Sans", monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.4);
+  min-width: 48px;
+}
+
+.tb-val {
+  font-family: "Geist Sans", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.tb-val-green { color: #0ED85F; text-shadow: 0 0 8px rgba(14, 216, 95, 0.4); }
+.tb-val-red { color: #F95545; text-shadow: 0 0 8px rgba(249, 85, 69, 0.4); }
+.tb-val-gold { color: #FFD700; text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
+
+@keyframes pricesBlink {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ===== VOLUME BARS ===== */
+.tb-volume {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 12%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 0 2%;
+}
+
+.tb-vol {
+  width: 8px;
+  border-radius: 1px 1px 0 0;
+  animation: volPulse 3s ease-in-out infinite;
+}
+
+.tb-vol-0 { height: 40%; background: rgba(14,216,95,0.3); animation-delay: 0s; }
+.tb-vol-1 { height: 25%; background: rgba(249,85,69,0.3); animation-delay: 0.2s; }
+.tb-vol-2 { height: 60%; background: rgba(14,216,95,0.4); animation-delay: 0.4s; }
+.tb-vol-3 { height: 20%; background: rgba(249,85,69,0.25); animation-delay: 0.6s; }
+.tb-vol-4 { height: 80%; background: rgba(14,216,95,0.5); animation-delay: 0.8s; }
+.tb-vol-5 { height: 30%; background: rgba(249,85,69,0.3); animation-delay: 1s; }
+.tb-vol-6 { height: 50%; background: rgba(14,216,95,0.35); animation-delay: 0.3s; }
+.tb-vol-7 { height: 35%; background: rgba(14,216,95,0.3); animation-delay: 0.5s; }
+.tb-vol-8 { height: 45%; background: rgba(249,85,69,0.35); animation-delay: 0.7s; }
+.tb-vol-9 { height: 70%; background: rgba(14,216,95,0.45); animation-delay: 0.9s; }
+.tb-vol-10 { height: 22%; background: rgba(249,85,69,0.25); animation-delay: 1.1s; }
+.tb-vol-11 { height: 55%; background: rgba(14,216,95,0.4); animation-delay: 0.1s; }
+.tb-vol-12 { height: 28%; background: rgba(249,85,69,0.3); animation-delay: 0.4s; }
+.tb-vol-13 { height: 65%; background: rgba(14,216,95,0.45); animation-delay: 0.6s; }
+.tb-vol-14 { height: 18%; background: rgba(249,85,69,0.2); animation-delay: 0.8s; }
+.tb-vol-15 { height: 48%; background: rgba(14,216,95,0.35); animation-delay: 1s; }
+.tb-vol-16 { height: 32%; background: rgba(249,85,69,0.3); animation-delay: 0.2s; }
+.tb-vol-17 { height: 75%; background: rgba(14,216,95,0.5); animation-delay: 1.2s; }
+
+@keyframes volPulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.6; }
+  50% { transform: scaleY(1.3); opacity: 1; }
+}
+
+/* ===== TICKER TAPE ===== */
+.tb-tape {
+  position: absolute;
+  bottom: 13%;
+  left: 0;
+  right: 0;
+  height: 20px;
+  overflow: hidden;
+  opacity: 0.5;
+}
+
+.tb-tape-track {
+  display: flex;
+  gap: 40px;
+  white-space: nowrap;
+  animation: tapeScroll 30s linear infinite;
+}
+
+.tb-ticker {
+  font-family: "Geist Sans", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.tb-tg { color: #0ED85F; }
+.tb-tr { color: #F95545; }
+
+@keyframes tapeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===== TEXT READABILITY OVER ANIMATION ===== */
+.trading-bg ~ * h1,
+.trading-bg ~ * h2,
+.trading-bg ~ * h3,
+.trading-bg ~ * p,
+.trading-bg ~ * span,
+.trading-bg ~ * label {
+  text-shadow: 0 0 10px var(--bg-primary), 0 0 20px var(--bg-primary), 0 0 40px var(--bg-primary);
+}
+
+html.light-mode .trading-bg ~ * h1,
+html.light-mode .trading-bg ~ * h2,
+html.light-mode .trading-bg ~ * h3,
+html.light-mode .trading-bg ~ * p,
+html.light-mode .trading-bg ~ * span,
+html.light-mode .trading-bg ~ * label {
+  text-shadow: 0 0 10px var(--bg-primary), 0 0 20px var(--bg-primary), 0 0 40px var(--bg-primary);
+}
+
+/* ===== VARIANTS ===== */
+.trading-bg-v1 { opacity: 0.18; }
+.trading-bg-v2 { opacity: 0.14; transform: scaleX(-1); }
+.trading-bg-v3 { opacity: 0.16; }
+.trading-bg-v4 { opacity: 0.14; transform: scaleX(-1); }
+.trading-bg-v5 { opacity: 0.16; }
+
+/* ===== LIGHT MODE ===== */
+html.light-mode .trading-bg { opacity: 0.14; }
+html.light-mode .tb-label { color: rgba(0, 0, 0, 0.3); }
+html.light-mode .tb-level-mid { background: repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 4px, transparent 4px, transparent 12px); }
+html.light-mode .tb-bb-fill { fill: rgba(0, 0, 0, 0.01); }
+html.light-mode .tb-bb-upper, html.light-mode .tb-bb-lower { stroke: rgba(0, 0, 0, 0.15); }
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .tb-candle, .tb-priceline, .tb-vol, .tb-tape-track,
+  .tb-level-support, .tb-level-resist, .tb-prices, .tb-bb-fill { animation: none; }
+  .tb-priceline { stroke-dashoffset: 0; }
+  .tb-bb-fill { opacity: 1; }
+}

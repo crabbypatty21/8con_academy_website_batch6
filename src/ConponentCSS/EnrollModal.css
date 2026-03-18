@@ -1,0 +1,422 @@
+/* ===== ENROLL MODAL OVERLAY ===== */
+.enroll-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+/* ===== MODAL CARD ===== */
+.enroll-modal {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #1a2329 0%, #0f171c 100%);
+  border: 1px solid rgba(14, 216, 95, 0.15);
+  box-shadow: 0 0 60px rgba(14, 216, 95, 0.08), 0 20px 60px rgba(0, 0, 0, 0.6);
+  padding: 30px 34px;
+}
+
+.enroll-modal::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== CLOSE BUTTON ===== */
+.enroll-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8c9ba5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.enroll-close:hover {
+  background: #F95545;
+  color: #fff;
+  border-color: #F95545;
+}
+
+/* ===== HEADER ===== */
+.enroll-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.enroll-header-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0ED85F 0%, #068c3b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  color: #fff;
+}
+
+.enroll-title {
+  font-family: "Unbounded", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+}
+
+.enroll-course-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(249, 85, 69, 0.12);
+  border: 1px solid rgba(249, 85, 69, 0.25);
+  color: #F95545;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: "Geist Sans", sans-serif;
+}
+
+/* ===== FORM ===== */
+.enroll-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.enroll-form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.enroll-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.enroll-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8c9ba5;
+  font-family: "Geist Sans", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.enroll-input {
+  padding: 11px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: "Geist Sans", sans-serif;
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #f2f2f2;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.enroll-input::placeholder {
+  color: #5a6a75;
+}
+
+.enroll-input:focus {
+  border-color: #0ED85F;
+  background-color: rgba(14, 216, 95, 0.04);
+  box-shadow: 0 0 0 3px rgba(14, 216, 95, 0.1);
+}
+
+.enroll-input-error {
+  border-color: #F95545 !important;
+  box-shadow: 0 0 0 3px rgba(249, 85, 69, 0.1) !important;
+}
+
+.enroll-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238c9ba5' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.enroll-select option {
+  background-color: #1a2329;
+  color: #f2f2f2;
+}
+
+.enroll-error {
+  color: #F95545;
+  font-size: 11px;
+  font-family: "Geist Sans", sans-serif;
+}
+
+/* ===== SUBMIT BUTTON ===== */
+.enroll-submit {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Geist Sans", sans-serif;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  background: linear-gradient(135deg, #F95545 0%, #d43d2e 100%);
+  transition: all 0.3s ease;
+  margin-top: 2px;
+}
+
+.enroll-submit:hover {
+  background: linear-gradient(135deg, #ff6655 0%, #F95545 100%);
+  box-shadow: 0 4px 20px rgba(249, 85, 69, 0.35);
+  transform: translateY(-1px);
+}
+
+.enroll-submit:disabled {
+  background: #3a3a3a;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ===== PRIVACY TEXT ===== */
+.enroll-privacy {
+  text-align: center;
+  font-size: 10px;
+  color: #5a6a75;
+  font-family: "Geist Sans", sans-serif;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ===== LIGHT MODE ===== */
+.enroll-modal-light {
+  background: linear-gradient(145deg, #ffffff 0%, #f0f5fa 100%);
+  border-color: rgba(14, 216, 95, 0.2);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.1), 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.enroll-modal-light .enroll-title {
+  color: #1a1a1a;
+}
+
+.enroll-modal-light .enroll-close {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #64748b;
+}
+
+.enroll-modal-light .enroll-close:hover {
+  background: #F95545;
+  color: #fff;
+  border-color: #F95545;
+}
+
+.enroll-modal-light .enroll-label {
+  color: #64748b;
+}
+
+.enroll-modal-light .enroll-input {
+  background-color: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #1a1a1a;
+}
+
+.enroll-modal-light .enroll-input::placeholder {
+  color: #94a3b8;
+}
+
+.enroll-modal-light .enroll-input:focus {
+  background-color: #fff;
+  border-color: #0ED85F;
+  box-shadow: 0 0 0 3px rgba(14, 216, 95, 0.12);
+}
+
+.enroll-modal-light .enroll-select option {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.enroll-modal-light .enroll-privacy {
+  color: #94a3b8;
+}
+
+/* ===== RESULT MODAL ===== */
+.enroll-result-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.enroll-result-card {
+  position: relative;
+  background: linear-gradient(145deg, #1a2329 0%, #0f171c 100%);
+  border-radius: 16px;
+  padding: 36px 32px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.enroll-result-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #8c9ba5;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.enroll-result-close:hover {
+  color: #fff;
+}
+
+.enroll-result-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.enroll-result-icon-success {
+  background: rgba(14, 216, 95, 0.12);
+  color: #0ED85F;
+}
+
+.enroll-result-icon-error {
+  background: rgba(249, 85, 69, 0.12);
+  color: #F95545;
+}
+
+.enroll-result-title {
+  font-family: "Unbounded", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px 0;
+}
+
+.enroll-result-message {
+  font-family: "Geist Sans", sans-serif;
+  font-size: 13px;
+  color: #8c9ba5;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+}
+
+.enroll-result-btn {
+  background: linear-gradient(135deg, #0ED85F 0%, #068c3b 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Geist Sans", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.enroll-result-btn:hover {
+  box-shadow: 0 4px 16px rgba(14, 216, 95, 0.3);
+}
+
+.enroll-result-error .enroll-result-btn {
+  background: linear-gradient(135deg, #F95545 0%, #d43d2e 100%);
+}
+
+.enroll-result-error .enroll-result-btn:hover {
+  box-shadow: 0 4px 16px rgba(249, 85, 69, 0.3);
+}
+
+/* Confetti animation */
+.enroll-result-confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confettiFall 1.5s ease-out forwards;
+  opacity: 0;
+}
+
+.confetti-0 { left: 10%; background: #0ED85F; animation-delay: 0s; }
+.confetti-1 { left: 25%; background: #F95545; animation-delay: 0.1s; }
+.confetti-2 { left: 40%; background: #FFD700; animation-delay: 0.2s; }
+.confetti-3 { left: 55%; background: #0ED85F; animation-delay: 0.15s; }
+.confetti-4 { left: 70%; background: #F95545; animation-delay: 0.25s; }
+.confetti-5 { left: 85%; background: #FFD700; animation-delay: 0.05s; }
+.confetti-6 { left: 15%; background: #F95545; animation-delay: 0.3s; }
+.confetti-7 { left: 60%; background: #0ED85F; animation-delay: 0.2s; }
+
+@keyframes confettiFall {
+  0% { top: -10px; opacity: 1; transform: rotate(0deg) scale(1); }
+  100% { top: 100%; opacity: 0; transform: rotate(720deg) scale(0.3); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .enroll-modal {
+    padding: 28px 20px;
+    max-width: 100%;
+  }
+
+  .enroll-form-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .enroll-title {
+    font-size: 18px;
+  }
+
+  .enroll-header-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+  }
+}
