@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
+import "../ConponentCSS/Animations.css"; // Imported native animations
+import TradingBackground from "./TradingBackground.jsx"; // Forex trading background
 import {
   Menu,
   X,
@@ -19,7 +21,7 @@ import {
   Users,
   Star,
   BookOpen,
-  Check, // Imported Check for lists
+  Check,
   Handshake,
 } from "lucide-react";
 
@@ -31,18 +33,6 @@ const ConEdge = () => {
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
   const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] =
     useState(false);
-  const [animatedSections, setAnimatedSections] = useState(new Set());
-  const [isInHeroSection, setIsInHeroSection] = useState(false);
-  const [heroAnimationKey, setHeroAnimationKey] = useState(0);
-
-  // Animation refs
-  const heroRef = useRef(null);
-  const aboutRef = useRef(null);
-  const toolsRef = useRef(null);
-  const whyChooseRef = useRef(null);
-  const ctaRef = useRef(null);
-  const toolCardsRef = useRef([]);
-  const benefitCardsRef = useRef([]);
 
   const subBrandsData = [
     {
@@ -117,71 +107,35 @@ const ConEdge = () => {
     },
   ];
 
+  // Header scroll background
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Intersection Observer for animations
+  // Global Intersection Observer for Animations.css classes
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.id;
-            setAnimatedSections((prev) => new Set([...prev, id]));
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
 
-    const sectionRefs = [heroRef, aboutRef, toolsRef, whyChooseRef, ctaRef];
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, observerOptions);
 
-    sectionRefs.forEach((ref) => {
-      if (ref.current) observer.observe(ref.current);
-    });
+    const animatedElements = document.querySelectorAll(".slide-in-right, .fade-in-up, .fade-in, .scale-up");
+    animatedElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    const heroObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const wasInHero = isInHeroSection;
-          const nowInHero = entry.isIntersecting;
-
-          setIsInHeroSection(nowInHero);
-
-          if (nowInHero && !wasInHero) {
-            setAnimatedSections(new Set());
-            setHeroAnimationKey((prev) => prev + 1);
-            setTimeout(() => {
-              setAnimatedSections(new Set(["hero"]));
-            }, 100);
-          } else if (nowInHero && wasInHero) {
-            setAnimatedSections((prev) => new Set([...prev, "hero"]));
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
-
-    if (heroRef.current) heroObserver.observe(heroRef.current);
-    return () => heroObserver.disconnect();
-  }, [isInHeroSection]);
-
-  const handleNavigation = (route) => {
-    navigate(route);
-    setMobileMenuOpen(false);
-    setSubBrandsDropdownOpen(false);
-    setMobileSubBrandsDropdownOpen(false);
-  };
 
   const handleSmoothScroll = (targetId) => {
     const targetElement = document.getElementById(targetId);
@@ -198,21 +152,23 @@ const ConEdge = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  // Applied Construct Design Styles
   const styles = {
     container: {
       minHeight: "100vh",
-      fontFamily: "'Montserrat', sans-serif", // Changed to match Construct
+      fontFamily: "'Montserrat', sans-serif",
       lineHeight: "1.6",
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
+      backgroundColor: "#131B21", // Keeps background solid to prevent white flashes
     },
 
     container2: {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "0 20px",
+      position: "relative",
+      zIndex: 2,
     },
 
     heroSection: {
@@ -295,37 +251,6 @@ const ConEdge = () => {
       zIndex: "5",
     },
 
-    ctaButtonPrimary: {
-      background: "#0edb61",
-      color: "#ffffff",
-      border: "none",
-      padding: "14px 36px",
-      fontSize: "1rem",
-      fontWeight: "700",
-      borderRadius: "50px",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      textTransform: "uppercase",
-      letterSpacing: "0.5px",
-      boxShadow: "0 4px 15px rgba(14, 219, 97, 0.3)",
-    },
-
-    ctaButtonSecondary: {
-      background: "rgba(255, 255, 255, 0.15)",
-      backdropFilter: "blur(5px)",
-      color: "#ffffff",
-      border: "1px solid rgba(255, 255, 255, 0.6)",
-      padding: "14px 36px",
-      fontSize: "1rem",
-      fontWeight: "700",
-      borderRadius: "50px",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      textTransform: "uppercase",
-      letterSpacing: "0.5px",
-    },
-
-    // Apply #131B21 Background
     aboutSection: {
       padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
       minHeight: "80vh",
@@ -334,6 +259,7 @@ const ConEdge = () => {
       justifyContent: "center",
       backgroundColor: "#131B21",
       textAlign: "center",
+      position: "relative",
     },
 
     sectionTitle: {
@@ -344,40 +270,11 @@ const ConEdge = () => {
       marginBottom: "2rem",
     },
 
-    aboutText: {
-      fontSize: "clamp(1rem, 3vw, 1.2rem)",
-      color: "#A0ABB5",
-      lineHeight: "1.8",
-      maxWidth: "800px",
-      margin: "0 auto",
-    },
-
-    strongText: {
-      color: "#39CC2F",
-      fontWeight: "700",
-    },
-
     statsGrid: {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
       gap: "2rem",
       marginTop: "3rem",
-    },
-
-    // Lifted 3D Card Style for Stats
-    statCard: {
-      background: "linear-gradient(145deg, #1c2730, #131b21)",
-      padding: "2rem",
-      borderRadius: "15px",
-      textAlign: "center",
-      display: "flex",   
-      flexDirection: "column", 
-      alignItems: "center",      
-      gap: "0.5rem",     
-      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
-      border: "1px solid rgba(255, 255, 255, 0.03)", 
-      borderTop: "1px solid rgba(255, 255, 255, 0.12)",
-      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
     },
 
     statNumber: {
@@ -396,10 +293,11 @@ const ConEdge = () => {
       letterSpacing: "1px",
     },
 
-    // Apply #19232A Background
     toolsSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
       backgroundColor: "#19232A", 
+      position: "relative",
+      overflow: "hidden",
     },
 
     toolsGrid: {
@@ -409,51 +307,6 @@ const ConEdge = () => {
       marginTop: "3rem",
     },
 
-    // Lifted 3D Card Style for Tools
-    toolCard: {
-      background: "linear-gradient(145deg, #1c2730, #131b21)",
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
-      border: "1px solid rgba(255, 255, 255, 0.03)",
-      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-      position: "relative", 
-      overflow: "hidden", 
-    },
-
-    toolTitle: {
-      fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
-      fontFamily: "'Unbounded', sans-serif",
-      fontWeight: "700",
-      color: "#ffffff",
-      marginBottom: "1rem",
-      marginTop: "1rem",
-    },
-
-    toolDescription: {
-      fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-      color: "#A0ABB5",
-      lineHeight: "1.6",
-      marginBottom: "1.5rem",
-    },
-
-    toolFeatures: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-    },
-
-    toolFeatureItem: {
-      fontSize: "0.95rem",
-      color: "#A0ABB5",
-      lineHeight: "1.6",
-      marginBottom: "8px",
-      paddingLeft: "0",
-      display: "flex", 
-      alignItems: "flex-start", 
-    },
-
-    // Apply #131B21 Background
     whyChooseSection: {
       padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
       minHeight: "80vh",
@@ -461,6 +314,8 @@ const ConEdge = () => {
       flexDirection: "column",
       justifyContent: "center",
       backgroundColor: "#131B21", 
+      position: "relative",
+      overflow: "hidden",
     },
 
     benefitsGrid: {
@@ -470,37 +325,6 @@ const ConEdge = () => {
       marginTop: "3rem",
     },
 
-    // Lifted 3D Card Style for Benefits
-    benefitCard: {
-      background: "linear-gradient(145deg, #1c2730, #131b21)",
-      padding: "2rem",
-      borderRadius: "15px",
-      textAlign: "center",       
-      display: "flex",   
-      flexDirection: "column", 
-      alignItems: "center",      
-      gap: "1.2rem",     
-      border: "1px solid rgba(255, 255, 255, 0.03)", 
-      borderTop: "1px solid rgba(255, 255, 255, 0.12)",
-      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
-      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-    },
-
-    benefitTitle: {
-      fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
-      fontFamily: "'Unbounded', sans-serif",
-      fontWeight: "700",
-      color: "#ffffff",
-      marginBottom: "0.5rem",
-    },
-
-    benefitDescription: {
-      fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-      color: "#A0ABB5", 
-      lineHeight: "1.6",
-    },
-
-    // Apply #19232A Background
     ctaSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
       backgroundColor: "#19232A",
@@ -509,6 +333,8 @@ const ConEdge = () => {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
+      position: "relative",
+      overflow: "hidden",
     },
 
     ctaTitle: {
@@ -528,22 +354,6 @@ const ConEdge = () => {
       maxWidth: "800px",
       margin: "0 auto 2.5rem",
     },
-
-    ctaHighlight: {
-      background: "#0edb61",
-      padding: "1.5rem 2rem",
-      borderRadius: "50px",
-      fontSize: "clamp(1rem, 2.5vw, 1.2rem)",
-      maxWidth: "800px",
-      margin: "0 auto 2rem",
-      color: "#ffffff",
-      cursor: "pointer",
-      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-      boxShadow: "0 8px 25px rgba(14, 219, 97, 0.2)",
-      fontWeight: "700",
-      textTransform: "uppercase",
-      letterSpacing: "1px",
-    },
   };
 
   return (
@@ -554,7 +364,72 @@ const ConEdge = () => {
             scroll-behavior: smooth;
             scroll-padding-top: 60px;
           }
+          
+          /* ----- Beautiful CSS for the Cards ----- */
+          .conedge-card {
+            background: linear-gradient(145deg, #1c2730, #131b21);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+          }
 
+          .conedge-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
+            border-color: rgba(57, 204, 47, 0.3);
+          }
+
+          /* ----- Beautiful CSS for the Buttons ----- */
+          .btn-primary {
+            background: #0edb61;
+            color: #ffffff;
+            border: none;
+            padding: 14px 36px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(14, 219, 97, 0.3);
+          }
+          .btn-primary:hover {
+            background: #ff1f2c; /* Conedge secondary accent */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 31, 44, 0.3);
+          }
+
+          .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 14px 36px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 1);
+          }
+
+          /* ----- Header CSS ----- */
           .header {
             background-color: transparent;
             box-shadow: none;
@@ -571,10 +446,10 @@ const ConEdge = () => {
           }
           
           .header.scrolled {
-            background-color: ${colors.headerScrolledBg};
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background-color: rgba(19, 27, 33, 0.98);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
           }
           
           .header-container {
@@ -609,7 +484,7 @@ const ConEdge = () => {
           
           .nav-link {
             text-decoration: none;
-            color: ${isDark ? "rgb(255,255,255)" : "#1a1a2e"};
+            color: #ffffff;
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -619,13 +494,11 @@ const ConEdge = () => {
             background: none;
             border: none;
             font-family: inherit;
-            font-size: inherit;
-            font-weight: inherit;
-            text-transform: inherit;
           }
           
           .nav-link:hover {
             transform: translateY(-2px);
+            color: #0edb61;
           }
           
           .dropdown {
@@ -641,19 +514,19 @@ const ConEdge = () => {
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: ${colors.bgCard};
+            background-color: #1c2730;
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
           }
-
+          
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: ${colors.textPrimary};
+            color: #ffffff;
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -663,7 +536,7 @@ const ConEdge = () => {
           }
           
           .dropdown-link:hover {
-            background-color: #f0f0f0;
+            background-color: rgba(255, 255, 255, 0.05);
             color: #0edb61;
           }
           
@@ -672,34 +545,33 @@ const ConEdge = () => {
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: ${isDark ? "rgb(255,255,255)" : "#1a1a2e"};
+            color: #ffffff;
             display: none;
             padding: 5px;
           }
-
+          
           .mobile-nav {
-            background-color: ${isDark ? "rgba(19,27,33,0.98)" : "rgba(255,255,255,0.98)"};
+            background-color: rgba(19, 27, 33, 0.98);
             backdrop-filter: blur(10px);
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
           }
-
+          
           .mobile-nav-link {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: ${colors.textPrimary};
-            border-bottom: 1px solid #f3f4f6;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 16px;
             transition: background-color 0.3s ease;
             background: none;
             border: none;
             font-family: inherit;
-            cursor: pointer;
-            text-align: left;
             width: 100%;
+            text-align: left;
           }
           
           .mobile-nav-link:hover {
@@ -715,58 +587,27 @@ const ConEdge = () => {
             align-items: center;
             justify-content: space-between;
           }
-
+          
           .mobile-dropdown-content {
-            background-color: ${colors.bgSurface};
+            background-color: #131B21;
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
           }
-
+          
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: ${colors.textPrimary};
+            color: #ffffff;
             text-decoration: none;
             font-size: 14px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
           }
           
           .rotate-180 {
             transform: rotate(180deg);
             transition: transform 0.3s ease;
           }
-
-          /* Animation Keyframes */
-          @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes slideInFromTop {
-            from { opacity: 0; transform: translateY(-60px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes zoomIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-          }
-          @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(14, 219, 97, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(14, 219, 97, 0.6); }
-          }
-
-          .animate-pulse-glow { animation: pulseGlow 2s infinite; }
-          .animate-slide-in-top { animation: slideInFromTop 1s ease-out forwards; }
-          .animate-zoom-in { animation: zoomIn 0.8s ease-out forwards; }
-          .animate-fade-in-up { animation: fadeInUp 1.2s ease-out forwards; }
-
-          .animate-on-scroll { opacity: 0; transform: translateY(60px); }
-          .section-animate { opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-          .section-animate.animate { opacity: 1; }
-
-          .stagger-1 { animation-delay: 0.1s; }
-          .stagger-2 { animation-delay: 0.3s; }
-          .stagger-3 { animation-delay: 0.5s; }
 
           @media (max-width: 1024px) {
             .desktop-nav { display: none !important; }
@@ -855,7 +696,9 @@ const ConEdge = () => {
                       className="mobile-nav-sublink"
                       onClick={(e) => {
                         e.preventDefault();
-                        handleNavigation(brand.route);
+                        navigate(brand.route);
+                        setMobileMenuOpen(false);
+                        setMobileSubBrandsDropdownOpen(false);
                       }}
                     >
                       {brand.name}
@@ -881,49 +724,27 @@ const ConEdge = () => {
       </header>
 
       {/* Hero Section */}
-      <section id="hero" style={styles.heroSection} ref={heroRef}>
-        <div style={styles.heroContent} key={heroAnimationKey}>
+      <section id="hero" style={styles.heroSection}>
+        <div style={styles.heroContent}>
           <img
             src="/assets/logo/5.png"
             alt="8ConEdge"
             style={styles.heroTopImage}
-            className={`animate-on-scroll ${animatedSections.has("hero") ? "animate-slide-in-top" : ""}`}
+            className="fade-in-up anim-delay-1"
           />
 
           <div style={styles.heroForegroundContent}>
-            <p style={styles.heroSubtitle} className={`animate-on-scroll ${animatedSections.has("hero") ? "animate-fade-in-up stagger-1" : ""}`}>
+            <p style={styles.heroSubtitle} className="fade-in-up anim-delay-2">
               Cutting-Edge Forex Tools for Trading Excellence
             </p>
-            <p style={styles.heroDescription} className={`animate-on-scroll ${animatedSections.has("hero") ? "animate-fade-in-up stagger-2" : ""}`}>
+            <p style={styles.heroDescription} className="fade-in-up anim-delay-3">
               Proprietary Forex tools and advanced trading systems designed to enhance trading efficiency, maximize profits, and provide traders with the competitive edge they need to succeed in the global markets.
             </p>
-            <div style={styles.heroButtons} className={`animate-on-scroll ${animatedSections.has("hero") ? "animate-zoom-in stagger-3" : ""}`}>
-              <button
-                style={styles.ctaButtonPrimary}
-                className={animatedSections.has("hero") ? "animate-pulse-glow" : ""}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#ff1f2c";
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#0edb61";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
+            <div style={styles.heroButtons} className="fade-in-up anim-delay-4">
+              <button className="btn-primary">
                 Start Free Trial
               </button>
-              <button
-                style={styles.ctaButtonSecondary}
-                onClick={() => handleSmoothScroll("tools")}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.25)";
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
+              <button className="btn-secondary" onClick={() => handleSmoothScroll("tools")}>
                 Explore Tools
               </button>
             </div>
@@ -932,18 +753,13 @@ const ConEdge = () => {
       </section>
 
       {/* About Section */}
-      <section
-        id="about"
-        ref={aboutRef}
-        style={styles.aboutSection}
-        className={`section-animate ${animatedSections.has("about") ? "animate" : ""}`}
-      >
+      <section id="about" style={styles.aboutSection}>
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }}>
+          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up anim-delay-1">
             ADVANCED <span style={{ color: "#39CC2F" }}>TRADING TECHNOLOGY</span>
           </h2>
-          <p style={styles.aboutText}>
-            8ConEdge delivers <strong style={styles.strongText}>cutting-edge proprietary Forex tools</strong> that revolutionize the way traders analyze markets, execute trades, and manage risk. Our advanced technology combines artificial intelligence, real-time market analysis, and sophisticated algorithms to provide traders with unparalleled insights and trading advantages.
+          <p style={styles.aboutText} className="fade-in-up anim-delay-2">
+            8ConEdge delivers <strong style={{ color: "#39CC2F", fontWeight: "700" }}>cutting-edge proprietary Forex tools</strong> that revolutionize the way traders analyze markets, execute trades, and manage risk. Our advanced technology combines artificial intelligence, real-time market analysis, and sophisticated algorithms to provide traders with unparalleled insights and trading advantages.
           </p>
           <div style={styles.statsGrid}>
             {[
@@ -951,24 +767,11 @@ const ConEdge = () => {
               { number: "24/7", label: "Market Monitoring" },
               { number: "500+", label: "Active Traders" }
             ].map((stat, index) => (
-              <div
-                key={index}
-                className={`section-animate ${animatedSections.has("about") ? "animate" : ""}`}
-                style={styles.statCard}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
-                  e.currentTarget.style.boxShadow = "0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px rgba(57, 204, 47, 0.25)"; 
-                  e.currentTarget.style.borderColor = "rgba(57, 204, 47, 0.5)"; 
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)"; 
-                  e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
-                }}
-              >
-                <div style={styles.statNumber}>{stat.number}</div>
-                <div style={styles.statLabel}>{stat.label}</div>
+              <div key={index} className={`scale-up anim-delay-${(index % 3) + 3}`}>
+                <div className="conedge-card" style={{ alignItems: "center", justifyContent: "center" }}>
+                  <div style={styles.statNumber}>{stat.number}</div>
+                  <div style={styles.statLabel}>{stat.label}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -976,14 +779,10 @@ const ConEdge = () => {
       </section>
 
       {/* Tools Section */}
-      <section
-        id="tools"
-        ref={toolsRef}
-        style={styles.toolsSection}
-        className={`section-animate ${animatedSections.has("tools") ? "animate" : ""}`}
-      >
+      <section id="tools" style={styles.toolsSection}>
+        <TradingBackground variant={2} /> {/* Using variant 2 for a different look */}
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }}>
+          <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
             OUR PROPRIETARY TOOLS
           </h2>
           <div style={styles.toolsGrid}>
@@ -1028,34 +827,21 @@ const ConEdge = () => {
               const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
 
               return (
-                <div
-                  key={index}
-                  ref={(el) => (toolCardsRef.current[index] = el)}
-                  style={styles.toolCard}
-                  className="section-animate animate"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
-                    e.currentTarget.style.boxShadow = "0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px rgba(57, 204, 47, 0.25)"; 
-                    e.currentTarget.style.borderColor = "rgba(57, 204, 47, 0.5)"; 
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0) scale(1)";
-                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
-                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
-                  }}
-                >
-                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
-                  <div>{tool.icon}</div>
-                  <h3 style={styles.toolTitle}>{tool.title}</h3>
-                  <p style={styles.toolDescription}>{tool.description}</p>
-                  <ul style={styles.toolFeatures}>
-                    {tool.features.map((feature, idx) => (
-                      <li key={idx} style={styles.toolFeatureItem}>
-                        <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div key={index} className={`slide-in-right anim-delay-${(index % 6) + 1}`}>
+                  <div className="conedge-card">
+                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "4px", backgroundColor: topColor }} />
+                    <div>{tool.icon}</div>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "1rem", marginTop: "1rem" }}>{tool.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6", marginBottom: "1.5rem" }}>{tool.description}</p>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                      {tool.features.map((feature, idx) => (
+                        <li key={idx} style={{ fontSize: "0.95rem", color: "#A0ABB5", lineHeight: "1.6", marginBottom: "8px", paddingLeft: "0", display: "flex", alignItems: "flex-start" }}>
+                          <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               );
             })}
@@ -1064,14 +850,10 @@ const ConEdge = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section
-        id="why-choose"
-        ref={whyChooseRef}
-        style={styles.whyChooseSection}
-        className={`section-animate ${animatedSections.has("why-choose") ? "animate" : ""}`}
-      >
+      <section id="why-choose" style={styles.whyChooseSection}>
+        <TradingBackground variant={1} />
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff", textTransform: "uppercase" }}>
+          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff", textTransform: "uppercase" }} className="fade-in-up">
             WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONEDGE?</span>
           </h2>
           <div style={styles.benefitsGrid}>
@@ -1097,27 +879,13 @@ const ConEdge = () => {
                 icon: <Users size={48} color="#39CC2F" strokeWidth={1.5} />
               },
             ].map((benefit, index) => (
-              <div
-                key={index}
-                ref={(el) => (benefitCardsRef.current[index] = el)}
-                style={styles.benefitCard}
-                className="section-animate animate"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
-                  e.currentTarget.style.boxShadow = "0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px rgba(57, 204, 47, 0.25)"; 
-                  e.currentTarget.style.borderColor = "rgba(57, 204, 47, 0.5)"; 
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0) scale(1)";
-                  e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)"; 
-                  e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
-                }}
-              >
-                <div>{benefit.icon}</div>
-                <div>
-                  <h3 style={styles.benefitTitle}>{benefit.title}</h3>
-                  <p style={styles.benefitDescription}>{benefit.description}</p>
+              <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
+                <div className="conedge-card" style={{ alignItems: "center", textAlign: "center" }}>
+                  <div>{benefit.icon}</div>
+                  <div>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem", marginTop: "1rem" }}>{benefit.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{benefit.description}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -1126,33 +894,45 @@ const ConEdge = () => {
       </section>
 
       {/* CTA Section */}
-      <section
-        id="cta"
-        ref={ctaRef}
-        style={styles.ctaSection}
-        className={`section-animate ${animatedSections.has("cta") ? "animate" : ""}`}
-      >
+      <section id="cta" style={styles.ctaSection}>
+        <TradingBackground variant={2} />
         <div style={styles.container2}>
-          <h2 style={styles.ctaTitle}>
+          <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             Transform Your Trading Journey with <span style={{ color: "#ff1f2c" }}>8ConEdge</span>
           </h2>
-          <p style={styles.ctaDescription}>
+          <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
             Don't let another profitable opportunity slip away. With 8ConEdge's cutting-edge proprietary tools, you'll gain the precision, speed, and intelligence that separates consistently profitable traders from the rest. Our AI-powered market analysis, lightning-fast execution, and advanced risk management systems work together 24/7 to maximize your trading potential while protecting your capital.
           </p>
-          <div
-            style={styles.ctaHighlight}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "#ff1f2c";
-              e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
-              e.currentTarget.style.boxShadow = "0 15px 35px rgba(255, 31, 44, 0.3)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "#0edb61";
-              e.currentTarget.style.transform = "translateY(0) scale(1)";
-              e.currentTarget.style.boxShadow = "0 8px 25px rgba(14, 219, 97, 0.2)";
-            }}
-          >
-            🚀 Unlock Your Trading Potential - Start Your 14-Day Free Trial!
+          <div className="fade-in-up anim-delay-3" style={{ display: "inline-block" }}>
+            <div
+              style={{
+                background: "#0edb61",
+                padding: "1.5rem 2rem",
+                borderRadius: "50px",
+                fontSize: "clamp(1rem, 2.5vw, 1.2rem)",
+                maxWidth: "800px",
+                margin: "0 auto",
+                color: "#ffffff",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                boxShadow: "0 4px 15px rgba(14, 219, 97, 0.3)",
+                fontWeight: "700",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#ff1f2c";
+                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 8px 25px rgba(255, 31, 44, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#0edb61";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.3)";
+              }}
+            >
+              🚀 Unlock Your Trading Potential - Start Your 14-Day Free Trial!
+            </div>
           </div>
         </div>
       </section>
