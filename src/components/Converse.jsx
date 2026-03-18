@@ -15,14 +15,12 @@ import {
   BookOpen,
   Users,
   Clock,
-  CheckCircle,
-  Mic,
-  PenTool,
-  Eye,
-  MapPin,
-  GraduationCap,
   Briefcase,
+  GraduationCap,
   Plane,
+  Mic,
+  Check, // Imported for clean bullet points
+  Handshake,
 } from "lucide-react";
 
 const ConVerse = () => {
@@ -34,10 +32,8 @@ const ConVerse = () => {
     useState(false);
   const [animatedSections, setAnimatedSections] = useState(new Set());
   const isAnimated = (sectionId) => animatedSections.has(sectionId);
-  // const [visibleSections, setVisibleSections] = useState(new Set());
   const [isInHeroSection, setIsInHeroSection] = useState(false);
   const [heroAnimationKey, setHeroAnimationKey] = useState(0);
-  const [isAtTop, setIsAtTop] = useState(true);
 
   // Refs for sections
   const heroRef = useRef(null);
@@ -105,6 +101,13 @@ const ConVerse = () => {
       icon: <Users size={60} />,
     },
     {
+      id: "conpact",
+      name: "8ConPact",
+      route: "/8conpact",
+      desc: "Collaborate for Impact in Livelihood, Education, and Employment.",
+      icon: <Handshake size={60} />,
+    },
+    {
       id: "consult",
       name: "8ConSult",
       route: "/8consult",
@@ -147,7 +150,7 @@ const ConVerse = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Observer for hero section to detect when user is at top
+  // Observer for hero section
   useEffect(() => {
     const heroObserverOptions = {
       threshold: 0.6,
@@ -161,15 +164,15 @@ const ConVerse = () => {
 
         setIsInHeroSection(nowInHero);
 
-        if (nowInHero) {
-          // Reset ALL section animations when entering hero section
+        if (nowInHero && !wasInHero) {
           setAnimatedSections(new Set());
           setHeroAnimationKey((prev) => prev + 1);
 
-          // Trigger hero animation
           setTimeout(() => {
             setAnimatedSections((prev) => new Set([...prev, "hero"]));
           }, 100);
+        } else if (nowInHero && wasInHero) {
+          setAnimatedSections((prev) => new Set([...prev, "hero"]));
         }
       });
     }, heroObserverOptions);
@@ -180,6 +183,7 @@ const ConVerse = () => {
 
     return () => heroObserver.disconnect();
   }, [isInHeroSection]);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
@@ -208,6 +212,7 @@ const ConVerse = () => {
     }
     setMobileMenuOpen(false);
   };
+
   const handleLearnMore = () => {
     handleSmoothScroll("services");
   };
@@ -221,6 +226,7 @@ const ConVerse = () => {
     }, 300);
   }, []);
 
+  // Premium Dark Theme & 3D Lifted Styles
   const styles = {
     container: {
       minHeight: "100vh",
@@ -235,13 +241,18 @@ const ConVerse = () => {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "0 20px",
+      "@media (max-width: 768px)": {
+        padding: "0 15px",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0 12px",
+      },
     },
 
-    // Hero Section - Green Background
     heroSection: {
       minHeight: "100vh",
       backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A", // Fallback color
+      backgroundColor: "#19232A",
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -352,264 +363,163 @@ const ConVerse = () => {
       background: "#ff1f2c",
       color: "#ffffff",
       border: "none",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
+      letterSpacing: "0.5px",
     },
 
-    // Why Language Proficiency Matters Section
+    // Apply #131B21 Background
     importanceSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
+      backgroundColor: "#131B21", 
     },
 
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#0edb61",
+      color: "#ffffff",
       textAlign: "center",
       marginBottom: "3rem",
+      textTransform: "uppercase",
     },
 
-    importanceGrid: {
+    // 2x2 Grid Layout
+    grid2x2: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-      gap: "2rem",
+      gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 450px), 1fr))",
+      gap: "2.5rem",
       marginTop: "2rem",
     },
 
-    importanceCard: {
-      background: colors.bgCard,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-      textAlign: "center",
+    // Flex layout to center the bottom card
+    flexCenteredGrid: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+      gap: "2.5rem",
+      marginTop: "2rem",
     },
 
-    importanceIcon: {
-      marginBottom: "1rem",
+    // 3D Floating Card Style
+    cardStyle: {
+      background: "linear-gradient(145deg, #1c2730, #131b21)",
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
+      border: "1px solid rgba(255, 255, 255, 0.03)",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      position: "relative", 
+      overflow: "hidden",
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "1rem",
+    },
+
+    cardIcon: {
       display: "flex",
       justifyContent: "center",
     },
 
-    importanceTitle: {
-      fontSize: "1.3rem",
+    cardTitle: {
+      fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#0edb61",
-      marginBottom: "1rem",
+      color: "#ffffff",
+      marginBottom: "0.5rem",
     },
 
-    importanceDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1.5rem",
+    cardDescription: {
+      fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
+      color: "#A0ABB5",
       lineHeight: "1.6",
     },
 
-    importanceList: {
+    cardList: {
       listStyle: "none",
       padding: 0,
       margin: 0,
       textAlign: "left",
+      width: "100%",
+      marginTop: "0.5rem",
     },
 
-    importanceListItem: {
+    cardListItem: {
       fontSize: "0.95rem",
-      color: colors.textPrimary,
+      color: "#A0ABB5",
       marginBottom: "0.8rem",
       lineHeight: "1.5",
+      display: "flex",
+      alignItems: "flex-start",
     },
 
-    // How ConVerse Helps Section
+    // Apply #19232A Background
     servicesSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
       display: "flex",
-      alignItems: "center",
-    },
-
-    servicesGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "2rem",
-      marginTop: "2rem",
-    },
-
-    serviceCard: {
-      background: colors.bgCard,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      textAlign: "center",
-      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-    },
-
-    serviceIcon: {
-      marginBottom: "1rem",
-      display: "flex",
+      flexDirection: "column",
       justifyContent: "center",
+      backgroundColor: "#19232A", 
     },
 
-    serviceTitle: {
-      fontSize: "1.4rem",
-      fontWeight: "700",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-    },
-
-    serviceDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1.5rem",
-      lineHeight: "1.7",
-    },
-
-    serviceList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-      textAlign: "left",
-    },
-
-    serviceListItem: {
-      fontSize: "0.95rem",
-      color: colors.textPrimary,
-      marginBottom: "0.8rem",
-      lineHeight: "1.5",
-    },
-
-    // Why Choose ConVerse Section
+    // Apply #131B21 Background
     whyChooseSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
       display: "flex",
-      alignItems: "center",
-    },
-
-    benefitsGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "2rem",
-      marginTop: "2rem",
-    },
-
-    benefitCard: {
-      background: colors.bgCard,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      textAlign: "center",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-    },
-
-    benefitTitle: {
-      fontSize: "1.4rem",
-      fontWeight: "700",
-      color: "#0edb61",
-      marginBottom: "1rem",
-    },
-
-    benefitDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      lineHeight: "1.7",
-    },
-
-    // Who Can Benefit Section
-    clientsSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-    },
-
-    clientsGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-      gap: "3rem",
-      marginTop: "3rem",
-    },
-
-    clientCategory: {
-      background: colors.bgCard,
-      padding: "2.5rem",
-      borderRadius: "15px",
-      border: "2px solid #0edb61",
-      textAlign: "center",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-    },
-
-    clientIcon: {
-      marginBottom: "1rem",
-      display: "flex",
+      flexDirection: "column",
       justifyContent: "center",
+      backgroundColor: "#131B21", 
     },
 
-    clientTitle: {
-      fontSize: "1.5rem",
-      fontWeight: "700",
-      color: "#0edb61",
-      marginBottom: "1.5rem",
-    },
-
-    clientList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-      textAlign: "left",
-    },
-
-    clientListItem: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-      lineHeight: "1.6",
-    },
-
-    // CTA Section
-    ctaSection: {
-      background: colors.bgSurface,
-      color: colors.textPrimary,
-      padding: "80px 20px",
-      textAlign: "center",
-      minHeight: "100vh",
+    // Apply #19232A Background for Benefits Section
+    benefitsSection: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
       display: "flex",
-      alignItems: "center",
+      flexDirection: "column",
+      justifyContent: "center",
+      backgroundColor: "#19232A", 
+    },
+
+    // Apply #131B21 Background
+    ctaSection: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      backgroundColor: "#131B21", 
+      textAlign: "center",
     },
 
     ctaTitle: {
-      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontSize: "clamp(2rem, 5vw, 2.8rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      marginBottom: "2rem",
-      color: colors.textPrimary,
+      color: "#ffffff",
+      marginBottom: "1.5rem",
+      textTransform: "uppercase",
     },
 
     ctaDescription: {
       fontSize: "clamp(1rem, 3vw, 1.2rem)",
       lineHeight: "1.8",
       maxWidth: "800px",
-      margin: "0 auto 2rem",
-      opacity: "0.95",
-      color: colors.textPrimary,
+      margin: "0 auto 2.5rem",
+      color: "#A0ABB5",
     },
 
     ctaButtons: {
@@ -621,260 +531,240 @@ const ConVerse = () => {
     },
 
     ctaHighlight: {
-      background: "rgba(14, 219, 97, 0.1)",
-      padding: "1.5rem",
-      borderRadius: "10px",
-      fontSize: "clamp(1.1rem, 3vw, 1.3rem)",
-      maxWidth: "700px",
+      background: "#19232A",
+      padding: "1.5rem 2rem",
+      borderRadius: "15px",
+      fontSize: "clamp(1rem, 3vw, 1.3rem)",
+      maxWidth: "800px",
       margin: "0 auto",
-      border: "2px solid #0edb61",
-      color: colors.textPrimary,
-      transition: "all 0.3s ease",
+      border: "1px solid rgba(255, 255, 255, 0.05)",
+      color: "#ffffff",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
     },
   };
 
+  // Data Arrays for clean mapping
+  const importanceData = [
+    {
+      icon: <Briefcase size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Access to In-Demand Jobs",
+      description: "Healthcare professionals, BPO workers, teachers, and skilled tradespeople need language certifications for local and international opportunities.",
+      items: [
+        "Healthcare: Nurses, caregivers, medical workers",
+        "BPO: Customer service, technical support",
+        "Education: International schools, universities",
+        "Hospitality: Hotels, cruise lines, tourism"
+      ]
+    },
+    {
+      icon: <GraduationCap size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Academic Opportunities",
+      description: "Universities and colleges in English-speaking countries require IELTS, TOEFL, or equivalent scores for admission and scholarship programs.",
+      items: [
+        "University admissions worldwide",
+        "Scholarship program eligibility",
+        "Advanced study opportunities",
+        "Research collaboration access"
+      ]
+    },
+    {
+      icon: <TrendingUp size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Competitive Advantage",
+      description: "Language proficiency opens doors to promotions, higher salaries, and better job opportunities both locally and internationally.",
+      items: [
+        "Career advancement opportunities",
+        "Higher salary potential",
+        "Professional confidence building",
+        "Global communication skills"
+      ]
+    }
+  ];
+
+  const servicesData = [
+    {
+      icon: <BookOpen size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Comprehensive Review",
+      description: "Tailored courses for IELTS, TOEFL, and other certification exams with complete skill development.",
+      items: [
+        "Listening, Reading, Writing, Speaking Skills",
+        "Practice tests aligned with actual exam formats",
+        "Score maximization strategies",
+        "Time management techniques"
+      ]
+    },
+    {
+      icon: <Users size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Experienced Instructors",
+      description: "Learn from seasoned language coaches who specialize in preparing students for high-stakes exams.",
+      items: [
+        "Expert tips and strategies",
+        "Personalized feedback",
+        "Proven teaching methodologies",
+        "Individual attention"
+      ]
+    },
+    {
+      icon: <Mic size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Interactive Learning",
+      description: "Engage in role-playing, mock interviews, and real-world scenarios to improve fluency and confidence.",
+      items: [
+        "Role-playing exercises",
+        "Mock interview sessions",
+        "Real-world communication scenarios",
+        "Confidence building activities"
+      ]
+    },
+    {
+      icon: <Clock size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Flexible Learning Options",
+      description: "On-site and online classes designed to fit the busy schedules of working professionals and students.",
+      items: [
+        "On-site classroom sessions",
+        "Online virtual classes",
+        "Flexible scheduling",
+        "Self-paced learning modules"
+      ]
+    }
+  ];
+
+  const whyChooseData = [
+    {
+      icon: <Award size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Proven Success",
+      description: "With a track record of students passing IELTS, TOEFL, and other exams, we've helped individuals unlock opportunities globally."
+    },
+    {
+      icon: <Target size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Industry-Relevant Training",
+      description: "Tailored programs to meet the needs of high-demand professions both locally and abroad, ensuring relevant and focused learning."
+    },
+    {
+      icon: <Brain size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Confidence Building",
+      description: "Beyond exams, 8ConVerse equips students with the practical communication skills needed for workplace and social interactions."
+    },
+    {
+      icon: <Users size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Supportive Community",
+      description: "A welcoming environment that encourages growth, learning, and success with peer support and collaborative learning."
+    }
+  ];
+
+  const benefitsData = [
+    {
+      icon: <Plane size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Aspiring Overseas Workers",
+      items: [
+        "Healthcare professionals seeking international opportunities",
+        "Skilled workers and tradespeople",
+        "Professionals looking to qualify for jobs abroad"
+      ]
+    },
+    {
+      icon: <TrendingUp size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Professionals Seeking Advancement",
+      items: [
+        "BPO and customer service employees",
+        "Hospitality and tourism workers",
+        "Education sector professionals"
+      ]
+    },
+    {
+      icon: <GraduationCap size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Students & Migrants",
+      items: [
+        "High school and college students",
+        "Those preparing for admissions abroad",
+        "Families applying for migration programs"
+      ]
+    }
+  ];
+
   return (
     <div style={styles.container}>
-      {/* Add CSS styles with animations */}
       <style>
         {`
+          :root {
+            --header-scrolled-bg: ${colors.headerScrolledBg};
+            --header-text: ${isDark ? "rgb(255,255,255)" : "#1a1a2e"};
+            --header-dropdown-bg: ${colors.bgCard};
+            --header-dropdown-text: ${colors.textPrimary};
+            --header-mobile-bg: ${isDark ? "rgba(19,27,33,0.98)" : "rgba(255,255,255,0.98)"};
+            --header-mobile-text: ${colors.textPrimary};
+          }
+
           html {
             scroll-behavior: smooth;
-            scroll-padding-top: 2px;
+            scroll-padding-top: 60px;
           }
-          
-          /* Animation keyframes */
+
+          /* Enhanced Animation Keyframes */
           @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(60px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
           }
           
           @keyframes fadeInLeft {
-            from {
-              opacity: 0;
-              transform: translateX(-60px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(-60px); }
+            to { opacity: 1; transform: translateX(0); }
           }
           
           @keyframes fadeInRight {
-            from {
-              opacity: 0;
-              transform: translateX(60px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
           }
           
           @keyframes scaleIn {
-            from {
-              opacity: 0;
-              transform: scale(0.8);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.7) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
           }
           
           @keyframes bounceIn {
-            0% {
-              opacity: 0;
-              transform: scale(0.3) translateY(-50px);
-            }
-            50% {
-              opacity: 1;
-              transform: scale(1.05) translateY(-10px);
-            }
-            70% {
-              transform: scale(0.95) translateY(0);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1) translateY(0);
-            }
+            0% { opacity: 0; transform: scale(0.2) translateY(50px); }
+            50% { opacity: 1; transform: scale(1.1) translateY(-10px); }
+            70% { transform: scale(0.95) translateY(5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
           }
           
-          @keyframes slideInFromBottom {
-            from {
-              opacity: 0;
-              transform: translateY(100px) rotate(5deg);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0) rotate(0deg);
-            }
+          @keyframes slideInFromTop {
+            from { opacity: 0; transform: translateY(-60px); }
+            to { opacity: 1; transform: translateY(0); }
           }
           
-          @keyframes pulse {
-            0%, 100% {
-              transform: scale(1);
-            }
-            50% {
-              transform: scale(1.02);
-            }
+          @keyframes rotateIn {
+            from { opacity: 0; transform: rotate(-180deg) scale(0.5); }
+            to { opacity: 1; transform: rotate(0deg) scale(1); }
           }
+          
+          @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.3); }
+            to { opacity: 1; transform: scale(1); }
+          }
+          
           @keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(14, 219, 97, 0.6);
-  }
-}
-
-@keyframes slideInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2s infinite;
-}
-
-.animate-slide-in-top {
-  animation: slideInFromTop 1s ease-out forwards;
-}
-
-.animate-zoom-in {
-  animation: zoomIn 0.8s ease-out forwards;
-}
-
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.3s; }
-.stagger-3 { animation-delay: 0.5s; }
-          /* Base styles for animated elements */
-          .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(60px);
-            transition: none;
+            0%, 100% { box-shadow: 0 0 20px rgba(14, 219, 97, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(14, 219, 97, 0.6); }
           }
           
-          /* Hero animations */
-         .animate-hero-title {
-            animation: fadeInUp 1.2s ease-out 0.2s both;
-          }
-
-          .animate-hero-subtitle {
-            animation: fadeInUp 1.2s ease-out 0.4s both;
-          }
-
-          .animate-hero-description {
-            animation: fadeInUp 1.2s ease-out 0.6s both;
-          }
-
-          .animate-hero-buttons {
-            animation: fadeInUp 1.2s ease-out 0.8s both;
-          }
-          .animate-fade-in-up {
-            animation: fadeInUp 1.2s ease-out forwards;
-          }
+          .animate-fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+          .animate-fade-in-left { animation: fadeInLeft 1s ease-out forwards; }
+          .animate-fade-in-right { animation: fadeInRight 1s ease-out forwards; }
+          .animate-scale-in { animation: scaleIn 0.8s ease-out forwards; }
+          .animate-bounce-in { animation: bounceIn 1s ease-out forwards; }
+          .animate-slide-in-top { animation: slideInFromTop 1s ease-out forwards; }
+          .animate-rotate-in { animation: rotateIn 1s ease-out forwards; }
+          .animate-zoom-in { animation: zoomIn 0.8s ease-out forwards; }
+          .animate-pulse-glow { animation: pulseGlow 2s infinite; }
           
-          /* Section animations */
-          .section-visible .section-title {
-            animation: fadeInUp 1s ease-out 0.1s both;
-          }
+          .stagger-1 { animation-delay: 0.1s; }
+          .stagger-2 { animation-delay: 0.3s; }
+          .stagger-3 { animation-delay: 0.5s; }
+          .stagger-4 { animation-delay: 0.7s; }
+          .stagger-5 { animation-delay: 0.9s; }
           
-          .section-visible .importance-card:nth-child(1) {
-            animation: fadeInLeft 1s ease-out 0.2s both;
-          }
-          
-          .section-visible .importance-card:nth-child(2) {
-            animation: fadeInUp 1s ease-out 0.4s both;
-          }
-          
-          .section-visible .importance-card:nth-child(3) {
-            animation: fadeInRight 1s ease-out 0.6s both;
-          }
-          
-          .section-visible .service-card:nth-child(1) {
-            animation: scaleIn 1s ease-out 0.2s both;
-          }
-          
-          .section-visible .service-card:nth-child(2) {
-            animation: scaleIn 1s ease-out 0.4s both;
-          }
-          
-          .section-visible .service-card:nth-child(3) {
-            animation: scaleIn 1s ease-out 0.6s both;
-          }
-          
-          .section-visible .service-card:nth-child(4) {
-            animation: scaleIn 1s ease-out 0.8s both;
-          }
-          
-          .section-visible .benefit-card:nth-child(1) {
-            animation: bounceIn 1s ease-out 0.2s both;
-          }
-          
-          .section-visible .benefit-card:nth-child(2) {
-            animation: bounceIn 1s ease-out 0.4s both;
-          }
-          
-          .section-visible .benefit-card:nth-child(3) {
-            animation: bounceIn 1s ease-out 0.6s both;
-          }
-          
-          .section-visible .benefit-card:nth-child(4) {
-            animation: bounceIn 1s ease-out 0.8s both;
-          }
-          
-          .section-visible .client-category:nth-child(1) {
-            animation: slideInFromBottom 1s ease-out 0.2s both;
-          }
-          
-          .section-visible .client-category:nth-child(2) {
-            animation: slideInFromBottom 1s ease-out 0.4s both;
-          }
-          
-          .section-visible .client-category:nth-child(3) {
-            animation: slideInFromBottom 1s ease-out 0.6s both;
-          }
-          
-          .section-visible .cta-title {
-            animation: fadeInUp 1s ease-out 0.1s both;
-          }
-          
-          .section-visible .cta-description {
-            animation: fadeInUp 1s ease-out 0.3s both;
-          }
-          
-          .section-visible .cta-buttons {
-            animation: fadeInUp 1s ease-out 0.5s both;
-          }
-          
-          .section-visible .cta-highlight {
-            animation: pulse 2s ease-in-out 0.7s both infinite;
-          }
+          .animate-on-scroll { opacity: 0; }
           
           .header {
             background-color: transparent;
@@ -883,7 +773,7 @@ const ConVerse = () => {
             top: 0;
             z-index: 1000;
             width: 100%;
-            padding: 10px 0;
+            padding: 8px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
             font-weight: 900;
@@ -897,37 +787,14 @@ const ConVerse = () => {
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
           }
-
+          
           .header-container {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-right: 5%;
-            padding-left: 5%;
+            padding: 0 5%;
           }
-
-          .hero-text-clear {
-  clear: both !important;
-  display: block !important;
-  width: 100% !important;
-  position: relative !important;
-}
-
-.hero-buttons-clear {
-  clear: both !important;
-  display: flex !important;
-  margin-top: 2rem !important;
-  position: relative !important;
-  z-index: 10 !important;
-}
-
-.hero-description-fix {
-  margin-bottom: 3rem !important;
-  padding-bottom: 1rem !important;
-  display: block !important;
-  clear: both !important;
-}
 
           .logo {
             display: flex;
@@ -935,12 +802,9 @@ const ConVerse = () => {
             text-decoration: none;
             margin-right: auto;
           }
-
-          .logo-img {
-            height: 40px;
-            width: auto;
-          }
-
+          
+          .logo-img { height: 40px; width: auto; }
+          
           .desktop-nav {
             display: flex;
             align-items: center;
@@ -949,30 +813,28 @@ const ConVerse = () => {
             font-weight: 600;
             position: relative;
           }
-
+          
           .nav-link {
             text-decoration: none;
             color: var(--header-text);
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
             position: relative;
             display: inline-block;
             cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            text-transform: inherit;
           }
-
-          .nav-link:hover {
-            transform: translateY(-2px);
-          }
-
-          .dropdown {
-            position: relative;
-          }
-
-          .dropdown:hover .dropdown-content {
-            display: block;
-          }
-
+          
+          .nav-link:hover { transform: translateY(-2px); }
+          .dropdown { position: relative; }
+          .dropdown:hover .dropdown-content { display: block; }
+          
           .dropdown-content {
             display: none;
             position: absolute;
@@ -986,7 +848,7 @@ const ConVerse = () => {
             border-radius: 8px;
             border: 1px solid #e0e0e0;
           }
-
+          
           .dropdown-link {
             display: block;
             padding: 12px 20px;
@@ -999,10 +861,7 @@ const ConVerse = () => {
             text-transform: uppercase;
           }
 
-          .dropdown-link:hover {
-            background-color: #f0f0f0;
-            color: #0edb61;
-          }
+          .dropdown-link:hover { background-color: #f0f0f0; color: #0edb61; }
 
           .mobile-menu-toggle {
             background: none;
@@ -1031,34 +890,25 @@ const ConVerse = () => {
             border-bottom: 1px solid #f3f4f6;
             font-size: 16px;
             transition: background-color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
           }
-
-          .mobile-nav-link:hover {
-            background-color: rgba(14, 219, 97, 0.1);
-          }
-
-          .mobile-dropdown {
-            position: relative;
-          }
-
+          
+          .mobile-nav-link:hover { background-color: rgba(14, 219, 97, 0.1); }
+          .mobile-dropdown { position: relative; }
+          
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
-            padding: 15px 20px;
-            text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
-            background: none;
-            border: none;
-            text-align: left;
-            font-size: 16px;
-            cursor: pointer;
           }
 
           .mobile-dropdown-content {
-            background-color: var(--header-dropdown-bg);
+            background-color: rgba(248, 249, 250, 0.9);
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
@@ -1072,25 +922,12 @@ const ConVerse = () => {
             font-size: 14px;
             border-bottom: 1px solid rgba(0,0,0,0.05);
           }
-
-          .rotate-180 {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-          }
-
+          
+          .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
+          
           @media (max-width: 1024px) {
-            .desktop-nav {
-              display: none !important;
-            }
-            .mobile-menu-toggle {
-              display: block !important;
-            }
-          }
-
-          @media (min-width: 1025px) {
-            .mobile-nav {
-              display: none !important;
-            }
+            .desktop-nav { display: none !important; }
+            .mobile-menu-toggle { display: block !important; }
           }
         `}
       </style>
@@ -1128,204 +965,74 @@ const ConVerse = () => {
                 ))}
               </div>
             </div>
-            <a
-              href="#importance"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("importance");
-              }}
-            >
+            <a href="#importance" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("importance"); }}>
               Why Language Matters
             </a>
-            <a
-              href="#services"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("services");
-              }}
-            >
+            <a href="#services" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("services"); }}>
               How We Help
             </a>
-            <a
-              href="#why-choose"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("why-choose");
-              }}
-            >
+            <a href="#why-choose" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("why-choose"); }}>
               Why Choose Us
             </a>
-            <a
-              href="#benefits"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("benefits");
-              }}
-            >
+            <a href="#benefits" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("benefits"); }}>
               Who Benefits
             </a>
-            <a
-              href="#cta"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
+            <a href="#cta" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("cta"); }}>
               Contact
             </a>
           </nav>
 
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="mobile-menu-toggle"
-            aria-label="Toggle mobile menu"
-          >
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="mobile-menu-toggle">
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
         {mobileMenuOpen && (
           <nav className="mobile-nav">
-            <Link to="/sub-brands" className="mobile-nav-link">
-              Home
-            </Link>
-
+            <Link to="/sub-brands" className="mobile-nav-link">Home</Link>
             <div className="mobile-dropdown">
               <button
                 className="mobile-nav-link mobile-dropdown-toggle"
-                onClick={() =>
-                  setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)
-                }
+                onClick={() => setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)}
               >
-                Sub-brands{" "}
-                <ChevronDown
-                  size={16}
-                  className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""}
-                />
+                Sub-brands <ChevronDown size={16} className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""} />
               </button>
               {mobileSubBrandsDropdownOpen && (
                 <div className="mobile-dropdown-content">
                   {subBrandsData.map((brand, index) => (
-                    <a
-                      key={index}
-                      href={brand.route}
-                      className="mobile-nav-sublink"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigation(brand.route);
-                      }}
-                    >
+                    <a key={index} href={brand.route} className="mobile-nav-sublink" onClick={(e) => { e.preventDefault(); handleNavigation(brand.route); }}>
                       {brand.name}
                     </a>
                   ))}
                 </div>
               )}
             </div>
-
-            <a
-              href="#importance"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("importance");
-              }}
-            >
-              Why Language Matters
-            </a>
-            <a
-              href="#services"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("services");
-              }}
-            >
-              How We Help
-            </a>
-            <a
-              href="#why-choose"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("why-choose");
-              }}
-            >
-              Why Choose Us
-            </a>
-            <a
-              href="#benefits"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("benefits");
-              }}
-            >
-              Who Benefits
-            </a>
-            <a
-              href="#cta"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Contact
-            </a>
+            <button onClick={() => handleSmoothScroll("importance")} className="mobile-nav-link">Why Language Matters</button>
+            <button onClick={() => handleSmoothScroll("services")} className="mobile-nav-link">How We Help</button>
+            <button onClick={() => handleSmoothScroll("why-choose")} className="mobile-nav-link">Why Choose Us</button>
+            <button onClick={() => handleSmoothScroll("benefits")} className="mobile-nav-link">Who Benefits</button>
+            <button onClick={() => handleSmoothScroll("cta")} className="mobile-nav-link">Contact</button>
           </nav>
         )}
       </header>
 
-      {/* Hero Section - Green Background */}
+      {/* Hero Section */}
       <section id="hero" ref={heroRef} style={styles.heroSection}>
         <div style={styles.heroContent} key={heroAnimationKey}>
-          {/* Large Brand Logo/Number Image - Like ConCise */}
           <img
             src="/assets/logo/4.png"
             alt="8ConVerse"
             style={styles.heroTopImage}
-            className={`animate-on-scroll ${
-              isAnimated("hero") ? "animate-slide-in-top" : ""
-            }`}
+            className={`animate-on-scroll ${isAnimated("hero") ? "animate-slide-in-top" : ""}`}
           />
-
-          {/* Glassmorphic Content Block */}
           <div style={styles.heroForegroundContent}>
-            {/* Subtitle */}
-            <p
-              style={styles.heroSubtitle}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""
-              }`}
-            >
+            <p style={styles.heroSubtitle} className={`animate-on-scroll ${isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""}`}>
               Fluency Meets Confidence
             </p>
-
-            {/* Description */}
-            <p
-              style={styles.heroDescription}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""
-              }`}
-            >
-              In today's interconnected world, the ability to communicate
-              effectively in English has become a vital skill for success.
-              8ConVerse is dedicated to empowering individuals to master IELTS,
-              TOEFL, and other language certifications.
+            <p style={styles.heroDescription} className={`animate-on-scroll ${isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""}`}>
+              In today's interconnected world, the ability to communicate effectively in English has become a vital skill for success. 8ConVerse is dedicated to empowering individuals to master IELTS, TOEFL, and other language certifications.
             </p>
-
-            {/* Buttons */}
-            <div
-              style={styles.heroButtons}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-zoom-in stagger-3" : ""
-              }`}
-            >
+            <div style={styles.heroButtons} className={`animate-on-scroll ${isAnimated("hero") ? "animate-zoom-in stagger-3" : ""}`}>
               <button
                 style={styles.ctaButtonPrimary}
                 className={isAnimated("hero") ? "animate-pulse-glow" : ""}
@@ -1340,18 +1047,15 @@ const ConVerse = () => {
               >
                 Start Your Journey
               </button>
-
               <button
                 style={styles.ctaButtonSecondary}
                 onClick={handleLearnMore}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0edb61";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.25)";
                   e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
@@ -1362,542 +1066,212 @@ const ConVerse = () => {
         </div>
       </section>
 
-      {/* Why Language Proficiency Matters Section */}
-      <section
-        id="importance"
-        ref={importanceRef}
-        className={isAnimated("importance") ? "section-visible" : ""}
-        style={styles.importanceSection}
-      >
+      {/* Importance Section (HAS TOP COLOR BAR) */}
+      <section id="importance" ref={importanceRef} style={styles.importanceSection}>
         <div style={styles.container2}>
-          <h2
-            className="section-title"
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
-          >
-            Why Language Proficiency Matters
+          <h2 style={styles.sectionTitle} className={`animate-on-scroll ${isAnimated("importance") ? "animate-slide-in-top" : ""}`}>
+            WHY LANGUAGE <span style={{ color: "#39CC2F" }}>MATTERS</span>
           </h2>
-          <div style={styles.importanceGrid}>
-            <div
-              className="importance-card animate-on-scroll"
-              style={styles.importanceCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.importanceIcon}>
-                <Briefcase size={40} color="#0edb61" />
-              </div>
-              <h3 style={styles.importanceTitle}>Access to In-Demand Jobs</h3>
-              <p style={styles.importanceDescription}>
-                Healthcare professionals, BPO workers, teachers, and skilled
-                tradespeople need language certifications for local and
-                international opportunities.
-              </p>
-              <ul style={styles.importanceList}>
-                <li style={styles.importanceListItem}>
-                  • Healthcare: Nurses, caregivers, medical workers
-                </li>
-                <li style={styles.importanceListItem}>
-                  • BPO: Customer service, technical support
-                </li>
-                <li style={styles.importanceListItem}>
-                  • Education: International schools, universities
-                </li>
-                <li style={styles.importanceListItem}>
-                  • Hospitality: Hotels, cruise lines, tourism
-                </li>
-              </ul>
-            </div>
+          {/* Centered with Flex for bottom card */}
+          <div style={styles.flexCenteredGrid}>
+            {importanceData.map((data, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const shadowGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.25)" : "rgba(255, 31, 44, 0.25)";
+              const borderGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.5)" : "rgba(255, 31, 44, 0.5)";
 
-            <div
-              className="importance-card animate-on-scroll"
-              style={styles.importanceCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.importanceIcon}>
-                <GraduationCap size={40} color="#0edb61" />
-              </div>
-              <h3 style={styles.importanceTitle}>Academic Opportunities</h3>
-              <p style={styles.importanceDescription}>
-                Universities and colleges in English-speaking countries require
-                IELTS, TOEFL, or equivalent scores for admission and scholarship
-                programs.
-              </p>
-              <ul style={styles.importanceList}>
-                <li style={styles.importanceListItem}>
-                  • University admissions worldwide
-                </li>
-                <li style={styles.importanceListItem}>
-                  • Scholarship program eligibility
-                </li>
-                <li style={styles.importanceListItem}>
-                  • Advanced study opportunities
-                </li>
-                <li style={styles.importanceListItem}>
-                  • Research collaboration access
-                </li>
-              </ul>
-            </div>
-
-            <div
-              className="importance-card animate-on-scroll"
-              style={styles.importanceCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.importanceIcon}>
-                <TrendingUp size={40} color="#0edb61" />
-              </div>
-              <h3 style={styles.importanceTitle}>Competitive Advantage</h3>
-              <p style={styles.importanceDescription}>
-                Language proficiency opens doors to promotions, higher salaries,
-                and better job opportunities both locally and internationally.
-              </p>
-              <ul style={styles.importanceList}>
-                <li style={styles.importanceListItem}>
-                  • Career advancement opportunities
-                </li>
-                <li style={styles.importanceListItem}>
-                  • Higher salary potential
-                </li>
-                <li style={styles.importanceListItem}>
-                  • Professional confidence building
-                </li>
-                <li style={styles.importanceListItem}>
-                  • Global communication skills
-                </li>
-              </ul>
-            </div>
+              return (
+                <div
+                  key={index}
+                  style={{
+                    ...styles.cardStyle,
+                    flex: "1 1 350px", 
+                    maxWidth: "450px", 
+                    width: "100%",     
+                  }}
+                  className={`animate-on-scroll ${isAnimated("importance") ? `animate-bounce-in stagger-${index + 1}` : ""}`}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = `0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px ${shadowGlow}`; 
+                    e.currentTarget.style.borderColor = borderGlow; 
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
+                    e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
+                  }}
+                >
+                  {/* TOP COLOR BAR FOR FIRST SECTION ONLY */}
+                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
+                  
+                  <div style={styles.cardIcon}>{data.icon}</div>
+                  <h3 style={styles.cardTitle}>{data.title}</h3>
+                  <p style={styles.cardDescription}>{data.description}</p>
+                  <ul style={styles.cardList}>
+                    {data.items.map((item, itemIndex) => (
+                      <li key={itemIndex} style={styles.cardListItem}>
+                        <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* How ConVerse Helps Section */}
-      <section
-        id="services"
-        ref={servicesRef}
-        className={isAnimated("services") ? "section-visible" : ""}
-        style={styles.servicesSection}
-      >
+      {/* Services Section (NO TOP COLOR BAR) */}
+      <section id="services" ref={servicesRef} style={styles.servicesSection}>
         <div style={styles.container2}>
-          <h2 className="section-title" style={styles.sectionTitle}>
-            How 8ConVerse Helps
+          <h2 style={styles.sectionTitle} className={`animate-on-scroll ${isAnimated("services") ? "animate-slide-in-top" : ""}`}>
+            HOW <span style={{ color: "#39CC2F" }}>8CONVERSE</span> HELPS
           </h2>
-          <div style={styles.servicesGrid}>
-            <div
-              className="service-card animate-on-scroll"
-              style={styles.serviceCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div style={styles.serviceIcon}>
-                <BookOpen size={50} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>Comprehensive Review Programs</h3>
-              <p style={styles.serviceDescription}>
-                Tailored courses for IELTS, TOEFL, and other certification exams
-                with complete skill development.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • Listening, Reading, Writing, Speaking Skills
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Practice tests aligned with actual exam formats
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Score maximization strategies
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Time management techniques
-                </li>
-              </ul>
-            </div>
+          <div style={styles.grid2x2}>
+            {servicesData.map((data, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const shadowGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.25)" : "rgba(255, 31, 44, 0.25)";
+              const borderGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.5)" : "rgba(255, 31, 44, 0.5)";
 
-            <div
-              className="service-card animate-on-scroll"
-              style={styles.serviceCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(255, 31, 44, 0.2)";
-                e.currentTarget.style.borderColor = "#ff1f2c";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div style={styles.serviceIcon}>
-                <Users size={50} color="#ff1f2c" />
-              </div>
-              <h3 style={styles.serviceTitle}>Experienced Instructors</h3>
-              <p style={styles.serviceDescription}>
-                Learn from seasoned language coaches who specialize in preparing
-                students for high-stakes exams.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • Expert tips and strategies
-                </li>
-                <li style={styles.serviceListItem}>• Personalized feedback</li>
-                <li style={styles.serviceListItem}>
-                  • Proven teaching methodologies
-                </li>
-                <li style={styles.serviceListItem}>• Individual attention</li>
-              </ul>
-            </div>
-
-            <div
-              className="service-card animate-on-scroll"
-              style={styles.serviceCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div style={styles.serviceIcon}>
-                <Mic size={50} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>Interactive Learning</h3>
-              <p style={styles.serviceDescription}>
-                Engage in role-playing, mock interviews, and real-world
-                scenarios to improve fluency and confidence.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>• Role-playing exercises</li>
-                <li style={styles.serviceListItem}>
-                  • Mock interview sessions
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Real-world communication scenarios
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Confidence building activities
-                </li>
-              </ul>
-            </div>
-
-            <div
-              className="service-card animate-on-scroll"
-              style={styles.serviceCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(255, 31, 44, 0.2)";
-                e.currentTarget.style.borderColor = "#ff1f2c";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div style={styles.serviceIcon}>
-                <Clock size={50} color="#ff1f2c" />
-              </div>
-              <h3 style={styles.serviceTitle}>Flexible Learning Options</h3>
-              <p style={styles.serviceDescription}>
-                On-site and online classes designed to fit the busy schedules of
-                working professionals and students.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • On-site classroom sessions
-                </li>
-                <li style={styles.serviceListItem}>• Online virtual classes</li>
-                <li style={styles.serviceListItem}>• Flexible scheduling</li>
-                <li style={styles.serviceListItem}>
-                  • Self-paced learning modules
-                </li>
-              </ul>
-            </div>
+              return (
+                <div
+                  key={index}
+                  style={styles.cardStyle}
+                  className={`animate-on-scroll ${isAnimated("services") ? `animate-scale-in stagger-${index + 1}` : ""}`}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = `0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px ${shadowGlow}`; 
+                    e.currentTarget.style.borderColor = borderGlow; 
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
+                    e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
+                  }}
+                >
+                  <div style={styles.cardIcon}>{data.icon}</div>
+                  <h3 style={styles.cardTitle}>{data.title}</h3>
+                  <p style={styles.cardDescription}>{data.description}</p>
+                  <ul style={styles.cardList}>
+                    {data.items.map((item, itemIndex) => (
+                      <li key={itemIndex} style={styles.cardListItem}>
+                        <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Why Choose ConVerse Section - Black Background */}
-      <section
-        id="why-choose"
-        ref={whyChooseRef}
-        className={isAnimated("why-choose") ? "section-visible" : ""}
-        style={styles.whyChooseSection}
-      >
+      {/* Why Choose Us Section (NO TOP COLOR BAR) */}
+      <section id="why-choose" ref={whyChooseRef} style={styles.whyChooseSection}>
         <div style={styles.container2}>
-          <h2
-            className="section-title"
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
-          >
-            Why Choose 8ConVerse?
+          <h2 style={styles.sectionTitle} className={`animate-on-scroll ${isAnimated("why-choose") ? "animate-slide-in-top" : ""}`}>
+            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONVERSE?</span>
           </h2>
-          <div style={styles.benefitsGrid}>
-            <div
-              className="benefit-card animate-on-scroll"
-              style={styles.benefitCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-            >
-              <h3 style={styles.benefitTitle}>Proven Success</h3>
-              <p style={styles.benefitDescription}>
-                With a track record of students passing IELTS, TOEFL, and other
-                exams, we've helped individuals unlock opportunities globally.
-              </p>
-            </div>
+          <div style={styles.grid2x2}>
+            {whyChooseData.map((data, index) => {
+              const shadowGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.25)" : "rgba(255, 31, 44, 0.25)";
+              const borderGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.5)" : "rgba(255, 31, 44, 0.5)";
 
-            <div
-              className="benefit-card animate-on-scroll"
-              style={styles.benefitCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-            >
-              <h3 style={styles.benefitTitle}>Industry-Relevant Training</h3>
-              <p style={styles.benefitDescription}>
-                Tailored programs to meet the needs of high-demand professions
-                both locally and abroad, ensuring relevant and focused learning.
-              </p>
-            </div>
-
-            <div
-              className="benefit-card animate-on-scroll"
-              style={styles.benefitCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-            >
-              <h3 style={styles.benefitTitle}>Confidence Building</h3>
-              <p style={styles.benefitDescription}>
-                Beyond exams, 8ConVerse equips students with the practical
-                communication skills needed for workplace and social
-                interactions.
-              </p>
-            </div>
-
-            <div
-              className="benefit-card animate-on-scroll"
-              style={styles.benefitCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-            >
-              <h3 style={styles.benefitTitle}>Supportive Community</h3>
-              <p style={styles.benefitDescription}>
-                A welcoming environment that encourages growth, learning, and
-                success with peer support and collaborative learning.
-              </p>
-            </div>
+              return (
+                <div
+                  key={index}
+                  style={styles.cardStyle}
+                  className={`animate-on-scroll ${isAnimated("why-choose") ? `animate-fade-in-up stagger-${index + 1}` : ""}`}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = `0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px ${shadowGlow}`; 
+                    e.currentTarget.style.borderColor = borderGlow; 
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
+                    e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
+                  }}
+                >
+                  <div style={styles.cardIcon}>{data.icon}</div>
+                  <h3 style={styles.cardTitle}>{data.title}</h3>
+                  <p style={styles.cardDescription}>{data.description}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Who Can Benefit Section - White Background */}
-      <section
-        id="benefits"
-        ref={benefitsRef}
-        className={isAnimated("benefits") ? "section-visible" : ""}
-        style={styles.clientsSection}
-      >
+      {/* Benefits Section (NO TOP COLOR BAR) */}
+      <section id="benefits" ref={benefitsRef} style={styles.benefitsSection}>
         <div style={styles.container2}>
-          <h2 className="section-title" style={styles.sectionTitle}>
-            Who Can Benefit from 8ConVerse?
+          <h2 style={styles.sectionTitle} className={`animate-on-scroll ${isAnimated("benefits") ? "animate-slide-in-top" : ""}`}>
+            WHO CAN BENEFIT <span style={{ color: "#39CC2F" }}>FROM 8CONVERSE?</span>
           </h2>
-          <div style={styles.clientsGrid}>
-            <div
-              className="client-category animate-on-scroll"
-              style={styles.clientCategory}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.clientIcon}>
-                <Plane size={60} color="#0edb61" />
-              </div>
-              <h3 style={styles.clientTitle}>Aspiring Overseas Workers</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • Healthcare professionals seeking international opportunities
-                </li>
-                <li style={styles.clientListItem}>
-                  • Skilled workers and tradespeople
-                </li>
-                <li style={styles.clientListItem}>
-                  • Professionals looking to qualify for jobs abroad
-                </li>
-              </ul>
-            </div>
+          {/* Centered with Flex for bottom card */}
+          <div style={styles.flexCenteredGrid}>
+            {benefitsData.map((data, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const shadowGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.25)" : "rgba(255, 31, 44, 0.25)";
+              const borderGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.5)" : "rgba(255, 31, 44, 0.5)";
 
-            <div
-              className="client-category animate-on-scroll"
-              style={styles.clientCategory}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(255, 31, 44, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.clientIcon}>
-                <TrendingUp size={60} color="#ff1f2c" />
-              </div>
-              <h3 style={styles.clientTitle}>
-                Professionals Seeking Advancement
-              </h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • BPO and customer service employees
-                </li>
-                <li style={styles.clientListItem}>
-                  • Hospitality and tourism workers
-                </li>
-                <li style={styles.clientListItem}>
-                  • Education sector professionals
-                </li>
-              </ul>
-            </div>
-
-            <div
-              className="client-category animate-on-scroll"
-              style={styles.clientCategory}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.clientIcon}>
-                <GraduationCap size={60} color="#0edb61" />
-              </div>
-              <h3 style={styles.clientTitle}>Students & Migrants</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • High school and college students
-                </li>
-                <li style={styles.clientListItem}>
-                  • Those preparing for admissions abroad
-                </li>
-                <li style={styles.clientListItem}>
-                  • Families applying for migration programs
-                </li>
-              </ul>
-            </div>
+              return (
+                <div
+                  key={index}
+                  style={{
+                    ...styles.cardStyle,
+                    flex: "1 1 350px", 
+                    maxWidth: "450px", 
+                    width: "100%",     
+                  }}
+                  className={`animate-on-scroll ${isAnimated("benefits") ? `animate-zoom-in stagger-${index + 1}` : ""}`}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = `0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px ${shadowGlow}`; 
+                    e.currentTarget.style.borderColor = borderGlow; 
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
+                    e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
+                  }}
+                >
+                  <div style={styles.cardIcon}>{data.icon}</div>
+                  <h3 style={styles.cardTitle}>{data.title}</h3>
+                  <ul style={styles.cardList}>
+                    {data.items.map((item, itemIndex) => (
+                      <li key={itemIndex} style={styles.cardListItem}>
+                        <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Black Background */}
-      <section
-        id="cta"
-        ref={ctaRef}
-        className={isAnimated("cta") ? "section-visible" : ""}
-        style={styles.ctaSection}
-      >
+      {/* CTA Section */}
+      <section id="cta" ref={ctaRef} style={styles.ctaSection}>
         <div style={styles.container2}>
-          <h2
-            className="cta-title section-title animate-on-scroll"
-            style={styles.ctaTitle}
-          >
-            Your Gateway to Global Opportunities
+          <h2 style={styles.ctaTitle} className={`animate-on-scroll ${isAnimated("cta") ? "animate-slide-in-top" : ""}`}>
+            YOUR GATEWAY TO <span style={{ color: "#ff1f2c" }}>GLOBAL OPPORTUNITIES</span>
           </h2>
-          <p
-            className="cta-description animate-on-scroll"
-            style={styles.ctaDescription}
-          >
-            8ConVerse bridges the gap between potential and achievement by
-            empowering Filipinos to communicate confidently and fluently in
-            English. With the right guidance, tools, and strategies, we ensure
-            your success in passing language certifications and excelling in
-            real-world applications.
+          <p style={styles.ctaDescription} className={`animate-on-scroll ${isAnimated("cta") ? "animate-fade-in-up stagger-1" : ""}`}>
+            8ConVerse bridges the gap between potential and achievement by empowering Filipinos to communicate confidently and fluently in English. With the right guidance, tools, and strategies, we ensure your success in passing language certifications and excelling in real-world applications.
           </p>
-          <div
-            className="cta-buttons animate-on-scroll"
-            style={styles.ctaButtons}
-          >
+          <div style={styles.ctaButtons} className={`animate-on-scroll ${isAnimated("cta") ? "animate-scale-in stagger-2" : ""}`}>
             <button
               style={styles.ctaButtonPrimary}
+              className={`animate-on-scroll ${isAnimated("cta") ? "animate-bounce-in stagger-3" : ""}`}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(-3px)";
@@ -1911,6 +1285,7 @@ const ConVerse = () => {
             </button>
             <button
               style={styles.ctaButtonRed}
+              className={`animate-on-scroll ${isAnimated("cta") ? "animate-bounce-in stagger-4" : ""}`}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(-3px)";
@@ -1924,20 +1299,21 @@ const ConVerse = () => {
             </button>
           </div>
           <div
-            className="cta-highlight animate-on-scroll"
             style={styles.ctaHighlight}
+            className={`animate-on-scroll ${isAnimated("cta") ? "animate-fade-in-up stagger-5" : ""}`}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(255, 31, 44, 0.2)";
+              e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
               e.currentTarget.style.borderColor = "#ff1f2c";
+              e.currentTarget.style.boxShadow = "0 15px 35px rgba(255, 31, 44, 0.3)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(14, 219, 97, 0.1)";
-              e.currentTarget.style.borderColor = "#0edb61";
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.05)";
+              e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.4)";
             }}
           >
             <strong>
-              Let 8ConVerse be your partner in achieving fluency, confidence,
-              and a brighter future!
+              Let 8ConVerse be your partner in achieving fluency, confidence, and a brighter future!
             </strong>
           </div>
         </div>

@@ -15,7 +15,10 @@ import {
   Users,
   BookOpen,
   AlignCenter,
-  Check, // Added Check icon here
+  Check,
+  Microscope, // <-- Add this
+  Building2,  // <-- Add this
+  Handshake,
 } from "lucide-react";
 
 const ConStruct = () => {
@@ -99,6 +102,13 @@ const ConStruct = () => {
       route: "/8conspace",
       desc: "Co-working space and virtual office solutions for professionals and students.",
       icon: <Users size={60} />,
+    },
+    {
+      id: "conpact",
+      name: "8ConPact",
+      route: "/8conpact",
+      desc: "Collaborate for Impact in Livelihood, Education, and Employment.",
+      icon: <Handshake size={60} />,
     },
     {
       id: "consult",
@@ -431,14 +441,14 @@ const ConStruct = () => {
       marginTop: "3rem",
     },
     serviceCard: {
-      backgroundColor: "#131B21", // New card background color
+      background: "linear-gradient(145deg, #1c2730, #131b21)", // 3D depth gradient
       padding: "2rem",
-      borderRadius: "5px", // CHANGED TO 5px
-      // BRIGHTER White Shadow for resting state (0.25 opacity):
-      boxShadow: "0 2px 10px rgba(255, 255, 255, 0.25)",
-      transition: "all 0.3s ease",
-      position: "relative", // Needed for the top colored bar to work perfectly
-      overflow: "hidden", // Forces the top colored bar to match the border-radius perfectly!
+      borderRadius: "15px", // Match other cards
+      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)", // Permanent resting shadow
+      border: "1px solid rgba(255, 255, 255, 0.03)", // Faint border
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)", // Bouncy lift
+      position: "relative", 
+      overflow: "hidden", 
     },
     serviceTitle: {
       fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
@@ -468,8 +478,12 @@ const ConStruct = () => {
     },
 
     whyChooseSection: {
-      padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      backgroundColor: colors.bgSurface,
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)", // Increased padding
+      minHeight: "80vh", // Increased background height
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      backgroundColor: "#131B21", // Changed background color
     },
     benefitsGrid: {
       display: "grid",
@@ -478,30 +492,35 @@ const ConStruct = () => {
       marginTop: "3rem",
     },
     benefitCard: {
-      backgroundColor: colors.bgCard,
+      background: "linear-gradient(145deg, #1c2730, #131b21)", // 3D depth gradient
       padding: "2rem",
       borderRadius: "15px",
-      textAlign: "center",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      transition: "all 0.3s ease",
-      border: "2px solid transparent",
+      textAlign: "center",       
+      display: "flex",   
+      flexDirection: "column", 
+      alignItems: "center",      
+      gap: "1.2rem",     
+      border: "1px solid rgba(255, 255, 255, 0.03)", 
+      borderTop: "1px solid rgba(255, 255, 255, 0.12)", // Top edge light
+      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)", // Permanent resting shadow
+      backdropFilter: "blur(10px)",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)", // Bouncy lift
     },
     benefitTitle: {
       fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
+      fontFamily: "'Unbounded', sans-serif", // Changed to Unbounded
       fontWeight: "700",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
+      color: "#ffffff", // Changed to white to show up on dark card
+      marginBottom: "0.5rem",
     },
     benefitDescription: {
       fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-      color: colors.textMuted,
+      color: "#A0ABB5", // Light grayish-blue for readability
       lineHeight: "1.6",
     },
     clientsSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      background: isDark
-        ? "linear-gradient(135deg, #000000 0%, #1a1a1a 100%)"
-        : "linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%)",
+      background: "#19232A",
     },
     clientsGrid: {
       display: "grid",
@@ -510,13 +529,15 @@ const ConStruct = () => {
       marginTop: "3rem",
     },
     clientCard: {
-      backgroundColor: colors.cardBg,
+      background: "linear-gradient(145deg, #1c2730, #131b21)", // Subtle gradient for 3D depth
       padding: "2.5rem 2rem",
       borderRadius: "15px",
       textAlign: "center",
-      border: `1px solid ${colors.cardBorder}`,
+      border: "1px solid rgba(255, 255, 255, 0.03)", // Very faint all-around border
+      borderTop: "1px solid rgba(255, 255, 255, 0.12)", // Brighter top edge to catch the "light"
+      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)", // Permanent resting shadow
       backdropFilter: "blur(10px)",
-      transition: "all 0.3s ease",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)", // Smooth, slightly bouncy lift
     },
     clientIcon: {
       fontSize: "clamp(2rem, 5vw, 3rem)",
@@ -524,8 +545,9 @@ const ConStruct = () => {
     },
     clientTitle: {
       fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
+      fontFamily: "'Unbounded', sans-serif", // Added Unbounded
       fontWeight: "700",
-      color: colors.textPrimary,
+      color: "#ffffff", // Changed to white
       marginBottom: "1rem",
     },
     clientDescription: {
@@ -535,7 +557,7 @@ const ConStruct = () => {
     },
     ctaSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      backgroundColor: colors.bgSurface,
+      backgroundColor: "#131B21",
       textAlign: "center",
     },
     ctaTitle: {
@@ -543,6 +565,7 @@ const ConStruct = () => {
       fontWeight: "700",
       color: colors.textPrimary,
       marginBottom: "1.5rem",
+      fontFamily: "'Unbounded', sans-serif",
     },
     ctaDescription: {
       fontSize: "clamp(1rem, 3vw, 1.2rem)",
@@ -1216,17 +1239,17 @@ const ConStruct = () => {
                   style={styles.serviceCard}
                   className="animate-fade-up"
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-5px)";
-                    // BRIGHTER Hover White Glow (0.5 opacity):
-                    e.currentTarget.style.boxShadow = "0 6px 16px rgba(255, 255, 255, 0.50)"; 
+                    e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = "0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px rgba(57, 204, 47, 0.25)"; 
+                    e.currentTarget.style.borderColor = "rgba(57, 204, 47, 0.5)"; 
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    // BRIGHTER Resting White Shadow (0.25 opacity):
-                    e.currentTarget.style.boxShadow = "0 2px 10px rgba(255, 255, 255, 0.25)";
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
                   }}
                 >
-                  {/* PERFECT TOP COLOR BAR: Uses absolute positioning inside the hidden overflow card */}
+                  {/* PERFECT TOP COLOR BAR */}
                   <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
 
                   <h3 style={{ ...styles.serviceTitle, fontFamily: "'Unbounded', sans-serif" }}>{service.title}</h3>
@@ -1260,38 +1283,51 @@ const ConStruct = () => {
         }`}
       >
         <div style={styles.container2}>
-          <h2 style={styles.sectionTitle}>Why Choose 8ConStruct?</h2>
+          
+          {/* Main Title: Unbounded Font, White text, Green 8CONSTRUCT */}
+          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff", textTransform: "uppercase" }}>
+            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONSTRUCT?</span>
+          </h2>
+          
+          
+
           <div style={styles.benefitsGrid}>
             {[
               {
                 title: "Expert Leadership",
                 description:
                   "Years of experience in academic research and corporate consulting with Doc May L. Francisco's deep understanding of research methodologies.",
+                icon: <Brain size={48} color="#39CC2F" strokeWidth={1.5} />
               },
               {
                 title: "Comprehensive Support",
                 description:
                   "End-to-end support from initial research design to final presentation of results, ensuring a seamless process.",
+                icon: <BookOpen size={48} color="#39CC2F" strokeWidth={1.5} />
               },
               {
                 title: "Tailored Solutions",
                 description:
                   "Every project is unique, and our approach is customized to meet specific needs of students, academics, or businesses.",
+                icon: <Target size={48} color="#39CC2F" strokeWidth={1.5} />
               },
               {
                 title: "Quality Assurance",
                 description:
                   "Rigorous quality checks ensure accuracy, reliability, and adherence to international research standards.",
+                icon: <Globe size={48} color="#39CC2F" strokeWidth={1.5} />
               },
               {
                 title: "Timely Delivery",
                 description:
                   "Committed to meeting deadlines without compromising on quality, helping clients stay on track with their goals.",
+                icon: <TrendingUp size={48} color="#39CC2F" strokeWidth={1.5} />
               },
               {
                 title: "Affordable Excellence",
                 description:
                   "High-quality services at competitive rates, making professional research support accessible to students and businesses alike.",
+                icon: <Award size={48} color="#39CC2F" strokeWidth={1.5} />
               },
             ].map((benefit, index) => (
               <div
@@ -1300,24 +1336,34 @@ const ConStruct = () => {
                 style={styles.benefitCard}
                 className="animate-scale"
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.05)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
+                  e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
+                  e.currentTarget.style.boxShadow = "0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px rgba(57, 204, 47, 0.25)"; 
+                  e.currentTarget.style.borderColor = "rgba(57, 204, 47, 0.5)"; 
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
+                  e.currentTarget.style.transform = "translateY(0) scale(1)";
+                  e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)"; 
+                  e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
                 }}
               >
-                <h3 style={styles.benefitTitle}>{benefit.title}</h3>
-                <p style={styles.benefitDescription}>{benefit.description}</p>
+                {/* Icon Container */}
+                <div>
+                  {benefit.icon}
+                </div>
+                
+                {/* Text Container */}
+                <div>
+                  <h3 style={styles.benefitTitle}>{benefit.title}</h3>
+                  <p style={styles.benefitDescription}>{benefit.description}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Clients Section */}
       {/* Clients Section */}
       <section
         id="clients"
@@ -1328,28 +1374,34 @@ const ConStruct = () => {
         }`}
       >
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: colors.textPrimary }}>
-            Who We Serve
+          
+          {/* Main Title Update: Unbounded, White, Uppercase */}
+          <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }}>
+            WHO WE SERVE
           </h2>
+          
           <div style={styles.clientsGrid}>
             {[
               {
                 title: "Students & Academics",
                 description:
                   "Supporting undergraduate, graduate, and doctoral students with thesis, dissertation, and research projects.",
-                icon: "📚",
+                // Replaced 📚 with BookOpen icon colored #75F94C
+                icon: <BookOpen size={48} color="#75F94C" strokeWidth={1.5} />,
               },
               {
                 title: "Researchers & Institutions",
                 description:
                   "Collaborating with research institutions, universities, and independent researchers on complex studies.",
-                icon: "🔬",
+                // Replaced 🔬 with Microscope icon colored #75F94C
+                icon: <Microscope size={48} color="#75F94C" strokeWidth={1.5} />,
               },
               {
                 title: "Businesses & Corporations",
                 description:
                   "Helping companies make data-driven decisions through market research, operational studies, and strategic analysis.",
-                icon: "🏢",
+                // Replaced 🏢 with Building2 icon colored #75F94C
+                icon: <Building2 size={48} color="#75F94C" strokeWidth={1.5} />,
               },
             ].map((client, index) => (
               <div
@@ -1357,6 +1409,21 @@ const ConStruct = () => {
                 ref={(el) => (clientCategoriesRef.current[index] = el)}
                 style={styles.clientCard}
                 className="animate-fade-up"
+                onMouseEnter={(e) => {
+                  // Lifts higher and slightly scales up for a 3D pop
+                  e.currentTarget.style.transform = "translateY(-12px) scale(1.02)"; 
+                  // Deep black drop shadow + Green ambient glow
+                  e.currentTarget.style.boxShadow =
+                    "0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px rgba(57, 204, 47, 0.25)"; 
+                  e.currentTarget.style.borderColor = "rgba(57, 204, 47, 0.5)"; 
+                }}
+                onMouseLeave={(e) => {
+                  // Returns to resting state
+                  e.currentTarget.style.transform = "translateY(0) scale(1)";
+                  e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)"; 
+                  e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
+                }}
               >
                 <div style={styles.clientIcon}>{client.icon}</div>
                 <h3 style={styles.clientTitle}>{client.title}</h3>

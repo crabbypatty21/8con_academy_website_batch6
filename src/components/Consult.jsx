@@ -16,21 +16,29 @@ import {
   BookOpen,
   Lightbulb,
   Presentation,
-  DollarSign,
   Briefcase,
   LineChart,
+  UserCheck,
+  Building,
+  Check, // Imported for clean bullet points
+  Calendar,
+  FileText,
+  Handshake,
 } from "lucide-react";
 
 const ConSult = () => {
-  const navigate = useNavigate();
+  const { colors, isDark } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
   const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] =
     useState(false);
   const [animatedSections, setAnimatedSections] = useState(new Set());
-  const [isInHeroSection, setIsInHeroSection] = useState(false);
+  const [isInHeroSection, setIsInHeroSection] = useState(true);
   const [heroAnimationKey, setHeroAnimationKey] = useState(0);
+
+  const isAnimated = (sectionId) => animatedSections.has(sectionId);
+
   // Refs for sections
   const heroRef = useRef(null);
   const leadershipRef = useRef(null);
@@ -38,8 +46,6 @@ const ConSult = () => {
   const approachRef = useRef(null);
   const clientsRef = useRef(null);
   const ctaRef = useRef(null);
-
-  const isAnimated = (sectionId) => animatedSections.has(sectionId);
 
   const subBrandsData = [
     {
@@ -99,6 +105,13 @@ const ConSult = () => {
       icon: <Users size={60} />,
     },
     {
+      id: "conpact",
+      name: "8ConPact",
+      route: "/8conpact",
+      desc: "Collaborate for Impact in Livelihood, Education, and Employment.",
+      icon: <Handshake size={60} />,
+    },
+    {
       id: "consult",
       name: "8ConSult",
       route: "/8consult",
@@ -141,7 +154,7 @@ const ConSult = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Observer for hero section to detect when user is at top
+  // Observer for hero section
   useEffect(() => {
     const heroObserverOptions = {
       threshold: 0.6,
@@ -155,15 +168,15 @@ const ConSult = () => {
 
         setIsInHeroSection(nowInHero);
 
-        if (nowInHero) {
-          // Reset ALL section animations when entering hero section
+        if (nowInHero && !wasInHero) {
           setAnimatedSections(new Set());
           setHeroAnimationKey((prev) => prev + 1);
 
-          // Trigger hero animation
           setTimeout(() => {
             setAnimatedSections((prev) => new Set([...prev, "hero"]));
           }, 100);
+        } else if (nowInHero && wasInHero) {
+          setAnimatedSections((prev) => new Set([...prev, "hero"]));
         }
       });
     }, heroObserverOptions);
@@ -184,6 +197,16 @@ const ConSult = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setAnimatedSections(new Set());
+    setTimeout(() => {
+      setAnimatedSections((prev) => new Set([...prev, "hero"]));
+    }, 300);
+  }, []);
+
+  const navigate = useNavigate();
+
   const handleNavigation = (path) => {
     navigate(path);
     setMobileMenuOpen(false);
@@ -202,16 +225,11 @@ const ConSult = () => {
     setMobileMenuOpen(false);
   };
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
-  const { colors, isDark } = useTheme();
-
+  // Premium Dark Theme & 3D Lifted Styles
   const styles = {
     container: {
       minHeight: "100vh",
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      fontFamily: "'Montserrat', sans-serif",
       lineHeight: "1.6",
       color: colors.textPrimary,
       margin: 0,
@@ -222,13 +240,18 @@ const ConSult = () => {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "0 20px",
+      "@media (max-width: 768px)": {
+        padding: "0 15px",
+      },
+      "@media (max-width: 480px)": {
+        padding: "0 12px",
+      },
     },
 
-    // Hero Section (Green to Black gradient)
     heroSection: {
       minHeight: "100vh",
       backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A", // Fallback color
+      backgroundColor: "#19232A",
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -318,6 +341,8 @@ const ConSult = () => {
       textTransform: "uppercase",
       letterSpacing: "0.5px",
       boxShadow: "0 4px 15px rgba(14, 219, 97, 0.3)",
+      display: "flex",
+      alignItems: "center",
     },
 
     ctaButtonSecondary: {
@@ -333,255 +358,204 @@ const ConSult = () => {
       transition: "all 0.3s ease",
       textTransform: "uppercase",
       letterSpacing: "0.5px",
+      display: "flex",
+      alignItems: "center",
     },
 
     ctaButtonRed: {
       background: "#ff1f2c",
       color: "#ffffff",
       border: "none",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
-      "@media (max-width: 768px)": {
-        padding: "0.9rem 1.8rem",
-        fontSize: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "0.8rem 1.5rem",
-        fontSize: "0.9rem",
-        width: "200px",
-      },
-    },
-
-    // Leadership Section (White background)
-    leadershipSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
+      letterSpacing: "0.5px",
       display: "flex",
       alignItems: "center",
     },
 
+    // Apply #131B21 Background
+    leadershipSection: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      backgroundColor: "#131B21", 
+    },
+
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: colors.textPrimary,
+      color: "#ffffff",
       textAlign: "center",
       marginBottom: "3rem",
+      textTransform: "uppercase",
     },
 
     leadershipContent: {
-      display: "grid",
-      gridTemplateColumns: "2fr 1fr",
+      display: "flex",
+      flexDirection: "column",
       gap: "3rem",
       alignItems: "center",
-    },
-
-    leadershipText: {
-      maxWidth: "600px",
-    },
-
-    leadershipDescription: {
-      fontSize: "1.1rem",
-      lineHeight: "1.8",
-      marginBottom: "1.5rem",
-      color: colors.textPrimary,
-    },
-
-    strongText: {
-      color: "#ff1f2c",
-      fontWeight: "700",
-    },
-
-    leadershipStats: {
-      display: "grid",
-      gap: "2rem",
-    },
-
-    statItem: {
       textAlign: "center",
-      padding: "1.5rem",
-      borderRadius: "10px",
-      border: "2px solid #0edb61",
+    },
+
+    aboutText: {
+      maxWidth: "900px",
+      margin: "0 auto",
+      fontSize: "1.1rem",
+      color: "#A0ABB5",
+      lineHeight: "1.8",
+    },
+
+    aboutStatsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+      gap: "2rem",
+      width: "100%",
+      maxWidth: "1000px",
+    },
+
+    // Apply #19232A Background
+    servicesSection: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      backgroundColor: "#19232A", 
+    },
+
+    // Apply #131B21 Background
+    approachSection: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      backgroundColor: "#131B21", 
+    },
+
+    // Apply #19232A Background
+    clientsSection: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      backgroundColor: "#19232A", 
+    },
+
+    // Apply #131B21 Background
+    ctaSection: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      backgroundColor: "#131B21", 
+      textAlign: "center",
+    },
+
+    // 2x2 Grid Layout
+    grid2x2: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 450px), 1fr))",
+      gap: "2.5rem",
+      marginTop: "2rem",
+    },
+
+    // 3D Floating Card Style
+    cardStyle: {
+      background: "linear-gradient(145deg, #1c2730, #131b21)",
+      padding: "2rem",
+      borderRadius: "15px",
+      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
+      border: "1px solid rgba(255, 255, 255, 0.03)",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      position: "relative", 
+      overflow: "hidden",
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "1rem",
+    },
+
+    cardIcon: {
+      display: "flex",
+      justifyContent: "center",
+    },
+
+    cardTitle: {
+      fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
+      fontFamily: "'Unbounded', sans-serif",
+      fontWeight: "700",
+      color: "#ffffff",
+      marginBottom: "0.5rem",
+    },
+
+    cardDescription: {
+      fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
+      color: "#A0ABB5",
+      lineHeight: "1.6",
+    },
+
+    cardList: {
+      listStyle: "none",
+      padding: 0,
+      margin: 0,
+      textAlign: "left",
+      width: "100%",
+      marginTop: "0.5rem",
+    },
+
+    cardListItem: {
+      fontSize: "0.95rem",
+      color: "#A0ABB5",
+      marginBottom: "0.8rem",
+      lineHeight: "1.5",
+      display: "flex",
+      alignItems: "flex-start",
     },
 
     statNumber: {
-      fontSize: "2.5rem",
+      fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: colors.accentGreen,
+      color: "#39CC2F",
       marginBottom: "0.5rem",
     },
 
     statLabel: {
       fontSize: "1rem",
-      color: colors.textPrimary,
+      color: "#A0ABB5",
       fontWeight: "600",
-    },
-
-    // Services Section (Black background)
-    servicesSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-
-    servicesGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-      gap: "2rem",
-      marginTop: "3rem",
-    },
-
-    serviceCard: {
-      background: colors.bgSurface,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-      textAlign: "center",
-    },
-
-    serviceIcon: {
-      marginBottom: "1rem",
-    },
-
-    serviceTitle: {
-      fontSize: "1.3rem",
-      fontWeight: "700",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-    },
-
-    serviceDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1.5rem",
-      lineHeight: "1.6",
-    },
-
-    serviceList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-      textAlign: "left",
-    },
-
-    serviceListItem: {
-      fontSize: "0.95rem",
-      color: colors.textPrimary,
-      marginBottom: "0.8rem",
-      lineHeight: "1.5",
-    },
-
-    // Approach Section (White background)
-    approachSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-    },
-
-    approachGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "2rem",
-      marginTop: "3rem",
-    },
-
-    approachCard: {
-      background: colors.bgSurface,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(14, 219, 97, 0.1)",
-      textAlign: "center",
-      border: "2px solid transparent",
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-    },
-
-    approachTitle: {
-      fontSize: "1.4rem",
-      fontWeight: "700",
-      color: colors.accentGreen,
-      marginBottom: "1rem",
-    },
-
-    approachDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      lineHeight: "1.7",
-    },
-
-    // Clients Section (Black background)
-    clientsSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-    },
-    clientCategory: {
-      background: colors.bgSurface,
-      padding: "2rem",
-      borderRadius: "15px",
-      border: "2px solid #0edb61",
-    },
-
-    clientTitle: {
-      fontSize: "1.3rem",
-      fontWeight: "700",
-      color: colors.accentGreen,
-      marginBottom: "1.5rem",
-      textAlign: "center",
-    },
-
-    clientList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-    },
-
-    clientListItem: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-      lineHeight: "1.6",
-    },
-
-    // CTA Section (White background)
-    ctaSection: {
-      background: colors.bgSurface,
-      color: colors.textPrimary,
-      padding: "80px 20px",
-      textAlign: "center",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
     },
 
     ctaTitle: {
-      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontSize: "clamp(2rem, 5vw, 2.8rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      marginBottom: "2rem",
-      color: colors.textPrimary,
+      color: "#ffffff",
+      marginBottom: "1.5rem",
+      textTransform: "uppercase",
     },
 
     ctaDescription: {
       fontSize: "clamp(1rem, 3vw, 1.2rem)",
       lineHeight: "1.8",
       maxWidth: "800px",
-      margin: "0 auto 2rem",
-      color: colors.textPrimary,
+      margin: "0 auto 2.5rem",
+      color: "#A0ABB5",
     },
 
     ctaButtons: {
@@ -589,58 +563,242 @@ const ConSult = () => {
       gap: "1rem",
       justifyContent: "center",
       flexWrap: "wrap",
-      marginBottom: "3rem",
-    },
-
-    ctaPrimaryButton: {
-      background: "#0edb61",
-      color: "#ffffff",
-      padding: "1.2rem 2.5rem",
-      borderRadius: "10px",
-      border: "none",
-      fontSize: "1.2rem",
-      fontWeight: "700",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      boxShadow: "0 4px 15px rgba(14, 219, 97, 0.2)",
-    },
-
-    ctaSecondaryButton: {
-      background: "#ff1f2c",
-      color: "#ffffff",
-      padding: "1.2rem 2.5rem",
-      borderRadius: "10px",
-      border: "none",
-      fontSize: "1.2rem",
-      fontWeight: "700",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      boxShadow: "0 4px 15px rgba(255, 31, 44, 0.2)",
+      marginBottom: "2rem",
+      position: "relative",
+      zIndex: 10,
     },
 
     ctaHighlight: {
-      background: colors.bgSurface,
-      padding: "2rem",
+      background: "#19232A",
+      padding: "1.5rem 2rem",
       borderRadius: "15px",
-      fontSize: "1.2rem",
-      maxWidth: "700px",
+      fontSize: "clamp(1rem, 3vw, 1.3rem)",
+      maxWidth: "800px",
       margin: "0 auto",
-      border: "2px solid #0edb61",
-      color: colors.textPrimary,
+      border: "1px solid rgba(255, 255, 255, 0.05)",
+      color: "#ffffff",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      cursor: "pointer",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
     },
   };
 
+  // Data Arrays
+  const statsData = [
+    { number: "20+", label: "Years Experience" },
+    { number: "200+", label: "Startups Advised" },
+    { number: "95%", label: "Success Rate" },
+  ];
+
+  const servicesData = [
+    {
+      icon: <Lightbulb size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Startup Coaching",
+      description: "Comprehensive guidance for aspiring entrepreneurs from ideation to execution, ensuring your startup is built on solid foundations.",
+      items: [
+        "Idea validation and market research",
+        "Business plan development and refinement",
+        "Team building and leadership guidance",
+      ]
+    },
+    {
+      icon: <LineChart size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Business Model Analysis",
+      description: "Get your business evaluated and refined with expert input, optimizing for sustainability and growth potential.",
+      items: [
+        "Revenue model optimization",
+        "Cost structure analysis",
+        "Competitive positioning strategy",
+      ]
+    },
+    {
+      icon: <TrendingUp size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Sales Strategy & Growth",
+      description: "Tailored game plans for scaling and market positioning, designed to accelerate your business growth and market penetration.",
+      items: [
+        "Go-to-market strategy development",
+        "Sales funnel optimization",
+        "Growth hacking techniques",
+      ]
+    },
+    {
+      icon: <Presentation size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Investor Deck & Pitch",
+      description: "Prepare for investor talks and funding rounds with compelling presentations and pitch strategies that get results.",
+      items: [
+        "Investor deck creation and refinement",
+        "Pitch practice and coaching",
+        "Investor network introductions",
+      ]
+    }
+  ];
+
+  const approachData = [
+    {
+      icon: <Briefcase size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Real-World Experience",
+      description: "Benefit from decades of hands-on entrepreneurial experience, not just theoretical knowledge. Our advice comes from actual startup successes and lessons learned."
+    },
+    {
+      icon: <Target size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Personalized Strategy",
+      description: "Every business is unique. We develop customized strategies that align with your specific industry, market conditions, and growth objectives."
+    },
+    {
+      icon: <Users size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "End-to-End Support",
+      description: "From initial concept to investor readiness, we provide comprehensive support throughout your entrepreneurial journey, ensuring no critical step is missed."
+    },
+    {
+      icon: <Network size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Network Access",
+      description: "Gain access to an extensive network of investors, industry experts, and potential partners to accelerate your business growth and opportunities."
+    }
+  ];
+
+  const clientsData = [
+    {
+      icon: <UserCheck size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Aspiring Entrepreneurs",
+      items: [
+        "First-time founders with innovative ideas",
+        "Professionals transitioning to entrepreneurship",
+        "Students developing startup concepts",
+        "Career changers seeking business opportunities",
+      ]
+    },
+    {
+      icon: <Lightbulb size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Early-Stage Startups",
+      items: [
+        "Pre-seed and seed stage companies",
+        "Startups seeking product-market fit",
+        "Teams preparing for funding rounds",
+        "Companies needing strategic pivot guidance",
+      ]
+    },
+    {
+      icon: <TrendingUp size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Growing Businesses",
+      items: [
+        "SMEs ready for scaling operations",
+        "Companies entering new markets",
+        "Businesses optimizing for growth",
+        "Organizations seeking strategic partnerships",
+      ]
+    },
+    {
+      icon: <Building size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Corporate Innovators",
+      items: [
+        "Large companies developing new ventures",
+        "Corporate innovation teams",
+        "Organizations launching intrapreneurship programs",
+        "Companies seeking digital transformation",
+      ]
+    }
+  ];
+
   return (
     <div style={styles.container}>
-      {/* CSS Styles with Business-Themed Animations */}
       <style>
         {`
-          html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 2px;
+          :root {
+            --header-scrolled-bg: ${colors.headerScrolledBg};
+            --header-text: ${isDark ? "rgb(255,255,255)" : "#1a1a2e"};
+            --header-dropdown-bg: ${colors.bgCard};
+            --header-dropdown-text: ${colors.textPrimary};
+            --header-mobile-bg: ${isDark ? "rgba(19,27,33,0.98)" : "rgba(255,255,255,0.98)"};
+            --header-mobile-text: ${colors.textPrimary};
           }
 
-          /* Header Styles */
+          html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 60px;
+          }
+
+          /* Strict 2x2 grid */
+          .grid-2x2-strict {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin-top: 2rem;
+          }
+
+          @media (max-width: 768px) {
+            .grid-2x2-strict {
+              grid-template-columns: 1fr;
+              gap: 1.5rem;
+            }
+          }
+
+          /* Enhanced Animation Keyframes */
+          @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          
+          @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-60px); }
+            to { opacity: 1; transform: translateX(0); }
+          }
+          
+          @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+          }
+          
+          @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.7) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+          }
+          
+          @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.2) translateY(50px); }
+            50% { opacity: 1; transform: scale(1.1) translateY(-10px); }
+            70% { transform: scale(0.95) translateY(5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+          }
+          
+          @keyframes slideInFromTop {
+            from { opacity: 0; transform: translateY(-60px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          
+          @keyframes rotateIn {
+            from { opacity: 0; transform: rotate(-180deg) scale(0.5); }
+            to { opacity: 1; transform: rotate(0deg) scale(1); }
+          }
+          
+          @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.3); }
+            to { opacity: 1; transform: scale(1); }
+          }
+          
+          @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(14, 219, 97, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(14, 219, 97, 0.6); }
+          }
+          
+          .animate-fade-in-up { animation: fadeInUp 1s ease-out forwards; }
+          .animate-fade-in-left { animation: fadeInLeft 1s ease-out forwards; }
+          .animate-fade-in-right { animation: fadeInRight 1s ease-out forwards; }
+          .animate-scale-in { animation: scaleIn 0.8s ease-out forwards; }
+          .animate-bounce-in { animation: bounceIn 1s ease-out forwards; }
+          .animate-slide-in-top { animation: slideInFromTop 1s ease-out forwards; }
+          .animate-rotate-in { animation: rotateIn 1s ease-out forwards; }
+          .animate-zoom-in { animation: zoomIn 0.8s ease-out forwards; }
+          .animate-pulse-glow { animation: pulseGlow 2s infinite; }
+          
+          .stagger-1 { animation-delay: 0.1s; }
+          .stagger-2 { animation-delay: 0.3s; }
+          .stagger-3 { animation-delay: 0.5s; }
+          .stagger-4 { animation-delay: 0.7s; }
+          .stagger-5 { animation-delay: 0.9s; }
+          .stagger-6 { animation-delay: 1.1s; }
+          
+          .animate-on-scroll { opacity: 0; }
+          
           .header {
             background-color: transparent;
             box-shadow: none;
@@ -648,14 +806,14 @@ const ConSult = () => {
             top: 0;
             z-index: 1000;
             width: 100%;
-            padding: 10px 0;
+            padding: 8px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
             font-weight: 900;
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
-
+          
           .header.scrolled {
             background-color: var(--header-scrolled-bg);
             backdrop-filter: blur(5px);
@@ -668,10 +826,9 @@ const ConSult = () => {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-right: 5%;
-            padding-left: 5%;
+            padding: 0 5%;
           }
-          
+
           .logo {
             display: flex;
             align-items: center;
@@ -679,10 +836,7 @@ const ConSult = () => {
             margin-right: auto;
           }
           
-          .logo-img {
-            height: 40px;
-            width: auto;
-          }
+          .logo-img { height: 40px; width: auto; }
           
           .desktop-nav {
             display: flex;
@@ -696,26 +850,24 @@ const ConSult = () => {
           .nav-link {
             text-decoration: none;
             color: var(--header-text);
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
             position: relative;
             display: inline-block;
             cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            text-transform: inherit;
           }
-
-          .nav-link:hover {
-            transform: translateY(-2px);
-          }
-
-          .dropdown {
-            position: relative;
-          }
-
-          .dropdown:hover .dropdown-content {
-            display: block;
-          }
-
+          
+          .nav-link:hover { transform: translateY(-2px); }
+          .dropdown { position: relative; }
+          .dropdown:hover .dropdown-content { display: block; }
+          
           .dropdown-content {
             display: none;
             position: absolute;
@@ -729,7 +881,7 @@ const ConSult = () => {
             border-radius: 8px;
             border: 1px solid #e0e0e0;
           }
-
+          
           .dropdown-link {
             display: block;
             padding: 12px 20px;
@@ -742,10 +894,7 @@ const ConSult = () => {
             text-transform: uppercase;
           }
 
-          .dropdown-link:hover {
-            background-color: #f0f0f0;
-            color: #0edb61;
-          }
+          .dropdown-link:hover { background-color: #f0f0f0; color: #0edb61; }
 
           .mobile-menu-toggle {
             background: none;
@@ -774,595 +923,51 @@ const ConSult = () => {
             border-bottom: 1px solid #f3f4f6;
             font-size: 16px;
             transition: background-color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
           }
-
-          .mobile-nav-link:hover {
-            background-color: rgba(14, 219, 97, 0.1);
-          }
-
-          .mobile-dropdown {
-            position: relative;
-          }
-
+          
+          .mobile-nav-link:hover { background-color: rgba(14, 219, 97, 0.1); }
+          .mobile-dropdown { position: relative; }
+          
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
-            padding: 15px 20px;
-            text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
-            background: none;
-            border: none;
-            text-align: left;
-            font-size: 16px;
-            cursor: pointer;
           }
-          
+
           .mobile-dropdown-content {
             background-color: rgba(248, 249, 250, 0.9);
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
           }
-          
+
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: #555;
+            color: var(--header-mobile-text);
             text-decoration: none;
             font-size: 14px;
             border-bottom: 1px solid rgba(0,0,0,0.05);
           }
           
-          .rotate-180 {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-          }
-
-          /* Business-Themed Animation Keyframes */
-          @keyframes executeIn {
-            from {
-              opacity: 0;
-              transform: translateY(-80px) scale(0.8);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0) scale(1);
-            }
-          }
-
-          @keyframes strategicSlide {
-            from {
-              opacity: 0;
-              transform: translateX(-120px) skewX(-10deg);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0) skewX(0deg);
-            }
-          }
-
-          @keyframes growthSurge {
-            from {
-              opacity: 0;
-              transform: translateX(120px) rotateY(45deg);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0) rotateY(0deg);
-            }
-          }
-
-          @keyframes powerZoom {
-            from {
-              opacity: 0;
-              transform: scale(0.3) rotate(20deg);
-            }
-            50% {
-              opacity: 0.8;
-              transform: scale(1.1) rotate(-5deg);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1) rotate(0deg);
-            }
-          }
-
-          @keyframes consultativeRise {
-            from {
-              opacity: 0;
-              transform: translateY(150px) rotateX(30deg);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0) rotateX(0deg);
-            }
-          }
-
-          @keyframes expertiseUnfold {
-            0% {
-              opacity: 0;
-              transform: perspective(800px) rotateY(-90deg) translateZ(-50px);
-            }
-            50% {
-              opacity: 0.7;
-              transform: perspective(800px) rotateY(-45deg) translateZ(0px);
-            }
-            100% {
-              opacity: 1;
-              transform: perspective(800px) rotateY(0deg) translateZ(0px);
-            }
-          }
-
-          @keyframes boardroomSlide {
-            from {
-              opacity: 0;
-              transform: translateX(-200px) perspective(600px) rotateY(45deg);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0) perspective(600px) rotateY(0deg);
-            }
-          }
-
-          @keyframes successBuild {
-            0% {
-              opacity: 0;
-              transform: scaleY(0) translateY(50px);
-              transform-origin: bottom;
-            }
-            60% {
-              opacity: 0.8;
-              transform: scaleY(1.1) translateY(-10px);
-            }
-            100% {
-              opacity: 1;
-              transform: scaleY(1) translateY(0);
-            }
-          }
-
-          @keyframes networkExpand {
-            0% {
-              opacity: 0;
-              transform: scale(0.1) rotate(180deg);
-            }
-            50% {
-              opacity: 0.8;
-              transform: scale(1.2) rotate(0deg);
-            }
-              70% {
-              transform: scale(0.95) rotate(-5deg);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1) rotate(0deg);
-            }
-          }
-
-          @keyframes innovationSpark {
-            0% {
-              opacity: 0;
-              transform: scale(0.3) translateY(80px) rotate(-45deg);
-              filter: brightness(0.3);
-            }
-            50% {
-              opacity: 0.9;
-              transform: scale(1.1) translateY(-20px) rotate(10deg);
-              filter: brightness(1.3);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1) translateY(0) rotate(0deg);
-              filter: brightness(1);
-            }
-          }
-
-          @keyframes professionalGlow {
-            0%, 100% {
-              box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
-              transform: scale(1);
-            }
-            50% {
-              box-shadow: 0 0 40px rgba(14, 219, 97, 0.6), 0 0 60px rgba(255, 31, 44, 0.2);
-              transform: scale(1.02);
-            }
-          }
-
-          /* Hero Section Animations - Executive Theme */
-          .hero-title {
-            animation: executeIn 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          }
-
-          .hero-subtitle {
-            animation: strategicSlide 1.2s ease-out 0.3s both;
-          }
-
-          .hero-description {
-            animation: growthSurge 1.2s ease-out 0.6s both;
-          }
-
-          .hero-buttons {
-            animation: powerZoom 1s ease-out 0.9s both;
-          }
-
-          /* Section Animations */
-          .section-visible .section-title {
-            animation: executeIn 0.9s ease-out both;
-          }
-
-          /* Leadership Section - Authority Theme */
-          .section-visible .leadership-text {
-            animation: boardroomSlide 1.2s ease-out 0.2s both;
-          }
-
-          .section-visible .leadership-stats {
-            animation: consultativeRise 1s ease-out 0.4s both;
-          }
-
-          .section-visible .stat-item-1 {
-            animation: successBuild 0.8s ease-out 0.6s both;
-          }
-
-          .section-visible .stat-item-2 {
-            animation: successBuild 0.8s ease-out 0.8s both;
-          }
-
-          .section-visible .stat-item-3 {
-            animation: successBuild 0.8s ease-out 1s both;
-          }
-
-          /* Services Section - Expertise Unfold */
-          .section-visible .service-card-1 {
-            animation: expertiseUnfold 1s ease-out 0.2s both;
-          }
-
-          .section-visible .service-card-2 {
-            animation: expertiseUnfold 1s ease-out 0.4s both;
-          }
-
-          .section-visible .service-card-3 {
-            animation: expertiseUnfold 1s ease-out 0.6s both;
-          }
-
-          .section-visible .service-card-4 {
-            animation: expertiseUnfold 1s ease-out 0.8s both;
-          }
-
-          .section-visible .service-icon {
-            animation: professionalGlow 2s ease-in-out infinite;
-          }
-
-          /* Approach Section - Innovation Spark */
-          .section-visible .approach-card-1 {
-            animation: innovationSpark 1s ease-out 0.2s both;
-          }
-
-          .section-visible .approach-card-2 {
-            animation: innovationSpark 1s ease-out 0.4s both;
-          }
-
-          .section-visible .approach-card-3 {
-            animation: innovationSpark 1s ease-out 0.6s both;
-          }
-
-          .section-visible .approach-card-4 {
-            animation: innovationSpark 1s ease-out 0.8s both;
-          }
-
-          /* Clients Section - Network Expansion */
-          .section-visible .client-card-1 {
-            animation: networkExpand 1s ease-out 0.2s both;
-          }
-
-          .section-visible .client-card-2 {
-            animation: networkExpand 1s ease-out 0.4s both;
-          }
-
-          .section-visible .client-card-3 {
-            animation: networkExpand 1s ease-out 0.6s both;
-          }
-
-          .section-visible .client-card-4 {
-            animation: networkExpand 1s ease-out 0.8s both;
-          }
-
-          /* CTA Section - Executive Decision */
-          .section-visible .cta-title {
-            animation: executeIn 1s ease-out both;
-          }
-
-          .section-visible .cta-description {
-            animation: strategicSlide 1s ease-out 0.3s both;
-          }
-
-          .section-visible .cta-buttons {
-            animation: powerZoom 0.8s ease-out 0.6s both;
-          }
-
-          .section-visible .cta-highlight {
-            animation: consultativeRise 1s ease-out 0.9s both;
-          }
-
-          /* Responsive Styles */
+          .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
+          
           @media (max-width: 1024px) {
-            .desktop-nav {
-              display: none !important;
-            }
-            .mobile-menu-toggle {
-              display: block !important;
-            }
+            .desktop-nav { display: none !important; }
+            .mobile-menu-toggle { display: block !important; }
           }
-          
-          @media (min-width: 1025px) {
-            .mobile-nav {
-              display: none !important;
-            }
-          }
-
-          /* Responsive Animation Adjustments */
-          @media (max-width: 768px) {
-            .section-visible .leadership-text,
-            .section-visible .leadership-stats {
-              animation: consultativeRise 0.8s ease-out 0.2s both;
-            }
-            
-            .section-visible .service-card-1,
-            .section-visible .service-card-2,
-            .section-visible .service-card-3,
-            .section-visible .service-card-4 {
-              animation: consultativeRise 0.8s ease-out 0.2s both;
-            }
-            
-            .section-visible .approach-card-1,
-            .section-visible .approach-card-2,
-            .section-visible .approach-card-3,
-            .section-visible .approach-card-4 {
-              animation: consultativeRise 0.8s ease-out 0.2s both;
-            }
-            
-            .section-visible .client-card-1,
-            .section-visible .client-card-2,
-            .section-visible .client-card-3,
-            .section-visible .client-card-4 {
-              animation: consultativeRise 0.8s ease-out 0.2s both;
-            }
-          }
-
-          @media (max-width: 480px) {
-            .hero-title {
-              animation: executeIn 1s ease-out;
-            }
-            
-            .hero-subtitle {
-              animation: strategicSlide 0.8s ease-out 0.2s both;
-            }
-            
-            .hero-description {
-              animation: growthSurge 0.8s ease-out 0.4s both;
-            }
-            
-            .hero-buttons {
-              animation: powerZoom 0.6s ease-out 0.6s both;
-            }
-          }
-          @keyframes slideInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(14, 219, 97, 0.6);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2s infinite;
-}
-
-.animate-slide-in-top {
-  animation: slideInFromTop 1s ease-out forwards;
-}
-
-.animate-zoom-in {
-  animation: zoomIn 0.8s ease-out forwards;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 1.2s ease-out forwards;
-}
-
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.3s; }
-.stagger-3 { animation-delay: 0.5s; }
-
-/* Update existing hero animations */
-.hero-title {
-  animation: fadeInUp 1.2s ease-out 0.2s both;
-}
-
-.hero-subtitle {
-  animation: fadeInUp 1.2s ease-out 0.4s both;
-}
-
-.hero-description {
-  animation: fadeInUp 1.2s ease-out 0.6s both;
-}
-
-.hero-buttons {
-  animation: fadeInUp 1.2s ease-out 0.8s both;
-}
-
-.consult-clients-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-/* Large screens - keep 2x2 grid */
-@media (min-width: 1025px) {
-  .consult-clients-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    max-width: 900px;
-    margin: 3rem auto 0;
-  }
-}
-
-/* Tablets and small laptops */
-@media (max-width: 1024px) {
-  .consult-clients-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.8rem;
-  }
-}
-
-/* Tablets and large phones */
-@media (max-width: 768px) {
-  .consult-clients-grid {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
-    margin-top: 2.5rem !important;
-  }
-}
-
-/* Small phones */
-@media (max-width: 480px) {
-  .consult-clients-grid {
-    grid-template-columns: 1fr !important;
-    gap: 1.2rem !important;
-    margin-top: 2rem !important;
-    padding: 0 10px;
-  }
-  
-  .client-category {
-    padding: 1.5rem 1.2rem !important;
-  }
-  
-  .client-title {
-    font-size: 1.1rem !important;
-    margin-bottom: 1rem !important;
-  }
-  
-  .client-list-item {
-    font-size: 0.9rem !important;
-    margin-bottom: 0.7rem !important;
-    line-height: 1.4 !important;
-  }
-}
-
-/* Very small screens like 425px */
-@media (max-width: 425px) {
-  .consult-clients-grid {
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-    margin-top: 1.5rem !important;
-    padding: 0 5px;
-  }
-  
-  .client-category {
-    padding: 1.2rem 1rem !important;
-    margin: 0 !important;
-  }
-  
-  .client-title {
-    font-size: 1rem !important;
-    margin-bottom: 0.8rem !important;
-    text-align: center;
-  }
-  
-  .client-list {
-    padding-left: 0 !important;
-  }
-  
-  .client-list-item {
-    font-size: 0.85rem !important;
-    margin-bottom: 0.6rem !important;
-    line-height: 1.3 !important;
-    padding-left: 0.5rem;
-  }
-}
-  .approach-grid-3-1 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: auto auto;
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-/* Position the 4th card (Network Access) in the center of the second row */
-.approach-grid-3-1 .approach-card:nth-child(4) {
-  grid-column: 2 / 3; /* Place in the middle column of second row */
-  grid-row: 2;
-}
-
-/* Responsive breakpoints */
-@media (max-width: 1024px) {
-  .approach-grid-3-1 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.8rem;
-  }
-  
-  .approach-grid-3-1 .approach-card:nth-child(4) {
-    grid-column: 1 / -1; /* Span full width on tablets */
-    grid-row: auto;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .approach-grid-3-1 {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
-  }
-  
-  .approach-grid-3-1 .approach-card:nth-child(4) {
-    grid-column: 1 !important;
-    grid-row: auto !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .approach-grid-3-1 {
-    gap: 1.2rem !important;
-    margin-top: 2rem !important;
-  }
-}
-
-          
         `}
       </style>
 
       {/* Header - Navigation */}
       <header className={`header ${scrolled ? "scrolled" : ""}`}>
         <div className="header-container">
-          {/* Logo */}
           <a href="/" className="logo">
             <img
               src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
@@ -1371,12 +976,10 @@ const ConSult = () => {
             />
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="desktop-nav">
             <Link to="/sub-brands" className="nav-link">
               Home
             </Link>
-            {/* Sub-brands Dropdown */}
             <div className="dropdown">
               <span className="nav-link">Sub-brands ▾</span>
               <div className="dropdown-content">
@@ -1387,7 +990,7 @@ const ConSult = () => {
                     className="dropdown-link"
                     onClick={(e) => {
                       e.preventDefault();
-                      navigate(brand.route);
+                      handleNavigation(brand.route);
                     }}
                   >
                     {brand.name}
@@ -1395,160 +998,53 @@ const ConSult = () => {
                 ))}
               </div>
             </div>
-            <a
-              href="#leadership"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("leadership");
-              }}
-            >
+            <a href="#leadership" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("leadership"); }}>
               Leadership
             </a>
-            <a
-              href="#services"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("services");
-              }}
-            >
+            <a href="#services" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("services"); }}>
               Services
             </a>
-            <a
-              href="#approach"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("approach");
-              }}
-            >
+            <a href="#approach" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("approach"); }}>
               Our Approach
             </a>
-            <a
-              href="#clients"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("clients");
-              }}
-            >
+            <a href="#clients" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("clients"); }}>
               Target Clients
             </a>
-            <a
-              href="#cta"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
+            <a href="#cta" className="nav-link" onClick={(e) => { e.preventDefault(); handleSmoothScroll("cta"); }}>
               Contact
             </a>
           </nav>
 
-          {/* Mobile menu toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="mobile-menu-toggle"
-            aria-label="Toggle mobile menu"
-          >
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="mobile-menu-toggle">
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile menu */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
-            <Link to="/sub-brands" className="mobile-nav-link">
-              Home
-            </Link>
-
-            {/* Mobile Sub-brands Dropdown */}
+            <Link to="/sub-brands" className="mobile-nav-link">Home</Link>
             <div className="mobile-dropdown">
               <button
                 className="mobile-nav-link mobile-dropdown-toggle"
-                onClick={() =>
-                  setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)
-                }
+                onClick={() => setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)}
               >
-                Sub-brands{" "}
-                <ChevronDown
-                  size={16}
-                  className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""}
-                />
+                Sub-brands <ChevronDown size={16} className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""} />
               </button>
               {mobileSubBrandsDropdownOpen && (
                 <div className="mobile-dropdown-content">
                   {subBrandsData.map((brand, index) => (
-                    <a
-                      key={index}
-                      href={brand.route}
-                      className="mobile-nav-sublink"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate(brand.route);
-                        setMobileMenuOpen(false);
-                        setMobileSubBrandsDropdownOpen(false);
-                      }}
-                    >
+                    <a key={index} href={brand.route} className="mobile-nav-sublink" onClick={(e) => { e.preventDefault(); handleNavigation(brand.route); }}>
                       {brand.name}
                     </a>
                   ))}
                 </div>
               )}
             </div>
-
-            <a
-              href="#leadership"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("leadership");
-              }}
-            >
-              Leadership
-            </a>
-            <a
-              href="#services"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("services");
-              }}
-            >
-              Services
-            </a>
-            <a
-              href="#approach"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("approach");
-              }}
-            >
-              Our Approach
-            </a>
-            <a
-              href="#clients"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("clients");
-              }}
-            >
-              Target Clients
-            </a>
-            <a
-              href="#cta"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Contact
-            </a>
+            <button onClick={() => handleSmoothScroll("leadership")} className="mobile-nav-link">Leadership</button>
+            <button onClick={() => handleSmoothScroll("services")} className="mobile-nav-link">Services</button>
+            <button onClick={() => handleSmoothScroll("approach")} className="mobile-nav-link">Our Approach</button>
+            <button onClick={() => handleSmoothScroll("clients")} className="mobile-nav-link">Target Clients</button>
+            <button onClick={() => handleSmoothScroll("cta")} className="mobile-nav-link">Contact</button>
           </nav>
         )}
       </header>
@@ -1556,53 +1052,26 @@ const ConSult = () => {
       {/* Hero Section */}
       <section id="hero" ref={heroRef} style={styles.heroSection}>
         <div style={styles.heroContent} key={heroAnimationKey}>
-          {/* Large Brand Logo/Number Image - Like ConVerse */}
           <img
-            src="/assets/logo/9.png" // Replace with your ConSult logo/image
+            src="/assets/logo/9.png"
             alt="8ConSult"
             style={styles.heroTopImage}
-            className={`animate-on-scroll ${
-              isAnimated("hero") ? "animate-slide-in-top" : ""
-            }`}
+            className={`animate-on-scroll ${isAnimated("hero") ? "animate-slide-in-top" : ""}`}
           />
-
-          {/* Glassmorphic Content Block */}
           <div style={styles.heroForegroundContent}>
-            {/* Subtitle */}
-            <p
-              style={styles.heroSubtitle}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""
-              }`}
-            >
-              Business Development & Startup Advisory with Sir Nigel Santos
+            <p style={styles.heroSubtitle} className={`animate-on-scroll ${isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""}`}>
+              Business Development & Startup Advisory
             </p>
-
-            {/* Description */}
-            <p
-              style={styles.heroDescription}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""
-              }`}
-            >
-              A consultation arm powered by real-world experience in
-              entrepreneurship. Transform your business ideas into thriving
-              ventures with expert guidance from ideation to execution, scaling,
-              and investor readiness.
+            <p style={styles.heroDescription} className={`animate-on-scroll ${isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""}`}>
+              A consultation arm powered by real-world experience in entrepreneurship. Transform your business ideas into thriving ventures with expert guidance from ideation to execution, scaling, and investor readiness.
             </p>
-
-            {/* Buttons */}
-            <div
-              style={styles.heroButtons}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-zoom-in stagger-3" : ""
-              }`}
-            >
+            <div style={styles.heroButtons} className={`animate-on-scroll ${isAnimated("hero") ? "animate-zoom-in stagger-3" : ""}`}>
               <button
                 style={styles.ctaButtonPrimary}
                 className={isAnimated("hero") ? "animate-pulse-glow" : ""}
+                onClick={() => handleSmoothScroll("services")}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0cbb52";
+                  e.currentTarget.style.background = "#ff1f2c";
                   e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
@@ -1610,22 +1079,22 @@ const ConSult = () => {
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
+                <Calendar size={20} style={{ marginRight: "8px" }} />
                 Book Consultation
               </button>
               <button
                 style={styles.ctaButtonSecondary}
-                onClick={() => handleSmoothScroll("services")}
+                onClick={() => { window.open("/assets/pdf/startup-guide.pdf", "_blank"); }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#ff1f2c";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.25)";
                   e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
+                <FileText size={20} style={{ marginRight: "8px" }} />
                 Get Startup Kit
               </button>
             </div>
@@ -1633,515 +1102,251 @@ const ConSult = () => {
         </div>
       </section>
 
-      {/* Leadership Section */}
-      <section
-        id="leadership"
-        ref={leadershipRef}
-        style={styles.leadershipSection}
-        className={isAnimated("leadership") ? "section-visible" : ""}
-      >
+      {/* Leadership Section (Stacked with stats at bottom) */}
+      <section id="leadership" ref={leadershipRef} style={styles.leadershipSection}>
         <div style={styles.container2}>
-          <h2 style={styles.sectionTitle} className="section-title">
-            Led by Entrepreneurial Excellence
+          <h2 style={styles.sectionTitle} className={`animate-on-scroll ${isAnimated("leadership") ? "animate-slide-in-top" : ""}`}>
+            LED BY <span style={{ color: "#39CC2F" }}>ENTREPRENEURIAL EXCELLENCE</span>
           </h2>
           <div style={styles.leadershipContent}>
-            <div style={styles.leadershipText} className="leadership-text">
-              <p style={styles.leadershipDescription}>
-                Spearheaded by{" "}
-                <strong style={styles.strongText}>Sir Nigel Santos</strong>, our
-                Chief Business Development Officer, 8ConSult brings decades of
-                real-world entrepreneurial experience to your business journey.
-                Sir Nigel's proven track record in building successful ventures,
-                navigating market challenges, and scaling businesses provides
-                the foundation for our comprehensive advisory services.
+            <div style={styles.aboutText} className={`animate-on-scroll ${isAnimated("leadership") ? "animate-fade-in-up stagger-1" : ""}`}>
+              <p style={{ marginBottom: "1.5rem", color: "#A0ABB5", lineHeight: "1.8" }}>
+                Spearheaded by <strong style={{ color: "#39CC2F" }}>Sir Nigel Santos</strong>, our Chief Business Development Officer, 8ConSult brings decades of real-world entrepreneurial experience to your business journey. Sir Nigel's proven track record in building successful ventures, navigating market challenges, and scaling businesses provides the foundation for our comprehensive advisory services.
               </p>
-              <p style={styles.leadershipDescription}>
-                With expertise spanning startup ecosystems, business model
-                innovation, and investor relations, Sir Nigel ensures that every
-                consultation delivers actionable insights and strategic
-                direction tailored to your unique business goals.
+              <p style={{ color: "#A0ABB5", lineHeight: "1.8" }}>
+                With expertise spanning startup ecosystems, business model innovation, and investor relations, Sir Nigel ensures that every consultation delivers actionable insights and strategic direction tailored to your unique business goals.
               </p>
             </div>
-            <div style={styles.leadershipStats} className="leadership-stats">
-              <div style={styles.statItem} className="stat-item-1">
-                <h3 style={styles.statNumber}>20+</h3>
-                <p style={styles.statLabel}>Years Experience</p>
-              </div>
-              <div style={styles.statItem} className="stat-item-2">
-                <h3 style={styles.statNumber}>200+</h3>
-                <p style={styles.statLabel}>Startups Advised</p>
-              </div>
-              <div style={styles.statItem} className="stat-item-3">
-                <h3 style={styles.statNumber}>95%</h3>
-                <p style={styles.statLabel}>Success Rate</p>
-              </div>
+            
+            <div style={styles.aboutStatsGrid}>
+              {statsData.map((stat, index) => {
+                const shadowGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.25)" : "rgba(255, 31, 44, 0.25)";
+                const borderGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.5)" : "rgba(255, 31, 44, 0.5)";
+
+                return (
+                  <div
+                    key={index}
+                    style={styles.cardStyle}
+                    className={`animate-on-scroll ${isAnimated("leadership") ? `animate-scale-in stagger-${index + 2}` : ""}`}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-8px) scale(1.02)";
+                      e.currentTarget.style.boxShadow = `0 20px 40px rgba(0, 0, 0, 0.5), 0 10px 25px ${shadowGlow}`; 
+                      e.currentTarget.style.borderColor = borderGlow; 
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0) scale(1)";
+                      e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
+                    }}
+                  >
+                    <h3 style={{ ...styles.statNumber, color: index % 2 === 0 ? "#39CC2F" : "#ff1f2c" }}>
+                      {stat.number}
+                    </h3>
+                    <p style={styles.statLabel}>{stat.label}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section
-        id="services"
-        ref={servicesRef}
-        style={styles.servicesSection}
-        className={isAnimated("services") ? "section-visible" : ""}
-      >
+      {/* Services Section (HAS TOP COLOR BAR) */}
+      <section id="services" ref={servicesRef} style={styles.servicesSection}>
         <div style={styles.container2}>
-          <h2
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
-            className="section-title"
-          >
-            Our Advisory Services
+          <h2 style={styles.sectionTitle} className={`animate-on-scroll ${isAnimated("services") ? "animate-slide-in-top" : ""}`}>
+            OUR ADVISORY <span style={{ color: "#ff1f2c" }}>SERVICES</span>
           </h2>
-          <div style={styles.servicesGrid}>
-            <div
-              style={styles.serviceCard}
-              className="service-card-1"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.serviceIcon} className="service-icon">
-                <Lightbulb size={48} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>Startup Coaching</h3>
-              <p style={styles.serviceDescription}>
-                Comprehensive guidance for aspiring entrepreneurs from ideation
-                to execution, ensuring your startup is built on solid
-                foundations.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • Idea validation and market research
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Business plan development and refinement
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Team building and leadership guidance
-                </li>
-              </ul>
-            </div>
+          <div className="grid-2x2-strict">
+            {servicesData.map((data, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const shadowGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.25)" : "rgba(255, 31, 44, 0.25)";
+              const borderGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.5)" : "rgba(255, 31, 44, 0.5)";
 
-            <div
-              style={styles.serviceCard}
-              className="service-card-2"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.serviceIcon} className="service-icon">
-                <LineChart size={48} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>Business Model Analysis</h3>
-              <p style={styles.serviceDescription}>
-                Get your business evaluated and refined with expert input,
-                optimizing for sustainability and growth potential.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • Revenue model optimization
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Cost structure analysis
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Competitive positioning strategy
-                </li>
-              </ul>
-            </div>
-
-            <div
-              style={styles.serviceCard}
-              className="service-card-3"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.serviceIcon} className="service-icon">
-                <TrendingUp size={48} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>
-                Sales Strategy & Growth Blueprint
-              </h3>
-              <p style={styles.serviceDescription}>
-                Tailored game plans for scaling and market positioning, designed
-                to accelerate your business growth and market penetration.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • Go-to-market strategy development
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Sales funnel optimization
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Growth hacking techniques
-                </li>
-              </ul>
-            </div>
-
-            <div
-              style={styles.serviceCard}
-              className="service-card-4"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.serviceIcon} className="service-icon">
-                <Presentation size={48} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>Investor Deck & Pitch Support</h3>
-              <p style={styles.serviceDescription}>
-                Prepare for investor talks and funding rounds with compelling
-                presentations and pitch strategies that get results.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • Investor deck creation and refinement
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Pitch practice and coaching
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Investor network introductions
-                </li>
-              </ul>
-            </div>
+              return (
+                <div
+                  key={index}
+                  style={styles.cardStyle}
+                  className={`animate-on-scroll ${isAnimated("services") ? `animate-zoom-in stagger-${index + 1}` : ""}`}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = `0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px ${shadowGlow}`; 
+                    e.currentTarget.style.borderColor = borderGlow; 
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
+                    e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
+                  }}
+                >
+                  {/* TOP COLOR BAR */}
+                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
+                  
+                  <div style={styles.cardIcon}>{data.icon}</div>
+                  <h3 style={styles.cardTitle}>{data.title}</h3>
+                  <p style={styles.cardDescription}>{data.description}</p>
+                  <ul style={styles.cardList}>
+                    {data.items.map((item, itemIndex) => (
+                      <li key={itemIndex} style={styles.cardListItem}>
+                        <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Our Approach Section */}
-      <section
-        id="approach"
-        ref={approachRef}
-        style={styles.approachSection}
-        className={isAnimated("approach") ? "section-visible" : ""}
-      >
+      {/* Our Approach Section (NO TOP COLOR BAR) */}
+      <section id="approach" ref={approachRef} style={styles.approachSection}>
         <div style={styles.container2}>
-          <h2 style={styles.sectionTitle} className="section-title">
-            Why Choose 8ConSult?
+          <h2 style={styles.sectionTitle} className={`animate-on-scroll ${isAnimated("approach") ? "animate-slide-in-top" : ""}`}>
+            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONSULT?</span>
           </h2>
-          <div style={styles.approachGrid}>
-            <div
-              style={styles.approachCard}
-              className="approach-card-1"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.borderColor = "#0edb61";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.borderColor = "transparent";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.approachTitle}>Real-World Experience</h3>
-              <p style={styles.approachDescription}>
-                Benefit from decades of hands-on entrepreneurial experience, not
-                just theoretical knowledge. Our advice comes from actual startup
-                successes and lessons learned.
-              </p>
-            </div>
+          <div className="grid-2x2-strict">
+            {approachData.map((data, index) => {
+              const shadowGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.25)" : "rgba(255, 31, 44, 0.25)";
+              const borderGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.5)" : "rgba(255, 31, 44, 0.5)";
 
-            <div
-              style={styles.approachCard}
-              className="approach-card-2"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.borderColor = "#0edb61";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.borderColor = "transparent";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.approachTitle}>Personalized Strategy</h3>
-              <p style={styles.approachDescription}>
-                Every business is unique. We develop customized strategies that
-                align with your specific industry, market conditions, and growth
-                objectives.
-              </p>
-            </div>
-
-            <div
-              style={styles.approachCard}
-              className="approach-card-3"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.borderColor = "#0edb61";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.borderColor = "transparent";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.approachTitle}>End-to-End Support</h3>
-              <p style={styles.approachDescription}>
-                From initial concept to investor readiness, we provide
-                comprehensive support throughout your entrepreneurial journey,
-                ensuring no critical step is missed.
-              </p>
-            </div>
-
-            <div
-              style={styles.approachCard}
-              className="approach-card-4"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.borderColor = "#0edb61";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.borderColor = "transparent";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.approachTitle}>Network Access</h3>
-              <p style={styles.approachDescription}>
-                Gain access to an extensive network of investors, industry
-                experts, and potential partners to accelerate your business
-                growth and opportunities.
-              </p>
-            </div>
+              return (
+                <div
+                  key={index}
+                  style={styles.cardStyle}
+                  className={`animate-on-scroll ${isAnimated("approach") ? `animate-fade-in-up stagger-${index + 1}` : ""}`}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = `0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px ${shadowGlow}`; 
+                    e.currentTarget.style.borderColor = borderGlow; 
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
+                    e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
+                  }}
+                >
+                  <div style={styles.cardIcon}>{data.icon}</div>
+                  <h3 style={styles.cardTitle}>{data.title}</h3>
+                  <p style={styles.cardDescription}>{data.description}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Target Clients Section */}
-      <section
-        id="clients"
-        ref={clientsRef}
-        style={styles.clientsSection}
-        className={isAnimated("clients") ? "section-visible" : ""}
-      >
+      {/* Target Clients Section (STRICT 2x2 GRID - NO TOP COLOR BAR) */}
+      <section id="clients" ref={clientsRef} style={styles.clientsSection}>
         <div style={styles.container2}>
-          <h2
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
-            className="section-title"
-          >
-            Who We Serve
+          <h2 style={styles.sectionTitle} className={`animate-on-scroll ${isAnimated("clients") ? "animate-slide-in-top" : ""}`}>
+            WHO WE <span style={{ color: "#ff1f2c" }}>SERVE</span>
           </h2>
-          <div className="consult-clients-grid">
-            {" "}
-            {/* Use className instead of style */}
-            <div
-              style={styles.clientCategory}
-              className="client-card client-card-1"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px) rotateY(5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.clientTitle}>Aspiring Entrepreneurs</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • First-time founders with innovative ideas
-                </li>
-                <li style={styles.clientListItem}>
-                  • Professionals transitioning to entrepreneurship
-                </li>
-                <li style={styles.clientListItem}>
-                  • Students developing startup concepts
-                </li>
-                <li style={styles.clientListItem}>
-                  • Career changers seeking business opportunities
-                </li>
-              </ul>
-            </div>
-            <div
-              style={styles.clientCategory}
-              className="client-card client-card-2"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px) rotateY(-5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.clientTitle}>Early-Stage Startups</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • Pre-seed and seed stage companies
-                </li>
-                <li style={styles.clientListItem}>
-                  • Startups seeking product-market fit
-                </li>
-                <li style={styles.clientListItem}>
-                  • Teams preparing for funding rounds
-                </li>
-                <li style={styles.clientListItem}>
-                  • Companies needing strategic pivot guidance
-                </li>
-              </ul>
-            </div>
-            <div
-              style={styles.clientCategory}
-              className="client-card client-card-3"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px) rotateY(5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.clientTitle}>Growing Businesses</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • SMEs ready for scaling operations
-                </li>
-                <li style={styles.clientListItem}>
-                  • Companies entering new markets
-                </li>
-                <li style={styles.clientListItem}>
-                  • Businesses optimizing for growth
-                </li>
-                <li style={styles.clientListItem}>
-                  • Organizations seeking strategic partnerships
-                </li>
-              </ul>
-            </div>
-            <div
-              style={styles.clientCategory}
-              className="client-card client-card-4"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px) rotateY(-5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.clientTitle}>Corporate Innovators</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • Large companies developing new ventures
-                </li>
-                <li style={styles.clientListItem}>
-                  • Corporate innovation teams
-                </li>
-                <li style={styles.clientListItem}>
-                  • Organizations launching intrapreneurship programs
-                </li>
-                <li style={styles.clientListItem}>
-                  • Companies seeking digital transformation
-                </li>
-              </ul>
-            </div>
+          <div className="grid-2x2-strict">
+            {clientsData.map((data, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const shadowGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.25)" : "rgba(255, 31, 44, 0.25)";
+              const borderGlow = index % 2 === 0 ? "rgba(57, 204, 47, 0.5)" : "rgba(255, 31, 44, 0.5)";
+
+              return (
+                <div
+                  key={index}
+                  style={styles.cardStyle}
+                  className={`animate-on-scroll ${isAnimated("clients") ? `animate-scale-in stagger-${index + 1}` : ""}`}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-12px) scale(1.02)";
+                    e.currentTarget.style.boxShadow = `0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 35px ${shadowGlow}`; 
+                    e.currentTarget.style.borderColor = borderGlow; 
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+                    e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.03)";
+                    e.currentTarget.style.borderTop = "1px solid rgba(255, 255, 255, 0.12)";
+                  }}
+                >
+                  <div style={styles.cardIcon}>{data.icon}</div>
+                  <h3 style={styles.cardTitle}>{data.title}</h3>
+                  <ul style={styles.cardList}>
+                    {data.items.map((item, itemIndex) => (
+                      <li key={itemIndex} style={styles.cardListItem}>
+                        <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section
-        id="cta"
-        ref={ctaRef}
-        style={styles.ctaSection}
-        className={isAnimated("cta") ? "section-visible" : ""}
-      >
+      <section id="cta" ref={ctaRef} style={styles.ctaSection}>
         <div style={styles.container2}>
-          <h2 style={styles.ctaTitle} className="cta-title">
-            Ready to Transform Your Business Vision?
+          <h2 style={styles.ctaTitle} className={`animate-on-scroll ${isAnimated("cta") ? "animate-slide-in-top" : ""}`}>
+            READY TO TRANSFORM <span style={{ color: "#39CC2F" }}>YOUR BUSINESS VISION?</span>
           </h2>
-          <p style={styles.ctaDescription} className="cta-description">
-            Achieve more with 8ConSult—where expert guidance meets your
-            ambition. Whether you're taking your first entrepreneurial steps or
-            scaling an existing venture, Sir Nigel Santos and our team provide
-            the strategic insights and practical support you need to succeed.
+          <p style={styles.ctaDescription} className={`animate-on-scroll ${isAnimated("cta") ? "animate-fade-in-up stagger-1" : ""}`}>
+            Achieve more with 8ConSult—where expert guidance meets your ambition. Whether you're taking your first entrepreneurial steps or scaling an existing venture, Sir Nigel Santos and our team provide the strategic insights and practical support you need to succeed.
           </p>
-          <div style={styles.ctaButtons} className="cta-buttons">
+          <div style={styles.ctaButtons} className={`animate-on-scroll ${isAnimated("cta") ? "animate-scale-in stagger-2" : ""}`}>
+            
             <button
-              style={styles.ctaPrimaryButton}
+              style={styles.ctaButtonPrimary}
+              className={`animate-on-scroll ${isAnimated("cta") ? "animate-bounce-in stagger-3" : ""}`}
+              onClick={() => handleSmoothScroll("services")}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#0cbb52";
+                e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(-3px)";
-                e.currentTarget.style.boxShadow =
-                  "0 8px 25px rgba(14, 219, 97, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 4px 15px rgba(14, 219, 97, 0.2)";
               }}
             >
-              Schedule Your Consultation
+              <Calendar size={20} style={{ marginRight: "8px" }} />
+              Schedule Consultation
             </button>
+            
             <button
-              style={styles.ctaSecondaryButton}
+              style={styles.ctaButtonRed}
+              className={`animate-on-scroll ${isAnimated("cta") ? "animate-bounce-in stagger-4" : ""}`}
+              onClick={() => { window.open("/assets/pdf/startup-guide.pdf", "_blank"); }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#ff1f2c";
+                e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(-3px)";
-                e.currentTarget.style.boxShadow =
-                  "0 8px 25px rgba(255, 31, 44, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 4px 15px rgba(255, 31, 44, 0.2)";
               }}
             >
+              <FileText size={20} style={{ marginRight: "8px" }} />
               Download Startup Guide
             </button>
+
           </div>
-          <div style={styles.ctaHighlight} className="cta-highlight">
+          <div
+            style={styles.ctaHighlight}
+            className={`animate-on-scroll ${isAnimated("cta") ? "animate-fade-in-up stagger-5" : ""}`}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
+              e.currentTarget.style.borderColor = "#39CC2F";
+              e.currentTarget.style.boxShadow = "0 15px 35px rgba(57, 204, 47, 0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.05)";
+              e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.4)";
+            }}
+          >
             <strong>
-              From ideation to execution, from startup to scale-up—8ConSult is
-              your trusted partner in building a successful business!
+              From ideation to execution, from startup to scale-up—8ConSult is your trusted partner in building a successful business!
             </strong>
           </div>
         </div>
