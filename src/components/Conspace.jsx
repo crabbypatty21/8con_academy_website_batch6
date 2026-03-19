@@ -192,6 +192,7 @@ const ConSpace = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
+      zIndex: 2, // Shielding the hero from the fixed animation background
     },
 
     heroContent: {
@@ -531,6 +532,11 @@ const ConSpace = () => {
 
   return (
     <div style={styles.container}>
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
@@ -888,7 +894,6 @@ const ConSpace = () => {
 
       {/* About Section */}
       <section id="about" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             PROFESSIONAL <span style={{ color: "#39CC2F" }}>WORKSPACE SOLUTIONS</span>
@@ -921,7 +926,6 @@ const ConSpace = () => {
 
       {/* Services Section */}
       <section id="services" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             OUR SPACE <span style={{ color: "#ff1f2c" }}>SOLUTIONS</span>
@@ -956,7 +960,6 @@ const ConSpace = () => {
 
       {/* Features Section */}
       <section id="features" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
-        <TradingBackground variant={3} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             PREMIUM <span style={{ color: "#39CC2F" }}>WORKSPACE FEATURES</span>
@@ -977,7 +980,6 @@ const ConSpace = () => {
 
       {/* Target Clients Section */}
       <section id="clients" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             WHO WE <span style={{ color: "#ff1f2c" }}>SERVE</span>
@@ -1010,7 +1012,6 @@ const ConSpace = () => {
 
       {/* CTA Section */}
       <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             READY TO ELEVATE <span style={{ color: "#39CC2F" }}>YOUR WORKSPACE?</span>

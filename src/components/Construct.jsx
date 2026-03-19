@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
-import "../ConponentCSS/Animations.css"; // Using your native Animations CSS
-import TradingBackground from "./TradingBackground.jsx"; // Imported Trading Background
+import "../ConponentCSS/Animations.css"; 
+import TradingBackground from "./TradingBackground.jsx"; 
 import {
   Menu,
   X,
@@ -104,7 +104,6 @@ const ConStruct = () => {
     },
   ];
 
-  // Handle header background on scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
@@ -113,7 +112,6 @@ const ConStruct = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Use Intersection Observer to trigger classes from Animations.css
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
@@ -123,13 +121,11 @@ const ConStruct = () => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // 'visible' class triggers the animation in Animations.css
           entry.target.classList.add("visible");
         }
       });
     }, observerOptions);
 
-    // Target all elements with these animation classes
     const animatedElements = document.querySelectorAll(".slide-in-right, .fade-in-up");
     animatedElements.forEach((el) => observer.observe(el));
 
@@ -170,7 +166,7 @@ const ConStruct = () => {
       margin: "0 auto",
       padding: "0 20px",
       position: "relative",
-      zIndex: 2, // Keeps content above the animated background
+      zIndex: 2, 
     },
 
     heroSection: {
@@ -187,6 +183,7 @@ const ConStruct = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
+      zIndex: 2, // Added to prevent the fixed background from bleeding into the hero section
     },
 
     heroContent: {
@@ -484,6 +481,11 @@ const ConStruct = () => {
 
   return (
     <div style={styles.container}>
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
@@ -838,7 +840,7 @@ const ConStruct = () => {
         )}
       </header>
 
-      {/* Hero Section (Original Design, NO TradingBackground) */}
+      {/* Hero Section */}
       <section id="hero" style={styles.heroSection}>
         <div style={styles.heroContent}>
           <img
@@ -893,7 +895,6 @@ const ConStruct = () => {
       
       {/* Leadership Section */}
       <section id="leadership" style={styles.leadershipSection}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff" }} className="fade-in-up anim-delay-1">
             Led by <span style={{ color: "#75F94C" }}>Expert Leadership</span>
@@ -910,7 +911,6 @@ const ConStruct = () => {
 
       {/* Services Section */}
       <section id="services" style={styles.servicesSection}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
             OUR SERVICES
@@ -974,8 +974,6 @@ const ConStruct = () => {
             ].map((service, index) => {
               const topColor = index % 2 === 0 ? "#39CC2F" : "#F51616";
               
-              // We wrap the card in a div with Animations.css classes 
-              // so the entry transition doesn't conflict with the hover transition
               return (
                 <div key={index} className={`slide-in-right anim-delay-${(index % 6) + 1}`}>
                   <div
@@ -1017,7 +1015,6 @@ const ConStruct = () => {
 
       {/* Why Choose Us Section */}
       <section id="why-choose" style={styles.whyChooseSection}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff", textTransform: "uppercase" }} className="fade-in-up">
             WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONSTRUCT?</span>
@@ -1086,7 +1083,6 @@ const ConStruct = () => {
 
       {/* Clients Section */}
       <section id="clients" style={styles.clientsSection}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
             WHO WE SERVE
@@ -1136,7 +1132,6 @@ const ConStruct = () => {
 
       {/* CTA Section */}
       <section id="cta" style={styles.ctaSection}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">Ready to Transform Your Data?</h2>
           <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
@@ -1144,7 +1139,6 @@ const ConStruct = () => {
             your research and data analysis projects.
           </p>
           
-          {/* Using a wrapper for the animation so the button's inline styles remain untouched */}
           <div className="fade-in-up anim-delay-3" style={{ display: "inline-block" }}>
             <button
               style={styles.ctaButton}

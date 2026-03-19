@@ -191,6 +191,7 @@ const ConPact = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
+      zIndex: 2, // Shielding the hero from the fixed animation background
     },
 
     heroContent: {
@@ -430,6 +431,11 @@ const ConPact = () => {
 
   return (
     <div style={styles.container}>
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
@@ -768,7 +774,6 @@ const ConPact = () => {
 
       {/* CSR Priorities Section */}
       <section id="csr-priorities" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             HOW 8CONPACT ALIGNS WITH <span style={{ color: "#39CC2F" }}>CSR PRIORITIES</span>
@@ -806,7 +811,6 @@ const ConPact = () => {
 
       {/* The 8ConPact Advantage Section */}
       <section id="advantage" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             THE 8CONPACT <span style={{ color: "#ff1f2c" }}>ADVANTAGE</span>
@@ -827,7 +831,6 @@ const ConPact = () => {
 
       {/* CTA Section */}
       <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
-        <TradingBackground variant={3} />
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             JOIN 8CONPACT IN <span style={{ color: "#39CC2F" }}>DRIVING IMPACT</span>

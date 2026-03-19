@@ -188,6 +188,7 @@ const ConSult = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
+      zIndex: 2, // Shielding the hero from the fixed animation background
     },
 
     heroContent: {
@@ -525,6 +526,11 @@ const ConSult = () => {
 
   return (
     <div style={styles.container}>
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
@@ -868,7 +874,6 @@ const ConSult = () => {
 
       {/* Leadership Section */}
       <section id="leadership" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             LED BY <span style={{ color: "#39CC2F" }}>ENTREPRENEURIAL EXCELLENCE</span>
@@ -901,7 +906,6 @@ const ConSult = () => {
 
       {/* Services Section */}
       <section id="services" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             OUR ADVISORY <span style={{ color: "#ff1f2c" }}>SERVICES</span>
@@ -936,7 +940,6 @@ const ConSult = () => {
 
       {/* Our Approach Section */}
       <section id="approach" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
-        <TradingBackground variant={3} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONSULT?</span>
@@ -957,7 +960,6 @@ const ConSult = () => {
 
       {/* Target Clients Section */}
       <section id="clients" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             WHO WE <span style={{ color: "#ff1f2c" }}>SERVE</span>
@@ -989,7 +991,6 @@ const ConSult = () => {
 
       {/* CTA Section */}
       <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             READY TO TRANSFORM <span style={{ color: "#39CC2F" }}>YOUR BUSINESS VISION?</span>

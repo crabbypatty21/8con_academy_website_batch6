@@ -194,6 +194,7 @@ const ConLift = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
+      zIndex: 2, // Shielding the hero from the fixed animation background
     },
 
     heroContent: {
@@ -459,6 +460,11 @@ const ConLift = () => {
 
   return (
     <div style={styles.container}>
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
@@ -805,7 +811,6 @@ const ConLift = () => {
 
       {/* Initiatives Section */}
       <section id="initiatives" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             KEY INITIATIVES UNDER <span style={{ color: "#39CC2F" }}>8CONLIFT</span>
@@ -840,7 +845,6 @@ const ConLift = () => {
 
       {/* Benefits Section */}
       <section id="benefits" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             BENEFITS OF <span style={{ color: "#ff1f2c" }}>8CONLIFT</span>
@@ -861,7 +865,6 @@ const ConLift = () => {
 
       {/* Why Choose Us Section */}
       <section id="why-choose" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
-        <TradingBackground variant={3} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONLIFT?</span>
@@ -882,7 +885,6 @@ const ConLift = () => {
 
       {/* CTA Section */}
       <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#19232A", textAlign: "center" }}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             TRANSFORMING LIVES, <span style={{ color: "#ff1f2c" }}>ONE DREAM AT A TIME</span>

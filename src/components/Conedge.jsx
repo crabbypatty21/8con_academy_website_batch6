@@ -185,6 +185,7 @@ const ConEdge = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
+      zIndex: 2, // Added to shield the hero from the fixed animation background
     },
 
     heroContent: {
@@ -352,6 +353,11 @@ const ConEdge = () => {
 
   return (
     <div style={styles.container}>
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
@@ -762,7 +768,6 @@ const ConEdge = () => {
 
       {/* About Section */}
       <section id="about" style={styles.aboutSection}>
-        <TradingBackground variant={3} /> {/* Added trading background to About Section */}
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up anim-delay-1">
             ADVANCED <span style={{ color: "#39CC2F" }}>TRADING TECHNOLOGY</span>
@@ -790,7 +795,6 @@ const ConEdge = () => {
 
       {/* Tools Section */}
       <section id="tools" style={styles.toolsSection}>
-        <TradingBackground variant={2} /> {/* Using variant 2 for a different look */}
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
             OUR PROPRIETARY TOOLS
@@ -861,7 +865,6 @@ const ConEdge = () => {
 
       {/* Why Choose Us Section */}
       <section id="why-choose" style={styles.whyChooseSection}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff", textTransform: "uppercase" }} className="fade-in-up">
             WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONEDGE?</span>
@@ -906,7 +909,6 @@ const ConEdge = () => {
 
       {/* CTA Section */}
       <section id="cta" style={styles.ctaSection}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             Transform Your Trading Journey with <span style={{ color: "#ff1f2c" }}>8ConEdge</span>

@@ -194,6 +194,7 @@ const ConQuest = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
+      zIndex: 2, // Shielding the hero from the fixed animation background
     },
 
     heroContent: {
@@ -458,6 +459,11 @@ const ConQuest = () => {
 
   return (
     <div style={styles.container}>
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
@@ -790,10 +796,12 @@ const ConQuest = () => {
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255, 255, 255, 0.25)";
                   e.currentTarget.style.transform = "translateY(-3px)";
+                  e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 255, 255, 0.2)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
                   e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "none";
                 }}
               >
                 Learn More
@@ -805,7 +813,6 @@ const ConQuest = () => {
 
       {/* Key Focus Areas Section */}
       <section id="focus-areas" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             KEY FOCUS AREAS OF <span style={{ color: "#39CC2F" }}>8CONQUEST</span>
@@ -843,7 +850,6 @@ const ConQuest = () => {
 
       {/* What Sets Us Apart Section */}
       <section id="what-sets-apart" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
-        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             WHAT SETS <span style={{ color: "#ff1f2c" }}>8CONQUEST APART?</span>
@@ -864,7 +870,6 @@ const ConQuest = () => {
 
       {/* Who Benefits Section */}
       <section id="who-benefits" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
-        <TradingBackground variant={3} />
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             WHO CAN BENEFIT <span style={{ color: "#39CC2F" }}>FROM 8CONQUEST?</span>
@@ -885,7 +890,6 @@ const ConQuest = () => {
 
       {/* CTA Section */}
       <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#19232A", textAlign: "center" }}>
-        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             EMPOWER YOUR JOURNEY <span style={{ color: "#ff1f2c" }}>WITH 8CONQUEST</span>
