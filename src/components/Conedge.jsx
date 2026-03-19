@@ -160,7 +160,7 @@ const ConEdge = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
-      backgroundColor: "#131B21", // Keeps background solid to prevent white flashes
+      backgroundColor: "#131B21", 
     },
 
     container2: {
@@ -260,6 +260,7 @@ const ConEdge = () => {
       backgroundColor: "#131B21",
       textAlign: "center",
       position: "relative",
+      overflow: "hidden", 
     },
 
     sectionTitle: {
@@ -316,13 +317,6 @@ const ConEdge = () => {
       backgroundColor: "#131B21", 
       position: "relative",
       overflow: "hidden",
-    },
-
-    benefitsGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "2rem",
-      marginTop: "3rem",
     },
 
     ctaSection: {
@@ -386,6 +380,20 @@ const ConEdge = () => {
             transform: translateY(-8px);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
             border-color: rgba(57, 204, 47, 0.3);
+          }
+          
+          /* ----- Grid 2x2 for Why Choose Section ----- */
+          .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+          }
+          
+          @media (max-width: 768px) {
+            .grid-2x2 {
+              grid-template-columns: 1fr;
+            }
           }
 
           /* ----- Beautiful CSS for the Buttons ----- */
@@ -754,11 +762,13 @@ const ConEdge = () => {
 
       {/* About Section */}
       <section id="about" style={styles.aboutSection}>
+        <TradingBackground variant={3} /> {/* Added trading background to About Section */}
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up anim-delay-1">
             ADVANCED <span style={{ color: "#39CC2F" }}>TRADING TECHNOLOGY</span>
           </h2>
-          <p style={styles.aboutText} className="fade-in-up anim-delay-2">
+          {/* Removed duplicate style prop here */}
+          <p className="fade-in-up anim-delay-2" style={{ fontSize: "clamp(1rem, 3vw, 1.2rem)", color: colors.textMuted, lineHeight: "1.8", maxWidth: "800px", margin: "0 auto" }}>
             8ConEdge delivers <strong style={{ color: "#39CC2F", fontWeight: "700" }}>cutting-edge proprietary Forex tools</strong> that revolutionize the way traders analyze markets, execute trades, and manage risk. Our advanced technology combines artificial intelligence, real-time market analysis, and sophisticated algorithms to provide traders with unparalleled insights and trading advantages.
           </p>
           <div style={styles.statsGrid}>
@@ -856,7 +866,8 @@ const ConEdge = () => {
           <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff", textTransform: "uppercase" }} className="fade-in-up">
             WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONEDGE?</span>
           </h2>
-          <div style={styles.benefitsGrid}>
+          
+          <div className="grid-2x2">
             {[
               {
                 title: "Proprietary Technology",

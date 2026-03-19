@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
 import "../ConponentCSS/Animations.css"; // Using your native Animations CSS
+import TradingBackground from "./TradingBackground.jsx"; // Imported Trading Background
 import {
   Menu,
   X,
@@ -168,6 +169,8 @@ const ConStruct = () => {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "0 20px",
+      position: "relative",
+      zIndex: 2, // Keeps content above the animated background
     },
 
     heroSection: {
@@ -288,6 +291,8 @@ const ConStruct = () => {
       justifyContent: "center",
       backgroundColor: "#131B21",
       textAlign: "center",
+      position: "relative",
+      overflow: "hidden",
     },
     
     sectionTitle: {
@@ -308,6 +313,8 @@ const ConStruct = () => {
     servicesSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
       backgroundColor: "#19232A", 
+      position: "relative",
+      overflow: "hidden",
     },
     servicesGrid: {
       display: "grid",
@@ -360,6 +367,8 @@ const ConStruct = () => {
       flexDirection: "column",
       justifyContent: "center",
       backgroundColor: "#131B21",
+      position: "relative",
+      overflow: "hidden",
     },
     benefitsGrid: {
       display: "grid",
@@ -398,6 +407,8 @@ const ConStruct = () => {
     clientsSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
       background: "#19232A",
+      position: "relative",
+      overflow: "hidden",
     },
     clientsGrid: {
       display: "grid",
@@ -437,6 +448,8 @@ const ConStruct = () => {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
       backgroundColor: "#131B21",
       textAlign: "center",
+      position: "relative",
+      overflow: "hidden",
     },
     ctaTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
@@ -825,7 +838,7 @@ const ConStruct = () => {
         )}
       </header>
 
-      {/* Hero Section */}
+      {/* Hero Section (Original Design, NO TradingBackground) */}
       <section id="hero" style={styles.heroSection}>
         <div style={styles.heroContent}>
           <img
@@ -880,6 +893,7 @@ const ConStruct = () => {
       
       {/* Leadership Section */}
       <section id="leadership" style={styles.leadershipSection}>
+        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff" }} className="fade-in-up anim-delay-1">
             Led by <span style={{ color: "#75F94C" }}>Expert Leadership</span>
@@ -896,6 +910,7 @@ const ConStruct = () => {
 
       {/* Services Section */}
       <section id="services" style={styles.servicesSection}>
+        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
             OUR SERVICES
@@ -1002,6 +1017,7 @@ const ConStruct = () => {
 
       {/* Why Choose Us Section */}
       <section id="why-choose" style={styles.whyChooseSection}>
+        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff", textTransform: "uppercase" }} className="fade-in-up">
             WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONSTRUCT?</span>
@@ -1070,6 +1086,7 @@ const ConStruct = () => {
 
       {/* Clients Section */}
       <section id="clients" style={styles.clientsSection}>
+        <TradingBackground variant={2} />
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
             WHO WE SERVE
@@ -1119,6 +1136,7 @@ const ConStruct = () => {
 
       {/* CTA Section */}
       <section id="cta" style={styles.ctaSection}>
+        <TradingBackground variant={1} />
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">Ready to Transform Your Data?</h2>
           <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
