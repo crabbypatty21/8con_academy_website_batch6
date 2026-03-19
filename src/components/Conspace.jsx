@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
+import "../ConponentCSS/Animations.css"; // Imported native animations
+import TradingBackground from "./TradingBackground.jsx"; // Forex trading background
 import {
   Menu,
   X,
@@ -20,181 +22,122 @@ import {
   Clock,
   Building,
   Briefcase,
+  Check,
+  Calendar,
+  Map,
+  Handshake,
 } from "lucide-react";
 
 const ConSpace = () => {
+  const { colors, isDark } = useTheme();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
   const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] =
     useState(false);
-  const [animationKey, setAnimationKey] = useState(0);
-  const [visibleSections, setVisibleSections] = useState(new Set());
 
-  const [animatedSections, setAnimatedSections] = useState(new Set());
-  const [isInHeroSection, setIsInHeroSection] = useState(false);
-  const [heroAnimationKey, setHeroAnimationKey] = useState(0);
+  const subBrandsData = [
+    {
+      id: "construct",
+      name: "8ConStruct",
+      route: "/8construct",
+      desc: "Research and statistical consultancy to empower decision-making.",
+      icon: <Brain size={60} />,
+    },
+    {
+      id: "conedge",
+      name: "8ConEdge",
+      route: "/8conedge",
+      desc: "Proprietary Forex tools to enhance trading efficiency.",
+      icon: <TrendingUp size={60} />,
+    },
+    {
+      id: "concise",
+      name: "8ConCise",
+      route: "/8concise",
+      desc: "Entrepreneur networking hub to grow business relationships.",
+      icon: <Network size={60} />,
+    },
+    {
+      id: "converse",
+      name: "8ConVerse",
+      route: "/8converse",
+      desc: "Language certification courses to broaden opportunities.",
+      icon: <Globe size={60} />,
+    },
+    {
+      id: "connect",
+      name: "8ConNect",
+      route: "/8connect",
+      desc: "Entrepreneur networking hub to grow business relationships.",
+      icon: <Network size={60} />,
+    },
+    {
+      id: "conlift",
+      name: "8ConLift",
+      route: "/8conlift",
+      desc: "Scholarship and training programs for deserving students.",
+      icon: <Award size={60} />,
+    },
+    {
+      id: "conquest",
+      name: "8ConQuest",
+      route: "/8conquest",
+      desc: "Thesis and career coaching for students and professionals.",
+      icon: <Target size={60} />,
+    },
+    {
+      id: "conspace",
+      name: "8ConSpace",
+      route: "/8conspace",
+      desc: "Co-working space and virtual office solutions for professionals and students.",
+      icon: <Users size={60} />,
+    },
+    {
+      id: "conpact",
+      name: "8ConPact",
+      route: "/8conpact",
+      desc: "Collaborate for Impact in Livelihood, Education, and Employment.",
+      icon: <Handshake size={60} />,
+    },
+    {
+      id: "consult",
+      name: "8ConSult",
+      route: "/8consult",
+      desc: "Business development and startup advisory with Sir Nigel Santos.",
+      icon: <BookOpen size={60} />,
+    },
+  ];
 
-  // Refs for sections
-  const heroRef = useRef(null);
-  const aboutRef = useRef(null);
-  const servicesRef = useRef(null);
-  const featuresRef = useRef(null);
-  const clientsRef = useRef(null);
-  const ctaRef = useRef(null);
-  const isAnimated = (sectionId) => animatedSections.has(sectionId);
-
-    const subBrandsData = [
-      {
-        id: "construct",
-        name: "8ConStruct",
-        route: "/8construct",
-        desc: "Research and statistical consultancy to empower decision-making.",
-        icon: <Brain size={60} />,
-      },
-      {
-        id: "conedge",
-        name: "8ConEdge",
-        route: "/8conedge",
-        desc: "Proprietary Forex tools to enhance trading efficiency.",
-        icon: <TrendingUp size={60} />,
-      },
-      {
-        id: "concise",
-        name: "8ConCise",
-        route: "/8concise",
-        desc: "Entrepreneur networking hub to grow business relationships.",
-        icon: <Network size={60} />,
-      },
-      {
-        id: "converse",
-        name: "8ConVerse",
-        route: "/8converse",
-        desc: "Language certification courses to broaden opportunities.",
-        icon: <Globe size={60} />,
-      },
-      {
-        id: "connect",
-        name: "8ConNect",
-        route: "/8connect",
-        desc: "Entrepreneur networking hub to grow business relationships.",
-        icon: <Network size={60} />,
-      },
-      {
-        id: "conlift",
-        name: "8ConLift",
-        route: "/8conlift",
-        desc: "Scholarship and training programs for deserving students.",
-        icon: <Award size={60} />,
-      },
-      {
-        id: "conquest",
-        name: "8ConQuest",
-        route: "/8conquest",
-        desc: "Thesis and career coaching for students and professionals.",
-        icon: <Target size={60} />,
-      },
-      {
-        id: "conspace",
-        name: "8ConSpace",
-        route: "/8conspace",
-        desc: "Co-working space and virtual office solutions for professionals and students.",
-        icon: <Users size={60} />,
-      },
-      {
-        id: "consult",
-        name: "8ConSult",
-        route: "/8consult",
-        desc: "Business development and startup advisory with Sir Nigel Santos.",
-        icon: <BookOpen size={60} />,
-      },
-    ];
-
-  // Intersection Observer setup
+  // Global Intersection Observer for Animations.css classes
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.15,
+      threshold: 0.1,
       rootMargin: "0px 0px -50px 0px",
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const sectionId = entry.target.id;
-          setAnimatedSections((prev) => new Set([...prev, sectionId]));
+          entry.target.classList.add("visible");
         }
       });
     }, observerOptions);
 
-    const sections = [
-      heroRef,
-      aboutRef,
-      servicesRef,
-      featuresRef,
-      clientsRef,
-      ctaRef,
-    ];
-
-    sections.forEach((ref) => {
-      if (ref.current) {
-        observer.observe(ref.current);
-      }
-    });
+    const animatedElements = document.querySelectorAll(".slide-in-right, .fade-in-up, .scale-up");
+    animatedElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
-
-  // Observer for hero section to detect when user is at top
-  useEffect(() => {
-    const heroObserverOptions = {
-      threshold: 0.6,
-      rootMargin: "0px",
-    };
-
-    const heroObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const wasInHero = isInHeroSection;
-        const nowInHero = entry.isIntersecting;
-
-        setIsInHeroSection(nowInHero);
-
-        if (nowInHero) {
-          // Reset ALL section animations when entering hero section
-          setAnimatedSections(new Set());
-          setHeroAnimationKey((prev) => prev + 1);
-
-          // Trigger hero animation
-          setTimeout(() => {
-            setAnimatedSections((prev) => new Set([...prev, "hero"]));
-          }, 100);
-        }
-      });
-    }, heroObserverOptions);
-
-    if (heroRef.current) {
-      heroObserver.observe(heroRef.current);
-    }
-
-    return () => heroObserver.disconnect();
-  }, [isInHeroSection]);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 0);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const navigate = useNavigate();
-
-  const handleNavigation = (path) => {
-    navigate(path);
-    setMobileMenuOpen(false);
-    setSubBrandsDropdownOpen(false);
-    setMobileSubBrandsDropdownOpen(false);
-  };
 
   const handleSmoothScroll = (targetId) => {
     const element = document.getElementById(targetId);
@@ -207,37 +150,38 @@ const ConSpace = () => {
     setMobileMenuOpen(false);
   };
 
+  const handleLearnMore = () => {
+    handleSmoothScroll("about");
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const { colors, isDark } = useTheme();
-
+  // Premium Dark Theme Styles
   const styles = {
     container: {
       minHeight: "100vh",
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      fontFamily: "'Montserrat', sans-serif",
       lineHeight: "1.6",
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
+      backgroundColor: "#131B21",
     },
 
     container2: {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "0 20px",
-    },
-    aboutTextContainer: {
-      maxWidth: "600px",
       position: "relative",
+      zIndex: 2,
     },
 
-    // Hero Section (Green to Black gradient)
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('/assets/images/imagebg.png')",
-      backgroundColor: "#19232A", // Fallback color
+      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: "#19232A",
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -248,6 +192,7 @@ const ConSpace = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
+      zIndex: 2, // Shielding the hero from the fixed animation background
     },
 
     heroContent: {
@@ -327,6 +272,8 @@ const ConSpace = () => {
       textTransform: "uppercase",
       letterSpacing: "0.5px",
       boxShadow: "0 4px 15px rgba(14, 219, 97, 0.3)",
+      display: "flex",
+      alignItems: "center",
     },
 
     ctaButtonSecondary: {
@@ -342,287 +289,94 @@ const ConSpace = () => {
       transition: "all 0.3s ease",
       textTransform: "uppercase",
       letterSpacing: "0.5px",
-    },
-    ctaButtonRed: {
-      background: "#ff1f2c",
-      color: "#ffffff",
-      border: "none",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      textTransform: "uppercase",
-      "@media (max-width: 768px)": {
-        padding: "0.9rem 1.8rem",
-        fontSize: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "0.8rem 1.5rem",
-        fontSize: "0.9rem",
-        width: "200px",
-      },
-    },
-
-    // About Section (White background)
-    aboutSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
       display: "flex",
       alignItems: "center",
     },
 
+    ctaButtonRed: {
+      background: "#ff1f2c",
+      color: "#ffffff",
+      border: "none",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      textTransform: "uppercase",
+      letterSpacing: "0.5px",
+      boxShadow: "0 4px 15px rgba(255, 31, 44, 0.3)",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    sectionCommon: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      position: "relative",
+      overflow: "hidden",
+    },
+
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: colors.textPrimary,
+      color: "#ffffff",
       textAlign: "center",
       marginBottom: "3rem",
+      textTransform: "uppercase",
     },
 
     aboutContent: {
       display: "grid",
-      gridTemplateColumns: "2fr 1fr",
-      gap: "3rem",
+      gridTemplateColumns: "1fr",
+      gap: "2rem",
       alignItems: "center",
+      textAlign: "center",
     },
 
     aboutText: {
-      maxWidth: "600px",
-    },
-
-    aboutDescription: {
+      maxWidth: "900px",
+      margin: "0 auto",
       fontSize: "1.1rem",
+      color: "#A0ABB5",
       lineHeight: "1.8",
-      marginBottom: "1.5rem",
-      color: colors.textPrimary,
-    },
-
-    aboutStats: {
-      display: "grid",
-      gap: "2rem",
-    },
-
-    statItem: {
-      textAlign: "center",
-      padding: "1.5rem",
-      borderRadius: "10px",
-      border: "2px solid #0edb61",
     },
 
     statNumber: {
-      fontSize: "2.5rem",
+      fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: colors.accentGreen,
+      color: "#39CC2F",
       marginBottom: "0.5rem",
     },
 
     statLabel: {
       fontSize: "1rem",
-      color: colors.textPrimary,
+      color: "#A0ABB5",
       fontWeight: "600",
-    },
-
-    // Services Section (Black background)
-    servicesSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-
-    servicesGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-      gap: "2rem",
-      marginTop: "3rem",
-    },
-
-    serviceCard: {
-      background: colors.bgSurface,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-      textAlign: "center",
-    },
-
-    serviceIcon: {
-      marginBottom: "1rem",
-    },
-
-    serviceTitle: {
-      fontSize: "1.3rem",
-      fontWeight: "700",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-    },
-
-    serviceDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1.5rem",
-      lineHeight: "1.6",
-    },
-
-    serviceList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-      textAlign: "left",
-    },
-
-    serviceListItem: {
-      fontSize: "0.95rem",
-      color: colors.textPrimary,
-      marginBottom: "0.8rem",
-      lineHeight: "1.5",
-    },
-
-    // Features Section (White background)
-    featuresSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-    },
-
-    featuresGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-      gap: "2rem",
-      marginTop: "3rem",
-    },
-
-    featureItem: {
-      textAlign: "center",
-      padding: "2rem",
-      borderRadius: "15px",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-    },
-
-    featureTitle: {
-      fontSize: "1.2rem",
-      fontWeight: "700",
-      color: colors.textPrimary,
-      margin: "1rem 0 0.5rem",
-    },
-
-    featureDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      lineHeight: "1.6",
-    },
-
-    // Clients Section (Black background)
-    clientsSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-    },
-
-    clientsGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "2rem",
-      marginTop: "3rem",
-    },
-
-    clientCategory: {
-      background: colors.bgSurface,
-      padding: "2rem",
-      borderRadius: "15px",
-      border: "2px solid #0edb61",
-    },
-
-    clientTitle: {
-      fontSize: "1.3rem",
-      fontWeight: "700",
-      color: colors.accentGreen,
-      marginBottom: "1.5rem",
-      textAlign: "center",
-    },
-
-    clientList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-    },
-
-    clientListItem: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-      lineHeight: "1.6",
-    },
-
-    clientsGrid2x2: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gridTemplateRows: "1fr 1fr",
-      gap: "2rem",
-      marginTop: "3rem",
-      maxWidth: "900px",
-      margin: "3rem auto 0",
-      "@media (max-width: 768px)": {
-        gridTemplateColumns: "1fr",
-        gridTemplateRows: "auto",
-        maxWidth: "100%",
-      },
-    },
-    clientsGridResponsive: {
-      display: "grid",
-      gridTemplateColumns: "repeat(2, 1fr)",
-      gap: "2rem",
-      marginTop: "3rem",
-      "@media (max-width: 1024px)": {
-        gridTemplateColumns: "repeat(2, 1fr)",
-      },
-      "@media (max-width: 768px)": {
-        gridTemplateColumns: "1fr",
-        gap: "1.5rem",
-      },
-      "@media (max-width: 425px)": {
-        gridTemplateColumns: "1fr",
-        gap: "1.5rem",
-        marginTop: "2rem",
-      },
-    },
-
-    // CTA Section (White background)
-    ctaSection: {
-      background: colors.bgSurface,
-      color: colors.textPrimary,
-      padding: "80px 20px",
-      textAlign: "center",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
     },
 
     ctaTitle: {
-      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontSize: "clamp(2rem, 5vw, 2.8rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      marginBottom: "2rem",
-      color: colors.textPrimary,
+      color: "#ffffff",
+      marginBottom: "1.5rem",
+      textTransform: "uppercase",
     },
 
     ctaDescription: {
       fontSize: "clamp(1rem, 3vw, 1.2rem)",
       lineHeight: "1.8",
       maxWidth: "800px",
-      margin: "0 auto 2rem",
-      color: colors.textPrimary,
+      margin: "0 auto 2.5rem",
+      color: "#A0ABB5",
     },
 
     ctaButtons: {
@@ -630,58 +384,222 @@ const ConSpace = () => {
       gap: "1rem",
       justifyContent: "center",
       flexWrap: "wrap",
-      marginBottom: "3rem",
-    },
-
-    ctaPrimaryButton: {
-      background: "#0edb61",
-      color: "#ffffff",
-      padding: "1.2rem 2.5rem",
-      borderRadius: "10px",
-      border: "none",
-      fontSize: "1.2rem",
-      fontWeight: "700",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      boxShadow: "0 4px 15px rgba(14, 219, 97, 0.2)",
-    },
-
-    ctaSecondaryButton: {
-      background: "#ff1f2c",
-      color: "#ffffff",
-      padding: "1.2rem 2.5rem",
-      borderRadius: "10px",
-      border: "none",
-      fontSize: "1.2rem",
-      fontWeight: "700",
-      cursor: "pointer",
-      transition: "all 0.3s ease",
-      boxShadow: "0 4px 15px rgba(255, 31, 44, 0.2)",
+      marginBottom: "2rem",
+      position: "relative",
+      zIndex: 10,
     },
 
     ctaHighlight: {
-      background: colors.bgSurface,
-      padding: "2rem",
+      background: "#19232A",
+      padding: "1.5rem 2rem",
       borderRadius: "15px",
-      fontSize: "1.2rem",
-      maxWidth: "700px",
+      fontSize: "clamp(1rem, 3vw, 1.3rem)",
+      maxWidth: "800px",
       margin: "0 auto",
-      border: "2px solid #0edb61",
-      color: colors.textPrimary,
+      border: "1px solid rgba(255, 255, 255, 0.05)",
+      color: "#ffffff",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      cursor: "pointer",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
     },
   };
 
+  // Data Arrays
+  const statsData = [
+    { number: "24/7", label: "Access Available" },
+    { number: "500+", label: "Happy Members" },
+    { number: "50+", label: "Workstations" },
+  ];
+
+  const servicesData = [
+    {
+      icon: <Building size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Flexible Desk Rentals",
+      description: "Choose from daily, weekly, or monthly access to premium workspaces designed for maximum productivity.",
+      items: [
+        "Hot desks for daily use",
+        "Dedicated desks for regulars",
+        "Private offices for teams"
+      ]
+    },
+    {
+      icon: <MapPin size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Virtual Office Solutions",
+      description: "Professional business address and administrative support without the overhead of a physical office.",
+      items: [
+        "Business address registration",
+        "Mail handling services",
+        "Professional receptionist support"
+      ]
+    },
+    {
+      icon: <Network size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Startup Environment",
+      description: "Access to resources, workshops, and a network of like-minded innovators to accelerate your business growth.",
+      items: [
+        "Networking events",
+        "Skill-building workshops",
+        "Mentor connections"
+      ]
+    },
+    {
+      icon: <Award size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Student Pods",
+      description: "Special discounted zones designed for thesis writing, online learning, and academic collaboration.",
+      items: [
+        "Quiet study environments",
+        "Student-friendly pricing",
+        "Academic support resources"
+      ]
+    }
+  ];
+
+  const featuresData = [
+    {
+      icon: <Wifi size={40} color="#39CC2F" strokeWidth={1.5} />,
+      title: "High-Speed Internet",
+      description: "Ultra-fast, reliable WiFi to keep you connected and productive."
+    },
+    {
+      icon: <Coffee size={40} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Complimentary Refreshments",
+      description: "Free coffee, tea, and snacks to keep you energized throughout the day."
+    },
+    {
+      icon: <Clock size={40} color="#39CC2F" strokeWidth={1.5} />,
+      title: "24/7 Access",
+      description: "Work on your schedule with round-the-clock access to the space."
+    },
+    {
+      icon: <Briefcase size={40} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Meeting Rooms",
+      description: "Professional meeting spaces available for client meetings and team calls."
+    },
+    {
+      icon: <Users size={40} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Community Events",
+      description: "Regular networking events and workshops to build professional connections."
+    },
+    {
+      icon: <Target size={40} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Business Support",
+      description: "Access to business coaching and startup mentorship programs."
+    }
+  ];
+
+  const clientsData = [
+    {
+      icon: <Briefcase size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Professionals & Freelancers",
+      items: [
+        "Remote workers seeking professional space",
+        "Freelancers building their business",
+        "Consultants meeting with clients",
+        "Digital nomads needing temporary workspace"
+      ]
+    },
+    {
+      icon: <Target size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Entrepreneurs & Startups",
+      items: [
+        "Early-stage startups building MVP",
+        "Entrepreneurs developing business plans",
+        "Small teams needing collaborative space",
+        "Innovators seeking networking opportunities"
+      ]
+    },
+    {
+      icon: <BookOpen size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Students & Academics",
+      items: [
+        "Graduate students writing thesis",
+        "Online learners needing study space",
+        "Research groups collaborating",
+        "Academic professionals preparing publications"
+      ]
+    },
+    {
+      icon: <Building size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Small Businesses",
+      items: [
+        "Companies needing virtual office address",
+        "Teams requiring meeting spaces",
+        "Businesses seeking mail handling services",
+        "Organizations hosting workshops"
+      ]
+    }
+  ];
+
   return (
     <div style={styles.container}>
-      {/* CSS Styles with Working Animations */}
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
             scroll-behavior: smooth;
-            scroll-padding-top: 2px;
+            scroll-padding-top: 60px;
           }
 
-          /* Header Styles */
+          /* ----- Beautiful CSS for the Cards ----- */
+          .conspace-card {
+            background: linear-gradient(145deg, #1c2730, #131b21);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+          }
+
+          .conspace-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
+            border-color: rgba(57, 204, 47, 0.3);
+          }
+          
+          /* ----- Grid Layouts ----- */
+          .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin-top: 3rem;
+          }
+
+          .grid-3col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+          }
+          
+          .flex-centered-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 3rem;
+          }
+
+          @media (max-width: 768px) {
+            .grid-2x2 {
+              grid-template-columns: 1fr;
+            }
+          }
+
+          /* ----- Header CSS ----- */
           .header {
             background-color: transparent;
             box-shadow: none;
@@ -696,12 +614,12 @@ const ConSpace = () => {
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
-
+          
           .header.scrolled {
-            background-color: var(--header-scrolled-bg);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background-color: rgba(19, 27, 33, 0.98);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
           }
           
           .header-container {
@@ -720,10 +638,7 @@ const ConSpace = () => {
             margin-right: auto;
           }
           
-          .logo-img {
-            height: 40px;
-            width: auto;
-          }
+          .logo-img { height: 40px; width: auto; }
           
           .desktop-nav {
             display: flex;
@@ -736,45 +651,40 @@ const ConSpace = () => {
           
           .nav-link {
             text-decoration: none;
-            color: var(--header-text);
+            color: #ffffff;
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
             position: relative;
             display: inline-block;
             cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
           }
-
-          .nav-link:hover {
-            transform: translateY(-2px);
-          }
-
-          .dropdown {
-            position: relative;
-          }
-
-          .dropdown:hover .dropdown-content {
-            display: block;
-          }
-
+          
+          .nav-link:hover { transform: translateY(-2px); color: #0edb61; }
+          .dropdown { position: relative; }
+          .dropdown:hover .dropdown-content { display: block; }
+          
           .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: var(--header-dropdown-bg);
+            background-color: #1c2730;
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
           }
-
+          
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: var(--header-dropdown-text);
+            color: #ffffff;
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -783,25 +693,22 @@ const ConSpace = () => {
             text-transform: uppercase;
           }
 
-          .dropdown-link:hover {
-            background-color: #f0f0f0;
-            color: #0edb61;
-          }
+          .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
 
           .mobile-menu-toggle {
             background: none;
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: var(--header-text);
+            color: #ffffff;
             display: none;
             padding: 5px;
           }
 
           .mobile-nav {
-            background-color: var(--header-mobile-bg);
+            background-color: rgba(19, 27, 33, 0.98);
             backdrop-filter: blur(10px);
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
@@ -811,428 +718,55 @@ const ConSpace = () => {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 16px;
             transition: background-color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
           }
-
-          .mobile-nav-link:hover {
-            background-color: rgba(14, 219, 97, 0.1);
-          }
-
-          .mobile-dropdown {
-            position: relative;
-          }
-
+          
+          .mobile-nav-link:hover { background-color: rgba(14, 219, 97, 0.1); }
+          .mobile-dropdown { position: relative; }
+          
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
-            padding: 15px 20px;
-            text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
-            background: none;
-            border: none;
-            text-align: left;
-            font-size: 16px;
-            cursor: pointer;
           }
-          
+
           .mobile-dropdown-content {
-            background-color: rgba(248, 249, 250, 0.9);
+            background-color: #131B21;
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
           }
-          
+
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: #555;
+            color: #ffffff;
             text-decoration: none;
             font-size: 14px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
           }
           
-          .rotate-180 {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-          }
-
-          /* Animation Keyframes */
-          @keyframes fadeInDown {
-            from {
-              opacity: 0;
-              transform: translateY(-50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-          @keyframes fadeInLeft {
-            from {
-              opacity: 0;
-              transform: translateX(-50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-
-          @keyframes fadeInRight {
-            from {
-              opacity: 0;
-              transform: translateX(50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-
-          @keyframes zoomIn {
-            from {
-              opacity: 0;
-              transform: scale(0.8);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1);
-            }
-          }
-
-          @keyframes bounceIn {
-            0% {
-              opacity: 0;
-              transform: scale(0.3);
-            }
-            50% {
-              opacity: 1;
-              transform: scale(1.05);
-            }
-            70% {
-              transform: scale(0.9);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1);
-            }
-          }
-
-          @keyframes flipIn {
-            from {
-              opacity: 0;
-              transform: perspective(400px) rotateY(-90deg);
-            }
-            to {
-              opacity: 1;
-              transform: perspective(400px) rotateY(0deg);
-            }
-          }
-
-          @keyframes slideUp {
-            from {
-              opacity: 0;
-              transform: translateY(100px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-   
-
-
-          /* Hero Section Animations - Always Active */
-          .hero-title {
-            animation: fadeInDown 1.2s ease-out;
-          }
-
-          .hero-subtitle {
-            animation: fadeInLeft 1s ease-out 0.3s both;
-          }
-
-          .hero-description {
-            animation: fadeInRight 1s ease-out 0.6s both;
-          }
-
-          .hero-buttons {
-            animation: zoomIn 0.8s ease-out 0.9s both;
-          }
-
-          /* Section Animations */
-          .section-visible .section-title {
-            animation: fadeInDown 0.8s ease-out both;
-          }
-
-          .section-visible .about-text {
-            animation: fadeInLeft 1s ease-out 0.2s both;
-          }
-
-          .section-visible .about-stats {
-            animation: fadeInRight 1s ease-out 0.4s both;
-          }
-
-          .section-visible .stat-item-1 {
-            animation: bounceIn 0.8s ease-out 0.6s both;
-          }
-
-          .section-visible .stat-item-2 {
-            animation: bounceIn 0.8s ease-out 0.8s both;
-          }
-
-          .section-visible .stat-item-3 {
-            animation: bounceIn 0.8s ease-out 1s both;
-          }
-
-          .section-visible .service-card-1 {
-            animation: flipIn 0.8s ease-out 0.2s both;
-          }
-
-          .section-visible .service-card-2 {
-            animation: flipIn 0.8s ease-out 0.4s both;
-          }
-
-          .section-visible .service-card-3 {
-            animation: flipIn 0.8s ease-out 0.6s both;
-          }
-
-          .section-visible .service-card-4 {
-            animation: flipIn 0.8s ease-out 0.8s both;
-          }
-
-          .section-visible .feature-item-1 {
-            animation: zoomIn 0.6s ease-out 0.1s both;
-          }
-
-          .section-visible .feature-item-2 {
-            animation: zoomIn 0.6s ease-out 0.2s both;
-          }
-
-          .section-visible .feature-item-3 {
-            animation: zoomIn 0.6s ease-out 0.3s both;
-          }
-
-          .section-visible .feature-item-4 {
-            animation: zoomIn 0.6s ease-out 0.4s both;
-          }
-
-          .section-visible .feature-item-5 {
-            animation: zoomIn 0.6s ease-out 0.5s both;
-          }
-
-          .section-visible .feature-item-6 {
-            animation: zoomIn 0.6s ease-out 0.6s both;
-          }
-
-          .section-visible .client-card-1 {
-            animation: slideUp 0.8s ease-out 0.2s both;
-          }
-
-          .section-visible .client-card-2 {
-            animation: slideUp 0.8s ease-out 0.4s both;
-          }
-
-          .section-visible .client-card-3 {
-            animation: slideUp 0.8s ease-out 0.6s both;
-          }
-
-          .section-visible .client-card-4 {
-            animation: slideUp 0.8s ease-out 0.8s both;
-          }
-
-          .section-visible .cta-title {
-            animation: fadeInDown 0.8s ease-out both;
-          }
-
-          .section-visible .cta-description {
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-          }
-
-          .section-visible .cta-buttons {
-            animation: zoomIn 0.8s ease-out 0.4s both;
-          }
-
-          .section-visible .cta-highlight {
-            animation: bounceIn 1s ease-out 0.6s both;
-          }
-
-          /* Responsive Styles */
+          .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
+          
           @media (max-width: 1024px) {
-            .desktop-nav {
-              display: none !important;
-            }
-            .mobile-menu-toggle {
-              display: block !important;
-            }
+            .desktop-nav { display: none !important; }
+            .mobile-menu-toggle { display: block !important; }
           }
-          
-          @media (min-width: 1025px) {
-            .mobile-nav {
-              display: none !important;
-            }
-          }
-
-          @media (max-width: 768px) {
-  .clients-grid-2x2 {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto !important;
-  }
-}
-
-          @media (max-width: 768px) {
-            .hero-title {
-              animation: fadeInDown 1s ease-out;
-            }
-            
-            .hero-subtitle {
-              animation: fadeInLeft 0.8s ease-out 0.2s both;
-            }
-            
-            .hero-description {
-              animation: fadeInRight 0.8s ease-out 0.4s both;
-            }
-            
-            .hero-buttons {
-              animation: zoomIn 0.6s ease-out 0.6s both;
-            }
-          }
-            @keyframes slideInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(14, 219, 97, 0.6);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2s infinite;
-}
-
-.animate-slide-in-top {
-  animation: slideInFromTop 1s ease-out forwards;
-}
-
-.animate-zoom-in {
-  animation: zoomIn 0.8s ease-out forwards;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 1.2s ease-out forwards;
-}
-
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.3s; }
-.stagger-3 { animation-delay: 0.5s; }
-
-/* Update existing hero animations */
-.hero-title {
-  animation: fadeInUp 1.2s ease-out 0.2s both;
-}
-
-.hero-subtitle {
-  animation: fadeInUp 1.2s ease-out 0.4s both;
-}
-
-.hero-description {
-  animation: fadeInUp 1.2s ease-out 0.6s both;
-}
-
-.hero-buttons {
-  animation: fadeInUp 1.2s ease-out 0.8s both;
-}
-
-.clients-grid-responsive {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-@media (max-width: 1024px) {
-  .clients-grid-responsive {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
-  }
-}
-
-@media (max-width: 768px) {
-  .clients-grid-responsive {
-    grid-template-columns: 1fr !important; /* 1 column on small screens */
-    gap: 1.5rem !important;
-  }
-}
-
-@media (max-width: 425px) {
-  .clients-grid-responsive {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
-    margin-top: 2rem !important;
-  }
-  
-  .client-category {
-    padding: 1.5rem !important;
-  }
-  
-  .client-title {
-    font-size: 1.1rem !important;
-    margin-bottom: 1rem !important;
-  }
-  
-  .client-list-item {
-    font-size: 0.9rem !important;
-    margin-bottom: 0.8rem !important;
-    line-height: 1.5 !important;
-  }
-}
-
-
         `}
       </style>
+
       {/* Header - Navigation */}
       <header className={`header ${scrolled ? "scrolled" : ""}`}>
         <div className="header-container">
-          {/* Logo */}
           <a href="/" className="logo">
             <img
               src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
@@ -1241,12 +775,10 @@ const ConSpace = () => {
             />
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="desktop-nav">
             <Link to="/sub-brands" className="nav-link">
               Home
             </Link>
-            {/* Sub-brands Dropdown */}
             <div className="dropdown">
               <span className="nav-link">Sub-brands ▾</span>
               <div className="dropdown-content">
@@ -1257,7 +789,7 @@ const ConSpace = () => {
                     className="dropdown-link"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavigation(brand.route);
+                      navigate(brand.route);
                     }}
                   >
                     {brand.name}
@@ -1265,776 +797,283 @@ const ConSpace = () => {
                 ))}
               </div>
             </div>
-            <a
-              href="#about"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("about");
-              }}
-            >
-              About
-            </a>
-            <a
-              href="#services"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("services");
-              }}
-            >
-              Services
-            </a>
-            <a
-              href="#features"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("features");
-              }}
-            >
-              Features
-            </a>
-            <a
-              href="#clients"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("clients");
-              }}
-            >
-              Target Clients
-            </a>
-            <a
-              href="#cta"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Contact
-            </a>
+            <button className="nav-link" onClick={() => handleSmoothScroll("about")}>About</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("services")}>Services</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("features")}>Features</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("clients")}>Target Clients</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Contact</button>
           </nav>
 
-          {/* Mobile menu toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="mobile-menu-toggle"
-            aria-label="Toggle mobile menu"
-          >
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="mobile-menu-toggle">
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile menu */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
-            <Link to="/sub-brands" className="mobile-nav-link">
-              Home
-            </Link>
-            {/* Mobile Sub-brands Dropdown */}
+            <Link to="/sub-brands" className="mobile-nav-link">Home</Link>
             <div className="mobile-dropdown">
               <button
                 className="mobile-nav-link mobile-dropdown-toggle"
-                onClick={() =>
-                  setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)
-                }
+                onClick={() => setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)}
               >
-                Sub-brands{" "}
-                <ChevronDown
-                  size={16}
-                  className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""}
-                />
+                Sub-brands <ChevronDown size={16} className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""} />
               </button>
               {mobileSubBrandsDropdownOpen && (
                 <div className="mobile-dropdown-content">
                   {subBrandsData.map((brand, index) => (
-                    <a
-                      key={index}
-                      href={brand.route}
-                      className="mobile-nav-sublink"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigation(brand.route);
-                        setMobileMenuOpen(false);
-                        setMobileSubBrandsDropdownOpen(false);
-                      }}
-                    >
+                    <a key={index} href={brand.route} className="mobile-nav-sublink" onClick={(e) => { e.preventDefault(); navigate(brand.route); }}>
                       {brand.name}
                     </a>
                   ))}
                 </div>
               )}
             </div>
-
-            <a
-              href="#about"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("about");
-              }}
-            >
-              About
-            </a>
-            <a
-              href="#services"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("services");
-              }}
-            >
-              Services
-            </a>
-            <a
-              href="#features"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("features");
-              }}
-            >
-              Features
-            </a>
-            <a
-              href="#clients"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("clients");
-              }}
-            >
-              Target Clients
-            </a>
-            <a
-              href="#cta"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Contact
-            </a>
+            <button onClick={() => handleSmoothScroll("about")} className="mobile-nav-link">About</button>
+            <button onClick={() => handleSmoothScroll("services")} className="mobile-nav-link">Services</button>
+            <button onClick={() => handleSmoothScroll("features")} className="mobile-nav-link">Features</button>
+            <button onClick={() => handleSmoothScroll("clients")} className="mobile-nav-link">Target Clients</button>
+            <button onClick={() => handleSmoothScroll("cta")} className="mobile-nav-link">Contact</button>
           </nav>
         )}
       </header>
+
       {/* Hero Section */}
-      <section id="hero" ref={heroRef} style={styles.heroSection}>
-        <div style={styles.heroContent} key={heroAnimationKey}>
-          {/* Large Brand Logo/Number Image - Like ConVerse */}
+      <section id="hero" style={styles.heroSection}>
+        <div style={styles.heroContent}>
           <img
-            src="/assets/logo/10.png" // Replace with your ConSpace logo/image
+            src="/assets/logo/10.png"
             alt="8ConSpace"
             style={styles.heroTopImage}
-            className={`animate-on-scroll ${
-              isAnimated("hero") ? "animate-slide-in-top" : ""
-            }`}
+            className="fade-in-up anim-delay-1"
           />
-
-          {/* Glassmorphic Content Block */}
           <div style={styles.heroForegroundContent}>
-            {/* Subtitle */}
-            <p
-              style={styles.heroSubtitle}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""
-              }`}
-            >
+            <p style={styles.heroSubtitle} className="fade-in-up anim-delay-2">
               Your Professional Workspace & Virtual Office Solution
             </p>
-
-            {/* Description */}
-            <p
-              style={styles.heroDescription}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""
-              }`}
-            >
-              A dynamic, productivity-driven space for freelancers,
-              entrepreneurs, online professionals, and students. Experience
-              flexible workspaces, virtual office solutions, and a collaborative
-              environment designed to fuel your success.
+            <p style={styles.heroDescription} className="fade-in-up anim-delay-3">
+              A dynamic, productivity-driven space for freelancers, entrepreneurs, online professionals, and students. Experience flexible workspaces, virtual office solutions, and a collaborative environment designed to fuel your success.
             </p>
-
-            {/* Buttons */}
-            <div
-              style={styles.heroButtons}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-zoom-in stagger-3" : ""
-              }`}
-            >
+            <div style={styles.heroButtons} className="fade-in-up anim-delay-4">
               <button
                 style={styles.ctaButtonPrimary}
-                className={isAnimated("hero") ? "animate-pulse-glow" : ""}
+                onClick={() => { window.location.href = "mailto:booking@8construct.com"; }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0cbb52";
+                  e.currentTarget.style.background = "#ff1f2c";
                   e.currentTarget.style.transform = "translateY(-3px)";
+                  e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 31, 44, 0.3)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "#0edb61";
                   e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.3)";
                 }}
               >
+                <Calendar size={20} style={{ marginRight: "8px" }} />
                 Book a Tour
               </button>
               <button
                 style={styles.ctaButtonSecondary}
-                onClick={() => handleSmoothScroll("about")}
+                onClick={() => handleSmoothScroll("services")}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#ff1f2c";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.25)";
                   e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
+                <Map size={20} style={{ marginRight: "8px" }} />
                 Virtual Office
               </button>
             </div>
           </div>
         </div>
       </section>
+
       {/* About Section */}
-      <section
-        id="about"
-        ref={aboutRef}
-        style={styles.aboutSection}
-        className={isAnimated("about") ? "section-visible" : ""}
-      >
+      <section id="about" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
         <div style={styles.container2}>
-          <h2 style={styles.sectionTitle} className="about-section-title">
-            Professional Workspace Solutions
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            PROFESSIONAL <span style={{ color: "#39CC2F" }}>WORKSPACE SOLUTIONS</span>
           </h2>
           <div style={styles.aboutContent}>
-            <div style={styles.aboutTextContainer} className="about-text">
-              <p style={styles.aboutDescription}>
-                8ConSpace is more than just a workspace—it's a productivity hub
-                designed to empower professionals, entrepreneurs, and students
-                to achieve their goals. Whether you need a flexible desk for the
-                day or a complete virtual office solution, we provide the
-                environment and resources you need to succeed.
+            <div style={styles.aboutText} className="fade-in-up anim-delay-1">
+              <p style={{ marginBottom: "1rem" }}>
+                8ConSpace is more than just a workspace—it's a productivity hub designed to empower professionals, entrepreneurs, and students to achieve their goals. Whether you need a flexible desk for the day or a complete virtual office solution, we provide the environment and resources you need to succeed.
               </p>
-              <p style={styles.aboutDescription}>
-                From startup-friendly environments to student-focused study
-                pods, 8ConSpace adapts to your needs while fostering
-                collaboration and innovation.
+              <p>
+                From startup-friendly environments to student-focused study pods, 8ConSpace adapts to your needs while fostering collaboration and innovation.
               </p>
             </div>
-            <div style={styles.aboutStats} className="about-stats">
-              <div style={styles.statItem} className="stat-item-1">
-                <h3 style={styles.statNumber}>24/7</h3>
-                <p style={styles.statLabel}>Access Available</p>
-              </div>
-              <div style={styles.statItem} className="stat-item-2">
-                <h3 style={styles.statNumber}>500+</h3>
-                <p style={styles.statLabel}>Happy Members</p>
-              </div>
-              <div style={styles.statItem} className="stat-item-3">
-                <h3 style={styles.statNumber}>50+</h3>
-                <p style={styles.statLabel}>Workstations</p>
-              </div>
+            
+            <div className="grid-3col">
+              {statsData.map((stat, index) => (
+                <div key={index} className={`scale-up anim-delay-${(index % 3) + 2}`}>
+                  <div className="conspace-card" style={{ justifyContent: "center" }}>
+                    <h3 style={{ ...styles.statNumber, color: index % 2 === 0 ? "#39CC2F" : "#ff1f2c" }}>
+                      {stat.number}
+                    </h3>
+                    <p style={styles.statLabel}>{stat.label}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
+
       {/* Services Section */}
-      <section
-        id="services"
-        ref={servicesRef}
-        style={styles.servicesSection}
-        className={isAnimated("services") ? "section-visible" : ""}
-      >
+      <section id="services" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
         <div style={styles.container2}>
-          <h2
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
-            className="services-section-title"
-          >
-            Our Space Solutions
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            OUR SPACE <span style={{ color: "#ff1f2c" }}>SOLUTIONS</span>
           </h2>
-          <div style={styles.servicesGrid}>
-            <div
-              style={styles.serviceCard}
-              className="service-card service-card-1"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-10px) rotateX(5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateX(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.serviceIcon}>
-                <Building size={48} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>Flexible Desk Rentals</h3>
-              <p style={styles.serviceDescription}>
-                Choose from daily, weekly, or monthly access to premium
-                workspaces designed for maximum productivity.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • Hot desks for daily use
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Dedicated desks for regulars
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Private offices for teams
-                </li>
-              </ul>
-            </div>
+          <div className="grid-2x2">
+            {servicesData.map((data, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
 
-            <div
-              style={styles.serviceCard}
-              className="service-card service-card-2"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-10px) rotateX(5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateX(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.serviceIcon}>
-                <MapPin size={48} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>Virtual Office Solutions</h3>
-              <p style={styles.serviceDescription}>
-                Professional business address and administrative support without
-                the overhead of a physical office.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • Business address registration
-                </li>
-                <li style={styles.serviceListItem}>• Mail handling services</li>
-                <li style={styles.serviceListItem}>
-                  • Professional receptionist support
-                </li>
-              </ul>
-            </div>
-
-            <div
-              style={styles.serviceCard}
-              className="service-card service-card-3"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-10px) rotateX(5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateX(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.serviceIcon}>
-                <Network size={48} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>Startup Environment</h3>
-              <p style={styles.serviceDescription}>
-                Access to resources, workshops, and a network of like-minded
-                innovators to accelerate your business growth.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>• Networking events</li>
-                <li style={styles.serviceListItem}>
-                  • Skill-building workshops
-                </li>
-                <li style={styles.serviceListItem}>• Mentor connections</li>
-              </ul>
-            </div>
-
-            <div
-              style={styles.serviceCard}
-              className="service-card service-card-4"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-10px) rotateX(5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(14, 219, 97, 0.2)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateX(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.serviceIcon}>
-                <Award size={48} color="#0edb61" />
-              </div>
-              <h3 style={styles.serviceTitle}>Student Pods</h3>
-              <p style={styles.serviceDescription}>
-                Special discounted zones designed for thesis writing, online
-                learning, and academic collaboration.
-              </p>
-              <ul style={styles.serviceList}>
-                <li style={styles.serviceListItem}>
-                  • Quiet study environments
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Student-friendly pricing
-                </li>
-                <li style={styles.serviceListItem}>
-                  • Academic support resources
-                </li>
-              </ul>
-            </div>
+              return (
+                <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
+                  <div className="conspace-card">
+                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
+                    
+                    <div>{data.icon}</div>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
+                      {data.items.map((item, itemIndex) => (
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                          <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
+
       {/* Features Section */}
-      <section
-        id="features"
-        ref={featuresRef}
-        style={styles.featuresSection}
-        className={isAnimated("features") ? "section-visible" : ""}
-      >
+      <section id="features" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
         <div style={styles.container2}>
-          <h2 style={styles.sectionTitle} className="features-section-title">
-            Premium Workspace Features
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            PREMIUM <span style={{ color: "#39CC2F" }}>WORKSPACE FEATURES</span>
           </h2>
-          <div style={styles.featuresGrid}>
-            <div
-              style={styles.featureItem}
-              className="feature-item feature-item-1"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-5px) scale(1.05)";
-                e.currentTarget.style.boxShadow =
-                  "0 15px 30px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) scale(1)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <Wifi size={32} color="#0edb61" />
-              <h3 style={styles.featureTitle}>High-Speed Internet</h3>
-              <p style={styles.featureDescription}>
-                Ultra-fast, reliable WiFi to keep you connected and productive.
-              </p>
-            </div>
-
-            <div
-              style={styles.featureItem}
-              className="feature-item feature-item-2"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-5px) scale(1.05)";
-                e.currentTarget.style.boxShadow =
-                  "0 15px 30px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) scale(1)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <Coffee size={32} color="#0edb61" />
-              <h3 style={styles.featureTitle}>Complimentary Refreshments</h3>
-              <p style={styles.featureDescription}>
-                Free coffee, tea, and snacks to keep you energized throughout
-                the day.
-              </p>
-            </div>
-
-            <div
-              style={styles.featureItem}
-              className="feature-item feature-item-3"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-5px) scale(1.05)";
-                e.currentTarget.style.boxShadow =
-                  "0 15px 30px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) scale(1)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <Clock size={32} color="#0edb61" />
-              <h3 style={styles.featureTitle}>24/7 Access</h3>
-              <p style={styles.featureDescription}>
-                Work on your schedule with round-the-clock access to the space.
-              </p>
-            </div>
-
-            <div
-              style={styles.featureItem}
-              className="feature-item feature-item-4"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-5px) scale(1.05)";
-                e.currentTarget.style.boxShadow =
-                  "0 15px 30px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) scale(1)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <Briefcase size={32} color="#0edb61" />
-              <h3 style={styles.featureTitle}>Meeting Rooms</h3>
-              <p style={styles.featureDescription}>
-                Professional meeting spaces available for client meetings and
-                team calls.
-              </p>
-            </div>
-
-            <div
-              style={styles.featureItem}
-              className="feature-item feature-item-5"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-5px) scale(1.05)";
-                e.currentTarget.style.boxShadow =
-                  "0 15px 30px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) scale(1)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <Users size={32} color="#0edb61" />
-              <h3 style={styles.featureTitle}>Community Events</h3>
-              <p style={styles.featureDescription}>
-                Regular networking events and workshops to build professional
-                connections.
-              </p>
-            </div>
-
-            <div
-              style={styles.featureItem}
-              className="feature-item feature-item-6"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-5px) scale(1.05)";
-                e.currentTarget.style.boxShadow =
-                  "0 15px 30px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) scale(1)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <Target size={32} color="#0edb61" />
-              <h3 style={styles.featureTitle}>Business Support</h3>
-              <p style={styles.featureDescription}>
-                Access to business coaching and startup mentorship programs.
-              </p>
-            </div>
+          <div className="grid-3col">
+            {featuresData.map((data, index) => (
+              <div key={index} className={`fade-in-up anim-delay-${(index % 6) + 1}`}>
+                <div className="conspace-card" style={{ justifyContent: "center" }}>
+                  <div>{data.icon}</div>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
       {/* Target Clients Section */}
-      <section
-        id="clients"
-        ref={clientsRef}
-        style={styles.clientsSection}
-        className={isAnimated("clients") ? "section-visible" : ""}
-      >
+      <section id="clients" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
         <div style={styles.container2}>
-          <h2
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
-            className="clients-section-title"
-          >
-            Who We Serve
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            WHO WE <span style={{ color: "#ff1f2c" }}>SERVE</span>
           </h2>
-          <div className="clients-grid-responsive">
-            {" "}
-            {/* Use className instead of style */}
-            <div
-              style={styles.clientCategory}
-              className="client-card client-card-1"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px) rotateY(5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(0, 0, 0, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.clientTitle}>Professionals & Freelancers</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • Remote workers seeking professional space
-                </li>
-                <li style={styles.clientListItem}>
-                  • Freelancers building their business
-                </li>
-                <li style={styles.clientListItem}>
-                  • Consultants meeting with clients
-                </li>
-                <li style={styles.clientListItem}>
-                  • Digital nomads needing temporary workspace
-                </li>
-              </ul>
-            </div>
-            <div
-              style={styles.clientCategory}
-              className="client-card client-card-2"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px) rotateY(-5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(0, 0, 0, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.clientTitle}>Entrepreneurs & Startups</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • Early-stage startups building MVP
-                </li>
-                <li style={styles.clientListItem}>
-                  • Entrepreneurs developing business plans
-                </li>
-                <li style={styles.clientListItem}>
-                  • Small teams needing collaborative space
-                </li>
-                <li style={styles.clientListItem}>
-                  • Innovators seeking networking opportunities
-                </li>
-              </ul>
-            </div>
-            <div
-              style={styles.clientCategory}
-              className="client-card client-card-3"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px) rotateY(5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(0, 0, 0, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.clientTitle}>Students & Academics</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • Graduate students writing thesis
-                </li>
-                <li style={styles.clientListItem}>
-                  • Online learners needing study space
-                </li>
-                <li style={styles.clientListItem}>
-                  • Research groups collaborating
-                </li>
-                <li style={styles.clientListItem}>
-                  • Academic professionals preparing publications
-                </li>
-              </ul>
-            </div>
-            <div
-              style={styles.clientCategory}
-              className="client-card client-card-4"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-8px) rotateY(-5deg)";
-                e.currentTarget.style.boxShadow =
-                  "0 20px 40px rgba(0, 0, 0, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0) rotateY(0deg)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <h3 style={styles.clientTitle}>Small Businesses</h3>
-              <ul style={styles.clientList}>
-                <li style={styles.clientListItem}>
-                  • Companies needing virtual office address
-                </li>
-                <li style={styles.clientListItem}>
-                  • Teams requiring meeting spaces
-                </li>
-                <li style={styles.clientListItem}>
-                  • Businesses seeking mail handling services
-                </li>
-                <li style={styles.clientListItem}>
-                  • Organizations hosting workshops
-                </li>
-              </ul>
-            </div>
+          
+          <div className="grid-2x2">
+            {clientsData.map((data, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+
+              return (
+                <div key={index} className={`scale-up anim-delay-${(index % 4) + 1}`}>
+                  <div className="conspace-card">
+                    <div>{data.icon}</div>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
+                      {data.items.map((item, itemIndex) => (
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                          <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
+
       {/* CTA Section */}
-      <section
-        id="cta"
-        ref={ctaRef}
-        style={styles.ctaSection}
-        className={isAnimated("cta") ? "section-visible" : ""}
-      >
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
         <div style={styles.container2}>
-          <h2 style={styles.ctaTitle} className="cta-section-title">
-            Ready to Elevate Your Workspace?
+          <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
+            READY TO ELEVATE <span style={{ color: "#39CC2F" }}>YOUR WORKSPACE?</span>
           </h2>
-          <p style={styles.ctaDescription} className="cta-description">
-            Whether you're building a startup, finishing your research, or
-            growing your business, 8ConSpace gives you a professional and
-            collaborative environment designed for success. Join our community
-            of innovators, entrepreneurs, and achievers.
+          <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
+            Whether you're building a startup, finishing your research, or growing your business, 8ConSpace gives you a professional and collaborative environment designed for success. Join our community of innovators, entrepreneurs, and achievers.
           </p>
-          <div style={styles.ctaButtons} className="cta-buttons">
+          <div style={styles.ctaButtons} className="fade-in-up anim-delay-3">
             <button
-              style={styles.ctaPrimaryButton}
+              style={styles.ctaButtonPrimary}
+              onClick={() => { window.location.href = "mailto:booking@8construct.com"; }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#0cbb52";
+                e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(-3px)";
-                e.currentTarget.style.boxShadow =
-                  "0 8px 25px rgba(14, 219, 97, 0.3)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 31, 44, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 4px 15px rgba(14, 219, 97, 0.2)";
+                e.currentTarget.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.3)";
               }}
             >
+              <Calendar size={20} style={{ marginRight: "8px" }} />
               Book Your Space Today
             </button>
+            
             <button
-              style={styles.ctaSecondaryButton}
+              style={styles.ctaButtonRed}
+              onClick={() => { window.location.href = "mailto:tour@8construct.com"; }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#ff1f2c";
+                e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(-3px)";
-                e.currentTarget.style.boxShadow =
-                  "0 8px 25px rgba(255, 31, 44, 0.3)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(14, 219, 97, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 4px 15px rgba(255, 31, 44, 0.2)";
+                e.currentTarget.style.boxShadow = "0 4px 15px rgba(255, 31, 44, 0.3)";
               }}
             >
+              <MapPin size={20} style={{ marginRight: "8px" }} />
               Schedule a Tour
             </button>
           </div>
-          <div style={styles.ctaHighlight} className="cta-highlight">
-            <strong>
-              Experience the difference a professional workspace makes—where
-              productivity meets community, and ideas become reality!
-            </strong>
+          <div className="fade-in-up anim-delay-4" style={{ marginTop: "2rem" }}>
+            <div
+              style={styles.ctaHighlight}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
+                e.currentTarget.style.borderColor = "#39CC2F";
+                e.currentTarget.style.boxShadow = "0 15px 35px rgba(57, 204, 47, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.05)";
+                e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.4)";
+              }}
+            >
+              <strong>
+                Experience the difference a professional workspace makes—where productivity meets community, and ideas become reality!
+              </strong>
+            </div>
           </div>
         </div>
       </section>
