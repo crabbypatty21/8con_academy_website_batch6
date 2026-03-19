@@ -1,8 +1,9 @@
-
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
+import "../ConponentCSS/Animations.css"; // Imported native animations
+import TradingBackground from "./TradingBackground.jsx"; // Forex trading background
 import {
   Menu,
   X,
@@ -17,26 +18,18 @@ import {
   Users,
   Clock,
   CheckCircle,
+  Check,
+  Handshake,
 } from "lucide-react";
 
 const ConCise = () => {
   const { colors, isDark } = useTheme();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
   const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] =
     useState(false);
-  const [animatedSections, setAnimatedSections] = useState(new Set());
-  const [isInHeroSection, setIsInHeroSection] = useState(true);
-  const [heroAnimationKey, setHeroAnimationKey] = useState(0);
-
-  // Create refs for each section
-  const heroRef = useRef(null);
-  const servicesRef = useRef(null);
-  const highlightsRef = useRef(null);
-  const whyChooseRef = useRef(null);
-  const benefitsRef = useRef(null);
-  const ctaRef = useRef(null);
 
   const subBrandsData = [
     {
@@ -96,6 +89,13 @@ const ConCise = () => {
       icon: <Users size={60} />,
     },
     {
+      id: "conpact",
+      name: "8ConPact",
+      route: "/8conpact",
+      desc: "Collaborate for Impact in Livelihood, Education, and Employment.",
+      icon: <Handshake size={60} />,
+    },
+    {
       id: "consult",
       name: "8ConSult",
       route: "/8consult",
@@ -104,102 +104,34 @@ const ConCise = () => {
     },
   ];
 
-  // Intersection Observer for all sections (including hero)
+  // Global Intersection Observer for Animations.css classes
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.15,
+      threshold: 0.1,
       rootMargin: "0px 0px -50px 0px",
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const sectionId = entry.target.id;
-          setAnimatedSections((prev) => new Set([...prev, sectionId]));
+          entry.target.classList.add("visible");
         }
       });
     }, observerOptions);
 
-    // Observe all sections including hero
-    const sections = [
-      heroRef,
-      servicesRef,
-      highlightsRef,
-      whyChooseRef,
-      benefitsRef,
-      ctaRef,
-    ];
-    sections.forEach((ref) => {
-      if (ref.current) {
-        observer.observe(ref.current);
-      }
-    });
+    const animatedElements = document.querySelectorAll(".slide-in-right, .fade-in-up, .scale-up");
+    animatedElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
 
-  // Special observer for hero section to track when user enters/exits hero
-  useEffect(() => {
-    const heroObserverOptions = {
-      threshold: 0.6, // Hero is considered "active" when 60% visible
-      rootMargin: "0px",
-    };
-
-    const heroObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const wasInHero = isInHeroSection;
-        const nowInHero = entry.isIntersecting;
-
-        setIsInHeroSection(nowInHero);
-
-        // If we're entering the hero section from outside (scrolling back to top)
-        if (nowInHero && !wasInHero) {
-          console.log("Returning to hero - restarting all animations");
-
-          // Reset ALL section animations
-          setAnimatedSections(new Set());
-
-          // Increment animation key to force re-render of hero content
-          setHeroAnimationKey((prev) => prev + 1);
-
-          // Start hero animation first
-          setTimeout(() => {
-            setAnimatedSections((prev) => new Set([...prev, "hero"]));
-          }, 100);
-        }
-        // If we're in hero section initially (page load)
-        else if (nowInHero && wasInHero) {
-          // Ensure hero animation is active on initial load
-          setAnimatedSections((prev) => new Set([...prev, "hero"]));
-        }
-      });
-    }, heroObserverOptions);
-
-    if (heroRef.current) {
-      heroObserver.observe(heroRef.current);
-    }
-
-    return () => heroObserver.disconnect();
-  }, [isInHeroSection]);
-
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setScrolled(scrollPosition > 0);
+      setScrolled(window.scrollY > 0);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const navigate = useNavigate();
-
-  const handleNavigation = (path) => {
-    navigate(path);
-    setMobileMenuOpen(false);
-    setSubBrandsDropdownOpen(false);
-    setMobileSubBrandsDropdownOpen(false);
-  };
 
   const handleSmoothScroll = (targetId) => {
     const element = document.getElementById(targetId);
@@ -216,21 +148,11 @@ const ConCise = () => {
     handleSmoothScroll("services");
   };
 
-  // Initialize hero animation on mount
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setAnimatedSections(new Set());
-
-    // Trigger hero animation on mount
-    setTimeout(() => {
-      setAnimatedSections((prev) => new Set([...prev, "hero"]));
-    }, 300);
   }, []);
 
-  // Check if section should be animated
-  const isAnimated = (sectionId) => animatedSections.has(sectionId);
-
-  // Enhanced Responsive Styling
+  // Premium Dark Theme Styles
   const styles = {
     container: {
       minHeight: "100vh",
@@ -239,24 +161,24 @@ const ConCise = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
+      backgroundColor: "#131B21",
     },
 
     container2: {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "0 20px",
-      "@media (max-width: 768px)": {
-        padding: "0 15px",
-      },
-      "@media (max-width: 480px)": {
-        padding: "0 12px",
-      },
+      position: "relative",
+      zIndex: 2,
     },
 
     heroSection: {
       minHeight: "100vh",
-      background:
-        "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
+      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: "#19232A",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -264,602 +186,161 @@ const ConCise = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
-      "@media (max-width: 768px)": {
-        padding: "120px 15px 60px",
-        minHeight: "90vh",
-      },
-      "@media (max-width: 480px)": {
-        padding: "100px 12px 40px",
-        minHeight: "85vh",
-      },
+      zIndex: 2, // Shielding the hero from the fixed animation background
     },
 
     heroContent: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      justifyContent: "flex-start",
+      justifyContent: "center",
       width: "100%",
       position: "relative",
       zIndex: 2,
-      maxWidth: "800px",
+      maxWidth: "900px",
       margin: "0 auto",
-      "@media (max-width: 768px)": {
-        maxWidth: "100%",
-      },
-    },
-
-    heroSubtitle: {
-      fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-      color: "#ffffff",
-      marginBottom: "0.5rem",
-      fontWeight: "600",
-      lineHeight: "1.3",
-      "@media (max-width: 480px)": {
-        fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
-        marginBottom: "1.2rem",
-      },
-    },
-
-    heroDescription: {
-      fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
-      color: colors.textMuted,
-      lineHeight: "1.6",
-      marginTop: "0.3rem",
-      "@media (max-width: 768px)": {
-        maxWidth: "100%",
-        margin: "0 auto 1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "clamp(0.85rem, 4vw, 1rem)",
-        lineHeight: "1.6",
-      },
-    },
-
-    heroForegroundContent: {
-      backgroundColor: "rgba(0, 0, 0, 0.3)",
-      padding: "clamp(1rem, 2vw, 1.5rem)",
-      borderRadius: "15px",
-      backdropFilter: "blur(6px)",
-      border: "1px solid rgba(255, 255, 255, 0.1)",
-      maxWidth: "1000px",
-      width: "100%",
-      textAlign: "center",
-      marginBottom: "10rem",
-      marginTop: "-100px",
-      "@media (max-width: 768px)": {
-        padding: "1.5rem 1rem",
-        gap: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "1.2rem 0.8rem",
-        gap: "0.8rem",
-      },
+      marginTop: "-30vh", 
     },
 
     heroTopImage: {
-      width: "clamp(250px, 40vw, 500px)",
+      width: "clamp(300px, 50vw, 600px)",
       height: "auto",
-      opacity: 0.9,
+      marginBottom: "-10rem",
+      position: "relative",
+      zIndex: 3,
       pointerEvents: "none",
-      marginTop: "-80px",
+      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+    },
+
+    heroSubtitle: {
+      fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      marginTop: "0", 
+      marginBottom: "1rem",
+      color: "#ffffff",
+      lineHeight: "1.3",
+      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      position: "relative",
+      zIndex: 4,
+    },
+
+    heroDescription: {
+      fontSize: "clamp(1rem, 2vw, 1.15rem)",
+      color: "#e2e8f0", 
+      lineHeight: "1.6",
+      maxWidth: "800px",
+      marginTop: "0",
+      marginBottom: "2.5rem",
+      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+    },
+
+    heroForegroundContent: {
+      width: "100%",
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      position: "relative",
+      zIndex: 4,
     },
 
     heroButtons: {
       display: "flex",
-      gap: "1rem",
+      gap: "1.5rem",
       justifyContent: "center",
       flexWrap: "wrap",
-      marginTop: "2rem",
-      "@media (max-width: 768px)": {
-        gap: "0.8rem",
-        marginTop: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        flexDirection: "column",
-        gap: "0.8rem",
-        alignItems: "center",
-      },
+      position: "relative",
+      zIndex: "5",
     },
 
     ctaButtonPrimary: {
       background: "#0edb61",
       color: "#ffffff",
       border: "none",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
-      "@media (max-width: 768px)": {
-        padding: "0.9rem 1.8rem",
-        fontSize: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "0.8rem 1.5rem",
-        fontSize: "0.9rem",
-        width: "200px",
-      },
+      letterSpacing: "0.5px",
+      boxShadow: "0 4px 15px rgba(14, 219, 97, 0.3)",
     },
 
     ctaButtonSecondary: {
-      background: "transparent",
+      background: "rgba(255, 255, 255, 0.15)",
+      backdropFilter: "blur(5px)",
       color: "#ffffff",
-      border: "2px solid #ffffff",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      border: "1px solid rgba(255, 255, 255, 0.6)",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
-      "@media (max-width: 768px)": {
-        padding: "0.9rem 1.8rem",
-        fontSize: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "0.8rem 1.5rem",
-        fontSize: "0.9rem",
-        width: "200px",
-      },
+      letterSpacing: "0.5px",
     },
 
     ctaButtonRed: {
       background: "#ff1f2c",
       color: "#ffffff",
       border: "none",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
-      "@media (max-width: 768px)": {
-        padding: "0.9rem 1.8rem",
-        fontSize: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "0.8rem 1.5rem",
-        fontSize: "0.9rem",
-        width: "200px",
-      },
+      letterSpacing: "0.5px",
+      boxShadow: "0 4px 15px rgba(255, 31, 44, 0.3)",
     },
 
-    servicesSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
+    sectionCommon: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      "@media (max-width: 768px)": {
-        padding: "60px 15px",
-        minHeight: "auto",
-      },
-      "@media (max-width: 480px)": {
-        padding: "40px 12px",
-      },
+      position: "relative",
+      overflow: "hidden",
     },
 
     sectionTitle: {
-      fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
+      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#0edb61",
+      color: "#ffffff",
       textAlign: "center",
       marginBottom: "3rem",
-      "@media (max-width: 768px)": {
-        marginBottom: "2rem",
-      },
-      "@media (max-width: 480px)": {
-        marginBottom: "1.5rem",
-        fontSize: "clamp(1.3rem, 6vw, 2rem)",
-      },
+      textTransform: "uppercase",
     },
 
-    servicesGrid: {
+    // 3-Column grid used specifically for Benefits section
+    grid3Col: {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-      gap: "2rem",
+      gap: "2.5rem",
       marginTop: "2rem",
-      "@media (max-width: 768px)": {
-        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-        gap: "1.5rem",
-        marginTop: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        gridTemplateColumns: "1fr",
-        gap: "1.2rem",
-        marginTop: "1rem",
-      },
-    },
-
-    serviceCard: {
-      background: colors.bgCard,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-      textAlign: "center",
-      "@media (max-width: 768px)": {
-        padding: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "1.2rem",
-        borderRadius: "12px",
-      },
-    },
-
-    serviceIcon: {
-      marginBottom: "1rem",
-      display: "flex",
-      justifyContent: "center",
-      "@media (max-width: 480px)": {
-        marginBottom: "0.8rem",
-      },
-    },
-
-    serviceTitle: {
-      fontSize: "1.3rem",
-      fontWeight: "700",
-      color: "#0edb61",
-      marginBottom: "1rem",
-      "@media (max-width: 768px)": {
-        fontSize: "1.2rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "1.1rem",
-        marginBottom: "0.8rem",
-      },
-    },
-
-    serviceDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1.5rem",
-      lineHeight: "1.6",
-      "@media (max-width: 768px)": {
-        fontSize: "0.95rem",
-        marginBottom: "1.2rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "0.9rem",
-        marginBottom: "1rem",
-      },
-    },
-
-    serviceList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-      textAlign: "left",
-    },
-
-    serviceListItem: {
-      fontSize: "0.95rem",
-      color: colors.textPrimary,
-      marginBottom: "0.8rem",
-      lineHeight: "1.5",
-      "@media (max-width: 768px)": {
-        fontSize: "0.9rem",
-        marginBottom: "0.7rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "0.85rem",
-        marginBottom: "0.6rem",
-      },
-    },
-
-    highlightsSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-      "@media (max-width: 768px)": {
-        padding: "60px 15px",
-        minHeight: "auto",
-      },
-      "@media (max-width: 480px)": {
-        padding: "40px 12px",
-      },
-    },
-
-    highlightsGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "2rem",
-      marginTop: "2rem",
-      "@media (max-width: 768px)": {
-        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-        gap: "1.5rem",
-        marginTop: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        gridTemplateColumns: "1fr",
-        gap: "1.2rem",
-        marginTop: "1rem",
-      },
-    },
-
-    highlightCard: {
-      background: colors.bgCard,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      textAlign: "center",
-      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-      "@media (max-width: 768px)": {
-        padding: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "1.2rem",
-        borderRadius: "12px",
-      },
-    },
-
-    highlightIcon: {
-      marginBottom: "1rem",
-      display: "flex",
-      justifyContent: "center",
-      "@media (max-width: 480px)": {
-        marginBottom: "0.8rem",
-      },
-    },
-
-    highlightTitle: {
-      fontSize: "1.4rem",
-      fontWeight: "700",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-      "@media (max-width: 768px)": {
-        fontSize: "1.3rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "1.2rem",
-        marginBottom: "0.8rem",
-      },
-    },
-
-    highlightDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      lineHeight: "1.7",
-      "@media (max-width: 768px)": {
-        fontSize: "0.95rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "0.9rem",
-        lineHeight: "1.6",
-      },
-    },
-
-    whyChooseSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-      "@media (max-width: 768px)": {
-        padding: "60px 15px",
-        minHeight: "auto",
-      },
-      "@media (max-width: 480px)": {
-        padding: "40px 12px",
-      },
-    },
-
-    benefitsGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "2rem",
-      marginTop: "2rem",
-      "@media (max-width: 768px)": {
-        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-        gap: "1.5rem",
-        marginTop: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        gridTemplateColumns: "1fr",
-        gap: "1.2rem",
-        marginTop: "1rem",
-      },
-    },
-
-    benefitCard: {
-      background: colors.bgCard,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      textAlign: "center",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-      "@media (max-width: 768px)": {
-        padding: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "1.2rem",
-        borderRadius: "12px",
-      },
-    },
-
-    benefitTitle: {
-      fontSize: "1.4rem",
-      fontWeight: "700",
-      color: "#0edb61",
-      marginBottom: "1rem",
-      "@media (max-width: 768px)": {
-        fontSize: "1.3rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "1.2rem",
-        marginBottom: "0.8rem",
-      },
-    },
-
-    benefitDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      lineHeight: "1.7",
-      "@media (max-width: 768px)": {
-        fontSize: "0.95rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "0.9rem",
-        lineHeight: "1.6",
-      },
-    },
-
-    benefitsSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-      "@media (max-width: 768px)": {
-        padding: "60px 15px",
-        minHeight: "auto",
-      },
-      "@media (max-width: 480px)": {
-        padding: "40px 12px",
-      },
-    },
-
-    clientsGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-      gap: "3rem",
-      marginTop: "3rem",
-      "@media (max-width: 768px)": {
-        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-        gap: "2rem",
-        marginTop: "2rem",
-      },
-      "@media (max-width: 480px)": {
-        gridTemplateColumns: "1fr",
-        gap: "1.5rem",
-        marginTop: "1.5rem",
-      },
-    },
-
-    clientCategory: {
-      background: colors.bgCard,
-      padding: "2.5rem",
-      borderRadius: "15px",
-      border: "2px solid #0edb61",
-      textAlign: "center",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-      "@media (max-width: 768px)": {
-        padding: "2rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "1.5rem",
-        borderRadius: "12px",
-      },
-    },
-
-    clientIcon: {
-      marginBottom: "1rem",
-      display: "flex",
-      justifyContent: "center",
-      "@media (max-width: 480px)": {
-        marginBottom: "0.8rem",
-      },
-    },
-
-    clientTitle: {
-      fontSize: "1.5rem",
-      fontWeight: "700",
-      color: "#0edb61",
-      marginBottom: "1.5rem",
-      "@media (max-width: 768px)": {
-        fontSize: "1.4rem",
-        marginBottom: "1.2rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "1.3rem",
-        marginBottom: "1rem",
-      },
-    },
-
-    clientList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-      textAlign: "left",
-    },
-
-    clientListItem: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-      lineHeight: "1.6",
-      "@media (max-width: 768px)": {
-        fontSize: "0.95rem",
-        marginBottom: "0.8rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "0.9rem",
-        marginBottom: "0.7rem",
-      },
-    },
-
-    ctaSection: {
-      background: colors.bgSurface,
-      color: colors.textPrimary,
-      padding: "80px 20px",
-      textAlign: "center",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-      "@media (max-width: 768px)": {
-        padding: "60px 15px",
-        minHeight: "auto",
-      },
-      "@media (max-width: 480px)": {
-        padding: "40px 12px",
-      },
     },
 
     ctaTitle: {
-      fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
+      fontSize: "clamp(2rem, 5vw, 2.8rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      marginBottom: "2rem",
-      color: colors.textPrimary,
-      "@media (max-width: 768px)": {
-        marginBottom: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        marginBottom: "1.2rem",
-        fontSize: "clamp(1.3rem, 6vw, 2rem)",
-      },
+      color: "#ffffff",
+      marginBottom: "1.5rem",
+      textTransform: "uppercase",
     },
 
     ctaDescription: {
-      fontSize: "clamp(0.9rem, 3vw, 1.2rem)",
+      fontSize: "clamp(1rem, 3vw, 1.2rem)",
       lineHeight: "1.8",
       maxWidth: "800px",
-      margin: "0 auto 2rem",
-      opacity: "0.95",
-      color: colors.textPrimary,
-      "@media (max-width: 768px)": {
-        maxWidth: "100%",
-        margin: "0 auto 1.5rem",
-        lineHeight: "1.7",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "clamp(0.85rem, 4vw, 1rem)",
-        lineHeight: "1.6",
-        margin: "0 auto 1.2rem",
-      },
+      margin: "0 auto 2.5rem",
+      color: "#A0ABB5",
     },
 
     ctaButtons: {
@@ -868,238 +349,78 @@ const ConCise = () => {
       justifyContent: "center",
       flexWrap: "wrap",
       marginBottom: "2rem",
-      "@media (max-width: 768px)": {
-        gap: "0.8rem",
-        marginBottom: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        flexDirection: "column",
-        gap: "0.8rem",
-        alignItems: "center",
-        marginBottom: "1.2rem",
-      },
     },
 
     ctaHighlight: {
-      background: "rgba(14, 219, 97, 0.1)",
-      padding: "1.5rem",
-      borderRadius: "10px",
+      background: "#19232A",
+      padding: "1.5rem 2rem",
+      borderRadius: "15px",
       fontSize: "clamp(1rem, 3vw, 1.3rem)",
-      maxWidth: "700px",
+      maxWidth: "800px",
       margin: "0 auto",
-      border: "2px solid #0edb61",
-      color: colors.textPrimary,
-      transition: "all 0.3s ease",
+      border: "1px solid rgba(255, 255, 255, 0.05)",
+      color: "#ffffff",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
-      "@media (max-width: 768px)": {
-        padding: "1.2rem",
-        maxWidth: "100%",
-        fontSize: "clamp(0.95rem, 4vw, 1.2rem)",
-      },
-      "@media (max-width: 480px)": {
-        padding: "1rem",
-        borderRadius: "8px",
-        fontSize: "clamp(0.9rem, 4.5vw, 1.1rem)",
-      },
+      boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
     },
   };
 
   return (
     <div style={styles.container}>
-      {/* Add CSS styles including enhanced animations */}
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
-          :root {
-            --header-scrolled-bg: ${colors.headerScrolledBg};
-            --header-text: ${isDark ? "rgb(255,255,255)" : "#1a1a2e"};
-            --header-dropdown-bg: ${colors.bgCard};
-            --header-dropdown-text: ${colors.textPrimary};
-            --header-mobile-bg: ${isDark ? "rgba(19,27,33,0.98)" : "rgba(255,255,255,0.98)"};
-            --header-mobile-text: ${colors.textPrimary};
-            --bg-surface: ${colors.bgSurface};
-            --bg-secondary: ${colors.bgSecondary};
-            --bg-tertiary: ${colors.bgTertiary};
-            --text-primary: ${colors.textPrimary};
-          }
-
           html {
             scroll-behavior: smooth;
-            scroll-padding-top: 2px;
+            scroll-padding-top: 60px;
           }
 
-          /* Enhanced Animation Keyframes */
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(60px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+          /* ----- Beautiful CSS for the Cards ----- */
+          .concise-card {
+            background: linear-gradient(145deg, #1c2730, #131b21);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+          }
+
+          .concise-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
+            border-color: rgba(57, 204, 47, 0.3);
           }
           
-          @keyframes fadeInLeft {
-            from {
-              opacity: 0;
-              transform: translateX(-60px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
+          /* ----- Grid 2x2 for 4-item Sections ----- */
+          .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin-top: 3rem;
           }
           
-          @keyframes fadeInRight {
-            from {
-              opacity: 0;
-              transform: translateX(60px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
+          @media (max-width: 768px) {
+            .grid-2x2 {
+              grid-template-columns: 1fr;
             }
           }
-          
-          @keyframes scaleIn {
-            from {
-              opacity: 0;
-              transform: scale(0.7) translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1) translateY(0);
-            }
-          }
-          
-          @keyframes bounceIn {
-            0% {
-              opacity: 0;
-              transform: scale(0.2) translateY(50px);
-            }
-            50% {
-              opacity: 1;
-              transform: scale(1.1) translateY(-10px);
-            }
-            70% {
-              transform: scale(0.95) translateY(5px);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1) translateY(0);
-            }
-          }
-          
-          @keyframes slideInFromBottom {
-            from {
-              opacity: 0;
-              transform: translateY(100px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          
-          @keyframes slideInFromTop {
-            from {
-              opacity: 0;
-              transform: translateY(-60px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          
-          @keyframes rotateIn {
-            from {
-              opacity: 0;
-              transform: rotate(-180deg) scale(0.5);
-            }
-            to {
-              opacity: 1;
-              transform: rotate(0deg) scale(1);
-            }
-          }
-          
-          @keyframes zoomIn {
-            from {
-              opacity: 0;
-              transform: scale(0.3);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1);
-            }
-          }
-          
-          @keyframes pulseGlow {
-            0%, 100% {
-              box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
-            }
-            50% {
-              box-shadow: 0 0 40px rgba(14, 219, 97, 0.6);
-            }
-          }
-          
-          /* Enhanced Animation Classes */
-          .animate-fade-in-up {
-            animation: fadeInUp 1s ease-out forwards;
-          }
-          
-          .animate-fade-in-left {
-            animation: fadeInLeft 1s ease-out forwards;
-          }
-          
-          .animate-fade-in-right {
-            animation: fadeInRight 1s ease-out forwards;
-          }
-          
-          .animate-scale-in {
-            animation: scaleIn 0.8s ease-out forwards;
-          }
-          
-          .animate-bounce-in {
-            animation: bounceIn 1s ease-out forwards;
-          }
-          
-          .animate-slide-in-bottom {
-            animation: slideInFromBottom 1.2s ease-out forwards;
-          }
-          
-          .animate-slide-in-top {
-            animation: slideInFromTop 1s ease-out forwards;
-          }
-          
-          .animate-rotate-in {
-            animation: rotateIn 1s ease-out forwards;
-          }
-          
-          .animate-zoom-in {
-            animation: zoomIn 0.8s ease-out forwards;
-          }
-          
-          .animate-pulse-glow {
-            animation: pulseGlow 2s infinite;
-          }
-          
-          /* Enhanced stagger animations */
-          .stagger-1 { animation-delay: 0.1s; }
-          .stagger-2 { animation-delay: 0.3s; }
-          .stagger-3 { animation-delay: 0.5s; }
-          .stagger-4 { animation-delay: 0.7s; }
-          .stagger-5 { animation-delay: 0.9s; }
-          .stagger-6 { animation-delay: 1.1s; }
-          .stagger-7 { animation-delay: 1.3s; }
-          .stagger-8 { animation-delay: 1.5s; }
-          .stagger-9 { animation-delay: 1.7s; }
-          
-          /* Initial state for animated elements */
-          .animate-on-scroll {
-            opacity: 0;
-          }
-          
+
+          /* ----- Header CSS ----- */
           .header {
             background-color: transparent;
             box-shadow: none;
@@ -1107,7 +428,7 @@ const ConCise = () => {
             top: 0;
             z-index: 1000;
             width: 100%;
-            padding: 8px 0;
+            padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
             font-weight: 900;
@@ -1116,10 +437,10 @@ const ConCise = () => {
           }
           
           .header.scrolled {
-            background-color: var(--header-scrolled-bg);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background-color: rgba(19, 27, 33, 0.98);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
           }
           
           .header-container {
@@ -1127,9 +448,10 @@ const ConCise = () => {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 5%;
+            padding-right: 5%;
+            padding-left: 5%;
           }
-
+          
           .logo {
             display: flex;
             align-items: center;
@@ -1137,61 +459,53 @@ const ConCise = () => {
             margin-right: auto;
           }
           
-          .logo-img {
-            height: 35px;
-            width: auto;
-          }
+          .logo-img { height: 40px; width: auto; }
           
           .desktop-nav {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 13px;
+            gap: 10px;
+            font-size: 14px;
             font-weight: 600;
             position: relative;
           }
           
           .nav-link {
             text-decoration: none;
-            color: var(--header-text);
-            padding: 8px 12px;
+            color: #ffffff;
+            padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
             position: relative;
             display: inline-block;
             cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
           }
           
-          .nav-link:hover {
-            transform: translateY(-2px);
-          }
-          
-          .dropdown {
-            position: relative;
-          }
-          
-          .dropdown:hover .dropdown-content {
-            display: block;
-          }
+          .nav-link:hover { transform: translateY(-2px); color: #0edb61; }
+          .dropdown { position: relative; }
+          .dropdown:hover .dropdown-content { display: block; }
           
           .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: var(--header-dropdown-bg);
+            background-color: #1c2730;
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
           }
           
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: var(--header-dropdown-text);
+            color: #ffffff;
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -1200,25 +514,22 @@ const ConCise = () => {
             text-transform: uppercase;
           }
 
-          .dropdown-link:hover {
-            background-color: #f0f0f0;
-            color: #0edb61;
-          }
+          .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
 
           .mobile-menu-toggle {
             background: none;
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: var(--header-text);
+            color: #ffffff;
             display: none;
             padding: 5px;
           }
 
           .mobile-nav {
-            background-color: var(--header-mobile-bg);
+            background-color: rgba(19, 27, 33, 0.98);
             backdrop-filter: blur(10px);
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
@@ -1228,38 +539,29 @@ const ConCise = () => {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 16px;
             transition: background-color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
           }
           
-          .mobile-nav-link:hover {
-            background-color: rgba(14, 219, 97, 0.1);
-          }
-          
-          .mobile-dropdown {
-            position: relative;
-          }
+          .mobile-nav-link:hover { background-color: rgba(14, 219, 97, 0.1); }
+          .mobile-dropdown { position: relative; }
           
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
-            padding: 15px 20px;
-            text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
-            background: none;
-            border: none;
-            text-align: left;
-            font-size: 16px;
-            cursor: pointer;
           }
 
           .mobile-dropdown-content {
-            background-color: rgba(248, 249, 250, 0.9);
+            background-color: #131B21;
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
@@ -1268,99 +570,24 @@ const ConCise = () => {
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: var(--header-mobile-text);
+            color: #ffffff;
             text-decoration: none;
             font-size: 14px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
           }
           
-          .rotate-180 {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-          }
-          
-          /* Responsive Media Queries */
-          @media (max-width: 1200px) {
-            .header-container {
-              padding: 0 3%;
-            }
-            .desktop-nav {
-              gap: 6px;
-              font-size: 12px;
-            }
-            .nav-link {
-              padding: 6px 10px;
-            }
-          }
+          .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
           
           @media (max-width: 1024px) {
-            .desktop-nav {
-              display: none !important;
-            }
-            .mobile-menu-toggle {
-              display: block !important;
-            }
-            .logo-img {
-              height: 30px;
-            }
-          }
-          
-          @media (max-width: 768px) {
-            .header {
-              padding: 6px 0;
-            }
-            .header-container {
-              padding: 0 4%;
-            }
-            .logo-img {
-              height: 28px;
-            }
-            .mobile-nav-link {
-              padding: 12px 15px;
-              font-size: 15px;
-            }
-            .mobile-dropdown-toggle {
-              padding: 12px 15px;
-              font-size: 15px;
-            }
-            .mobile-nav-sublink {
-              padding: 10px 15px;
-              font-size: 13px;
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .header-container {
-              padding: 0 3%;
-            }
-            .logo-img {
-              height: 25px;
-            }
-            .mobile-nav-link {
-              padding: 10px 12px;
-              font-size: 14px;
-            }
-            .mobile-dropdown-toggle {
-              padding: 10px 12px;
-              font-size: 14px;
-            }
-            .mobile-nav-sublink {
-              padding: 8px 12px;
-              font-size: 12px;
-            }
-          }
-          
-          @media (min-width: 1025px) {
-            .mobile-nav {
-              display: none !important;
-            }
+            .desktop-nav { display: none !important; }
+            .mobile-menu-toggle { display: block !important; }
           }
         `}
       </style>
+      
       {/* Header - Navigation */}
       <header className={`header ${scrolled ? "scrolled" : ""}`}>
         <div className="header-container">
-          {/* Logo */}
           <a href="/" className="logo">
             <img
               src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
@@ -1369,12 +596,10 @@ const ConCise = () => {
             />
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="desktop-nav">
             <Link to="/sub-brands" className="nav-link">
               Home
             </Link>
-            {/* Sub-brands Dropdown */}
             <div className="dropdown">
               <span className="nav-link">Sub-brands ▾</span>
               <div className="dropdown-content">
@@ -1385,7 +610,7 @@ const ConCise = () => {
                     className="dropdown-link"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavigation(brand.route);
+                      navigate(brand.route);
                     }}
                   >
                     {brand.name}
@@ -1393,214 +618,75 @@ const ConCise = () => {
                 ))}
               </div>
             </div>
-            <a
-              href="#services"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("services");
-              }}
-            >
-              Services
-            </a>
-            <a
-              href="#highlights"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("highlights");
-              }}
-            >
-              Program Highlights
-            </a>
-            <a
-              href="#why-choose"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("why-choose");
-              }}
-            >
-              Why Choose Us
-            </a>
-            <a
-              href="#benefits"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("benefits");
-              }}
-            >
-              Who Benefits
-            </a>
-            <a
-              href="#cta"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Contact
-            </a>
+            <button className="nav-link" onClick={() => handleSmoothScroll("services")}>Services</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("highlights")}>Highlights</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("why-choose")}>Insights</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("benefits")}>Benefits</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Contact</button>
           </nav>
 
-          {/* Mobile menu toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="mobile-menu-toggle"
-            aria-label="Toggle mobile menu"
-          >
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="mobile-menu-toggle">
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile menu */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
-            <Link to="/sub-brands" className="mobile-nav-link">
-              Home
-            </Link>
-
-            {/* Mobile Sub-brands Dropdown */}
+            <Link to="/sub-brands" className="mobile-nav-link">Home</Link>
             <div className="mobile-dropdown">
               <button
                 className="mobile-nav-link mobile-dropdown-toggle"
-                onClick={() =>
-                  setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)
-                }
+                onClick={() => setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)}
               >
-                Sub-brands{" "}
-                <ChevronDown
-                  size={16}
-                  className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""}
-                />
+                Sub-brands <ChevronDown size={16} className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""} />
               </button>
               {mobileSubBrandsDropdownOpen && (
                 <div className="mobile-dropdown-content">
                   {subBrandsData.map((brand, index) => (
-                    <a
-                      key={index}
-                      href={brand.route}
-                      className="mobile-nav-sublink"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigation(brand.route);
-                      }}
-                    >
+                    <a key={index} href={brand.route} className="mobile-nav-sublink" onClick={(e) => { e.preventDefault(); navigate(brand.route); }}>
                       {brand.name}
                     </a>
                   ))}
                 </div>
               )}
             </div>
-
-            <a
-              href="#services"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("services");
-              }}
-            >
-              Services
-            </a>
-            <a
-              href="#highlights"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("highlights");
-              }}
-            >
-              Program Highlights
-            </a>
-            <a
-              href="#why-choose"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("why-choose");
-              }}
-            >
-              Why Choose Us
-            </a>
-            <a
-              href="#benefits"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("benefits");
-              }}
-            >
-              Who Benefits
-            </a>
-            <a
-              href="#cta"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Contact
-            </a>
+            <button onClick={() => handleSmoothScroll("services")} className="mobile-nav-link">Services</button>
+            <button onClick={() => handleSmoothScroll("highlights")} className="mobile-nav-link">Highlights</button>
+            <button onClick={() => handleSmoothScroll("why-choose")} className="mobile-nav-link">Insights</button>
+            <button onClick={() => handleSmoothScroll("benefits")} className="mobile-nav-link">Benefits</button>
+            <button onClick={() => handleSmoothScroll("cta")} className="mobile-nav-link">Contact</button>
           </nav>
         )}
       </header>
-      {/* Hero Section with key-based animation reset */}
-      <section id="hero" ref={heroRef} style={styles.heroSection}>
-        <div style={styles.heroContent} key={heroAnimationKey}>
-          {/* Optional: Add logo image */}
+
+      {/* Hero Section */}
+      <section id="hero" style={styles.heroSection}>
+        <div style={styles.heroContent}>
           <img
             src="/assets/logo/8.png"
             alt="8ConCise"
             style={styles.heroTopImage}
-            className={`animate-on-scroll ${
-              isAnimated("hero") ? "animate-slide-in-top" : ""
-            }`}
+            className="fade-in-up anim-delay-1"
           />
           <div style={styles.heroForegroundContent}>
-            {/* Subtitle */}
-            <p
-              style={styles.heroSubtitle}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""
-              }`}
-            >
+            <p style={styles.heroSubtitle} className="fade-in-up anim-delay-2">
               Your Precise Pathway to Exam Success
             </p>
-
-            {/* Description */}
-            <p
-              style={styles.heroDescription}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""
-              }`}
-            >
-              8ConCise is dedicated to helping students and professionals
-              achieve academic and career milestones through comprehensive,
-              focused review programs. Led by Doc May L. Francisco, an
-              experienced educator with a proven track record.
+            <p style={styles.heroDescription} className="fade-in-up anim-delay-3">
+              8ConCise is dedicated to helping students and professionals achieve academic and career milestones through comprehensive, focused review programs. Led by Doc May L. Francisco, an experienced educator with a proven track record.
             </p>
-
-            {/* Buttons */}
-            <div
-              style={styles.heroButtons}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-zoom-in stagger-3" : ""
-              }`}
-            >
+            <div style={styles.heroButtons} className="fade-in-up anim-delay-4">
               <button
                 style={styles.ctaButtonPrimary}
-                className={isAnimated("hero") ? "animate-pulse-glow" : ""}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#ff1f2c";
                   e.currentTarget.style.transform = "translateY(-3px)";
+                  e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 31, 44, 0.3)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "#0edb61";
                   e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.3)";
                 }}
               >
                 Start Your Journey
@@ -1609,13 +695,11 @@ const ConCise = () => {
                 style={styles.ctaButtonSecondary}
                 onClick={handleLearnMore}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0edb61";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.25)";
                   e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
@@ -1626,498 +710,295 @@ const ConCise = () => {
         </div>
       </section>
 
-      {/* Services Section - White Background */}
-      <section id="services" ref={servicesRef} style={styles.servicesSection}>
+      {/* Services Section */}
+      <section id="services" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
         <div style={styles.container2}>
-          <h2
-            style={{ ...styles.sectionTitle, color: colors.accentGreen }}
-            className={`animate-on-scroll ${
-              isAnimated("services") ? "animate-slide-in-top" : ""
-            }`}
-          >
-            Services Offered by 8ConCise
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            SERVICES OFFERED BY <span style={{ color: "#39CC2F" }}>8CONCISE</span>
           </h2>
-          <div style={styles.servicesGrid}>
+          <div className="grid-2x2">
             {[
               {
-                icon: <BookOpen size={40} color="#0edb61" />,
+                icon: <BookOpen size={40} color="#39CC2F" strokeWidth={1.5} />,
                 title: "Licensure Exam Review",
-                description:
-                  "Comprehensive preparation for professional licensure exams including LET and Criminology Board Exams.",
+                description: "Comprehensive preparation for professional licensure exams including LET and Criminology Board Exams.",
                 items: [
-                  "• Licensure Examination for Teachers (LET)",
-                  "• Criminology Licensure Exam",
-                  "• Updated materials aligned with latest syllabi",
-                  "• Practice exams and simulations",
+                  "Licensure Examination for Teachers (LET)",
+                  "Criminology Licensure Exam",
+                  "Updated materials aligned with latest syllabi",
+                  "Practice exams and simulations",
                 ],
               },
               {
-                icon: <Users size={40} color="#0edb61" />,
-                title: "Civil Service Exam Preparation",
-                description:
-                  "Designed for individuals aiming to qualify for government positions with comprehensive review coverage.",
+                icon: <Users size={40} color="#ff1f2c" strokeWidth={1.5} />,
+                title: "Civil Service Exam",
+                description: "Designed for individuals aiming to qualify for government positions with comprehensive review coverage.",
                 items: [
-                  "• Verbal reasoning and numerical ability",
-                  "• General information coverage",
-                  "• Time management strategies",
-                  "• Mock exams in real test conditions",
+                  "Verbal reasoning and numerical ability",
+                  "General information coverage",
+                  "Time management strategies",
+                  "Mock exams in real test conditions",
                 ],
               },
               {
-                icon: <Target size={40} color="#0edb61" />,
-                title: "College Entrance Exam Preparation",
-                description:
-                  "Help high school students prepare for admission to top colleges and universities.",
+                icon: <Target size={40} color="#39CC2F" strokeWidth={1.5} />,
+                title: "College Entrance Exam",
+                description: "Help high school students prepare for admission to top colleges and universities.",
                 items: [
-                  "• Mathematics, Science, English coverage",
-                  "• Logical reasoning development",
-                  "• University-specific preparation",
-                  "• Test-taking strategies and techniques",
+                  "Mathematics, Science, English coverage",
+                  "Logical reasoning development",
+                  "University-specific preparation",
+                  "Test-taking strategies and techniques",
                 ],
               },
               {
-                icon: <Clock size={40} color="#0edb61" />,
-                title: "Personalized Learning & Crash Courses",
-                description:
-                  "Customized study plans and intensive preparation for last-minute review needs.",
+                icon: <Clock size={40} color="#ff1f2c" strokeWidth={1.5} />,
+                title: "Personalized Learning",
+                description: "Customized study plans and intensive preparation for last-minute review needs.",
                 items: [
-                  "• One-on-one mentoring sessions",
-                  "• Customized study plans",
-                  "• Intensive crash courses",
-                  "• Focus on individual strengths/weaknesses",
+                  "One-on-one mentoring sessions",
+                  "Customized study plans",
+                  "Intensive crash courses",
+                  "Focus on individual strengths/weaknesses",
                 ],
               },
-            ].map((service, index) => (
-              <div
-                key={index}
-                style={styles.serviceCard}
-                className={`animate-on-scroll ${
-                  isAnimated("services")
-                    ? `animate-bounce-in stagger-${index + 1}`
-                    : ""
-                }`}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div
-                  style={styles.serviceIcon}
-                  className={`animate-on-scroll ${
-                    isAnimated("services")
-                      ? `animate-rotate-in stagger-${index + 2}`
-                      : ""
-                  }`}
-                >
-                  {service.icon}
+            ].map((service, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+
+              return (
+                <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
+                  <div className="concise-card">
+                    {/* TOP COLOR BAR KEPT HERE */}
+                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
+                    
+                    <div>{service.icon}</div>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{service.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{service.description}</p>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
+                      {service.items.map((item, itemIndex) => {
+                        const cleanText = item.replace("• ", "");
+                        return (
+                          <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                            <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                            <span>{cleanText}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
                 </div>
-                <h3
-                  style={styles.serviceTitle}
-                  className={`animate-on-scroll ${
-                    isAnimated("services")
-                      ? `animate-fade-in-left stagger-${index + 3}`
-                      : ""
-                  }`}
-                >
-                  {service.title}
-                </h3>
-                <p style={styles.serviceDescription}>{service.description}</p>
-                <ul style={styles.serviceList}>
-                  {service.items.map((item, itemIndex) => (
-                    <li
-                      key={itemIndex}
-                      style={styles.serviceListItem}
-                      className={`animate-on-scroll ${
-                        isAnimated("services")
-                          ? `animate-fade-in-right stagger-${
-                              index + itemIndex + 4
-                            }`
-                          : ""
-                      }`}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      <section
-        id="highlights"
-        ref={highlightsRef}
-        style={styles.highlightsSection}
-      >
+      {/* Highlights Section */}
+      <section id="highlights" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
         <div style={styles.container2}>
-          <h2
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
-            className={`animate-on-scroll ${
-              isAnimated("highlights") ? "animate-slide-in-top" : ""
-            }`}
-          >
-            Program Highlights
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            PROGRAM <span style={{ color: "#39CC2F" }}>HIGHLIGHTS</span>
           </h2>
-          <div style={styles.highlightsGrid}>
+          <div className="grid-2x2">
             {[
               {
-                icon: <Award size={50} color="#0edb61" />,
+                icon: <Award size={50} color="#39CC2F" strokeWidth={1.5} />,
                 title: "Expert-Led Instruction",
-                description:
-                  "All programs are led by Doc May L. Francisco, whose years of teaching and academic experience have prepared countless students to succeed.",
+                description: "All programs are led by Doc May L. Francisco, whose years of teaching and academic experience have prepared countless students to succeed.",
               },
               {
-                icon: <BookOpen size={50} color="#ff1f2c" />,
+                icon: <BookOpen size={50} color="#ff1f2c" strokeWidth={1.5} />,
                 title: "Comprehensive Materials",
-                description:
-                  "Reviewers, handouts, and practice questions are updated regularly to reflect the latest exam formats and trends.",
+                description: "Reviewers, handouts, and practice questions are updated regularly to reflect the latest exam formats and trends.",
               },
               {
-                icon: <CheckCircle size={50} color="#0edb61" />,
+                icon: <CheckCircle size={50} color="#39CC2F" strokeWidth={1.5} />,
                 title: "Mock Exams & Simulations",
-                description:
-                  "Full-length practice tests designed to simulate actual exam conditions, helping students manage time effectively.",
+                description: "Full-length practice tests designed to simulate actual exam conditions, helping students manage time effectively.",
               },
               {
-                icon: <Globe size={50} color="#ff1f2c" />,
+                icon: <Globe size={50} color="#ff1f2c" strokeWidth={1.5} />,
                 title: "Flexible Delivery Modes",
-                description:
-                  "Choose between on-site classes for interactive learning or online sessions for convenient home study.",
+                description: "Choose between on-site classes for interactive learning or online sessions for convenient home study.",
               },
             ].map((highlight, index) => (
-              <div
-                key={index}
-                style={styles.highlightCard}
-                className={`animate-on-scroll ${
-                  isAnimated("highlights")
-                    ? `animate-scale-in stagger-${index + 1}`
-                    : ""
-                }`}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    index % 2 === 0
-                      ? "0 12px 35px rgba(14, 219, 97, 0.2)"
-                      : "0 12px 35px rgba(255, 31, 44, 0.2)";
-                  e.currentTarget.style.borderColor =
-                    index % 2 === 0 ? "#0edb61" : "#ff1f2c";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                  e.currentTarget.style.borderColor = "#f0f0f0";
-                }}
-              >
-                <div
-                  style={styles.highlightIcon}
-                  className={`animate-on-scroll ${
-                    isAnimated("highlights")
-                      ? `animate-bounce-in stagger-${index + 2}`
-                      : ""
-                  }`}
-                >
-                  {highlight.icon}
+              <div key={index} className={`scale-up anim-delay-${(index % 4) + 1}`}>
+                <div className="concise-card" style={{ justifyContent: "center" }}>
+                  {/* NO TOP COLOR BAR HERE */}
+                  <div>{highlight.icon}</div>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{highlight.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{highlight.description}</p>
                 </div>
-                <h3
-                  style={styles.highlightTitle}
-                  className={`animate-on-scroll ${
-                    isAnimated("highlights")
-                      ? `animate-fade-in-left stagger-${index + 3}`
-                      : ""
-                  }`}
-                >
-                  {highlight.title}
-                </h3>
-                <p
-                  style={styles.highlightDescription}
-                  className={`animate-on-scroll ${
-                    isAnimated("highlights")
-                      ? `animate-fade-in-right stagger-${index + 4}`
-                      : ""
-                  }`}
-                >
-                  {highlight.description}
-                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section
-        id="why-choose"
-        ref={whyChooseRef}
-        style={styles.whyChooseSection}
-      >
+      {/* Why Choose Us Section */}
+      <section id="why-choose" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
         <div style={styles.container2}>
-          <h2
-            style={styles.sectionTitle}
-            className={`animate-on-scroll ${
-              isAnimated("why-choose") ? "animate-slide-in-top" : ""
-            }`}
-          >
-            Why Choose 8ConCise?
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONCISE?</span>
           </h2>
-          <div style={styles.benefitsGrid}>
+          <div className="grid-2x2">
             {[
               {
                 title: "Proven Track Record",
-                description:
-                  "With Doc May's extensive background in education, 8ConCise has a history of producing successful passers across various licensure and entrance exams.",
+                description: "With Doc May's extensive background in education, 8ConCise has a history of producing successful passers across various licensure and entrance exams.",
+                icon: <Brain size={48} color="#39CC2F" strokeWidth={1.5} />
               },
               {
                 title: "Student-Centric Approach",
-                description:
-                  "Every program is tailored to meet the specific needs of students, ensuring they receive the guidance they need to excel.",
+                description: "Every program is tailored to meet the specific needs of students, ensuring they receive the guidance they need to excel.",
+                icon: <Users size={48} color="#ff1f2c" strokeWidth={1.5} />
               },
               {
                 title: "Accessible and Flexible",
-                description:
-                  "With both on-site and online options, students can choose a mode of learning that works best for them.",
+                description: "With both on-site and online options, students can choose a mode of learning that works best for them.",
+                icon: <Network size={48} color="#39CC2F" strokeWidth={1.5} />
               },
               {
                 title: "Holistic Preparation",
-                description:
-                  "Beyond academic preparation, 8ConCise equips students with test-taking strategies, time management skills, and confidence.",
+                description: "Beyond academic preparation, 8ConCise equips students with test-taking strategies, time management skills, and confidence.",
+                icon: <Target size={48} color="#ff1f2c" strokeWidth={1.5} />
               },
             ].map((benefit, index) => (
-              <div
-                key={index}
-                style={styles.benefitCard}
-                className={`animate-on-scroll ${
-                  isAnimated("why-choose")
-                    ? `animate-fade-in-up stagger-${index + 1}`
-                    : ""
-                }`}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 12px 35px rgba(14, 219, 97, 0.2)";
-                  e.currentTarget.style.borderColor = "#0edb61";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                  e.currentTarget.style.borderColor = "#0edb61";
-                }}
-              >
-                <h3
-                  style={styles.benefitTitle}
-                  className={`animate-on-scroll ${
-                    isAnimated("why-choose")
-                      ? `animate-fade-in-left stagger-${index + 2}`
-                      : ""
-                  }`}
-                >
-                  {benefit.title}
-                </h3>
-                <p
-                  style={styles.benefitDescription}
-                  className={`animate-on-scroll ${
-                    isAnimated("why-choose")
-                      ? `animate-fade-in-right stagger-${index + 3}`
-                      : ""
-                  }`}
-                >
-                  {benefit.description}
-                </p>
+              <div key={index} className={`fade-in-up anim-delay-${(index % 4) + 1}`}>
+                <div className="concise-card" style={{ justifyContent: "center" }}>
+                  {/* NO TOP COLOR BAR HERE */}
+                  <div>{benefit.icon}</div>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{benefit.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{benefit.description}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="benefits" ref={benefitsRef} style={styles.benefitsSection}>
+      {/* Benefits Section */}
+      <section id="benefits" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
         <div style={styles.container2}>
-          <h2
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
-            className={`animate-on-scroll ${
-              isAnimated("benefits") ? "animate-slide-in-top" : ""
-            }`}
-          >
-            Who Can Benefit from 8ConCise?
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            WHO CAN BENEFIT <span style={{ color: "#39CC2F" }}>FROM 8CONCISE?</span>
           </h2>
-          <div style={styles.clientsGrid}>
+          <div style={styles.grid3Col}>
             {[
               {
-                icon: <Users size={60} color="#0edb61" />,
+                icon: <Users size={60} color="#39CC2F" strokeWidth={1.5} />,
                 title: "Aspiring Professionals",
                 items: [
-                  "• Teachers preparing for LET",
-                  "• Criminologists preparing for board exams",
-                  "• Professionals seeking career advancement",
+                  "Teachers preparing for LET",
+                  "Criminologists preparing for board exams",
+                  "Professionals seeking career advancement",
                 ],
               },
               {
-                icon: <Target size={60} color="#ff1f2c" />,
+                icon: <Target size={60} color="#ff1f2c" strokeWidth={1.5} />,
                 title: "Civil Service Applicants",
                 items: [
-                  "• Government position seekers",
-                  "• Career shifters to public service",
-                  "• Fresh graduates targeting government jobs",
+                  "Government position seekers",
+                  "Career shifters to public service",
+                  "Fresh graduates targeting government jobs",
                 ],
               },
               {
-                icon: <BookOpen size={60} color="#0edb61" />,
+                icon: <BookOpen size={60} color="#39CC2F" strokeWidth={1.5} />,
                 title: "High School Students",
                 items: [
-                  "• College admission exam takers",
-                  "• Students targeting top universities",
-                  "• Those needing intensive review support",
+                  "College admission exam takers",
+                  "Students targeting top universities",
+                  "Those needing intensive review support",
                 ],
               },
-            ].map((client, index) => (
-              <div
-                key={index}
-                style={styles.clientCategory}
-                className={`animate-on-scroll ${
-                  isAnimated("benefits")
-                    ? `animate-zoom-in stagger-${index + 1}`
-                    : ""
-                }`}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-5px)";
-                  e.currentTarget.style.boxShadow =
-                    index === 1
-                      ? "0 12px 35px rgba(255, 31, 44, 0.2)"
-                      : "0 12px 35px rgba(14, 219, 97, 0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 25px rgba(0,0,0,0.1)";
-                }}
-              >
-                <div
-                  style={styles.clientIcon}
-                  className={`animate-on-scroll ${
-                    isAnimated("benefits")
-                      ? `animate-rotate-in stagger-${index + 2}`
-                      : ""
-                  }`}
-                >
-                  {client.icon}
+            ].map((client, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+
+              return (
+                <div key={index} className={`scale-up anim-delay-${(index % 3) + 1}`}>
+                  <div className="concise-card">
+                    {/* NO TOP COLOR BAR HERE */}
+                    <div>{client.icon}</div>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{client.title}</h3>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
+                      {client.items.map((item, itemIndex) => {
+                        const cleanText = item.replace("• ", "");
+                        return (
+                          <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                            <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                            <span>{cleanText}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
                 </div>
-                <h3
-                  style={styles.clientTitle}
-                  className={`animate-on-scroll ${
-                    isAnimated("benefits")
-                      ? `animate-fade-in-up stagger-${index + 3}`
-                      : ""
-                  }`}
-                >
-                  {client.title}
-                </h3>
-                <ul style={styles.clientList}>
-                  {client.items.map((item, itemIndex) => (
-                    <li
-                      key={itemIndex}
-                      style={styles.clientListItem}
-                      className={`animate-on-scroll ${
-                        isAnimated("benefits")
-                          ? `animate-fade-in-left stagger-${
-                              index + itemIndex + 4
-                            }`
-                          : ""
-                      }`}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
-      <section id="cta" ref={ctaRef} style={styles.ctaSection}>
+
+      {/* CTA Section */}
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
         <div style={styles.container2}>
-          <h2
-            style={styles.ctaTitle}
-            className={`animate-on-scroll ${
-              isAnimated("cta") ? "animate-slide-in-top" : ""
-            }`}
-          >
-            The 8ConCise Advantage
+          <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
+            THE <span style={{ color: "#ff1f2c" }}>8CONCISE</span> ADVANTAGE
           </h2>
-          <p
-            style={styles.ctaDescription}
-            className={`animate-on-scroll ${
-              isAnimated("cta") ? "animate-fade-in-up stagger-1" : ""
-            }`}
-          >
-            At 8ConCise, we believe that exam success is not just about studying
-            hard but studying smart. With expert guidance from Doc May L.
-            Francisco and a proven, structured approach, we empower students to
-            achieve their goals and unlock new opportunities.
+          <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
+            At 8ConCise, we believe that exam success is not just about studying hard but studying smart. With expert guidance from Doc May L. Francisco and a proven, structured approach, we empower students to achieve their goals and unlock new opportunities.
           </p>
-          <div
-            style={styles.ctaButtons}
-            className={`animate-on-scroll ${
-              isAnimated("cta") ? "animate-scale-in stagger-2" : ""
-            }`}
-          >
+          <div style={styles.ctaButtons} className="fade-in-up anim-delay-3">
             <button
               style={styles.ctaButtonPrimary}
-              className={`animate-on-scroll ${
-                isAnimated("cta") ? "animate-bounce-in stagger-3" : ""
-              }`}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 31, 44, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.3)";
               }}
             >
               Enroll Now
             </button>
             <button
               style={styles.ctaButtonRed}
-              className={`animate-on-scroll ${
-                isAnimated("cta") ? "animate-bounce-in stagger-4" : ""
-              }`}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(14, 219, 97, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 15px rgba(255, 31, 44, 0.3)";
               }}
             >
               Get Started Today
             </button>
           </div>
-          <div
-            style={styles.ctaHighlight}
-            className={`animate-on-scroll ${
-              isAnimated("cta")
-                ? "animate-fade-in-up stagger-5 animate-pulse-glow"
-                : ""
-            }`}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(255, 31, 44, 0.2)";
-              e.currentTarget.style.borderColor = "#ff1f2c";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(14, 219, 97, 0.1)";
-              e.currentTarget.style.borderColor = "#0edb61";
-            }}
-          >
-            <strong>
-              Let 8ConCise be your partner in success—your future begins here!
-            </strong>
+          <div className="fade-in-up anim-delay-4" style={{ marginTop: "2rem" }}>
+            <div
+              style={styles.ctaHighlight}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
+                e.currentTarget.style.borderColor = "#ff1f2c";
+                e.currentTarget.style.boxShadow = "0 15px 35px rgba(255, 31, 44, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.05)";
+                e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.4)";
+              }}
+            >
+              <strong>
+                Let 8ConCise be your partner in success—your future begins here!
+              </strong>
+            </div>
           </div>
         </div>
       </section>

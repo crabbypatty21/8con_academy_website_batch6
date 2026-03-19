@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
+import "../ConponentCSS/Animations.css"; // Imported native animations
+import TradingBackground from "./TradingBackground.jsx"; // Forex trading background
 import {
   Menu,
   X,
@@ -16,42 +18,26 @@ import {
   BookOpen,
   Users,
   Briefcase,
-  Heart,
   Star,
   CheckCircle,
-  ArrowRight,
-  DollarSign,
   Building,
-  Handshake,
   Lightbulb,
   PieChart,
-  MapPin,
   FileText,
   UserCheck,
   Zap,
-  TrendingUpIcon,
+  Check,
+  Handshake,
 } from "lucide-react";
 
 const ConQuest = () => {
+  const { colors, isDark } = useTheme();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
   const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] =
     useState(false);
-  const [animationKey, setAnimationKey] = useState(0);
-  const [visibleSections, setVisibleSections] = useState(new Set());
-
-  const [animatedSections, setAnimatedSections] = useState(new Set());
-  const [isInHeroSection, setIsInHeroSection] = useState(false);
-  const [heroAnimationKey, setHeroAnimationKey] = useState(0);
-  const isAnimated = (sectionId) => animatedSections.has(sectionId);
-
-  // Refs for sections
-  const heroRef = useRef(null);
-  const focusAreasRef = useRef(null);
-  const whatSetsApartRef = useRef(null);
-  const whoBenefitsRef = useRef(null);
-  const ctaRef = useRef(null);
 
   const subBrandsData = [
     {
@@ -111,6 +97,13 @@ const ConQuest = () => {
       icon: <Users size={60} />,
     },
     {
+      id: "conpact",
+      name: "8ConPact",
+      route: "/8conpact",
+      desc: "Collaborate for Impact in Livelihood, Education, and Employment.",
+      icon: <Handshake size={60} />,
+    },
+    {
       id: "consult",
       name: "8ConSult",
       route: "/8consult",
@@ -119,130 +112,34 @@ const ConQuest = () => {
     },
   ];
 
-  // Scroll detection for animations
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setScrolled(scrollTop > 0);
-
-      // Check if user is at the top/hero section (within first 20% of hero height)
-      const heroSection = document.getElementById("top");
-      const heroHeight = heroSection ? heroSection.offsetHeight : 0;
-      const isAtTop = scrollTop < heroHeight * 0.2;
-
-      // Reset animations when user returns to top
-      if (isAtTop && visibleSections.size > 0) {
-        setVisibleSections(new Set());
-        setAnimationKey((prev) => prev + 1); // Force re-render to restart hero animations
-        return; // Exit early to avoid triggering section animations
-      }
-
-      // Only check section visibility if not at top
-      if (!isAtTop) {
-        const sections = [
-          "focus-areas",
-          "what-sets-apart",
-          "who-benefits",
-          "cta",
-        ];
-
-        sections.forEach((sectionId) => {
-          const section = document.getElementById(sectionId);
-          if (section) {
-            const rect = section.getBoundingClientRect();
-            const isVisible =
-              rect.top < window.innerHeight * 0.75 && rect.bottom > 0;
-
-            if (isVisible && !visibleSections.has(sectionId)) {
-              setVisibleSections((prev) => new Set([...prev, sectionId]));
-            }
-          }
-        });
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    // Initial check
-    setTimeout(handleScroll, 100);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [visibleSections]);
-
-  // Intersection Observer setup
+  // Global Intersection Observer for Animations.css classes
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.15,
+      threshold: 0.1,
       rootMargin: "0px 0px -50px 0px",
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const sectionId = entry.target.id;
-          setAnimatedSections((prev) => new Set([...prev, sectionId]));
+          entry.target.classList.add("visible");
         }
       });
     }, observerOptions);
 
-    const sections = [
-      heroRef,
-      focusAreasRef,
-      whatSetsApartRef,
-      whoBenefitsRef,
-      ctaRef,
-    ];
-
-    sections.forEach((ref) => {
-      if (ref.current) {
-        observer.observe(ref.current);
-      }
-    });
+    const animatedElements = document.querySelectorAll(".slide-in-right, .fade-in-up, .scale-up");
+    animatedElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
 
-  // Observer for hero section to detect when user is at top
   useEffect(() => {
-    const heroObserverOptions = {
-      threshold: 0.6,
-      rootMargin: "0px",
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 0);
     };
-
-    const heroObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const wasInHero = isInHeroSection;
-        const nowInHero = entry.isIntersecting;
-
-        setIsInHeroSection(nowInHero);
-
-        if (nowInHero) {
-          // Reset ALL section animations when entering hero section
-          setAnimatedSections(new Set());
-          setHeroAnimationKey((prev) => prev + 1);
-
-          // Trigger hero animation
-          setTimeout(() => {
-            setAnimatedSections((prev) => new Set([...prev, "hero"]));
-          }, 100);
-        }
-      });
-    }, heroObserverOptions);
-
-    if (heroRef.current) {
-      heroObserver.observe(heroRef.current);
-    }
-
-    return () => heroObserver.disconnect();
-  }, [isInHeroSection]);
-
-  const navigate = useNavigate();
-
-  const handleNavigation = (path) => {
-    navigate(path);
-    setMobileMenuOpen(false);
-    setSubBrandsDropdownOpen(false);
-    setMobileSubBrandsDropdownOpen(false);
-  };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleSmoothScroll = (targetId) => {
     const element = document.getElementById(targetId);
@@ -255,38 +152,41 @@ const ConQuest = () => {
     setMobileMenuOpen(false);
   };
 
+  const handleLearnMore = () => {
+    handleSmoothScroll("focus-areas");
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setAnimatedSections(new Set());
-
-    setTimeout(() => {
-      setAnimatedSections((prev) => new Set([...prev, "hero"]));
-    }, 300);
   }, []);
 
-  const { colors, isDark } = useTheme();
-
+  // Premium Dark Theme Styles
   const styles = {
     container: {
       minHeight: "100vh",
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      fontFamily: "'Montserrat', sans-serif",
       lineHeight: "1.6",
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
+      backgroundColor: "#131B21",
     },
 
     container2: {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "0 20px",
+      position: "relative",
+      zIndex: 2,
     },
 
-    // Hero Section - Green Background
     heroSection: {
       minHeight: "100vh",
-      background:
-        "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
+      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: "#19232A",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -294,376 +194,159 @@ const ConQuest = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
-      "@media (max-width: 768px)": {
-        padding: "120px 15px 60px",
-        minHeight: "90vh",
-      },
-      "@media (max-width: 480px)": {
-        padding: "100px 12px 40px",
-        minHeight: "85vh",
-      },
+      zIndex: 2, // Shielding the hero from the fixed animation background
     },
 
     heroContent: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      justifyContent: "flex-start",
+      justifyContent: "center",
       width: "100%",
       position: "relative",
       zIndex: 2,
-      maxWidth: "800px",
+      maxWidth: "900px",
       margin: "0 auto",
-      "@media (max-width: 768px)": {
-        maxWidth: "100%",
-      },
-    },
-
-    heroSubtitle: {
-      fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-      fontWeight: "600",
-      marginBottom: "1rem",
-      margin: "0 0 1rem 0",
-      opacity: "0.9",
-      color: "#ffffff",
-      lineHeight: "1.3",
-      "@media (max-width: 480px)": {
-        fontSize: "clamp(0.9rem, 5vw, 1.4rem)",
-        marginBottom: "1.2rem",
-      },
-    },
-
-    heroDescription: {
-      fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
-      color: "#cccccc",
-      lineHeight: "1.6",
-      marginTop: "0 !important",
-      marginBottom: "0 !important",
-      paddingBottom: "0 !important",
-      opacity: "0.95",
-      "@media (max-width: 768px)": {
-        marginBottom: "2rem",
-      },
-      "@media (max-width: 480px)": {
-        fontSize: "clamp(0.85rem, 4vw, 1rem)",
-        lineHeight: "1.6",
-        marginBottom: "1.5rem",
-      },
-    },
-
-    heroForegroundContent: {
-      backgroundColor: "rgba(0, 0, 0, 0.3)",
-      padding: "clamp(1rem, 2vw, 1.5rem)",
-      borderRadius: "15px",
-      backdropFilter: "blur(6px)",
-      border: "1px solid rgba(255, 255, 255, 0.1)",
-      maxWidth: "1000px",
-      width: "100%",
-      textAlign: "center",
-      marginBottom: "10rem",
-      marginTop: "-100px",
-      "@media (max-width: 768px)": {
-        padding: "1.5rem 1rem",
-        gap: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "1.2rem 0.8rem",
-        gap: "0.8rem",
-      },
+      marginTop: "-30vh", 
     },
 
     heroTopImage: {
-      width: "clamp(250px, 40vw, 500px)",
+      width: "clamp(300px, 50vw, 600px)",
       height: "auto",
-      opacity: 0.9,
+      marginBottom: "-10rem",
+      position: "relative",
+      zIndex: 3,
       pointerEvents: "none",
-      marginTop: "-80px",
+      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+    },
+
+    heroSubtitle: {
+      fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      marginTop: "0", 
+      marginBottom: "1rem",
+      color: "#ffffff",
+      lineHeight: "1.3",
+      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      position: "relative",
+      zIndex: 4,
+    },
+
+    heroDescription: {
+      fontSize: "clamp(1rem, 2vw, 1.15rem)",
+      color: "#e2e8f0", 
+      lineHeight: "1.6",
+      maxWidth: "800px",
+      marginTop: "0",
+      marginBottom: "2.5rem",
+      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+    },
+
+    heroForegroundContent: {
+      width: "100%",
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      position: "relative",
+      zIndex: 4,
     },
 
     heroButtons: {
       display: "flex",
-      gap: "1rem",
+      gap: "1.5rem",
       justifyContent: "center",
       flexWrap: "wrap",
-      marginTop: "2rem",
-      margin: "0 !important",
-      padding: "0 !important",
       position: "relative",
-      zIndex: "1",
-      "@media (max-width: 768px)": {
-        gap: "0.8rem",
-        marginTop: "1.5rem",
-      },
-      "@media (max-width: 480px)": {
-        flexDirection: "column",
-        gap: "0.8rem",
-        alignItems: "center",
-      },
+      zIndex: "5",
     },
 
     ctaButtonPrimary: {
       background: "#0edb61",
       color: "#ffffff",
       border: "none",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
-      "@media (max-width: 768px)": {
-        padding: "0.9rem 1.8rem",
-        fontSize: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "0.8rem 1.5rem",
-        fontSize: "0.9rem",
-        width: "200px",
-      },
+      letterSpacing: "0.5px",
+      boxShadow: "0 4px 15px rgba(14, 219, 97, 0.3)",
+      display: "flex",
+      alignItems: "center",
     },
 
     ctaButtonSecondary: {
-      background: "transparent",
+      background: "rgba(255, 255, 255, 0.15)",
+      backdropFilter: "blur(5px)",
       color: "#ffffff",
-      border: "2px solid #ffffff",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      border: "1px solid rgba(255, 255, 255, 0.6)",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
-      "@media (max-width: 768px)": {
-        padding: "0.9rem 1.8rem",
-        fontSize: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "0.8rem 1.5rem",
-        fontSize: "0.9rem",
-        width: "200px",
-      },
+      letterSpacing: "0.5px",
+      display: "flex",
+      alignItems: "center",
     },
 
     ctaButtonRed: {
       background: "#ff1f2c",
       color: "#ffffff",
       border: "none",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
-      "@media (max-width: 768px)": {
-        padding: "0.9rem 1.8rem",
-        fontSize: "1rem",
-      },
-      "@media (max-width: 480px)": {
-        padding: "0.8rem 1.5rem",
-        fontSize: "0.9rem",
-        width: "200px",
-      },
+      letterSpacing: "0.5px",
+      boxShadow: "0 4px 15px rgba(255, 31, 44, 0.3)",
+      display: "flex",
+      alignItems: "center",
     },
 
-    // Key Focus Areas Section - White Background
-    focusAreasSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
+    sectionCommon: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
+      position: "relative",
+      overflow: "hidden",
     },
 
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: colors.accentGreen,
+      color: "#ffffff",
       textAlign: "center",
       marginBottom: "3rem",
-    },
-
-    focusAreasGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-      gap: "2rem",
-      marginTop: "2rem",
-    },
-
-    focusAreaCard: {
-      background: colors.bgSurface,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-      textAlign: "center",
-    },
-
-    focusAreaIcon: {
-      marginBottom: "1rem",
-      display: "flex",
-      justifyContent: "center",
-    },
-
-    focusAreaTitle: {
-      fontSize: "1.3rem",
-      fontWeight: "700",
-      color: colors.accentGreen,
-      marginBottom: "1rem",
-    },
-
-    focusAreaDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1.5rem",
-      lineHeight: "1.6",
-    },
-
-    focusAreaFeatures: {
-      textAlign: "left",
-      marginTop: "1rem",
-    },
-
-    featuresTitle: {
-      fontSize: "1.1rem",
-      fontWeight: "700",
-      color: "#ff1f2c",
-      marginBottom: "0.8rem",
-    },
-
-    focusAreaList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-    },
-
-    focusAreaListItem: {
-      fontSize: "0.95rem",
-      color: colors.textPrimary,
-      marginBottom: "0.6rem",
-      lineHeight: "1.5",
-    },
-
-    // What Sets Apart Section - Black Background
-    whatSetsApartSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-    },
-
-    whatSetsApartGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "2rem",
-      marginTop: "2rem",
-    },
-
-    whatSetsApartCard: {
-      background: colors.bgSurface,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      textAlign: "center",
-      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-    },
-
-    whatSetsApartIcon: {
-      marginBottom: "1rem",
-      display: "flex",
-      justifyContent: "center",
-    },
-
-    whatSetsApartTitle: {
-      fontSize: "1.4rem",
-      fontWeight: "700",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-    },
-
-    whatSetsApartDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      lineHeight: "1.7",
-    },
-
-    // Who Benefits Section - White Background
-    whoBenefitsSection: {
-      background: colors.bgSurface,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-    },
-
-    whoBenefitsGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: "2rem",
-      marginTop: "2rem",
-    },
-
-    whoBenefitsCard: {
-      background: colors.bgSurface,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      textAlign: "center",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-    },
-
-    whoBenefitsIcon: {
-      marginBottom: "1rem",
-      display: "flex",
-      justifyContent: "center",
-    },
-
-    whoBenefitsTitle: {
-      fontSize: "1.4rem",
-      fontWeight: "700",
-      color: colors.accentGreen,
-      marginBottom: "1rem",
-    },
-
-    whoBenefitsDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      lineHeight: "1.7",
-    },
-
-    // CTA Section - Black Background
-    ctaSection: {
-      background: colors.bgSecondary,
-      color: colors.textPrimary,
-      padding: "80px 20px",
-      textAlign: "center",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
+      textTransform: "uppercase",
     },
 
     ctaTitle: {
-      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontSize: "clamp(2rem, 5vw, 2.8rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      marginBottom: "2rem",
-      color: colors.textPrimary,
+      color: "#ffffff",
+      marginBottom: "1.5rem",
+      textTransform: "uppercase",
     },
 
     ctaDescription: {
       fontSize: "clamp(1rem, 3vw, 1.2rem)",
       lineHeight: "1.8",
       maxWidth: "800px",
-      margin: "0 auto 2rem",
-      opacity: "0.95",
-      color: colors.textPrimary,
+      margin: "0 auto 2.5rem",
+      color: "#A0ABB5",
     },
 
     ctaButtons: {
@@ -672,33 +355,171 @@ const ConQuest = () => {
       justifyContent: "center",
       flexWrap: "wrap",
       marginBottom: "2rem",
+      position: "relative",
+      zIndex: 10,
     },
 
     ctaHighlight: {
-      background: "rgba(14, 219, 97, 0.1)",
-      padding: "1.5rem",
-      borderRadius: "10px",
-      fontSize: "clamp(1.1rem, 3vw, 1.3rem)",
-      maxWidth: "700px",
+      background: "#19232A",
+      padding: "1.5rem 2rem",
+      borderRadius: "15px",
+      fontSize: "clamp(1rem, 3vw, 1.3rem)",
+      maxWidth: "800px",
       margin: "0 auto",
-      border: "2px solid #0edb61",
-      color: colors.textPrimary,
-      transition: "all 0.3s ease",
+      border: "1px solid rgba(255, 255, 255, 0.05)",
+      color: "#ffffff",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
     },
   };
 
+  // Data Arrays
+  const focusAreasData = [
+    {
+      icon: <FileText size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Thesis Coaching",
+      description: "Work with seasoned mentors who specialize in academic research and writing, ensuring high-quality outputs with comprehensive support.",
+      subtitle: "Comprehensive Support:",
+      items: [
+        "Research proposals, topic selection, and literature reviews",
+        "Statistical analysis, data interpretation, and report writing",
+        "Oral defense preparation with confidence coaching",
+      ],
+    },
+    {
+      icon: <UserCheck size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Career Mentorship",
+      description: "Receive mentorship from experienced professionals in business, finance, and other industries with personalized career development.",
+      subtitle: "Personalized Development:",
+      items: [
+        "Tailored coaching to identify strengths and career goals",
+        "Resume building, interview preparation, networking strategies",
+        "Industry insights and competitive market navigation",
+      ],
+    },
+    {
+      icon: <Lightbulb size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Entrepreneurship",
+      description: "Learn from entrepreneurs and business leaders with proven success in building and scaling businesses from idea to execution.",
+      subtitle: "From Idea to Execution:",
+      items: [
+        "Business idea development, planning, and venture launching",
+        "Marketing, branding, and operational strategies",
+        "Funding opportunities, financial management, sustainable growth",
+      ],
+    },
+  ];
+
+  const whatSetsApartData = [
+    {
+      icon: <Star size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Expert Mentors",
+      description: "Access a team of academic and industry experts with years of experience in guiding students, professionals, and entrepreneurs."
+    },
+    {
+      icon: <PieChart size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Holistic Approach",
+      description: "Combines academic coaching, career mentorship, and entrepreneurial guidance to provide comprehensive support."
+    },
+    {
+      icon: <Target size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Customized Support",
+      description: "Tailored solutions for individuals based on their unique goals, challenges, and aspirations."
+    },
+    {
+      icon: <CheckCircle size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Actionable Insights",
+      description: "Focus on delivering practical strategies and high-quality outputs that align with real-world demands."
+    },
+  ];
+
+  const whoBenefitsData = [
+    {
+      icon: <GraduationCap size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Students",
+      description: "Undergraduate and postgraduate students needing support in completing their thesis, dissertations, or research projects."
+    },
+    {
+      icon: <Briefcase size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Professionals",
+      description: "Individuals looking to advance their careers or transition into new industries with expert coaching."
+    },
+    {
+      icon: <Zap size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Aspiring Entrepreneurs",
+      description: "Those seeking guidance on launching or scaling their businesses with proven strategies and mentorship."
+    },
+    {
+      icon: <Building size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Educational Institutions",
+      description: "Schools and universities looking for expert-led coaching programs for their students and staff."
+    },
+  ];
+
   return (
     <div style={styles.container}>
-      {/* CSS Styles */}
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
             scroll-behavior: smooth;
-            scroll-padding-top: 2px;
+            scroll-padding-top: 60px;
           }
 
-          /* Header Styles */
+          /* ----- Beautiful CSS for the Cards ----- */
+          .conquest-card {
+            background: linear-gradient(145deg, #1c2730, #131b21);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+          }
+
+          .conquest-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
+            border-color: rgba(57, 204, 47, 0.3);
+          }
+          
+          /* ----- Grid Layouts ----- */
+          .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin-top: 3rem;
+          }
+          
+          .flex-centered-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 3rem;
+          }
+
+          @media (max-width: 768px) {
+            .grid-2x2 {
+              grid-template-columns: 1fr;
+            }
+          }
+
+          /* ----- Header CSS ----- */
           .header {
             background-color: transparent;
             box-shadow: none;
@@ -713,12 +534,12 @@ const ConQuest = () => {
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
-
+          
           .header.scrolled {
-            background-color: var(--header-scrolled-bg);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background-color: rgba(19, 27, 33, 0.98);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
           }
           
           .header-container {
@@ -729,7 +550,7 @@ const ConQuest = () => {
             padding-right: 5%;
             padding-left: 5%;
           }
-
+          
           .logo {
             display: flex;
             align-items: center;
@@ -737,10 +558,7 @@ const ConQuest = () => {
             margin-right: auto;
           }
           
-          .logo-img {
-            height: 40px;
-            width: auto;
-          }
+          .logo-img { height: 40px; width: auto; }
           
           .desktop-nav {
             display: flex;
@@ -753,45 +571,40 @@ const ConQuest = () => {
           
           .nav-link {
             text-decoration: none;
-            color: var(--header-text);
+            color: #ffffff;
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
             position: relative;
             display: inline-block;
             cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
           }
-
-          .nav-link:hover {
-            transform: translateY(-2px);
-          }
-
-          .dropdown {
-            position: relative;
-          }
-
-          .dropdown:hover .dropdown-content {
-            display: block;
-          }
-
+          
+          .nav-link:hover { transform: translateY(-2px); color: #0edb61; }
+          .dropdown { position: relative; }
+          .dropdown:hover .dropdown-content { display: block; }
+          
           .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: var(--header-dropdown-bg);
+            background-color: #1c2730;
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
           }
-
+          
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: var(--header-dropdown-text);
+            color: #ffffff;
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -800,25 +613,22 @@ const ConQuest = () => {
             text-transform: uppercase;
           }
 
-          .dropdown-link:hover {
-            background-color: #f0f0f0;
-            color: #0edb61;
-          }
+          .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
 
           .mobile-menu-toggle {
             background: none;
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: var(--header-text);
+            color: #ffffff;
             display: none;
             padding: 5px;
           }
 
           .mobile-nav {
-            background-color: var(--header-mobile-bg);
+            background-color: rgba(19, 27, 33, 0.98);
             backdrop-filter: blur(10px);
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
@@ -828,433 +638,55 @@ const ConQuest = () => {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 16px;
             transition: background-color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
           }
-
-          .mobile-nav-link:hover {
-            background-color: rgba(14, 219, 97, 0.1);
-          }
-
-          .mobile-dropdown {
-            position: relative;
-          }
-
+          
+          .mobile-nav-link:hover { background-color: rgba(14, 219, 97, 0.1); }
+          .mobile-dropdown { position: relative; }
+          
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
-            padding: 15px 20px;
-            text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
-            background: none;
-            border: none;
-            text-align: left;
-            font-size: 16px;
-            cursor: pointer;
           }
-          
+
           .mobile-dropdown-content {
-            background-color: rgba(248, 249, 250, 0.9);
+            background-color: #131B21;
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
           }
-          
+
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: #555;
+            color: #ffffff;
             text-decoration: none;
             font-size: 14px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
           }
           
-          .rotate-180 {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-          }
-
-          /* Animation Keyframes */
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-          @keyframes fadeInDown {
-            from {
-              opacity: 0;
-              transform: translateY(-50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-          @keyframes fadeInLeft {
-            from {
-              opacity: 0;
-              transform: translateX(-50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-
-          @keyframes fadeInRight {
-            from {
-              opacity: 0;
-              transform: translateX(50px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-
-          @keyframes scaleIn {
-            from {
-              opacity: 0;
-              transform: scale(0.8);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1);
-            }
-          }
-
-          @keyframes bounceIn {
-            0% {
-              opacity: 0;
-              transform: scale(0.3);
-            }
-            50% {
-              opacity: 1;
-              transform: scale(1.05);
-            }
-            70% {
-              transform: scale(0.9);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1);
-            }
-          }
-
-          @keyframes slideInFromTop {
-            from {
-              opacity: 0;
-              transform: translateY(-100px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-
-          @keyframes rotateIn {
-            from {
-              opacity: 0;
-              transform: rotate(-180deg) scale(0.5);
-            }
-            to {
-              opacity: 1;
-              transform: rotate(0deg) scale(1);
-            }
-          }
-
-          @keyframes pulse {
-            0% {
-              transform: scale(1);
-            }
-            50% {
-              transform: scale(1.05);
-            }
-            100% {
-              transform: scale(1);
-            }
-          }
-
-          /* Hero Section Animations - Always Active */
-          .animate-hero-title {
-            animation: fadeInDown 1s ease-out;
-          }
-
-          .animate-hero-subtitle {
-            animation: fadeInUp 1s ease-out 0.2s both;
-          }
-
-          .animate-hero-description {
-            animation: fadeInUp 1s ease-out 0.4s both;
-          }
-
-          .animate-hero-buttons {
-            animation: fadeInUp 1s ease-out 0.6s both;
-          }
-
-          /* Default state for scroll-triggered animations */
-          .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(50px);
-          }
-
-          /* Section Title Animations */
-          .section-visible .animate-section-title {
-            opacity: 1;
-            transform: translateY(0);
-            animation: slideInFromTop 0.8s ease-out forwards;
-          }
-
-          /* Focus Areas Section Animations */
-          .section-visible .animate-focus-card-1 {
-            opacity: 1;
-            transform: translateX(0);
-            animation: fadeInLeft 0.8s ease-out 0.2s forwards;
-          }
-
-          .section-visible .animate-focus-card-2 {
-            opacity: 1;
-            transform: translateY(0);
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-          }
-
-          .section-visible .animate-focus-card-3 {
-            opacity: 1;
-            transform: translateX(0);
-            animation: fadeInRight 0.8s ease-out 0.6s forwards;
-          }
-
-          /* What Sets Apart Section Animations */
-          .section-visible .animate-sets-apart-card-1 {
-            opacity: 1;
-            transform: scale(1);
-            animation: scaleIn 0.6s ease-out 0.2s forwards;
-          }
-
-          .section-visible .animate-sets-apart-card-2 {
-            opacity: 1;
-            transform: scale(1);
-            animation: scaleIn 0.6s ease-out 0.4s forwards;
-          }
-
-          .section-visible .animate-sets-apart-card-3 {
-            opacity: 1;
-            transform: scale(1);
-            animation: scaleIn 0.6s ease-out 0.6s forwards;
-          }
-
-          .section-visible .animate-sets-apart-card-4 {
-            opacity: 1;
-            transform: scale(1);
-            animation: scaleIn 0.6s ease-out 0.8s forwards;
-          }
-
-          /* Who Benefits Section Animations */
-          .section-visible .animate-benefits-card-1 {
-            opacity: 1;
-            transform: scale(1);
-            animation: bounceIn 0.8s ease-out 0.2s forwards;
-          }
-
-          .section-visible .animate-benefits-card-2 {
-            opacity: 1;
-            transform: scale(1);
-            animation: bounceIn 0.8s ease-out 0.4s forwards;
-          }
-
-          .section-visible .animate-benefits-card-3 {
-            opacity: 1;
-            transform: scale(1);
-            animation: bounceIn 0.8s ease-out 0.6s forwards;
-          }
-
-          .section-visible .animate-benefits-card-4 {
-            opacity: 1;
-            transform: scale(1);
-            animation: bounceIn 0.8s ease-out 0.8s forwards;
-          }
-
-          /* CTA Section Animations */
-          .section-visible .animate-cta-title {
-            opacity: 1;
-            transform: translateY(0);
-            animation: fadeInDown 0.8s ease-out forwards;
-          }
-
-          .section-visible .animate-cta-description {
-            opacity: 1;
-            transform: translateY(0);
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
-          }
-
-          .section-visible .animate-cta-buttons {
-            opacity: 1;
-            transform: translateY(0);
-            animation: fadeInUp 0.8s ease-out 0.4s forwards;
-          }
-
-          .section-visible .animate-cta-highlight {
-            opacity: 1;
-            transform: scale(1);
-            animation: pulse 2s ease-in-out 0.8s forwards;
-          }
-
-          /* Icon Animations */
-          .section-visible .animate-icon {
-            opacity: 1;
-            transform: rotate(0deg) scale(1);
-            animation: rotateIn 0.8s ease-out forwards;
-          }
-
-          /* Responsive Styles */
+          .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
+          
           @media (max-width: 1024px) {
-            .desktop-nav {
-              display: none !important;
-            }
-            .mobile-menu-toggle {
-              display: block !important;
-            }
+            .desktop-nav { display: none !important; }
+            .mobile-menu-toggle { display: block !important; }
           }
-          
-          @media (min-width: 1025px) {
-            .mobile-nav {
-              display: none !important;
-            }
-          }
-
-          /* Responsive Animation Adjustments */
-          @media (max-width: 768px) {
-            .section-visible .animate-focus-card-1,
-            .section-visible .animate-focus-card-2,
-            .section-visible .animate-focus-card-3 {
-              opacity: 1;
-              transform: translateY(0);
-              animation: fadeInUp 0.8s ease-out 0.2s forwards;
-            }
-            
-            .section-visible .animate-sets-apart-card-1,
-            .section-visible .animate-sets-apart-card-2,
-            .section-visible .animate-sets-apart-card-3,
-            .section-visible .animate-sets-apart-card-4 {
-              opacity: 1;
-              transform: translateY(0);
-              animation: fadeInUp 0.6s ease-out 0.2s forwards;
-            }
-            
-            .section-visible .animate-benefits-card-1,
-            .section-visible .animate-benefits-card-2,
-            .section-visible .animate-benefits-card-3,
-            .section-visible .animate-benefits-card-4 {
-              opacity: 1;
-              transform: translateY(0);
-              animation: fadeInUp 0.8s ease-out 0.2s forwards;
-            }
-          }
-
-          @media (max-width: 480px) {
-            .animate-hero-title {
-              animation: fadeInDown 0.8s ease-out;
-            }
-            
-            .animate-hero-subtitle {
-              animation: fadeInUp 0.8s ease-out 0.1s both;
-            }
-            
-            .animate-hero-description {
-              animation: fadeInUp 0.8s ease-out 0.2s both;
-            }
-            
-            .animate-hero-buttons {
-              animation: fadeInUp 0.8s ease-out 0.3s both;
-            }
-          }
-            @keyframes slideInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(14, 219, 97, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(14, 219, 97, 0.6);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2s infinite;
-}
-
-.animate-slide-in-top {
-  animation: slideInFromTop 1s ease-out forwards;
-}
-
-.animate-zoom-in {
-  animation: zoomIn 0.8s ease-out forwards;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 1.2s ease-out forwards;
-}
-
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.3s; }
-.stagger-3 { animation-delay: 0.5s; }
-
-/* Update hero animations */
-.animate-hero-title {
-  animation: fadeInUp 1.2s ease-out 0.2s both;
-}
-
-.animate-hero-subtitle {
-  animation: fadeInUp 1.2s ease-out 0.4s both;
-}
-
-.animate-hero-description {
-  animation: fadeInUp 1.2s ease-out 0.6s both;
-}
-
-.animate-hero-buttons {
-  animation: fadeInUp 1.2s ease-out 0.8s both;
-}
-
         `}
       </style>
 
       {/* Header - Navigation */}
       <header className={`header ${scrolled ? "scrolled" : ""}`}>
         <div className="header-container">
-          {/* Logo */}
           <a href="/" className="logo">
             <img
               src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
@@ -1263,12 +695,10 @@ const ConQuest = () => {
             />
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="desktop-nav">
             <Link to="/sub-brands" className="nav-link">
               Home
             </Link>
-            {/* Sub-brands Dropdown */}
             <div className="dropdown">
               <span className="nav-link">Sub-brands ▾</span>
               <div className="dropdown-content">
@@ -1279,7 +709,7 @@ const ConQuest = () => {
                     className="dropdown-link"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavigation(brand.route);
+                      navigate(brand.route);
                     }}
                   >
                     {brand.name}
@@ -1287,214 +717,91 @@ const ConQuest = () => {
                 ))}
               </div>
             </div>
-            <a
-              href="#focus-areas"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("focus-areas");
-              }}
-            >
-              Key Focus Areas
-            </a>
-            <a
-              href="#what-sets-apart"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("what-sets-apart");
-              }}
-            >
-              What Sets Us Apart
-            </a>
-            <a
-              href="#who-benefits"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("who-benefits");
-              }}
-            >
-              Who Benefits
-            </a>
-            <a
-              href="#cta"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Start Your Journey
-            </a>
+            <button className="nav-link" onClick={() => handleSmoothScroll("focus-areas")}>Key Focus Areas</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("what-sets-apart")}>What Sets Us Apart</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("who-benefits")}>Who Benefits</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Start Your Journey</button>
           </nav>
 
-          {/* Mobile menu toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="mobile-menu-toggle"
-            aria-label="Toggle mobile menu"
-          >
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="mobile-menu-toggle">
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile menu */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
-            <Link to="/sub-brands" className="mobile-nav-link">
-              Home
-            </Link>
-
-            {/* Mobile Sub-brands Dropdown */}
+            <Link to="/sub-brands" className="mobile-nav-link">Home</Link>
             <div className="mobile-dropdown">
               <button
                 className="mobile-nav-link mobile-dropdown-toggle"
-                onClick={() =>
-                  setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)
-                }
+                onClick={() => setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)}
               >
-                Sub-brands{" "}
-                <ChevronDown
-                  size={16}
-                  className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""}
-                />
+                Sub-brands <ChevronDown size={16} className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""} />
               </button>
               {mobileSubBrandsDropdownOpen && (
                 <div className="mobile-dropdown-content">
                   {subBrandsData.map((brand, index) => (
-                    <a
-                      key={index}
-                      href={brand.route}
-                      className="mobile-nav-sublink"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigation(brand.route);
-                      }}
-                    >
+                    <a key={index} href={brand.route} className="mobile-nav-sublink" onClick={(e) => { e.preventDefault(); navigate(brand.route); }}>
                       {brand.name}
                     </a>
                   ))}
                 </div>
               )}
             </div>
-
-            <a
-              href="#focus-areas"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("focus-areas");
-              }}
-            >
-              Key Focus Areas
-            </a>
-            <a
-              href="#what-sets-apart"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("what-sets-apart");
-              }}
-            >
-              What Sets Us Apart
-            </a>
-            <a
-              href="#who-benefits"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("who-benefits");
-              }}
-            >
-              Who Benefits
-            </a>
-            <a
-              href="#cta"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Start Your Journey
-            </a>
+            <button onClick={() => handleSmoothScroll("focus-areas")} className="mobile-nav-link">Key Focus Areas</button>
+            <button onClick={() => handleSmoothScroll("what-sets-apart")} className="mobile-nav-link">What Sets Us Apart</button>
+            <button onClick={() => handleSmoothScroll("who-benefits")} className="mobile-nav-link">Who Benefits</button>
+            <button onClick={() => handleSmoothScroll("cta")} className="mobile-nav-link">Start Your Journey</button>
           </nav>
         )}
       </header>
 
-      {/* Hero Section - Green Background */}
-      <section id="hero" ref={heroRef} style={styles.heroSection}>
-        <div style={styles.heroContent} key={heroAnimationKey}>
-          {/* Large Brand Logo/Number Image - Like ConVerse */}
+      {/* Hero Section */}
+      <section id="hero" style={styles.heroSection}>
+        <div style={styles.heroContent}>
           <img
-            src="/assets/logo/3.png" // Replace with your ConQuest logo/image
+            src="/assets/logo/3.png" // Updated to 8ConQuest Logo #3
             alt="8ConQuest"
             style={styles.heroTopImage}
-            className={`animate-on-scroll ${
-              isAnimated("hero") ? "animate-slide-in-top" : ""
-            }`}
+            className="fade-in-up anim-delay-1"
           />
-
-          {/* Glassmorphic Content Block */}
           <div style={styles.heroForegroundContent}>
-            {/* Subtitle */}
-            <p
-              style={styles.heroSubtitle}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-1" : ""
-              }`}
-            >
-              Conquer Your Academic and Career Goals with Expert Guidance
+            <p style={styles.heroSubtitle} className="fade-in-up anim-delay-2">
+              Conquer Your Academic and Career Goals
             </p>
-
-            {/* Description */}
-            <p
-              style={styles.heroDescription}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-fade-in-up stagger-2" : ""
-              }`}
-            >
-              8ConQuest is dedicated to empowering students and professionals to
-              achieve their academic and career aspirations through structured
-              coaching, mentorship, and expert support with a focus on thesis
-              and dissertation coaching, career development, and
-              entrepreneurship mentorship.
+            <p style={styles.heroDescription} className="fade-in-up anim-delay-3">
+              8ConQuest is dedicated to empowering students and professionals to achieve their academic and career aspirations through structured coaching, mentorship, and expert support with a focus on thesis and dissertation coaching, career development, and entrepreneurship mentorship.
             </p>
-
-            {/* Buttons */}
-            <div
-              style={styles.heroButtons}
-              className={`animate-on-scroll ${
-                isAnimated("hero") ? "animate-zoom-in stagger-3" : ""
-              }`}
-            >
+            <div style={styles.heroButtons} className="fade-in-up anim-delay-4">
               <button
                 style={styles.ctaButtonPrimary}
-                className={isAnimated("hero") ? "animate-pulse-glow" : ""}
+                onClick={() => { window.location.href = "mailto:coaching@8conquest.com"; }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#ff1f2c";
                   e.currentTarget.style.transform = "translateY(-3px)";
+                  e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 31, 44, 0.3)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "#0edb61";
                   e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.3)";
                 }}
               >
+                <Zap size={20} style={{ marginRight: "8px" }} />
                 Get Expert Guidance
               </button>
               <button
                 style={styles.ctaButtonSecondary}
                 onClick={() => handleSmoothScroll("focus-areas")}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0edb61";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.25)";
                   e.currentTarget.style.transform = "translateY(-3px)";
+                  e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 255, 255, 0.2)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
                   e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "none";
                 }}
               >
                 Learn More
@@ -1504,486 +811,146 @@ const ConQuest = () => {
         </div>
       </section>
 
-      {/* Key Focus Areas Section - White Background */}
-      <section
-        id="focus-areas"
-        style={styles.focusAreasSection}
-        className={visibleSections.has("focus-areas") ? "section-visible" : ""}
-      >
+      {/* Key Focus Areas Section */}
+      <section id="focus-areas" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
         <div style={styles.container2}>
-          <h2
-            style={{ ...styles.sectionTitle, color: colors.accentGreen }}
-            className="animate-section-title animate-on-scroll"
-          >
-            Key Focus Areas of 8ConQuest
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            KEY FOCUS AREAS OF <span style={{ color: "#39CC2F" }}>8CONQUEST</span>
           </h2>
-          <div style={styles.focusAreasGrid}>
-            <div
-              style={styles.focusAreaCard}
-              className="animate-focus-card-1 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div
-                style={styles.focusAreaIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <FileText size={40} color="#0edb61" />
-              </div>
-              <h3 style={styles.focusAreaTitle}>
-                Thesis and Dissertation Coaching
-              </h3>
-              <p style={styles.focusAreaDescription}>
-                Work with seasoned mentors who specialize in academic research
-                and writing, ensuring high-quality outputs with comprehensive
-                support.
-              </p>
-              <div style={styles.focusAreaFeatures}>
-                <h4 style={styles.featuresTitle}>Comprehensive Support:</h4>
-                <ul style={styles.focusAreaList}>
-                  <li style={styles.focusAreaListItem}>
-                    • Research proposals, topic selection, and literature
-                    reviews
-                  </li>
-                  <li style={styles.focusAreaListItem}>
-                    • Statistical analysis, data interpretation, and report
-                    writing
-                  </li>
-                  <li style={styles.focusAreaListItem}>
-                    • Oral defense preparation with confidence coaching
-                  </li>
-                </ul>
-              </div>
-            </div>
+          <div className="flex-centered-grid">
+            {focusAreasData.map((data, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
 
-            <div
-              style={styles.focusAreaCard}
-              className="animate-focus-card-2 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div
-                style={styles.focusAreaIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <UserCheck size={40} color="#0edb61" />
-              </div>
-              <h3 style={styles.focusAreaTitle}>
-                Career Coaching and Mentorship
-              </h3>
-              <p style={styles.focusAreaDescription}>
-                Receive mentorship from experienced professionals in business,
-                finance, and other industries with personalized career
-                development.
-              </p>
-              <div style={styles.focusAreaFeatures}>
-                <h4 style={styles.featuresTitle}>Personalized Development:</h4>
-                <ul style={styles.focusAreaList}>
-                  <li style={styles.focusAreaListItem}>
-                    • Tailored coaching to identify strengths and career goals
-                  </li>
-                  <li style={styles.focusAreaListItem}>
-                    • Resume building, interview preparation, networking
-                    strategies
-                  </li>
-                  <li style={styles.focusAreaListItem}>
-                    • Industry insights and competitive market navigation
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div
-              style={styles.focusAreaCard}
-              className="animate-focus-card-3 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div
-                style={styles.focusAreaIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <Lightbulb size={40} color="#0edb61" />
-              </div>
-              <h3 style={styles.focusAreaTitle}>Entrepreneurship Mentorship</h3>
-              <p style={styles.focusAreaDescription}>
-                Learn from entrepreneurs and business leaders with proven
-                success in building and scaling businesses from idea to
-                execution.
-              </p>
-              <div style={styles.focusAreaFeatures}>
-                <h4 style={styles.featuresTitle}>From Idea to Execution:</h4>
-                <ul style={styles.focusAreaList}>
-                  <li style={styles.focusAreaListItem}>
-                    • Business idea development, planning, and venture launching
-                  </li>
-                  <li style={styles.focusAreaListItem}>
-                    • Marketing, branding, and operational strategies
-                  </li>
-                  <li style={styles.focusAreaListItem}>
-                    • Funding opportunities, financial management, sustainable
-                    growth
-                  </li>
-                </ul>
-              </div>
-            </div>
+              return (
+                <div key={index} style={{ flex: "1 1 350px", maxWidth: "450px", width: "100%" }} className={`scale-up anim-delay-${(index % 3) + 1}`}>
+                  <div className="conquest-card">
+                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
+                    
+                    <div>{data.icon}</div>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                    
+                    {data.subtitle && <h4 style={{ fontSize: "1rem", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem", marginTop: "0.5rem", alignSelf: "flex-start" }}>{data.subtitle}</h4>}
+                    
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%" }}>
+                      {data.items.map((item, itemIndex) => (
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                          <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* What Sets 8ConQuest Apart Section - Black Background */}
-      <section
-        id="what-sets-apart"
-        style={styles.whatSetsApartSection}
-        className={
-          visibleSections.has("what-sets-apart") ? "section-visible" : ""
-        }
-      >
+      {/* What Sets Us Apart Section */}
+      <section id="what-sets-apart" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
         <div style={styles.container2}>
-          <h2
-            style={styles.sectionTitle}
-            className="animate-section-title animate-on-scroll"
-          >
-            What Sets 8ConQuest Apart?
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            WHAT SETS <span style={{ color: "#ff1f2c" }}>8CONQUEST APART?</span>
           </h2>
-          <div style={styles.whatSetsApartGrid}>
-            <div
-              style={styles.whatSetsApartCard}
-              className="animate-sets-apart-card-1 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div
-                style={styles.whatSetsApartIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <Star size={50} color="#0edb61" />
+          <div className="grid-2x2">
+            {whatSetsApartData.map((data, index) => (
+              <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
+                <div className="conquest-card" style={{ justifyContent: "center" }}>
+                  <div>{data.icon}</div>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                </div>
               </div>
-              <h3 style={styles.whatSetsApartTitle}>Expert Mentors</h3>
-              <p style={styles.whatSetsApartDescription}>
-                Access a team of academic and industry experts with years of
-                experience in guiding students, professionals, and
-                entrepreneurs.
-              </p>
-            </div>
-
-            <div
-              style={styles.whatSetsApartCard}
-              className="animate-sets-apart-card-2 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(255, 31, 44, 0.2)";
-                e.currentTarget.style.borderColor = "#ff1f2c";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div
-                style={styles.whatSetsApartIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <PieChart size={50} color="#ff1f2c" />
-              </div>
-              <h3 style={styles.whatSetsApartTitle}>Holistic Approach</h3>
-              <p style={styles.whatSetsApartDescription}>
-                Combines academic coaching, career mentorship, and
-                entrepreneurial guidance to provide comprehensive support.
-              </p>
-            </div>
-
-            <div
-              style={styles.whatSetsApartCard}
-              className="animate-sets-apart-card-3 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div
-                style={styles.whatSetsApartIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <Target size={50} color="#0edb61" />
-              </div>
-              <h3 style={styles.whatSetsApartTitle}>Customized Support</h3>
-              <p style={styles.whatSetsApartDescription}>
-                Tailored solutions for individuals based on their unique goals,
-                challenges, and aspirations.
-              </p>
-            </div>
-
-            <div
-              style={styles.whatSetsApartCard}
-              className="animate-sets-apart-card-4 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(255, 31, 44, 0.2)";
-                e.currentTarget.style.borderColor = "#ff1f2c";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div
-                style={styles.whatSetsApartIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <CheckCircle size={50} color="#ff1f2c" />
-              </div>
-              <h3 style={styles.whatSetsApartTitle}>Actionable Insights</h3>
-              <p style={styles.whatSetsApartDescription}>
-                Focus on delivering practical strategies and high-quality
-                outputs that align with real-world demands.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Who Can Benefit Section - White Background */}
-      <section
-        id="who-benefits"
-        style={styles.whoBenefitsSection}
-        className={visibleSections.has("who-benefits") ? "section-visible" : ""}
-      >
+      {/* Who Benefits Section */}
+      <section id="who-benefits" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
         <div style={styles.container2}>
-          <h2
-            style={{ ...styles.sectionTitle, color: colors.textPrimary }}
-            className="animate-section-title animate-on-scroll"
-          >
-            Who Can Benefit from 8ConQuest?
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            WHO CAN BENEFIT <span style={{ color: "#39CC2F" }}>FROM 8CONQUEST?</span>
           </h2>
-          <div style={styles.whoBenefitsGrid}>
-            <div
-              style={styles.whoBenefitsCard}
-              className="animate-benefits-card-1 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-            >
-              <div
-                style={styles.whoBenefitsIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <GraduationCap size={60} color="#0edb61" />
+          <div className="grid-2x2">
+            {whoBenefitsData.map((data, index) => (
+              <div key={index} className={`fade-in-up anim-delay-${(index % 4) + 1}`}>
+                <div className="conquest-card" style={{ justifyContent: "center" }}>
+                  <div>{data.icon}</div>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                </div>
               </div>
-              <h3 style={styles.whoBenefitsTitle}>Students</h3>
-              <p style={styles.whoBenefitsDescription}>
-                Undergraduate and postgraduate students needing support in
-                completing their thesis, dissertations, or research projects.
-              </p>
-            </div>
-
-            <div
-              style={styles.whoBenefitsCard}
-              className="animate-benefits-card-2 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-            >
-              <div
-                style={styles.whoBenefitsIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <Briefcase size={60} color="#0edb61" />
-              </div>
-              <h3 style={styles.whoBenefitsTitle}>Professionals</h3>
-              <p style={styles.whoBenefitsDescription}>
-                Individuals looking to advance their careers or transition into
-                new industries with expert coaching.
-              </p>
-            </div>
-
-            <div
-              style={styles.whoBenefitsCard}
-              className="animate-benefits-card-3 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-            >
-              <div
-                style={styles.whoBenefitsIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <Zap size={60} color="#0edb61" />
-              </div>
-              <h3 style={styles.whoBenefitsTitle}>Aspiring Entrepreneurs</h3>
-              <p style={styles.whoBenefitsDescription}>
-                Those seeking guidance on launching or scaling their businesses
-                with proven strategies and mentorship.
-              </p>
-            </div>
-
-            <div
-              style={styles.whoBenefitsCard}
-              className="animate-benefits-card-4 animate-on-scroll"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-            >
-              <div
-                style={styles.whoBenefitsIcon}
-                className="animate-icon animate-on-scroll"
-              >
-                <Building size={60} color="#0edb61" />
-              </div>
-              <h3 style={styles.whoBenefitsTitle}>Educational Institutions</h3>
-              <p style={styles.whoBenefitsDescription}>
-                Schools and universities looking for expert-led coaching
-                programs for their students and staff.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Black Background */}
-      <section
-        id="cta"
-        style={styles.ctaSection}
-        className={visibleSections.has("cta") ? "section-visible" : ""}
-      >
+      {/* CTA Section */}
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#19232A", textAlign: "center" }}>
         <div style={styles.container2}>
-          <h2
-            style={styles.ctaTitle}
-            className="animate-cta-title animate-on-scroll"
-          >
-            Empower Your Journey with 8ConQuest
+          <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
+            EMPOWER YOUR JOURNEY <span style={{ color: "#ff1f2c" }}>WITH 8CONQUEST</span>
           </h2>
-          <p
-            style={styles.ctaDescription}
-            className="animate-cta-description animate-on-scroll"
-          >
-            Whether you're completing your academic requirements, planning your
-            next career move, or starting your entrepreneurial journey,
-            8ConQuest is here to guide you every step of the way. With
-            structured coaching and mentorship from seasoned experts, you'll
-            gain the skills, confidence, and insights needed to conquer your
-            goals.
+          <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
+            Whether you're completing your academic requirements, planning your next career move, or starting your entrepreneurial journey, 8ConQuest is here to guide you every step of the way. With structured coaching and mentorship from seasoned experts, you'll gain the skills, confidence, and insights needed to conquer your goals.
           </p>
-          <div
-            style={styles.ctaButtons}
-            className="animate-cta-buttons animate-on-scroll"
-          >
+          <div style={styles.ctaButtons} className="fade-in-up anim-delay-3">
             <button
               style={styles.ctaButtonPrimary}
+              onClick={() => { window.location.href = "mailto:coaching@8conquest.com"; }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 31, 44, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.3)";
               }}
             >
+              <Target size={20} style={{ marginRight: "8px" }} />
               Start Your Coaching
             </button>
             <button
               style={styles.ctaButtonRed}
+              onClick={() => { window.location.href = "mailto:mentorship@8conquest.com"; }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(14, 219, 97, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 15px rgba(255, 31, 44, 0.3)";
               }}
             >
+              <Users size={20} style={{ marginRight: "8px" }} />
               Get Mentorship
             </button>
           </div>
-          <div
-            style={styles.ctaHighlight}
-            className="animate-cta-highlight animate-on-scroll"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(255, 31, 44, 0.2)";
-              e.currentTarget.style.borderColor = "#ff1f2c";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(14, 219, 97, 0.1)";
-              e.currentTarget.style.borderColor = "#0edb61";
-            }}
-          >
-            <strong>
-              Conquer your goals with expert guidance – your success story
-              starts here!
-            </strong>
+          <div className="fade-in-up anim-delay-4" style={{ marginTop: "2rem" }}>
+            <div
+              style={styles.ctaHighlight}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
+                e.currentTarget.style.borderColor = "#39CC2F";
+                e.currentTarget.style.boxShadow = "0 15px 35px rgba(57, 204, 47, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.05)";
+                e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.4)";
+              }}
+            >
+              <strong>
+                Conquer your goals with expert guidance – your success story starts here!
+              </strong>
+            </div>
           </div>
         </div>
       </section>

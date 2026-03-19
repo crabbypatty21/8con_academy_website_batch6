@@ -1,8 +1,9 @@
-// ✅ Fixed scroll-triggered animation setup for ConPact with proper reset logic
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
+import "../ConponentCSS/Animations.css"; // Imported native animations
+import TradingBackground from "./TradingBackground.jsx"; // Forex trading background
 import {
   Menu,
   X,
@@ -13,22 +14,28 @@ import {
   Award,
   Network,
   TrendingUp,
-  GraduationCap,
-  BookOpen,
   Users,
+  BookOpen,
   Briefcase,
-  Heart,
-  Star,
-  CheckCircle,
-  ArrowRight,
+  GraduationCap,
   DollarSign,
-  Building,
   Handshake,
-  Lightbulb,
+  Star,
+  Zap,
+  Heart,
+  Check,
 } from "lucide-react";
 
 const ConPact = () => {
   const { colors, isDark } = useTheme();
+  const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
+  const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] =
+    useState(false);
+
+  // Updated Data Array to include 8ConPact
   const subBrandsData = [
     {
       id: "construct",
@@ -87,6 +94,13 @@ const ConPact = () => {
       icon: <Users size={60} />,
     },
     {
+      id: "conpact",
+      name: "8ConPact",
+      route: "/8conpact",
+      desc: "Collaborate for Impact in Livelihood, Education, and Employment.",
+      icon: <Handshake size={60} />,
+    },
+    {
       id: "consult",
       name: "8ConSult",
       route: "/8consult",
@@ -95,120 +109,34 @@ const ConPact = () => {
     },
   ];
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
-  const [mobileSubBrandsDropdownOpen, setMobileSubBrandsDropdownOpen] =
-    useState(false);
-  const [animationsPlayed, setAnimationsPlayed] = useState(new Set());
-  const [isAtTop, setIsAtTop] = useState(true);
+  // Global Intersection Observer for Animations.css classes
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
 
-  const heroRef = useRef(null);
-  const csrRef = useRef(null);
-  const advantageRef = useRef(null);
-  const ctaRef = useRef(null);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, observerOptions);
 
-  // Fixed scroll handler with proper animation reset
+    const animatedElements = document.querySelectorAll(".slide-in-right, .fade-in-up, .scale-up");
+    animatedElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setScrolled(scrollTop > 0);
-
-      const newIsAtTop = scrollTop <= 100;
-
-      // Reset animations when scrolling back to top
-      if (newIsAtTop && !isAtTop) {
-        setIsAtTop(true);
-        setAnimationsPlayed(new Set());
-
-        // Reset all animated elements
-        document.querySelectorAll(".fade-item").forEach((el) => {
-          el.classList.remove("animate-section");
-          el.classList.remove(
-            "anim-hero",
-            "anim-csr",
-            "anim-advantage",
-            "anim-cta"
-          );
-          el.style.animationDelay = "";
-        });
-      } else if (!newIsAtTop && isAtTop) {
-        setIsAtTop(false);
-      }
+      setScrolled(window.scrollY > 0);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isAtTop]);
-
-  // Fixed intersection observer with proper animation logic
-  useEffect(() => {
-    const refs = [heroRef, csrRef, advantageRef, ctaRef];
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const section = entry.target;
-            const sectionName = section.dataset.section;
-
-            // Always animate hero section when at top, or animate other sections if not played yet
-            const shouldAnimate =
-              (sectionName === "hero" && isAtTop) ||
-              (!animationsPlayed.has(sectionName) && sectionName !== "hero");
-
-            if (shouldAnimate) {
-              const children = section.querySelectorAll(".fade-item");
-              children.forEach((el, index) => {
-                // Clear any existing animation classes first
-                el.classList.remove("animate-section");
-                el.classList.remove(
-                  "anim-hero",
-                  "anim-csr",
-                  "anim-advantage",
-                  "anim-cta"
-                );
-
-                // Force a reflow to ensure the class removal takes effect
-                el.offsetHeight;
-
-                // Add animation with delay
-                setTimeout(() => {
-                  el.style.animationDelay = `${index * 0.15}s`;
-                  el.classList.add("animate-section", `anim-${sectionName}`);
-                }, 50);
-              });
-
-              // Only add to played animations if it's not the hero section
-              if (sectionName !== "hero") {
-                setAnimationsPlayed((prev) => new Set([...prev, sectionName]));
-              }
-            }
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-    );
-
-    refs.forEach((ref) => {
-      if (ref.current) observer.observe(ref.current);
-    });
-
-    return () => {
-      refs.forEach((ref) => {
-        if (ref.current) observer.unobserve(ref.current);
-      });
-    };
-  }, [animationsPlayed, isAtTop]);
-
-  const navigate = useNavigate();
-
-  const handleNavigation = (path) => {
-    navigate(path);
-    setMobileMenuOpen(false);
-    setSubBrandsDropdownOpen(false);
-    setMobileSubBrandsDropdownOpen(false);
-  };
+  }, []);
 
   const handleSmoothScroll = (targetId) => {
     const element = document.getElementById(targetId);
@@ -221,10 +149,15 @@ const ConPact = () => {
     setMobileMenuOpen(false);
   };
 
+  const handleLearnMore = () => {
+    handleSmoothScroll("csr-priorities");
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  // Premium Dark Theme Styles
   const styles = {
     container: {
       minHeight: "100vh",
@@ -233,19 +166,24 @@ const ConPact = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
+      backgroundColor: "#131B21",
     },
 
     container2: {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "0 20px",
+      position: "relative",
+      zIndex: 2,
     },
 
-    // Hero Section - Green Background
     heroSection: {
       minHeight: "100vh",
-      background:
-        "linear-gradient(135deg, rgb(14, 219, 97) 0%, rgb(0, 0, 0) 100%)",
+      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: "#19232A",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -253,270 +191,159 @@ const ConPact = () => {
       position: "relative",
       overflow: "hidden",
       textAlign: "center",
+      zIndex: 2, // Shielding the hero from the fixed animation background
     },
 
     heroContent: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      justifyContent: "flex-start",
+      justifyContent: "center",
       width: "100%",
       position: "relative",
       zIndex: 2,
-      maxWidth: "800px",
+      maxWidth: "900px",
       margin: "0 auto",
+      marginTop: "-30vh", 
     },
 
     heroTopImage: {
-      width: "clamp(250px, 40vw, 500px)",
+      width: "clamp(300px, 50vw, 600px)",
       height: "auto",
-      opacity: 0.9,
+      marginBottom: "-10rem",
+      position: "relative",
+      zIndex: 3,
       pointerEvents: "none",
-      marginTop: "-80px",
-    },
-
-    heroForegroundContent: {
-      backgroundColor: "rgba(0, 0, 0, 0.3)",
-      padding: "clamp(1rem, 2vw, 1.5rem)",
-      borderRadius: "15px",
-      backdropFilter: "blur(6px)",
-      border: "1px solid rgba(255, 255, 255, 0.1)",
-      maxWidth: "1000px",
-      width: "100%",
-      textAlign: "center",
-      marginBottom: "10rem",
-      marginTop: "-100px",
+      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
     },
 
     heroSubtitle: {
-      fontSize: "clamp(1.2rem, 4vw, 1.8rem)",
-      fontWeight: "600",
+      fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
+      fontWeight: "700",
+      marginTop: "0", 
       marginBottom: "1rem",
-      margin: "0 0 1rem 0",
-      opacity: "0.9",
       color: "#ffffff",
       lineHeight: "1.3",
+      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      position: "relative",
+      zIndex: 4,
     },
 
     heroDescription: {
-      fontSize: "clamp(1rem, 2.5vw, 1.15rem)",
-      color: "#cccccc",
+      fontSize: "clamp(1rem, 2vw, 1.15rem)",
+      color: "#e2e8f0", 
       lineHeight: "1.6",
+      maxWidth: "800px",
       marginTop: "0",
-      marginBottom: "0",
-      paddingBottom: "0",
-      opacity: "0.95",
+      marginBottom: "2.5rem",
+      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+    },
+
+    heroForegroundContent: {
+      width: "100%",
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      position: "relative",
+      zIndex: 4,
     },
 
     heroButtons: {
       display: "flex",
-      gap: "1rem",
+      gap: "1.5rem",
       justifyContent: "center",
       flexWrap: "wrap",
-      marginTop: "2rem",
-      margin: "0",
-      padding: "0",
       position: "relative",
-      zIndex: "1",
+      zIndex: "5",
     },
 
     ctaButtonPrimary: {
       background: "#0edb61",
       color: "#ffffff",
       border: "none",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
+      letterSpacing: "0.5px",
+      boxShadow: "0 4px 15px rgba(14, 219, 97, 0.3)",
+      display: "flex",
+      alignItems: "center",
     },
 
     ctaButtonSecondary: {
-      background: "transparent",
+      background: "rgba(255, 255, 255, 0.15)",
+      backdropFilter: "blur(5px)",
       color: "#ffffff",
-      border: "2px solid #ffffff",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      border: "1px solid rgba(255, 255, 255, 0.6)",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
+      letterSpacing: "0.5px",
+      display: "flex",
+      alignItems: "center",
     },
 
     ctaButtonRed: {
       background: "#ff1f2c",
       color: "#ffffff",
       border: "none",
-      padding: "1rem 2rem",
-      fontSize: "1.1rem",
-      fontWeight: "600",
-      borderRadius: "8px",
+      padding: "14px 36px",
+      fontSize: "1rem",
+      fontWeight: "700",
+      borderRadius: "50px",
       cursor: "pointer",
       transition: "all 0.3s ease",
       textTransform: "uppercase",
+      letterSpacing: "0.5px",
+      boxShadow: "0 4px 15px rgba(255, 31, 44, 0.3)",
+      display: "flex",
+      alignItems: "center",
+    },
+
+    sectionCommon: {
+      padding: "clamp(80px, 15vh, 120px) clamp(20px, 5vw, 40px)",
+      minHeight: "80vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      position: "relative",
+      overflow: "hidden",
     },
 
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: colors.accentGreen,
+      color: "#ffffff",
       textAlign: "center",
       marginBottom: "3rem",
-    },
-
-    // CSR Section - White Background
-    csrSection: {
-      background: colors.bgPrimary,
-      padding: "120px 20px 80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-
-    csrGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-      gap: "2rem",
-      marginTop: "2rem",
-    },
-
-    csrCard: {
-      background: colors.bgCard,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      border: "2px solid #0edb61",
-      transition: "all 0.3s ease",
-      textAlign: "center",
-    },
-
-    csrIcon: {
-      marginBottom: "1rem",
-      display: "flex",
-      justifyContent: "center",
-    },
-
-    csrTitle: {
-      fontSize: "1.3rem",
-      fontWeight: "700",
-      color: "#0edb61",
-      marginBottom: "0.5rem",
-    },
-
-    csrSubtitle: {
-      fontSize: "1rem",
-      fontWeight: "600",
-      color: "#ff1f2c",
-      marginBottom: "1rem",
-    },
-
-    csrDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      marginBottom: "1.5rem",
-      lineHeight: "1.6",
-    },
-
-    csrImpact: {
-      textAlign: "left",
-      marginTop: "1rem",
-    },
-
-    impactTitle: {
-      fontSize: "1.1rem",
-      fontWeight: "700",
-      color: "#0edb61",
-      marginBottom: "0.8rem",
-    },
-
-    csrList: {
-      listStyle: "none",
-      padding: 0,
-      margin: 0,
-    },
-
-    csrListItem: {
-      fontSize: "0.95rem",
-      color: colors.textPrimary,
-      marginBottom: "0.6rem",
-      lineHeight: "1.5",
-    },
-
-    // Advantage Section - Black Background
-    advantageSection: {
-      background: colors.bgSecondary,
-      padding: "80px 20px",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-    },
-
-    advantageGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-      gap: "2rem",
-      marginTop: "2rem",
-    },
-
-    advantageCard: {
-      background: colors.bgCard,
-      padding: "2rem",
-      borderRadius: "15px",
-      boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
-      textAlign: "center",
-      border: `2px solid ${isDark ? "#f0f0f0" : "#d1d5db"}`,
-      transition: "all 0.3s ease",
-      cursor: "pointer",
-    },
-
-    advantageIcon: {
-      marginBottom: "1rem",
-      display: "flex",
-      justifyContent: "center",
-    },
-
-    advantageTitle: {
-      fontSize: "1.4rem",
-      fontWeight: "700",
-      color: colors.textPrimary,
-      marginBottom: "1rem",
-    },
-
-    advantageDescription: {
-      fontSize: "1rem",
-      color: colors.textPrimary,
-      lineHeight: "1.7",
-    },
-
-    // CTA Section - White Background
-    ctaSection: {
-      background: colors.bgSurface,
-      color: colors.textPrimary,
-      padding: "80px 20px",
-      textAlign: "center",
-      minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
+      textTransform: "uppercase",
     },
 
     ctaTitle: {
-      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontSize: "clamp(2rem, 5vw, 2.8rem)",
+      fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      marginBottom: "2rem",
-      color: colors.textPrimary,
+      color: "#ffffff",
+      marginBottom: "1.5rem",
+      textTransform: "uppercase",
     },
 
     ctaDescription: {
       fontSize: "clamp(1rem, 3vw, 1.2rem)",
       lineHeight: "1.8",
       maxWidth: "800px",
-      margin: "0 auto 2rem",
-      opacity: "0.95",
-      color: colors.textPrimary,
+      margin: "0 auto 2.5rem",
+      color: "#A0ABB5",
     },
 
     ctaButtons: {
@@ -525,32 +352,138 @@ const ConPact = () => {
       justifyContent: "center",
       flexWrap: "wrap",
       marginBottom: "2rem",
+      position: "relative",
+      zIndex: 10,
     },
 
     ctaHighlight: {
-      background: "rgba(14, 219, 97, 0.1)",
-      padding: "1.5rem",
-      borderRadius: "10px",
-      fontSize: "clamp(1.1rem, 3vw, 1.3rem)",
-      maxWidth: "700px",
+      background: "#19232A",
+      padding: "1.5rem 2rem",
+      borderRadius: "15px",
+      fontSize: "clamp(1rem, 3vw, 1.3rem)",
+      maxWidth: "800px",
       margin: "0 auto",
-      border: "2px solid #0edb61",
-      color: colors.textPrimary,
-      transition: "all 0.3s ease",
+      border: "1px solid rgba(255, 255, 255, 0.05)",
+      color: "#ffffff",
+      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
     },
   };
 
+  // Data Arrays
+  const csrData = [
+    {
+      icon: <Briefcase size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Livelihood Programs",
+      subtitle: "Skills Training for Local Communities",
+      description: "Organizes skills training programs to equip individuals with market-relevant skills, including financial literacy, entrepreneurship, and specialized trades.",
+      featureTitle: "Impact:",
+      items: [
+        "Empowers community members to establish micro and small businesses",
+        "Provides practical knowledge for resource management",
+        "Contributes to local economic growth",
+      ],
+    },
+    {
+      icon: <GraduationCap size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Education & Youth",
+      subtitle: "Scholarships and Educational Grants",
+      description: "Facilitates scholarship opportunities funded through partnerships with LGUs, SMEs, and private organizations, including the 8ConLift Enrollment to Employment Program.",
+      featureTitle: "Impact:",
+      items: [
+        "Ensures access to quality education for underserved youth",
+        "Connects graduates to employment opportunities",
+        "Provides career pathways within 8Con network",
+      ],
+    },
+    {
+      icon: <DollarSign size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Economic Support",
+      subtitle: "Employment Generation Projects",
+      description: "Works with LGUs and private companies to design and implement employment generation initiatives, providing various career opportunities for graduates.",
+      featureTitle: "Impact:",
+      items: [
+        "Reduces unemployment through job creation",
+        "Helps local businesses access skilled workers",
+        "Creates sustainable economic opportunities",
+      ],
+    },
+  ];
+
+  const advantageData = [
+    {
+      icon: <Handshake size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Strategic Partnerships",
+      description: "Collaborates with LGUs to align CSR programs with community needs, ensuring impactful and sustainable initiatives. Engages SMEs and private organizations to co-fund and implement projects that generate long-term value."
+    },
+    {
+      icon: <Target size={50} color="#ff1f2c" strokeWidth={1.5} />,
+      title: "Focused Programs",
+      description: "Concentrates on initiatives with measurable outcomes in livelihood, education, and employment, driving real change at the grassroots level with targeted and effective solutions."
+    },
+    {
+      icon: <Star size={50} color="#39CC2F" strokeWidth={1.5} />,
+      title: "Empowerment First",
+      description: "Combines skills training and career development programs to create a holistic approach to community empowerment, ensuring sustainable growth and development."
+    }
+  ];
+
   return (
     <div style={styles.container}>
-      {/* Add CSS styles */}
+      {/* Global Fixed Trading Background applied ONE time */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none" }}>
+        <TradingBackground variant={1} />
+      </div>
+
       <style>
         {`
           html {
             scroll-behavior: smooth;
-           scroll-padding-top: 80px;
+            scroll-padding-top: 60px;
+          }
+
+          /* ----- Beautiful CSS for the Cards ----- */
+          .conpact-card {
+            background: linear-gradient(145deg, #1c2730, #131b21);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+          }
+
+          .conpact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
+            border-color: rgba(57, 204, 47, 0.3);
           }
           
+          /* ----- Grid Layouts ----- */
+          .grid-3x3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+          }
+
+          @media (max-width: 768px) {
+            .grid-3x3 {
+              grid-template-columns: 1fr;
+            }
+          }
+
+          /* ----- Header CSS ----- */
           .header {
             background-color: transparent;
             box-shadow: none;
@@ -567,10 +500,10 @@ const ConPact = () => {
           }
           
           .header.scrolled {
-            background-color: var(--header-scrolled-bg);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background-color: rgba(19, 27, 33, 0.98);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
           }
           
           .header-container {
@@ -581,7 +514,7 @@ const ConPact = () => {
             padding-right: 5%;
             padding-left: 5%;
           }
-
+          
           .logo {
             display: flex;
             align-items: center;
@@ -589,10 +522,7 @@ const ConPact = () => {
             margin-right: auto;
           }
           
-          .logo-img {
-            height: 40px;
-            width: auto;
-          }
+          .logo-img { height: 40px; width: auto; }
           
           .desktop-nav {
             display: flex;
@@ -605,45 +535,40 @@ const ConPact = () => {
           
           .nav-link {
             text-decoration: none;
-            color: var(--header-text);
+            color: #ffffff;
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
             position: relative;
             display: inline-block;
             cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
           }
           
-          .nav-link:hover {
-            transform: translateY(-2px);
-          }
-          
-          .dropdown {
-            position: relative;
-          }
-          
-          .dropdown:hover .dropdown-content {
-            display: block;
-          }
+          .nav-link:hover { transform: translateY(-2px); color: #0edb61; }
+          .dropdown { position: relative; }
+          .dropdown:hover .dropdown-content { display: block; }
           
           .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: var(--header-dropdown-bg);
+            background-color: #1c2730;
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
           }
-
+          
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: var(--header-dropdown-text);
+            color: #ffffff;
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -651,26 +576,23 @@ const ConPact = () => {
             font-weight: 600;
             text-transform: uppercase;
           }
-          
-          .dropdown-link:hover {
-            background-color: #f0f0f0;
-            color: #0edb61;
-          }
-          
+
+          .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
+
           .mobile-menu-toggle {
             background: none;
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: var(--header-text);
+            color: #ffffff;
             display: none;
             padding: 5px;
           }
 
           .mobile-nav {
-            background-color: var(--header-mobile-bg);
+            background-color: rgba(19, 27, 33, 0.98);
             backdrop-filter: blur(10px);
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
@@ -680,38 +602,29 @@ const ConPact = () => {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 16px;
             transition: background-color 0.3s ease;
+            background: none;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
           }
           
-          .mobile-nav-link:hover {
-            background-color: rgba(14, 219, 97, 0.1);
-          }
-          
-          .mobile-dropdown {
-            position: relative;
-          }
+          .mobile-nav-link:hover { background-color: rgba(14, 219, 97, 0.1); }
+          .mobile-dropdown { position: relative; }
           
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
-            padding: 15px 20px;
-            text-decoration: none;
-            color: var(--header-mobile-text);
-            border-bottom: 1px solid #f3f4f6;
-            background: none;
-            border: none;
-            text-align: left;
-            font-size: 16px;
-            cursor: pointer;
           }
 
           .mobile-dropdown-content {
-            background-color: var(--header-dropdown-bg);
+            background-color: #131B21;
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
@@ -720,138 +633,17 @@ const ConPact = () => {
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: var(--header-mobile-text);
+            color: #ffffff;
             text-decoration: none;
             font-size: 14px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
           }
           
-          .rotate-180 {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-          }
+          .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
           
-          /* Animation Styles */
-          .fade-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: none;
-          }
-          
-          .animate-section {
-            animation-duration: 0.8s;
-            animation-fill-mode: forwards;
-            animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-          }
-          
-          /* Hero Section Animations */
-          .anim-hero {
-            animation-name: heroFadeUp;
-          }
-          
-          @keyframes heroFadeUp {
-            from {
-              opacity: 0;
-              transform: translateY(40px) scale(0.95);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0) scale(1);
-            }
-          }
-          
-          /* CSR Section Animations */
-          .anim-csr {
-            animation-name: csrSlideIn;
-          }
-          
-          @keyframes csrSlideIn {
-            from {
-              opacity: 0;
-              transform: translateX(-50px) rotateY(-10deg);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0) rotateY(0deg);
-            }
-          }
-          
-          /* Advantage Section Animations */
-          .anim-advantage {
-            animation-name: advantageZoomIn;
-          }
-          
-          @keyframes advantageZoomIn {
-            from {
-              opacity: 0;
-              transform: scale(0.8) rotate(-2deg);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1) rotate(0deg);
-            }
-          }
-          
-          /* CTA Section Animations */
-          .anim-cta {
-            animation-name: ctaFadeSlide;
-          }
-          
-          @keyframes ctaFadeSlide {
-            from {
-              opacity: 0;
-              transform: translateY(50px) scale(0.9);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0) scale(1);
-            }
-          }
-          
-          /* Responsive Design */
           @media (max-width: 1024px) {
-            .desktop-nav {
-              display: none !important;
-            }
-            .mobile-menu-toggle {
-              display: block !important;
-            }
-            .header-container {
-              padding-right: 4%;
-              padding-left: 4%;
-            }
-          }
-          
-          @media (max-width: 768px) {
-            .header-container {
-              padding-right: 3%;
-              padding-left: 3%;
-            }
-            .logo-img {
-              height: 35px;
-            }
-            .container2 {
-              padding: 0 15px;
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .header-container {
-              padding-right: 2%;
-              padding-left: 2%;
-            }
-            .logo-img {
-              height: 30px;
-            }
-            .container2 {
-              padding: 0 10px;
-            }
-          }
-          
-          @media (min-width: 1025px) {
-            .mobile-nav {
-              display: none !important;
-            }
+            .desktop-nav { display: none !important; }
+            .mobile-menu-toggle { display: block !important; }
           }
         `}
       </style>
@@ -859,7 +651,6 @@ const ConPact = () => {
       {/* Header - Navigation */}
       <header className={`header ${scrolled ? "scrolled" : ""}`}>
         <div className="header-container">
-          {/* Logo */}
           <a href="/" className="logo">
             <img
               src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
@@ -868,12 +659,10 @@ const ConPact = () => {
             />
           </a>
 
-          {/* Desktop Navigation */}
           <nav className="desktop-nav">
             <Link to="/sub-brands" className="nav-link">
               Home
             </Link>
-            {/* Sub-brands Dropdown */}
             <div className="dropdown">
               <span className="nav-link">Sub-brands ▾</span>
               <div className="dropdown-content">
@@ -884,7 +673,7 @@ const ConPact = () => {
                     className="dropdown-link"
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavigation(brand.route);
+                      navigate(brand.route);
                     }}
                   >
                     {brand.name}
@@ -892,182 +681,90 @@ const ConPact = () => {
                 ))}
               </div>
             </div>
-            <a
-              href="#csr-priorities"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("csr-priorities");
-              }}
-            >
-              CSR Priorities
-            </a>
-            <a
-              href="#advantage"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("advantage");
-              }}
-            >
-              Our Advantage
-            </a>
-            <a
-              href="#cta"
-              className="nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Join Us
-            </a>
+            <button className="nav-link" onClick={() => handleSmoothScroll("csr-priorities")}>CSR Priorities</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("advantage")}>Our Advantage</button>
+            <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Partner With Us</button>
           </nav>
 
-          {/* Mobile menu toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="mobile-menu-toggle"
-            aria-label="Toggle mobile menu"
-          >
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="mobile-menu-toggle">
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile menu */}
         {mobileMenuOpen && (
           <nav className="mobile-nav">
-            <Link to="/sub-brands" className="mobile-nav-link">
-              Home
-            </Link>
-
-            {/* Mobile Sub-brands Dropdown */}
+            <Link to="/sub-brands" className="mobile-nav-link">Home</Link>
             <div className="mobile-dropdown">
               <button
                 className="mobile-nav-link mobile-dropdown-toggle"
-                onClick={() =>
-                  setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)
-                }
+                onClick={() => setMobileSubBrandsDropdownOpen(!mobileSubBrandsDropdownOpen)}
               >
-                Sub-brands{" "}
-                <ChevronDown
-                  size={16}
-                  className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""}
-                />
+                Sub-brands <ChevronDown size={16} className={mobileSubBrandsDropdownOpen ? "rotate-180" : ""} />
               </button>
               {mobileSubBrandsDropdownOpen && (
                 <div className="mobile-dropdown-content">
                   {subBrandsData.map((brand, index) => (
-                    <a
-                      key={index}
-                      href={brand.route}
-                      className="mobile-nav-sublink"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigation(brand.route);
-                      }}
-                    >
+                    <a key={index} href={brand.route} className="mobile-nav-sublink" onClick={(e) => { e.preventDefault(); navigate(brand.route); }}>
                       {brand.name}
                     </a>
                   ))}
                 </div>
               )}
             </div>
-
-            <a
-              href="#csr-priorities"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("csr-priorities");
-              }}
-            >
-              CSR Priorities
-            </a>
-            <a
-              href="#advantage"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("advantage");
-              }}
-            >
-              Our Advantage
-            </a>
-            <a
-              href="#cta"
-              className="mobile-nav-link"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSmoothScroll("cta");
-              }}
-            >
-              Join Us
-            </a>
+            <button onClick={() => handleSmoothScroll("csr-priorities")} className="mobile-nav-link">CSR Priorities</button>
+            <button onClick={() => handleSmoothScroll("advantage")} className="mobile-nav-link">Our Advantage</button>
+            <button onClick={() => handleSmoothScroll("cta")} className="mobile-nav-link">Partner With Us</button>
           </nav>
         )}
       </header>
 
-      {/* Hero Section - Green Background */}
-      {/* Hero Section - Green Background */}
-      <section
-        id="hero"
-        ref={heroRef}
-        data-section="hero"
-        style={styles.heroSection}
-      >
+      {/* Hero Section */}
+      <section id="hero" style={styles.heroSection}>
         <div style={styles.heroContent}>
-          {/* Large Brand Logo/Number Image - Like ConVerse */}
           <img
             src="/assets/logo/6.png"
             alt="8ConPact"
             style={styles.heroTopImage}
-            className="fade-item"
+            className="fade-in-up anim-delay-1"
           />
-
-          {/* Glassmorphic Content Block */}
           <div style={styles.heroForegroundContent}>
-            {/* Subtitle */}
-            <p className="fade-item" style={styles.heroSubtitle}>
+            <p style={styles.heroSubtitle} className="fade-in-up anim-delay-2">
               Collaborate for Impact in Livelihood, Education, and Employment
             </p>
-
-            {/* Description */}
-            <p className="fade-item" style={styles.heroDescription}>
-              8ConPact is committed to fostering meaningful partnerships with
-              Local Government Units (LGUs), Small and Medium Enterprises
-              (SMEs), cooperatives, and private organizations to drive community
-              growth through targeted initiatives.
+            <p style={styles.heroDescription} className="fade-in-up anim-delay-3">
+              8ConPact is committed to fostering meaningful partnerships with Local Government Units (LGUs), Small and Medium Enterprises (SMEs), cooperatives, and private organizations to drive community growth through targeted initiatives.
             </p>
-
-            {/* Buttons */}
-            <div className="fade-item" style={styles.heroButtons}>
+            <div style={styles.heroButtons} className="fade-in-up anim-delay-4">
               <button
                 style={styles.ctaButtonPrimary}
+                onClick={() => { window.location.href = "mailto:partnerships@8construct.com"; }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#ff1f2c";
                   e.currentTarget.style.transform = "translateY(-3px)";
+                  e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 31, 44, 0.3)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "#0edb61";
                   e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.3)";
                 }}
               >
+                <Handshake size={20} style={{ marginRight: "8px" }} />
                 Partner With Us
               </button>
               <button
                 style={styles.ctaButtonSecondary}
+                onClick={() => handleSmoothScroll("csr-priorities")}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0edb61";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.25)";
                   e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
+                <BookOpen size={20} style={{ marginRight: "8px" }} />
                 Learn More
               </button>
             </div>
@@ -1075,303 +772,126 @@ const ConPact = () => {
         </div>
       </section>
 
-      {/* CSR Priorities Section - Black Background */}
-      <section
-        id="csr-priorities"
-        ref={csrRef}
-        data-section="csr"
-        style={styles.csrSection}
-      >
+      {/* CSR Priorities Section */}
+      <section id="csr-priorities" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
         <div style={styles.container2}>
-          <h2
-            className="fade-item"
-            style={{ ...styles.sectionTitle, color: colors.accentGreen }}
-          >
-            How 8ConPact Aligns with CSR Priorities
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            HOW 8CONPACT ALIGNS WITH <span style={{ color: "#39CC2F" }}>CSR PRIORITIES</span>
           </h2>
-          <div style={styles.csrGrid}>
-            <div
-              className="fade-item"
-              style={styles.csrCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.csrIcon}>
-                <Briefcase size={40} color="#0edb61" />
-              </div>
-              <h3 style={styles.csrTitle}>Livelihood Programs</h3>
-              <p style={styles.csrSubtitle}>
-                Skills Training for Local Communities
-              </p>
-              <p style={styles.csrDescription}>
-                Organizes skills training programs to equip individuals with
-                market-relevant skills, including financial literacy,
-                entrepreneurship, and specialized trades.
-              </p>
-              <div style={styles.csrImpact}>
-                <h4 style={styles.impactTitle}>Impact:</h4>
-                <ul style={styles.csrList}>
-                  <li style={styles.csrListItem}>
-                    • Empowers community members to establish micro and small
-                    businesses
-                  </li>
-                  <li style={styles.csrListItem}>
-                    • Provides practical knowledge for resource management
-                  </li>
-                  <li style={styles.csrListItem}>
-                    • Contributes to local economic growth
-                  </li>
-                </ul>
-              </div>
-            </div>
+          <div className="grid-3x3">
+            {csrData.map((data, index) => {
+              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
 
-            <div
-              className="fade-item"
-              style={styles.csrCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.csrIcon}>
-                <GraduationCap size={40} color="#0edb61" />
-              </div>
-              <h3 style={styles.csrTitle}>Education and Youth Development</h3>
-              <p style={styles.csrSubtitle}>
-                Scholarships and Educational Grants
-              </p>
-              <p style={styles.csrDescription}>
-                Facilitates scholarship opportunities funded through
-                partnerships with LGUs, SMEs, and private organizations,
-                including the 8ConLift Enrollment to Employment Program.
-              </p>
-              <div style={styles.csrImpact}>
-                <h4 style={styles.impactTitle}>Impact:</h4>
-                <ul style={styles.csrList}>
-                  <li style={styles.csrListItem}>
-                    • Ensures access to quality education for underserved youth
-                  </li>
-                  <li style={styles.csrListItem}>
-                    • Connects graduates to employment opportunities
-                  </li>
-                  <li style={styles.csrListItem}>
-                    • Provides career pathways within 8Con network
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div
-              className="fade-item"
-              style={styles.csrCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.15)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-              }}
-            >
-              <div style={styles.csrIcon}>
-                <DollarSign size={40} color="#0edb61" />
-              </div>
-              <h3 style={styles.csrTitle}>Financial and Economic Support</h3>
-              <p style={styles.csrSubtitle}>Employment Generation Projects</p>
-              <p style={styles.csrDescription}>
-                Works with LGUs and private companies to design and implement
-                employment generation initiatives, providing various career
-                opportunities for graduates.
-              </p>
-              <div style={styles.csrImpact}>
-                <h4 style={styles.impactTitle}>Impact:</h4>
-                <ul style={styles.csrList}>
-                  <li style={styles.csrListItem}>
-                    • Reduces unemployment through job creation
-                  </li>
-                  <li style={styles.csrListItem}>
-                    • Helps local businesses access skilled workers
-                  </li>
-                  <li style={styles.csrListItem}>
-                    • Creates sustainable economic opportunities
-                  </li>
-                </ul>
-              </div>
-            </div>
+              return (
+                <div key={index} className={`scale-up anim-delay-${(index % 3) + 1}`}>
+                  <div className="conpact-card">
+                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
+                    
+                    <div>{data.icon}</div>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.2rem" }}>{data.title}</h3>
+                    <h4 style={{ fontSize: "0.95rem", fontWeight: "600", color: "#ff1f2c", marginBottom: "0.5rem", textTransform: "uppercase", letterSpacing: "1px" }}>{data.subtitle}</h4>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                    
+                    <h4 style={{ fontSize: "1rem", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem", marginTop: "0.5rem", alignSelf: "flex-start" }}>{data.featureTitle}</h4>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%" }}>
+                      {data.items.map((item, itemIndex) => (
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                          <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 8ConPact Advantage Section - White Background */}
-      <section
-        id="advantage"
-        ref={advantageRef}
-        data-section="advantage"
-        style={styles.advantageSection}
-      >
+      {/* The 8ConPact Advantage Section */}
+      <section id="advantage" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
         <div style={styles.container2}>
-          <h2 className="fade-item" style={styles.sectionTitle}>
-            The 8ConPact Advantage
+          <h2 style={styles.sectionTitle} className="fade-in-up">
+            THE 8CONPACT <span style={{ color: "#ff1f2c" }}>ADVANTAGE</span>
           </h2>
-          <div style={styles.advantageGrid}>
-            <div
-              className="fade-item"
-              style={styles.advantageCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div style={styles.advantageIcon}>
-                <Handshake size={50} color="#0edb61" />
+          <div className="grid-3x3">
+            {advantageData.map((data, index) => (
+              <div key={index} className={`fade-in-up anim-delay-${(index % 3) + 1}`}>
+                <div className="conpact-card" style={{ justifyContent: "center" }}>
+                  <div>{data.icon}</div>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                </div>
               </div>
-              <h3 style={styles.advantageTitle}>Strategic Partnerships</h3>
-              <p style={styles.advantageDescription}>
-                Collaborates with LGUs to align CSR programs with community
-                needs, ensuring impactful and sustainable initiatives. Engages
-                SMEs and private organizations to co-fund and implement projects
-                that generate long-term value.
-              </p>
-            </div>
-
-            <div
-              className="fade-item"
-              style={styles.advantageCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(255, 31, 44, 0.2)";
-                e.currentTarget.style.borderColor = "#ff1f2c";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div style={styles.advantageIcon}>
-                <Target size={50} color="#ff1f2c" />
-              </div>
-              <h3 style={styles.advantageTitle}>Focused Programs</h3>
-              <p style={styles.advantageDescription}>
-                Concentrates on initiatives with measurable outcomes in
-                livelihood, education, and employment, driving real change at
-                the grassroots level with targeted and effective solutions.
-              </p>
-            </div>
-
-            <div
-              className="fade-item"
-              style={styles.advantageCard}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 35px rgba(14, 219, 97, 0.2)";
-                e.currentTarget.style.borderColor = "#0edb61";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 8px 25px rgba(0,0,0,0.1)";
-                e.currentTarget.style.borderColor = "#f0f0f0";
-              }}
-            >
-              <div style={styles.advantageIcon}>
-                <Star size={50} color="#0edb61" />
-              </div>
-              <h3 style={styles.advantageTitle}>
-                Empowerment Through Education and Employment
-              </h3>
-              <p style={styles.advantageDescription}>
-                Combines skills training and career development programs to
-                create a holistic approach to community empowerment, ensuring
-                sustainable growth and development.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Black Background */}
-      <section
-        id="cta"
-        ref={ctaRef}
-        data-section="cta"
-        style={styles.ctaSection}
-      >
+      {/* CTA Section */}
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
         <div style={styles.container2}>
-          <h2 className="fade-item" style={styles.ctaTitle}>
-            Join 8ConPact in Driving Impact
+          <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
+            JOIN 8CONPACT IN <span style={{ color: "#39CC2F" }}>DRIVING IMPACT</span>
           </h2>
-          <p className="fade-item" style={styles.ctaDescription}>
-            At 8ConPact, we bridge businesses, government units, and communities
-            to create meaningful collaborations that uplift lives and foster
-            sustainable growth. Through livelihood programs, scholarships, and
-            employment initiatives, we contribute to building stronger, more
-            self-reliant communities.
+          <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
+            At 8ConPact, we bridge businesses, government units, and communities to create meaningful collaborations that uplift lives and foster sustainable growth. Through livelihood programs, scholarships, and employment initiatives, we contribute to building stronger, more self-reliant communities.
           </p>
-          <div className="fade-item" style={styles.ctaButtons}>
+          <div style={styles.ctaButtons} className="fade-in-up anim-delay-3">
             <button
               style={styles.ctaButtonPrimary}
+              onClick={() => { window.location.href = "mailto:partnerships@8construct.com"; }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(255, 31, 44, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 15px rgba(14, 219, 97, 0.3)";
               }}
             >
+              <Handshake size={20} style={{ marginRight: "8px" }} />
               Start Partnership
             </button>
             <button
               style={styles.ctaButtonRed}
+              onClick={() => { window.location.href = "mailto:inquiry@8construct.com"; }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#0edb61";
                 e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(14, 219, 97, 0.3)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "#ff1f2c";
                 e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 15px rgba(255, 31, 44, 0.3)";
               }}
             >
+              <Users size={20} style={{ marginRight: "8px" }} />
               Get Involved
             </button>
           </div>
-          <div
-            className="fade-item"
-            style={styles.ctaHighlight}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(255, 31, 44, 0.2)";
-              e.currentTarget.style.borderColor = "#ff1f2c";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(14, 219, 97, 0.1)";
-              e.currentTarget.style.borderColor = "#0edb61";
-            }}
-          >
-            <strong>
-              Let's collaborate to make a difference where it matters most.
-            </strong>
+          <div className="fade-in-up anim-delay-4" style={{ marginTop: "2rem" }}>
+            <div
+              style={styles.ctaHighlight}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
+                e.currentTarget.style.borderColor = "#39CC2F";
+                e.currentTarget.style.boxShadow = "0 15px 35px rgba(57, 204, 47, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.05)";
+                e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.4)";
+              }}
+            >
+              <strong>
+                Let's collaborate to make a difference where it matters most.
+              </strong>
+            </div>
           </div>
         </div>
       </section>
