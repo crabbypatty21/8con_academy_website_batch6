@@ -128,7 +128,6 @@
   text-decoration: none;
   transition: background-color 0.3s ease, color 0.3s ease;
   font-family: "Geist", sans-serif;
-  color: var(--header-text);
   font-size: 14px;
   font-weight: 900;
   text-transform: uppercase;
@@ -701,6 +700,10 @@
 /* AboutUs Page Styles */
 .about-us-main {
   position: relative;
+}
+
+.about-us-main .footer {
+  background: var(--header-scrolled-bg) !important;
 }
 
 .about-us-hero {

@@ -227,7 +227,7 @@ const ConSult = () => {
     // Hero Section (Green to Black gradient)
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
+      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('/assets/images/imagebg.png')",
       backgroundColor: "#19232A", // Fallback color
       backgroundSize: "cover",
       backgroundPosition: "center",

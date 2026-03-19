@@ -177,11 +177,11 @@ const HeroSection = () => {
         }
 
         @keyframes change {
-          0% { background-image: url(../public/assets/images/hero1.jpg); }
-          25% { background-image: url(../public/assets/images/hero2.jpg); }
-          50% { background-image: url(../public/assets/images/hero3.jpg); }
-          75% { background-image: url(../assets/images/hero4.jpg); }
-          100% { background-image: url(../assets/images/hero1.jpg); }
+          0% { background-image: url(/assets/images/hero1.jpg); }
+          25% { background-image: url(/assets/images/hero2.jpg); }
+          50% { background-image: url(/assets/images/hero3.jpg); }
+          75% { background-image: url(/assets/images/hero4.jpg); }
+          100% { background-image: url(/assets/images/hero1.jpg); }
         }
 
         @media (max-width: 768px) {

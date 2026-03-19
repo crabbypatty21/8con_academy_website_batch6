@@ -159,10 +159,10 @@ const RegistrationModal = ({ isOpen, onClose }) => {
                   <input type="tel" name="contact" value={formData.contact} onChange={handleInputChange} className="form-input" placeholder="Phone Number" required />
                 </div>
                 <div className="form-group2">
-                  <input type="text" name="location" value={formData.location} onChange={handleInputChange} className="form-input" placeholder="Location" required />
+                  <input type="text" name="location" value={formData.location} onChange={handleInputChange} className="form-input" placeholder="Your Location" required />
                 </div>
                 <div className="form-group2">
-                  <input type="text" name="businessProfession" value={formData.businessProfession} onChange={handleInputChange} className="form-input" placeholder="Profession" required />
+                  <input type="text" name="businessProfession" value={formData.businessProfession} onChange={handleInputChange} className="form-input" placeholder="Your business or profession" required />
                 </div>
 
                 <div className="captcha-section">
@@ -171,12 +171,17 @@ const RegistrationModal = ({ isOpen, onClose }) => {
                       <span className="captcha-text">{captcha}</span>
                       <button type="button" onClick={generateCaptcha} className="captcha-refresh"><RefreshCw size={16} /></button>
                     </div>
-                    <input type="text" value={captchaInput} onChange={(e) => setCaptchaInput(e.target.value)} className="form-input captcha-input" placeholder="Captcha" required />
+                    <input type="text" value={captchaInput} onChange={(e) => setCaptchaInput(e.target.value)} className="form-input captcha-input" placeholder="Enter Captcha" required />
                   </div>
                 </div>
 
+                <div className="privacy-policy-section">
+                  <p className="privacy-title">Privacy Policy</p>
+                  <p className="privacy-text">Con Academy respects your privacy and is committed to protecting any personal information you provide when registering for our workshops, courses, or events.</p>
+                </div>
+
                 <button type="submit" className="reserve-btn" disabled={isSubmitting}>
-                  {isSubmitting ? "SENDING OTP..." : "GET VERIFICATION CODE"}
+                  {isSubmitting ? "SENDING OTP..." : "RESERVE MY SEAT"}
                 </button>
               </form>
             ) : (

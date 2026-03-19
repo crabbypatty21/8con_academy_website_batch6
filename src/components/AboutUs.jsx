@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Menu, X, Goal, Eye, Atom, HeartHandshake } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
 import "../ConponentCSS/aboutus.css";
+import "../ConponentCSS/Animations.css";
 import ScrollLink from "./ScrollLink";
 import "../App.css";
 import Footer from "./Footer.jsx";
@@ -27,7 +28,7 @@ const AboutUs = () => {
 
   // Fade-in animation on scroll
   useEffect(() => {
-    const elements = document.querySelectorAll(".fade-in");
+    const elements = document.querySelectorAll(".fade-in, .fade-in-up");
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -695,6 +696,7 @@ const AboutUs = () => {
             </div>
           </div>
         </section>
+        <div style={{ paddingTop: "80px", background: isDark ? "#19232A" : "#EFF9FF" }} />
         <Footer />
       </main>
     </div>

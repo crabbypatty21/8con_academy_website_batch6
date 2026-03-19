@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../ConponentCSS/CoreBrand.css";
 import "../ConponentCSS/Testimonials.css";
 
-import zigzagArrow from "../assets/images/arrow_edited.png";
+const zigzagArrow = "/assets/images/arrow_edited.png";
 import { useTheme } from "../context/ThemeContext.jsx";
 import EnrollModal from "./EnrollModal.jsx";
 import TradingBackground from "./TradingBackground.jsx";

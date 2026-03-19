@@ -136,10 +136,10 @@ html.light-mode {
   --card-shadow: rgba(0, 0, 0, 0.08);
 
   --header-scrolled-bg: #EFF9FF;
-  --header-text: #373737;
+  --header-text: #ffffff;
   --header-scrolled-text: #373737;
   --header-dropdown-bg: #ffffff;
-  --header-dropdown-text: #373737;
+  --header-dropdown-text: #000000;
   --header-mobile-bg: rgba(255, 255, 255, 0.98);
   --header-mobile-text: #373737;
   --header-mobile-border: #e2e8f0;
