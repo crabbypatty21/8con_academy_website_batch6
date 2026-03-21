@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
 import { useRegistration } from "../context/RegistrationContext.jsx";
 import ScrollLink from "./ScrollLink";
@@ -96,129 +96,24 @@ const Header = () => {
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
-    <header className={`header ${scrolled ? "scrolled" : ""}`}>
-      <div className="header-container">
+    <>
+      <header className={`header ${scrolled ? "scrolled" : ""}`}>
+        <div className="header-container">
 
-        {/* LEFT: Logo Section */}
-        <div className="logo-section">
-          <ScrollLink to="/#home" className="logo">
-            <img
-              src={!isDark && scrolled ? "/assets/logo/8con Academy Logo.png" : "/assets/logo/8con Academy Logo White.png"}
-              alt="8Con Academy Logo"
-              className="logo-img"
-            />
-          </ScrollLink>
-        </div>
+          {/* LEFT: Logo Section */}
+          <div className="logo-section">
+            <ScrollLink to="/#home" className="logo">
+              <img
+                src={!isDark && scrolled ? "/assets/logo/8con Academy Logo.png" : "/assets/logo/8con Academy Logo White.png"}
+                alt="8Con Academy Logo"
+                className="logo-img"
+              />
+            </ScrollLink>
+          </div>
 
-        {/* CENTER: Main Navigation */}
-        <nav className="desktop-nav center-nav">
-          {desktopNavItems.map((item) => {
-            if (item.external) {
-              return (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="nav-link"
-                >
-                  {item.label}
-                </a>
-              );
-            }
-
-            const activeSections = item.activeSections ?? (item.section ? [item.section] : []);
-            const isActive = activeSections.some((s) => activeSection === s);
-            const linkClass = `nav-link${isActive ? " active" : ""}`;
-
-            if (item.dropdown) {
-              return (
-                <div key={item.label} className="dropdown">
-                  <ScrollLink to={item.to} className={linkClass}>
-                    {item.label}
-                  </ScrollLink>
-                  <div className="dropdown-content">
-                    {item.dropdown.map((child) =>
-                      child.routerLink ? (
-                        <Link key={child.label} to={child.to} className="dropdown-link">
-                          {child.label}
-                        </Link>
-                      ) : (
-                        <ScrollLink key={child.label} to={child.to} className="dropdown-link">
-                          {child.label}
-                        </ScrollLink>
-                      )
-                    )}
-                  </div>
-                </div>
-              );
-            }
-
-            return (
-              <ScrollLink key={item.label} to={item.to} className={linkClass}>
-                {item.label}
-              </ScrollLink>
-            );
-          })}
-        </nav>
-
-        {/* RIGHT: Theme Toggle, Register & Mobile Toggle */}
-        <div className="right-actions">
-          {/* Theme Toggle */}
-          <button
-            className="theme-toggle-btn"
-            onClick={toggleTheme}
-            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-          >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-
-          {/* Register Button (Desktop Only) */}
-          <button onClick={openRegistration} className="register-btn desktop-only">
-            Register
-          </button>
-
-          {/* Mobile Toggle Button */}
-          <button
-            className="mobile-menu-toggle"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation Overlay */}
-        {mobileMenuOpen && (
-          <nav className="mobile-nav">
-            {mobileNavItems.map((item) => {
-              if (item.routerLink) {
-                return (
-                  <Link
-                    key={item.label}
-                    to={item.to}
-                    className="mobile-nav-link"
-                    onClick={closeMobileMenu}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              }
-
-              if (item.scrollLink) {
-                const isActive = activeSection === item.section;
-                return (
-                  <ScrollLink
-                    key={item.label}
-                    to={item.to}
-                    className={`mobile-nav-link${isActive ? " active" : ""}`}
-                    onClick={closeMobileMenu}
-                  >
-                    {item.label}
-                  </ScrollLink>
-                );
-              }
-
+          {/* CENTER: Main Navigation */}
+          <nav className="desktop-nav center-nav">
+            {desktopNavItems.map((item) => {
               if (item.external) {
                 return (
                   <a
@@ -226,45 +121,150 @@ const Header = () => {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mobile-nav-link"
-                    onClick={closeMobileMenu}
+                    className="nav-link"
                   >
                     {item.label}
                   </a>
                 );
               }
 
-              // Plain hash link — works on home page
+              const activeSections = item.activeSections ?? (item.section ? [item.section] : []);
+              const isActive = activeSections.some((s) => activeSection === s);
+              const linkClass = `nav-link${isActive ? " active" : ""}`;
+
+              if (item.dropdown) {
+                return (
+                  <div key={item.label} className="dropdown">
+                    <ScrollLink to={item.to} className={linkClass}>
+                      {item.label}
+                    </ScrollLink>
+                    <div className="dropdown-content">
+                      {item.dropdown.map((child) =>
+                        child.routerLink ? (
+                          <Link key={child.label} to={child.to} className="dropdown-link">
+                            {child.label}
+                          </Link>
+                        ) : (
+                          <ScrollLink key={child.label} to={child.to} className="dropdown-link">
+                            {child.label}
+                          </ScrollLink>
+                        )
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <ScrollLink key={item.label} to={item.to} className={linkClass}>
+                  {item.label}
+                </ScrollLink>
+              );
+            })}
+          </nav>
+
+          {/* RIGHT: Theme Toggle, Register & Mobile Toggle */}
+          <div className="right-actions">
+            {/* Theme Toggle */}
+            <button
+              className="theme-toggle-btn"
+              onClick={toggleTheme}
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+
+            {/* Register Button (Desktop Only) */}
+            <button onClick={openRegistration} className="register-btn desktop-only">
+              Register
+            </button>
+
+            {/* Mobile Toggle Button */}
+            <button
+              className={`mobile-menu-toggle${mobileMenuOpen ? " open" : ""}`}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              <span className="burger-icon">
+                <span className="burger-line" />
+                <span className="burger-line" />
+                <span className="burger-line" />
+              </span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Navigation — rendered outside header to avoid fixed-in-fixed positioning bug */}
+      {mobileMenuOpen && (
+        <nav className="mobile-nav">
+          {mobileNavItems.map((item) => {
+            if (item.routerLink) {
+              return (
+                <Link
+                  key={item.label}
+                  to={item.to}
+                  className="mobile-nav-link"
+                  onClick={closeMobileMenu}
+                >
+                  {item.label}
+                </Link>
+              );
+            }
+
+            if (item.scrollLink) {
               const isActive = activeSection === item.section;
+              return (
+                <ScrollLink
+                  key={item.label}
+                  to={item.to}
+                  className={`mobile-nav-link${isActive ? " active" : ""}`}
+                  onClick={closeMobileMenu}
+                >
+                  {item.label}
+                </ScrollLink>
+              );
+            }
+
+            if (item.external) {
               return (
                 <a
                   key={item.label}
                   href={item.href}
-                  className={`mobile-nav-link${isActive ? " active" : ""}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mobile-nav-link"
                   onClick={closeMobileMenu}
                 >
                   {item.label}
                 </a>
               );
-            })}
+            }
 
-            <button
-              className="mobile-nav-link highlight-link"
-              onClick={() => { closeMobileMenu(); openRegistration(); }}
-            >
-              Register Here!
-            </button>
-            <button
-              className="mobile-nav-link theme-toggle-mobile"
-              onClick={toggleTheme}
-            >
-              {isDark ? "Light Mode" : "Dark Mode"}
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-          </nav>
-        )}
-      </div>
-    </header>
+            // Plain hash link — works on home page
+            const isActive = activeSection === item.section;
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`mobile-nav-link${isActive ? " active" : ""}`}
+                onClick={closeMobileMenu}
+              >
+                {item.label}
+              </a>
+            );
+          })}
+
+          <button
+            className="mobile-nav-link highlight-link"
+            onClick={() => { closeMobileMenu(); openRegistration(); }}
+          >
+            Register Here!
+          </button>
+        </nav>
+      )}
+    </>
   );
 };
 

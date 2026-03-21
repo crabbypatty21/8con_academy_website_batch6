@@ -399,15 +399,26 @@
 }
 
 /* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .enroll-modal {
+    padding: 28px 24px;
+    max-width: 95%;
+  }
+
+  .enroll-result-card {
+    max-width: 90%;
+  }
+}
+
 @media (max-width: 600px) {
   .enroll-modal {
-    padding: 28px 20px;
+    padding: 24px 18px;
     max-width: 100%;
   }
 
   .enroll-form-row {
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
   }
 
   .enroll-title {
@@ -418,5 +429,70 @@
     width: 48px;
     height: 48px;
     border-radius: 12px;
+  }
+
+  .enroll-result-card {
+    padding: 28px 20px;
+    max-width: 100%;
+  }
+
+  .enroll-result-title {
+    font-size: 16px;
+  }
+
+  .enroll-result-message {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .enroll-modal {
+    padding: 22px 16px;
+  }
+
+  .enroll-title {
+    font-size: 17px;
+  }
+
+  .enroll-input {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .enroll-label {
+    font-size: 11px;
+  }
+
+  .enroll-submit {
+    padding: 11px;
+    font-size: 13px;
+  }
+
+  .enroll-privacy {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 360px) {
+  .enroll-modal {
+    padding: 20px 14px;
+  }
+
+  .enroll-title {
+    font-size: 16px;
+  }
+
+  .enroll-label {
+    font-size: 11px;
+  }
+
+  .enroll-input {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .enroll-submit {
+    padding: 10px;
+    font-size: 13px;
   }
 }

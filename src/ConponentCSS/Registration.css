@@ -369,3 +369,61 @@ html.light-mode .reg-modal-content .error-message {
     gap: 20px;
     }
 }
+
+@media (max-width: 600px) {
+    .reg-modal-content .form-column {
+    padding: 24px 16px;
+    }
+
+    .reg-modal-content .form-input {
+    padding: 10px 14px;
+    font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .reg-modal-overlay {
+    padding: 8px;
+    }
+
+    .reg-modal-content {
+    max-height: 95vh;
+    border-radius: 10px;
+    }
+
+    .reg-modal-content .form-column {
+    padding: 20px 16px;
+    }
+
+    .reg-modal-content .form-input {
+    padding: 10px 12px;
+    font-size: 14px;
+    }
+
+    .reg-modal-content .reserve-btn {
+    padding: 12px;
+    font-size: 13px;
+    }
+
+    .reg-modal-content .privacy-policy-section {
+    padding: 10px;
+    }
+
+    .reg-modal-content .privacy-title {
+    font-size: 11px;
+    }
+
+    .reg-modal-content .privacy-text {
+    font-size: 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .reg-modal-content .form-column {
+    padding: 16px 12px;
+    }
+
+    .reg-modal-content .registration-form {
+    gap: 10px;
+    }
+}

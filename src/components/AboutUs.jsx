@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Goal, Eye, Atom, HeartHandshake } from "lucide-react";
+import { Goal, Eye, Atom, HeartHandshake } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
 import "../ConponentCSS/aboutus.css";
 import "../ConponentCSS/Animations.css";
@@ -63,10 +63,14 @@ const AboutUs = () => {
             />
           </a>
           <button
-            className="mobile-menu-toggle"
+            className={`mobile-menu-toggle${mobileMenuOpen ? " open" : ""}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X /> : <Menu />}
+            <span className="burger-icon">
+              <span className="burger-line" />
+              <span className="burger-line" />
+              <span className="burger-line" />
+            </span>
           </button>
           {/* Desktop Navigation */}
 
@@ -81,6 +85,8 @@ const AboutUs = () => {
             </ScrollLink>
           </nav>
         </div>
+
+      </header>
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
@@ -97,7 +103,6 @@ const AboutUs = () => {
             {/* Brands Dropdown */}
           </nav>
         )}
-      </header>
 
       {/* Main content - Added padding-top to account for fixed header */}
       <main className="about-us-main">

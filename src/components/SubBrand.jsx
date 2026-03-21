@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext.jsx";
 import {
-  Menu,
-  X,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -263,12 +261,18 @@ const SubBrand = () => {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="mobile-menu-toggle"
+              className={`mobile-menu-toggle${mobileMenuOpen ? " open" : ""}`}
               aria-label="Toggle mobile menu"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <span className="burger-icon">
+                <span className="burger-line" />
+                <span className="burger-line" />
+                <span className="burger-line" />
+              </span>
             </button>
           </div>
+
+        </header>
 
           {mobileMenuOpen && (
             <nav className="mobile-nav">
@@ -313,7 +317,6 @@ const SubBrand = () => {
               </div>
             </nav>
           )}
-        </header>
 
         <main className="main-content">
           {/* Hero Section */}

@@ -218,6 +218,7 @@ body {
   margin: 0;
   padding: 0;
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 .text-red-highlight {
@@ -355,7 +356,7 @@ img {
    SECTIONS & LAYOUT
    ========================================== */
 .section {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -405,19 +406,19 @@ img {
    ========================================== */
 .grid-auto-fit {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 24px;
 }
 
 .grid-auto-fit-large {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
   gap: 32px;
 }
 
 .grid-responsive {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 1.5rem;
 }
 
@@ -466,7 +467,7 @@ img {
 
 /* Special Card Styles */
 .card {
-  width: 170px;
+  width: min(170px, 100%);
   height: 100px;
   transition: all 0.4s;
   border-radius: 10px;
@@ -609,6 +610,36 @@ img {
   .about-us-hero-white {
     font-size: 26px;
     line-height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-us-hero-green {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .about-us-hero-red {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .about-us-hero-white {
+    font-size: 20px;
+    line-height: 26px;
+  }
+}
+
+@media (max-width: 360px) {
+  .about-us-hero-green {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .about-us-hero-red {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .about-us-hero-white {
+    font-size: 17px;
+    line-height: 22px;
   }
 }
 
@@ -925,9 +956,48 @@ html.light-mode .yellow-arrow-img {
   }
 }
 
+@media (max-width: 768px) {
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
 @media (max-width: 640px) {
   .newsletter-form {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .card-sub {
+    width: min(160px, 100%);
+    height: 200px;
+  }
+
+  .bg-hover {
+    width: calc(100% - 10px);
+    height: 190px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 360px) {
+  .brands-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .section-title {
+    font-size: 24px;
   }
 }
 
@@ -936,6 +1006,84 @@ html.light-mode .yellow-arrow-img {
   .csr-card-inner {
     padding: 25px 15px;
   }
+}
+
+/* ==========================================
+   MOBILE NAV (global — applies to all pages)
+   React conditionally renders this, so no display:none needed.
+   Using !important to override page-specific inline styles.
+   ========================================== */
+.mobile-nav {
+  position: fixed !important;
+  top: 60px !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: var(--header-mobile-bg) !important;
+  border-top: 1px solid var(--header-mobile-border) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  z-index: 1000 !important;
+  animation: mobileNavSlideDown 0.3s ease-out;
+  padding: 0;
+  margin: 0 !important;
+  display: block !important;
+}
+
+@keyframes mobileNavSlideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .mobile-nav { top: 56px !important; }
+}
+
+@media (max-width: 600px) {
+  .mobile-nav { top: 52px !important; }
+}
+
+@media (max-width: 480px) {
+  .mobile-nav { top: 50px !important; }
+}
+
+@media (max-width: 360px) {
+  .mobile-nav { top: 48px !important; }
+}
+
+.mobile-nav .mobile-nav-link {
+  display: block;
+  padding: 16px 28px;
+  color: var(--header-mobile-text);
+  text-decoration: none;
+  font-family: "Geist Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--header-mobile-border);
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.mobile-nav .mobile-nav-link:hover,
+.mobile-nav .mobile-nav-link:active {
+  color: #ffffff;
+  background: rgba(45, 176, 98, 0.1);
+  padding-left: 36px;
+}
+
+.mobile-nav .mobile-nav-link.active {
+  color: #ff1f2c;
+  border-left: 3px solid #ff1f2c;
+  background: rgba(255, 31, 44, 0.05);
+}
+
+.mobile-nav .highlight-link {
+  color: #2DB062;
+  font-weight: 900;
 }
 
 /* ==========================================

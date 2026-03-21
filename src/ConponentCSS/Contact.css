@@ -264,7 +264,7 @@ html.light-mode .contact-modal-error .contact-modal-icon {
    CONTACT SECTION MAIN
    ========================================== */
 .contact-section {
-  height: 100vh;
+  min-height: 100vh;
   background: var(--bg-secondary);
   display: flex;
   flex-direction: column;
@@ -463,11 +463,69 @@ html.light-mode .contact-modal-error .contact-modal-icon {
   }
 }
 
+@media (max-width: 480px) {
+  .contact-section {
+    padding: 30px 4% 16px;
+  }
+
+  .contact-form {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+
+  .contact-title {
+    font-size: 22px;
+  }
+
+  .contact-submit-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .contact-details {
+    padding: 12px;
+  }
+
+  .contact-detail-item {
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  .contact-map-card {
+    min-height: 150px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .contact-section {
+    padding: 24px 3% 12px;
+  }
+
+  .contact-form {
+    padding: 16px 12px;
+    gap: 12px;
+  }
+
+  .contact-input {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .contact-label {
+    font-size: 12px;
+  }
+
+  .contact-map-card {
+    min-height: 130px;
+  }
+}
+
 /* ==========================================
    FAQ SECTION
    ========================================== */
 .faq-section {
-  height: 100vh;
+  min-height: 100vh;
   padding: 80px 5% 40px;
   position: relative;
   display: flex;
@@ -586,5 +644,60 @@ html.light-mode .contact-modal-error .contact-modal-icon {
 @media (max-width: 768px) {
   .faq-list {
     grid-template-columns: 1fr;
+  }
+
+  .faq-section {
+    padding: 60px 5% 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-section {
+    padding: 80px 4% 20px;
+  }
+
+  .contact-modal {
+    padding: 32px 20px 28px;
+    max-width: 95%;
+  }
+
+  .contact-modal-title {
+    font-size: 18px;
+  }
+
+  .contact-modal-message {
+    font-size: 13px;
+  }
+
+  .contact-modal-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .faq-section {
+    padding: 50px 4% 20px;
+  }
+
+  .faq-title {
+    font-size: 28px;
+  }
+
+  .faq-summary {
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  .faq-answer {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .contact-section {
+    padding: 70px 3% 15px;
+  }
+
+  .faq-section {
+    padding: 40px 3% 15px;
   }
 }

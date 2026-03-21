@@ -55,6 +55,11 @@ function makeTransport() {
   });
 }
 
+/* Use the submitter's email in "from" so Gmail shows their name instead of "me" */
+function getFromAddress(displayName, submitterEmail) {
+  return `"${displayName}" <${submitterEmail}>`;
+}
+
 /* ---------- Email HTML Builder ---------- */
 /**
  * Builds a consistent HTML email body.
@@ -100,7 +105,8 @@ app.post("/contact", async (req, res) => {
 
     const transporter = makeTransport();
     await transporter.sendMail({
-      from: `"${name} via 8Con Academy" <${process.env.GMAIL_USER}>`,
+      from: getFromAddress(`${name} via 8Con Academy`, email),
+      sender: process.env.GMAIL_USER,
       replyTo: email,
       to: process.env.RECIPIENT_EMAIL || process.env.GMAIL_USER,
       subject: `Inquiry from ${name}`,
@@ -146,7 +152,8 @@ app.post("/apply", upload.single("resumeFile"), async (req, res) => {
     const transporter = makeTransport();
 
     await transporter.sendMail({
-      from: `"${fullName} via 8Con Academy" <${process.env.GMAIL_USER}>`,
+      from: getFromAddress(`${fullName} via 8Con Academy`, email),
+      sender: process.env.GMAIL_USER,
       replyTo: email,
       to: process.env.RECIPIENT_EMAIL || process.env.GMAIL_USER,
       subject: `Internship Application - ${fullName} for ${selectedPosition}`,
@@ -171,7 +178,7 @@ app.post("/apply", upload.single("resumeFile"), async (req, res) => {
       ],
     });
 
-    return res.json({ message: "Application submitted successfully!" });
+    return res.json({ success: true, message: "Application submitted successfully!" });
   } catch (err) {
     console.error("Error sending application email:", err);
     return res.status(500).json({ error: "Failed to send email" });
@@ -188,7 +195,8 @@ app.post("/registration", async (req, res) => {
 
     const transporter = makeTransport();
     await transporter.sendMail({
-      from: `"${fullName} via 8Con Academy" <${process.env.GMAIL_USER}>`,
+      from: getFromAddress(`${fullName} via 8Con Academy`, email),
+      sender: process.env.GMAIL_USER,
       replyTo: email,
       to: process.env.RECIPIENT_EMAIL || process.env.GMAIL_USER,
       subject: `Workshop Registration - ${fullName}`,

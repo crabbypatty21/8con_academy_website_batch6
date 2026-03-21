@@ -5,8 +5,6 @@ import { useTheme } from "../context/ThemeContext.jsx";
 import "../ConponentCSS/Animations.css"; // Imported native animations
 import TradingBackground from "./TradingBackground.jsx"; // Forex trading background
 import {
-  Menu,
-  X,
   ChevronDown,
   Brain,
   Target,
@@ -625,10 +623,20 @@ const ConCise = () => {
             <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Contact</button>
           </nav>
 
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="mobile-menu-toggle">
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`mobile-menu-toggle${mobileMenuOpen ? " open" : ""}`}
+            aria-label="Toggle mobile menu"
+          >
+            <span className="burger-icon">
+              <span className="burger-line" />
+              <span className="burger-line" />
+              <span className="burger-line" />
+            </span>
           </button>
         </div>
+
+      </header>
 
         {mobileMenuOpen && (
           <nav className="mobile-nav">
@@ -657,7 +665,6 @@ const ConCise = () => {
             <button onClick={() => handleSmoothScroll("cta")} className="mobile-nav-link">Contact</button>
           </nav>
         )}
-      </header>
 
       {/* Hero Section */}
       <section id="hero" style={styles.heroSection}>

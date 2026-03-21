@@ -129,27 +129,26 @@ const ApplicationModal = ({ isOpen, onClose, selectedPosition }) => {
       const fullName = [formData.firstName, formData.middleName, formData.lastName].filter(Boolean).join(" ");
 
       const payload = new FormData();
-      payload.append("access_key", "5f8976e9-6357-4533-bd55-71314277e2f9");
-      payload.append("from_name", fullName);
-      payload.append("subject", `Internship Application - ${fullName} for ${selectedPosition}`);
-      payload.append("name", fullName);
-      payload.append("first_name", formData.firstName);
-      payload.append("middle_name", formData.middleName);
-      payload.append("last_name", formData.lastName);
+      payload.append("firstName", formData.firstName);
+      payload.append("middleName", formData.middleName);
+      payload.append("lastName", formData.lastName);
       payload.append("email", formData.email);
-      payload.append("phone", formData.phoneNumber);
       payload.append("address", formData.address);
-      payload.append("department", selectedPosition);
-      payload.append("form_type", "Internship Application");
-      payload.append("attachment", formData.resumeFile);
+      payload.append("phoneNumber", formData.phoneNumber);
+      payload.append("selectedPosition", selectedPosition);
+      payload.append("resumeFile", formData.resumeFile);
 
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const baseUrl = import.meta.env.MODE === "production"
+        ? "https://8conacademy.com"
+        : "http://localhost:3001";
+
+      const response = await fetch(`${baseUrl}/apply`, {
         method: "POST",
         body: payload,
       });
       const data = await response.json();
 
-      if (data.success) {
+      if (response.ok || data.success) {
         setResultModal({ show: true, type: "success", message: "Your application has been submitted! We'll review it and get back to you soon." });
         setFormData({ firstName: "", middleName: "", lastName: "", email: "", address: "", phoneNumber: "+63", resumeFile: null });
       } else {
@@ -169,23 +168,31 @@ const ApplicationModal = ({ isOpen, onClose, selectedPosition }) => {
       {/* Result Modal */}
       {resultModal.show && (
         <div className="apply-result-overlay" onClick={() => { setResultModal({ ...resultModal, show: false }); if (resultModal.type === "success") onClose(); }}>
-          <div className={`apply-result-card apply-result-${resultModal.type}`} onClick={(e) => e.stopPropagation()}>
+          <div className={`apply-result-card apply-result-${resultModal.type} ${isDark ? "" : "apply-result-light"}`} onClick={(e) => e.stopPropagation()}>
             <button className="apply-result-close" onClick={() => { setResultModal({ ...resultModal, show: false }); if (resultModal.type === "success") onClose(); }}>
               <X size={18} />
             </button>
+
             {resultModal.type === "success" && (
               <div className="apply-result-confetti">
-                {[...Array(8)].map((_, i) => <span key={i} className={`confetti confetti-${i}`} />)}
+                {[...Array(12)].map((_, i) => <span key={i} className={`confetti confetti-${i}`} />)}
               </div>
             )}
-            <div className={`apply-result-icon apply-result-icon-${resultModal.type}`}>
-              {resultModal.type === "success" ? <CheckCircle size={36} /> : <XCircle size={36} />}
+
+            <div className={`apply-result-icon-wrapper apply-result-icon-${resultModal.type}`}>
+              <div className="apply-result-icon-ring" />
+              {resultModal.type === "success" ? <CheckCircle size={40} /> : <XCircle size={40} />}
             </div>
+
             <h3 className="apply-result-title">
               {resultModal.type === "success" ? "Application Submitted!" : "Something Went Wrong"}
             </h3>
             <p className="apply-result-message">{resultModal.message}</p>
-            <button className="apply-result-btn" onClick={() => { setResultModal({ ...resultModal, show: false }); if (resultModal.type === "success") onClose(); }}>
+
+            <button
+              className={`apply-result-btn apply-result-btn-${resultModal.type}`}
+              onClick={() => { setResultModal({ ...resultModal, show: false }); if (resultModal.type === "success") onClose(); }}
+            >
               {resultModal.type === "success" ? "Got it!" : "Try Again"}
             </button>
           </div>

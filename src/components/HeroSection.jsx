@@ -35,8 +35,7 @@ const HeroSection = () => {
         <div className="hero-content">
           <h1 className="hero-title fade-in-up">
             <span className="text-green">Empowering</span> Every Filipino <span className="text-coral">Household</span>
-            <br />
-            With A <span className="text-coral">Skilled</span> And <span className="text-green"> Profitable</span> <span>Forex Trader</span>
+            {" "}With A <span className="text-coral">Skilled</span> And <span className="text-green"> Profitable</span> <span>Forex Trader</span>
           </h1>
           
           <p className="hero-subtitle fade-in-up anim-delay-2">
@@ -61,10 +60,12 @@ const HeroSection = () => {
         .hero-section {
           position: relative;
           height: 100vh;
+          height: 100svh;
+          min-height: 500px;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 100px 20px 20px;
+          padding: 80px 20px 20px;
           overflow: hidden;
           box-sizing: border-box;
         }
@@ -106,6 +107,7 @@ const HeroSection = () => {
           justify-content: center;
           z-index: 1;
           position: relative;
+          padding: 0 16px;
         }
 
         .hero-content {
@@ -121,9 +123,12 @@ const HeroSection = () => {
           line-height: 1.3;
           font-family: "Unbounded", sans-serif;
           font-weight: 800;
-          font-size: clamp(30px, 4vw, 44px);
+          font-size: clamp(22px, 4vw, 44px);
           filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
           margin: 0;
+          max-width: 900px;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
 
         .hero-section .text-green {
@@ -134,18 +139,17 @@ const HeroSection = () => {
           color: #F95545;
         }
 
-
         .hero-subtitle {
           color: #ffffff;
-          font-size: clamp(18px, 2vw, 24px);
+          font-size: clamp(14px, 2vw, 24px);
           font-family: "Geist Sans", sans-serif;
           font-weight: 400;
-          margin: -25px 0 0 0;
+          margin: 0;
         }
 
         .hero-buttons {
           display: flex;
-          gap: 20px;
+          gap: 16px;
           justify-content: center;
           flex-wrap: wrap;
         }
@@ -176,24 +180,80 @@ const HeroSection = () => {
           opacity: 0.9;
         }
 
-        @keyframes change {
-          0% { background-image: url(/assets/images/hero1.jpg); }
-          25% { background-image: url(/assets/images/hero2.jpg); }
-          50% { background-image: url(/assets/images/hero3.jpg); }
-          75% { background-image: url(/assets/images/hero4.jpg); }
-          100% { background-image: url(/assets/images/hero1.jpg); }
-        }
-
         @media (max-width: 768px) {
+          .hero-section {
+            padding: 70px 16px 20px;
+            min-height: 400px;
+          }
+
+          .hero-title {
+            font-size: clamp(20px, 5.5vw, 32px);
+            line-height: 1.35;
+          }
+
+          .hero-content {
+            gap: 1.2rem;
+          }
+
           .hero-buttons {
             flex-direction: column;
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
+            gap: 12px;
           }
-          
+
           .btn-primary, .btn-secondary {
             width: 100%;
             text-align: center;
+            font-size: 15px;
+            padding: 12px 24px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-section {
+            padding: 60px 12px 16px;
+          }
+
+          .hero-title {
+            font-size: clamp(18px, 5vw, 26px);
+          }
+
+          .hero-subtitle {
+            font-size: 14px;
+          }
+
+          .hero-content {
+            gap: 1rem;
+          }
+
+          .btn-primary, .btn-secondary {
+            font-size: 14px;
+            padding: 10px 20px;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .hero-section {
+            padding: 54px 10px 12px;
+          }
+
+          .hero-title {
+            font-size: 17px;
+            line-height: 1.4;
+          }
+
+          .hero-subtitle {
+            font-size: 13px;
+          }
+
+          .hero-buttons {
+            max-width: 240px;
+          }
+
+          .btn-primary, .btn-secondary {
+            font-size: 13px;
+            padding: 10px 16px;
           }
         }
       `}</style>

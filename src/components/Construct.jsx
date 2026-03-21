@@ -5,8 +5,6 @@ import { useTheme } from "../context/ThemeContext.jsx";
 import "../ConponentCSS/Animations.css"; 
 import TradingBackground from "./TradingBackground.jsx"; 
 import {
-  Menu,
-  X,
   ChevronDown,
   Brain,
   Target,
@@ -755,12 +753,18 @@ const ConStruct = () => {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="mobile-menu-toggle"
+            className={`mobile-menu-toggle${mobileMenuOpen ? " open" : ""}`}
             aria-label="Toggle mobile menu"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <span className="burger-icon">
+              <span className="burger-line" />
+              <span className="burger-line" />
+              <span className="burger-line" />
+            </span>
           </button>
         </div>
+
+      </header>
 
         {mobileMenuOpen && (
           <nav className="mobile-nav">
@@ -838,7 +842,6 @@ const ConStruct = () => {
             </a>
           </nav>
         )}
-      </header>
 
       {/* Hero Section */}
       <section id="hero" style={styles.heroSection}>

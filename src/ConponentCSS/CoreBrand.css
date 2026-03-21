@@ -285,6 +285,7 @@
   .core-brand-section {
     padding: 40px 10px;
     min-height: auto;
+    background-attachment: scroll;
   }
 
   .core-brand-container {
@@ -379,7 +380,7 @@
 
 @media (max-width: 360px) {
   .core-brand-section {
-    padding: 20px 5px;
+    padding: 20px 12px;
   }
 
   .core-brand-title {
@@ -388,6 +389,11 @@
 
   .core-brand-description {
     font-size: 14px;
+  }
+
+  .core-brand-features,
+  .core-brand-cta {
+    padding: 20px;
   }
 }
 
