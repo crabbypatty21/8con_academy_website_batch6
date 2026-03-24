@@ -447,7 +447,8 @@ html.light-mode .contact-modal-error .contact-modal-icon {
 /* Contact responsive */
 @media (max-width: 768px) {
   .contact-section {
-    padding: 40px 5% 20px;
+    padding: 80px 5% 20px;
+    min-height: auto;
   }
 
   .contact-grid {
@@ -647,7 +648,8 @@ html.light-mode .contact-modal-error .contact-modal-icon {
   }
 
   .faq-section {
-    padding: 60px 5% 30px;
+    padding: 80px 5% 30px;
+    min-height: auto;
   }
 }
 

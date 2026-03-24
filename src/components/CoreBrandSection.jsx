@@ -81,33 +81,15 @@ const CoreBrandSection = ({
       {/* ============================== */}
       <section
         id="core-brand"
+        className="cb-page1"
         style={{
-          height: "100vh",
-          padding: "100px 5% 40px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
           backgroundColor: isDark ? "#19232A" : "#E9F1F9",
-          overflow: "hidden",
-          boxSizing: "border-box",
-          position: "relative",
         }}
       >
         <TradingBackground variant={1} />
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "1200px",
-            margin: "0 auto",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "60px",
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="cb-page1-inner">
           {/* Left Content */}
-          <div className="slide-in-left" style={{ flex: "1 1 50%", minWidth: "300px" }}>
+          <div className="slide-in-left cb-left-content">
             <h1
               style={{
                 fontSize: "clamp(2rem, 3.5vw, 4rem)",
@@ -182,17 +164,7 @@ const CoreBrandSection = ({
           </div>
 
           {/* Right Image */}
-          <div
-            className="slide-in-right anim-delay-2"
-            style={{
-              flex: "1 1 40%",
-              display: "flex",
-              justifyContent: "flex-end",
-              minWidth: "300px",
-              position: "relative",
-              zIndex: 0,
-            }}
-          >
+          <div className="slide-in-right anim-delay-2 cb-right-image">
             <img
               src={zigzagArrow}
               alt="Forex Chart"
@@ -213,17 +185,9 @@ const CoreBrandSection = ({
       {/* PAGE 2: Media / Carousel Area  */}
       {/* ============================== */}
       <section
+        className="cb-page2"
         style={{
-          height: "100vh",
-          padding: "100px 5% 40px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
           backgroundColor: isDark ? "#19232A" : "#EFF9FF",
-          overflow: "hidden",
-          fontFamily: '"Geist Sans", sans-serif',
-          boxSizing: "border-box",
-          position: "relative",
         }}
       >
         <TradingBackground variant={2} />
@@ -237,19 +201,7 @@ const CoreBrandSection = ({
           }}
         >
           {/* Header */}
-          <div
-            className="fade-in-up"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "4px",
-              flexWrap: "wrap",
-              gap: "20px",
-              width: "calc(100% + 120px)",
-              marginLeft: "-60px",
-            }}
-          >
+          <div className="fade-in-up cb-testimonials-header">
             <h2
               style={{
                 fontSize: "clamp(1.8rem, 3vw, 3rem)",
@@ -264,110 +216,152 @@ const CoreBrandSection = ({
             </h2>
           </div>
 
-          {/* Carousel Card */}
-          <div
-            className="scale-up anim-delay-2"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%, #000000 100%)",
-              width: "100%",
-              height: "clamp(300px, 40vw, 450px)",
-              borderRadius: "12px",
-              overflow: "hidden",
-              marginBottom: "20px",
-              position: "relative",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
-            }}
-          >
+          {/* Desktop: Image Carousel */}
+          <div className="cb-desktop-carousel">
             <div
-              onTransitionEnd={onTransitionEnd}
+              className="scale-up anim-delay-2"
               style={{
-                display: "flex",
-                height: "100%",
-                transition: isTransitioning ? "transform 0.4s ease-in-out" : "none",
-                transform: `translateX(-${currentIndex * 100}%)`,
+                background:
+                  "radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%, #000000 100%)",
+                width: "100%",
+                height: "clamp(300px, 40vw, 450px)",
+                borderRadius: "12px",
+                overflow: "hidden",
+                marginBottom: "20px",
+                position: "relative",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
               }}
             >
-              {extendedTestimonials.length > 0 ? (
-                extendedTestimonials.map((testimonial, index) => (
+              <div
+                onTransitionEnd={onTransitionEnd}
+                style={{
+                  display: "flex",
+                  height: "100%",
+                  transition: isTransitioning ? "transform 0.4s ease-in-out" : "none",
+                  transform: `translateX(-${currentIndex * 100}%)`,
+                }}
+              >
+                {extendedTestimonials.length > 0 ? (
+                  extendedTestimonials.map((testimonial, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        minWidth: "100%",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-start",
+                        gap: "20px",
+                        boxSizing: "border-box",
+                        position: "relative",
+                      }}
+                    >
+                      <img
+                        src={testimonial.backgroundImage}
+                        alt={`${testimonial.name}'s Profile`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          objectPosition: "0% 60%",
+                        }}
+                      />
+                    </div>
+                  ))
+                ) : (
                   <div
-                    key={index}
                     style={{
-                      minWidth: "100%",
-                      height: "100%",
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "flex-start",
-                      gap: "20px",
-                      boxSizing: "border-box",
-                      position: "relative",
+                      justifyContent: "center",
+                      height: "100%",
+                      width: "100%",
+                      color: "#666",
+                      fontSize: "1.5rem",
                     }}
                   >
-                    <img
-                      src={testimonial.backgroundImage}
-                      alt={`${testimonial.name}'s Profile`}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        objectPosition: "0% 60%",
-                      }}
-                    />
+                    No Testimonials Available
                   </div>
-                ))
-              ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "100%",
-                    width: "100%",
-                    color: "#666",
-                    fontSize: "1.5rem",
-                  }}
-                >
-                  No Testimonials Available
-                </div>
-              )}
+                )}
+              </div>
+            </div>
+
+            {/* Controls */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+            >
+              <button style={carouselNavButtonStyle} onClick={prevSlide}>
+                <CarouselArrowIcon direction="prev" />
+              </button>
+
+              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    style={{
+                      width: index === actualIndex ? "24px" : "10px",
+                      height: "10px",
+                      borderRadius: "10px",
+                      backgroundColor: index === actualIndex ? "#0ED85F" : "#4b5563",
+                      border: "none",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                    }}
+                    onClick={() => goToSlide(index)}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button style={carouselNavButtonStyle} onClick={nextSlide}>
+                <CarouselArrowIcon direction="next" />
+              </button>
             </div>
           </div>
 
-          {/* Controls: Left Arrow, Center Dots, Right Arrow */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: "20px",
-            }}
-          >
-            <button style={carouselNavButtonStyle} onClick={prevSlide}>
-              <CarouselArrowIcon direction="prev" />
-            </button>
-
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  style={{
-                    width: index === actualIndex ? "24px" : "10px",
-                    height: "10px",
-                    borderRadius: "10px",
-                    backgroundColor: index === actualIndex ? "#0ED85F" : "#4b5563",
-                    border: "none",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                  }}
-                  onClick={() => goToSlide(index)}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
+          {/* Mobile: Text-based testimonial cards */}
+          <div className="cb-mobile-testimonials">
+            <div className="cb-mobile-card scale-up anim-delay-2">
+              <div className="cb-mobile-quote-icon">"</div>
+              <p className="cb-mobile-message">
+                {testimonials[actualIndex]?.message}
+              </p>
+              <div className="cb-mobile-author">
+                <div className="cb-mobile-avatar">
+                  {testimonials[actualIndex]?.name?.charAt(0)}
+                </div>
+                <span className="cb-mobile-name">
+                  {testimonials[actualIndex]?.name}
+                </span>
+              </div>
             </div>
 
-            <button style={carouselNavButtonStyle} onClick={nextSlide}>
-              <CarouselArrowIcon direction="next" />
-            </button>
+            {/* Mobile Controls */}
+            <div className="cb-mobile-controls">
+              <button className="cb-mobile-nav-btn" onClick={prevSlide}>
+                <CarouselArrowIcon direction="prev" />
+              </button>
+
+              <div className="cb-mobile-dots">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`cb-mobile-dot${index === actualIndex ? " active" : ""}`}
+                    onClick={() => goToSlide(index)}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button className="cb-mobile-nav-btn" onClick={nextSlide}>
+                <CarouselArrowIcon direction="next" />
+              </button>
+            </div>
           </div>
         </div>
       </section>

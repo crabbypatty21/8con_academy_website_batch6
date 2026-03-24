@@ -175,7 +175,7 @@ const Header = () => {
             </button>
 
             {/* Register Button (Desktop Only) */}
-            <button onClick={openRegistration} className="register-btn desktop-only">
+            <button onClick={openRegistration} className="register-btn">
               Register
             </button>
 
@@ -256,12 +256,7 @@ const Header = () => {
             );
           })}
 
-          <button
-            className="mobile-nav-link highlight-link"
-            onClick={() => { closeMobileMenu(); openRegistration(); }}
-          >
-            Register Here!
-          </button>
+
         </nav>
       )}
     </>

@@ -533,29 +533,91 @@ const Footer = () => {
 
 @media (max-width: 600px) {
   .footer {
-    padding: 40px 5% 0;
+    padding: 20px 4% 0;
+  }
+
+  .footer-main {
+    gap: 16px;
+    padding-bottom: 10px;
+  }
+
+  .footer-brand {
+    gap: 4px;
+  }
+
+  .footer-brand-logo {
+    width: 64px;
+  }
+
+  .footer-tagline {
+    font-size: 9px;
+  }
+
+  .footer-social {
+    margin-top: 4px;
+  }
+
+  .social-icon {
+    width: 26px;
+    height: 26px;
   }
 
   .footer-grid {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 14px;
+  }
+
+  .footer-title {
+    font-size: 10px;
+    margin-bottom: 4px;
+    padding-bottom: 4px;
   }
 
   .footer-title::after {
     left: 50%;
     transform: translateX(-50%);
+    width: 20px;
+  }
+
+  .quick-link,
+  .program-link {
+    font-size: 11px;
   }
 
   .footer-list li {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+  }
+
+  .footer-logo img {
+    height: 28px;
   }
 
   .footer-logo {
     justify-content: center;
   }
 
+  .footer-contact-info {
+    font-size: 10px;
+  }
+
   .footer-contact-info p {
     justify-content: center;
+    margin-bottom: 4px;
+    gap: 6px;
+  }
+
+  .footer-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .footer-bottom {
+    padding: 8px 0;
+  }
+
+  .footer-bottom p {
+    font-size: 9px;
   }
 }
 

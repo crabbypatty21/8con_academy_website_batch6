@@ -244,6 +244,126 @@
 }
 
 /* ==========================================
+   CB PAGE 1 & 2 (inline-to-CSS migration)
+   ========================================== */
+.cb-page1 {
+  min-height: 100vh;
+  padding: 100px 5% 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.cb-page1-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.cb-left-content {
+  flex: 1 1 50%;
+  min-width: 300px;
+}
+
+.cb-right-image {
+  flex: 1 1 40%;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 300px;
+  position: relative;
+  z-index: 0;
+}
+
+.cb-page2 {
+  min-height: 100vh;
+  padding: 100px 5% 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: "Geist Sans", sans-serif;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.cb-testimonials-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: calc(100% + 120px);
+  margin-left: -60px;
+}
+
+/* ==========================================
+   CB PAGE 1 & 2 RESPONSIVE
+   ========================================== */
+@media (max-width: 768px) {
+  .cb-page1 {
+    min-height: auto;
+    padding: 80px 5% 40px;
+  }
+
+  .cb-page1-inner {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .cb-left-content {
+    min-width: unset;
+    flex: none;
+    width: 100%;
+  }
+
+  .cb-right-image {
+    min-width: unset;
+    flex: none;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cb-page2 {
+    min-height: auto;
+    padding: 80px 5% 40px;
+  }
+
+  .cb-testimonials-header {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .cb-page1 {
+    padding: 70px 4% 30px;
+  }
+
+  .cb-page2 {
+    padding: 70px 4% 30px;
+  }
+}
+
+@media (max-width: 360px) {
+  .cb-page1 {
+    padding: 60px 3% 24px;
+  }
+
+  .cb-page2 {
+    padding: 60px 3% 24px;
+  }
+}
+
+/* ==========================================
    CORE BRAND SECTION - RESPONSIVE
    ========================================== */
 

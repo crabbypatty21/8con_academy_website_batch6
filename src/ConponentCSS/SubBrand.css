@@ -399,6 +399,10 @@
           text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
         }
 
+        .mobile-br {
+          display: none;
+        }
+
         .parallax-subtitle {
           font-size: 1.25rem;
           margin-bottom: 2rem;
@@ -721,6 +725,10 @@
         @media (max-width: 768px) {
           .parallax-title {
             font-size: 2.5rem;
+          }
+
+          .mobile-br {
+            display: block;
           }
 
           .parallax-subtitle {
@@ -1704,15 +1712,194 @@
 
 @media (max-width: 480px) {
   .coverflow-slide {
-    width: 180px;
-    height: 200px;
+    width: 160px;
+    height: 180px;
     padding: 0.8rem;
+    border-radius: 16px;
   }
   .card-learn-btn {
     padding: 0.3rem 0.8rem;
     font-size: 0.7rem;
+    bottom: 20px;
   }
-  .carousel-nav-btn { display: none; }
-  .coverflow-slide.prev { transform: translateX(-75%) scale(0.8); }
-  .coverflow-slide.next { transform: translateX(75%) scale(0.8); }
+  .carousel-nav-btn {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+  }
+  .carousel-nav-btn.left { left: 0; }
+  .carousel-nav-btn.right { right: 0; }
+  .carousel-nav-btn svg {
+    width: 28px;
+    height: 28px;
+  }
+  .coverflow-slide.prev { transform: translateX(-70%) scale(0.75); }
+  .coverflow-slide.next { transform: translateX(70%) scale(0.75); }
+
+  .coverflow-track {
+    height: 280px;
+  }
+
+  .carousel-section {
+    padding: 2rem 1rem;
+    min-height: auto;
+  }
+
+  .carousel-pagination {
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .pagination-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .pagination-dot.active {
+    width: 24px;
+  }
+
+  .parallax-bull {
+    height: 70vh;
+    min-height: 350px;
+  }
+
+  .parallax-title {
+    font-size: 1.5rem !important;
+  }
+
+  .parallax-subtitle {
+    font-size: 0.95rem !important;
+  }
+
+  .btn-enroll {
+    padding: 12px 36px;
+    font-size: 16px;
+  }
+
+  .brand-name-display {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .coverflow-slide {
+    width: 140px;
+    height: 160px;
+    padding: 0.6rem;
+  }
+
+  .coverflow-track {
+    height: 250px;
+  }
+
+  .coverflow-slide.prev { transform: translateX(-65%) scale(0.7); }
+  .coverflow-slide.next { transform: translateX(65%) scale(0.7); }
+
+  .card-learn-btn {
+    padding: 0.25rem 0.7rem;
+    font-size: 0.65rem;
+    bottom: 15px;
+  }
+
+  .parallax-title {
+    font-size: 1.3rem !important;
+  }
+
+  .parallax-subtitle {
+    font-size: 0.85rem !important;
+  }
+
+  .btn-enroll {
+    padding: 10px 28px;
+    font-size: 14px;
+  }
+
+  .brand-name-display {
+    font-size: 1rem !important;
+  }
+}
+
+/* ==========================================
+   SUB-BRANDS LIGHT MODE
+   ========================================== */
+html.light-mode .parallax-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+html.light-mode .carousel-section {
+  background-color: transparent;
+}
+
+html.light-mode .carousel-title-container h2 {
+  color: #373737 !important;
+}
+
+html.light-mode .carousel-title-container p {
+  color: #666666 !important;
+}
+
+html.light-mode .coverflow-slide {
+  background-color: #059669;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+html.light-mode .coverflow-slide.active {
+  box-shadow: 0 10px 25px rgba(5, 150, 105, 0.4), 0 0 15px rgba(5, 150, 105, 0.3) !important;
+}
+
+html.light-mode .brand-name-display {
+  color: #ffffff !important;
+}
+
+html.light-mode .brand-text-fx {
+  text-shadow: 0 0 10px rgba(5, 150, 105, 0.6);
+}
+
+html.light-mode .carousel-nav-btn {
+  color: #059669;
+}
+
+html.light-mode .carousel-nav-btn:hover {
+  color: #373737;
+}
+
+html.light-mode .pagination-dot {
+  background-color: #cbd5e1;
+}
+
+html.light-mode .pagination-dot.active {
+  background-color: #059669;
+}
+
+html.light-mode .card-learn-btn {
+  background: #dc2626 !important;
+}
+
+html.light-mode .mobile-nav {
+  background: var(--header-mobile-bg);
+}
+
+html.light-mode .mobile-nav-link {
+  color: var(--header-mobile-text);
+}
+
+html.light-mode .mobile-nav-link:hover {
+  background-color: rgba(5, 150, 105, 0.08);
+}
+
+html.light-mode .mobile-dropdown-content {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+html.light-mode .mobile-nav-sublink {
+  color: var(--header-mobile-text);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+html.light-mode .mobile-nav-sublink:hover {
+  background-color: rgba(0, 0, 0, 0.04);
 }

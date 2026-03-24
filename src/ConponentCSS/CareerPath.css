@@ -180,7 +180,8 @@
 /* Tablet */
 @media (max-width: 768px) {
   .section-careerpath {
-    padding: 40px 20px;
+    padding: 80px 20px 40px;
+    min-height: auto;
   }
 
   .careerpath-title {
@@ -226,7 +227,8 @@
 /* Small tablet / large phone - single column */
 @media (max-width: 600px) {
   .section-careerpath {
-    padding: 35px 15px;
+    padding: 70px 15px 35px;
+    min-height: auto;
   }
 
   .careerpath-title h2 {

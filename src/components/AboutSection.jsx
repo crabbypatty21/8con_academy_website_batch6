@@ -61,7 +61,7 @@ const AboutSection = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
   background: var(--bg-primary);
   box-shadow: none;
@@ -254,8 +254,8 @@ const AboutSection = () => {
 /* Tablets */
 @media (max-width: 768px) {
   .about-section {
-    padding: 40px 20px 30px;
-    height: 100vh;
+    padding: 80px 20px 30px;
+    min-height: auto;
   }
 
   .content-grid {
@@ -312,12 +312,12 @@ const AboutSection = () => {
 /* Mobile phones */
 @media (max-width: 480px) {
   .about-section {
-    padding: 30px 15px 20px;
+    padding: 70px 15px 20px;
   }
 
   .image-container {
-    max-height: 300px;
-    max-width: 300px;
+    max-height: 220px;
+    max-width: 280px;
   }
 
   .aboutUsTitle {
@@ -354,7 +354,7 @@ const AboutSection = () => {
 /* Extra small screens */
 @media (max-width: 320px) {
   .about-section {
-    padding: 25px 10px 15px;
+    padding: 60px 10px 15px;
   }
 
   .image-container {

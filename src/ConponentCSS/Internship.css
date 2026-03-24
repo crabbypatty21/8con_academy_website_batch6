@@ -53,7 +53,7 @@
   overflow: hidden;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-height: 420px;
+  min-height: 380px;
 }
 
 .intcard:hover {
@@ -201,7 +201,8 @@
 /* Tablet */
 @media (max-width: 768px) {
   .section-internship {
-    padding: 40px 20px;
+    padding: 80px 20px 40px;
+    min-height: auto;
   }
 
   .internship-title {
@@ -250,7 +251,7 @@
 /* Small tablet / large phone - single column */
 @media (max-width: 600px) {
   .section-internship {
-    padding: 35px 15px;
+    padding: 70px 15px 35px;
   }
 
   .internship-title h2 {
@@ -265,6 +266,10 @@
     grid-template-columns: 1fr;
     max-width: 400px;
     gap: 16px;
+  }
+
+  .intcard {
+    min-height: auto;
   }
 
   .intcard-title {

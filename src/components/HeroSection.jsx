@@ -34,8 +34,8 @@ const HeroSection = () => {
       <div className="hero-container">
         <div className="hero-content">
           <h1 className="hero-title fade-in-up">
-            <span className="text-green">Empowering</span> Every Filipino <span className="text-coral">Household</span>
-            {" "}With A <span className="text-coral">Skilled</span> And <span className="text-green"> Profitable</span> <span>Forex Trader</span>
+            <span className="hero-title-line"><span className="text-green">Empowering</span> Every Filipino <span className="text-coral">Household</span></span>{" "}
+            <span className="hero-title-line">With A <span className="text-coral">Skilled</span> And <span className="text-green"> Profitable</span> Forex Trader</span>
           </h1>
           
           <p className="hero-subtitle fade-in-up anim-delay-2">
@@ -43,9 +43,9 @@ const HeroSection = () => {
           </p>
 
           <div className="hero-buttons fade-in-up anim-delay-4">
-            <a href="#core-brand" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <a href="#core-brand" className="btn-primary">
               Learn Forex Today
-              <span className="arrow-box" style={{ marginLeft: '8px', display: 'inline-flex', alignItems: 'center' }}>
+              <span className="arrow-box">
                 <ArrowUpRight size={25} strokeWidth={3} />
               </span>
             </a>
@@ -123,12 +123,17 @@ const HeroSection = () => {
           line-height: 1.3;
           font-family: "Unbounded", sans-serif;
           font-weight: 800;
-          font-size: clamp(22px, 4vw, 44px);
+          font-size: clamp(22px, 3.5vw, 44px);
           filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
           margin: 0;
-          max-width: 900px;
-          word-wrap: break-word;
-          overflow-wrap: break-word;
+          width: 100%;
+          text-align: center;
+        }
+
+        .hero-title-line {
+          display: block;
+          white-space: nowrap;
+          text-align: center;
         }
 
         .hero-section .text-green {
@@ -167,6 +172,10 @@ const HeroSection = () => {
         .btn-primary {
           background-color: #068c3b;
           color: #ffffff;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
         }
 
         .btn-secondary {
@@ -188,7 +197,15 @@ const HeroSection = () => {
 
           .hero-title {
             font-size: clamp(20px, 5.5vw, 32px);
-            line-height: 1.35;
+            line-height: 1.4;
+            text-align: center;
+            max-width: 520px;
+            margin: 0 auto;
+          }
+
+          .hero-title-line {
+            display: inline;
+            white-space: normal;
           }
 
           .hero-content {
@@ -217,6 +234,8 @@ const HeroSection = () => {
 
           .hero-title {
             font-size: clamp(18px, 5vw, 26px);
+            line-height: 1.45;
+            max-width: 360px;
           }
 
           .hero-subtitle {
@@ -240,7 +259,8 @@ const HeroSection = () => {
 
           .hero-title {
             font-size: 17px;
-            line-height: 1.4;
+            line-height: 1.5;
+            max-width: 300px;
           }
 
           .hero-subtitle {

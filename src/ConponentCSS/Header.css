@@ -393,10 +393,15 @@
     justify-content: space-between;
   }
 
-  /* Hide Center Nav and Desktop Register */
-  .desktop-nav,
-  .desktop-only {
+  /* Hide Center Nav on mobile */
+  .desktop-nav {
     display: none;
+  }
+
+  /* Show Register button on mobile (smaller) */
+  .register-btn {
+    font-size: 12px;
+    padding: 5px 14px;
   }
 
   /* Show theme toggle beside burger on mobile */
@@ -441,11 +446,11 @@
 
   .mobile-nav-link {
     display: block;
-    padding: 16px 28px;
+    padding: 12px 24px;
     color: var(--header-mobile-text);
     text-decoration: none;
     font-family: "Geist Sans", sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     border-bottom: 1px solid var(--header-mobile-border);
     transition: all 0.3s;
@@ -462,7 +467,7 @@
   .mobile-nav-link:active {
     color: #ffffff;
     background: rgba(45, 176, 98, 0.1);
-    padding-left: 36px;
+    padding-left: 30px;
   }
 
   .mobile-nav-link.active {
@@ -494,8 +499,8 @@
   }
 
   .mobile-nav-link {
-    padding: 15px 24px;
-    font-size: 15px;
+    padding: 11px 22px;
+    font-size: 13px;
   }
 }
 
@@ -516,8 +521,8 @@
   }
 
   .mobile-nav-link {
-    padding: 14px 20px;
-    font-size: 15px;
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }
 
@@ -531,6 +536,11 @@
   .logo-img {
     width: 80px;
     height: 28px;
+  }
+
+  .register-btn {
+    font-size: 11px;
+    padding: 4px 12px;
   }
 
   .mobile-menu-toggle {
@@ -558,8 +568,8 @@
   }
 
   .mobile-nav-link {
-    padding: 14px 18px;
-    font-size: 14px;
+    padding: 10px 16px;
+    font-size: 12px;
   }
 }
 
@@ -573,6 +583,11 @@
   .logo-img {
     width: 72px;
     height: 26px;
+  }
+
+  .register-btn {
+    font-size: 10px;
+    padding: 4px 10px;
   }
 
   .burger-icon {
@@ -593,8 +608,8 @@
   }
 
   .mobile-nav-link {
-    padding: 13px 16px;
-    font-size: 13px;
+    padding: 9px 14px;
+    font-size: 12px;
   }
 }
 

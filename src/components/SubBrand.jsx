@@ -228,13 +228,8 @@ const SubBrand = () => {
 
             <nav className="desktop-nav">
               <a
-                href="#top"
+                href="/"
                 className="nav-link"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                  setMobileMenuOpen(false);
-                }}
               >
                 Home
               </a>
@@ -323,7 +318,7 @@ const SubBrand = () => {
           <section id="home" className="parallax-bull">
             <div className="parallax-overlay"></div>
             <div className="parallax-content">
-              <h1 className="parallax-title">Discover Our Sub-Brands</h1>
+              <h1 className="parallax-title">Discover Our{" "}<br className="mobile-br" />Sub-Brands</h1>
               <p className="parallax-subtitle">
                 Comprehensive solutions across multiple domains to empower your
                 growth and success
