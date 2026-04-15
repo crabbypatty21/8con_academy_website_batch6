@@ -18,11 +18,13 @@ import {
   Microscope,
   Building2,
   Handshake,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const ConStruct = () => {
   const navigate = useNavigate();
-  const { colors, isDark } = useTheme();
+  const { colors, isDark, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
@@ -157,20 +159,20 @@ const ConStruct = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
-      backgroundColor: "#131B21", 
+      backgroundColor: colors.bgPrimary,
     },
     container2: {
       maxWidth: "1200px",
       margin: "0 auto",
       padding: "0 20px",
       position: "relative",
-      zIndex: 2, 
+      zIndex: 2,
     },
 
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A",
+      backgroundImage: isDark ? "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')" : "linear-gradient(rgba(233, 241, 249, 0.75), rgba(233, 241, 249, 0.92)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: colors.bgSecondary,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -204,7 +206,7 @@ const ConStruct = () => {
       position: "relative",
       zIndex: 3,
       pointerEvents: "none",
-      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+      filter: isDark ? "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))" : "brightness(1.15) contrast(1.3) saturate(1.2)",
     },
 
     heroSubtitle: {
@@ -212,21 +214,21 @@ const ConStruct = () => {
       fontWeight: "700",
       marginTop: "0", 
       marginBottom: "1rem",
-      color: "#ffffff",
+      color: colors.textPrimary,
       lineHeight: "1.3",
-      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 2px 10px rgba(0,0,0,0.5)" : "none",
       position: "relative",
       zIndex: 4,
     },
 
     heroDescription: {
       fontSize: "clamp(1rem, 2vw, 1.15rem)",
-      color: "#e2e8f0", 
+      color: colors.textMuted,
       lineHeight: "1.6",
       maxWidth: "800px",
       marginTop: "0",
       marginBottom: "2.5rem",
-      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 1px 5px rgba(0,0,0,0.5)" : "none",
     },
 
     heroForegroundContent: {
@@ -264,10 +266,10 @@ const ConStruct = () => {
     },
 
     ctaButtonSecondary: {
-      background: "rgba(255, 255, 255, 0.15)",
+      background: isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)",
       backdropFilter: "blur(5px)",
-      color: "#ffffff",
-      border: "1px solid rgba(255, 255, 255, 0.6)",
+      color: isDark ? "#ffffff" : colors.textPrimary,
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.6)" : "1px solid rgba(0, 0, 0, 0.3)",
       padding: "14px 36px",
       fontSize: "1rem",
       fontWeight: "700",
@@ -284,12 +286,12 @@ const ConStruct = () => {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
       textAlign: "center",
       position: "relative",
       overflow: "hidden",
     },
-    
+
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontWeight: "700",
@@ -307,7 +309,7 @@ const ConStruct = () => {
     
     servicesSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      backgroundColor: "#19232A", 
+      backgroundColor: colors.bgSecondary,
       position: "relative",
       overflow: "hidden",
     },
@@ -318,11 +320,11 @@ const ConStruct = () => {
       marginTop: "3rem",
     },
     serviceCard: {
-      background: "linear-gradient(145deg, #1c2730, #131b21)",
+      background: isDark ? "linear-gradient(145deg, #1c2730, #131b21)" : "linear-gradient(145deg, #ffffff, #f0f4f8)",
       padding: "2rem",
       borderRadius: "15px",
-      boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)",
-      border: "1px solid rgba(255, 255, 255, 0.03)",
+      boxShadow: isDark ? "0 8px 20px rgba(0, 0, 0, 0.4)" : "0 8px 20px rgba(0, 0, 0, 0.08)",
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.03)" : "1px solid rgba(0, 0, 0, 0.08)",
       transition: "all 0.3s ease-out", 
       position: "relative", 
       overflow: "hidden",
@@ -331,12 +333,12 @@ const ConStruct = () => {
     serviceTitle: {
       fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "1rem",
     },
     serviceDescription: {
       fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-      color: "#A0ABB5",
+      color: colors.textMuted,
       lineHeight: "1.6",
       marginBottom: "1.5rem",
     },
@@ -347,7 +349,7 @@ const ConStruct = () => {
     },
     serviceListItem: {
       fontSize: "0.95rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
       lineHeight: "1.6",
       marginBottom: "8px",
       paddingLeft: "0",
@@ -361,7 +363,7 @@ const ConStruct = () => {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
       position: "relative",
       overflow: "hidden",
     },
@@ -372,17 +374,17 @@ const ConStruct = () => {
       marginTop: "3rem",
     },
     benefitCard: {
-      background: "linear-gradient(145deg, #1c2730, #131b21)",
+      background: isDark ? "linear-gradient(145deg, #1c2730, #131b21)" : "linear-gradient(145deg, #ffffff, #f0f4f8)",
       padding: "2rem",
       borderRadius: "15px",
-      textAlign: "center",       
-      display: "flex",   
-      flexDirection: "column", 
-      alignItems: "center",      
-      gap: "1.2rem",     
-      border: "1px solid rgba(255, 255, 255, 0.03)", 
-      borderTop: "1px solid rgba(255, 255, 255, 0.12)",
-      boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)",
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "1.2rem",
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.03)" : "1px solid rgba(0, 0, 0, 0.08)",
+      borderTop: isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)",
+      boxShadow: isDark ? "0 8px 20px rgba(0, 0, 0, 0.4)" : "0 8px 20px rgba(0, 0, 0, 0.08)",
       backdropFilter: "blur(10px)",
       transition: "all 0.3s ease-out", 
       height: "100%",
@@ -391,17 +393,17 @@ const ConStruct = () => {
       fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "0.5rem",
     },
     benefitDescription: {
       fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
-      color: "#A0ABB5",
+      color: colors.textMuted,
       lineHeight: "1.6",
     },
     clientsSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      background: "#19232A",
+      background: colors.bgSecondary,
       position: "relative",
       overflow: "hidden",
     },
@@ -412,13 +414,13 @@ const ConStruct = () => {
       marginTop: "3rem",
     },
     clientCard: {
-      background: "linear-gradient(145deg, #1c2730, #131b21)",
+      background: isDark ? "linear-gradient(145deg, #1c2730, #131b21)" : "linear-gradient(145deg, #ffffff, #f0f4f8)",
       padding: "2.5rem 2rem",
       borderRadius: "15px",
       textAlign: "center",
-      border: "1px solid rgba(255, 255, 255, 0.03)",
-      borderTop: "1px solid rgba(255, 255, 255, 0.12)",
-      boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)",
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.03)" : "1px solid rgba(0, 0, 0, 0.08)",
+      borderTop: isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)",
+      boxShadow: isDark ? "0 8px 20px rgba(0, 0, 0, 0.4)" : "0 8px 20px rgba(0, 0, 0, 0.08)",
       backdropFilter: "blur(10px)",
       transition: "all 0.3s ease-out", 
       height: "100%",
@@ -431,7 +433,7 @@ const ConStruct = () => {
       fontSize: "clamp(1.1rem, 3vw, 1.4rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "1rem",
     },
     clientDescription: {
@@ -441,7 +443,7 @@ const ConStruct = () => {
     },
     ctaSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
       textAlign: "center",
       position: "relative",
       overflow: "hidden",
@@ -501,7 +503,7 @@ const ConStruct = () => {
             padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            font-weight: 900;
+            font-weight: 400;
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
@@ -539,7 +541,7 @@ const ConStruct = () => {
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 400;
             position: relative;
           }
           
@@ -598,6 +600,31 @@ const ConStruct = () => {
             color: #0edb61;
           }
           
+          .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+            border-radius: 50%;
+          }
+          .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #0edb61;
+          }
+          html.light-mode .theme-toggle-btn {
+            color: #1a1a2e;
+          }
+          html.light-mode .theme-toggle-btn:hover {
+            background: rgba(5, 150, 105, 0.1);
+            color: #059669;
+          }
+
           .mobile-menu-toggle {
             background: none;
             border: none;
@@ -698,6 +725,51 @@ const ConStruct = () => {
             max-width: 100%;
             word-wrap: break-word;
           }
+
+          html.light-mode .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .nav-link {
+            color: #373737;
+          }
+          html.light-mode .nav-link:hover {
+            color: #059669;
+          }
+          html.light-mode .dropdown-content {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .dropdown-link {
+            color: #373737;
+          }
+          html.light-mode .dropdown-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #059669;
+          }
+          html.light-mode .mobile-menu-toggle {
+            color: #373737;
+          }
+          html.light-mode .mobile-nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-nav-link {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-toggle {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-content {
+            background-color: #f0f4f8;
+          }
+          html.light-mode .mobile-nav-sublink {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          }
         `}
       </style>
 
@@ -750,6 +822,14 @@ const ConStruct = () => {
               Contact
             </a>
           </nav>
+
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -899,12 +979,12 @@ const ConStruct = () => {
       {/* Leadership Section */}
       <section id="leadership" style={styles.leadershipSection}>
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff" }} className="fade-in-up anim-delay-1">
+          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: colors.textPrimary }} className="fade-in-up anim-delay-1">
             Led by <span style={{ color: "#75F94C" }}>Expert Leadership</span>
           </h2>
           <p style={styles.leadershipText} className="fade-in-up anim-delay-2">
             Services led by{" "}
-            <strong style={{ color: "#39CC2F", fontWeight: "700" }}>Doc May L. Francisco</strong>, an
+            <strong style={{ color: isDark ? "#39CC2F" : "#059669", fontWeight: "700" }}>Doc May L. Francisco</strong>, an
             expert with extensive experience in academic and business research,
             ensuring precision, reliability, and results that empower clients to
             excel in their respective fields.
@@ -915,7 +995,7 @@ const ConStruct = () => {
       {/* Services Section */}
       <section id="services" style={styles.servicesSection}>
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
+          <h2 style={{ ...styles.sectionTitle, color: colors.textPrimary, fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
             OUR SERVICES
           </h2>
           <div style={styles.servicesGrid}>
@@ -975,7 +1055,7 @@ const ConStruct = () => {
                 ],
               },
             ].map((service, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#F51616";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : (isDark ? "#F51616" : "#dc2626");
               
               return (
                 <div key={index} className={`slide-in-right anim-delay-${(index % 6) + 1}`}>
@@ -1002,7 +1082,7 @@ const ConStruct = () => {
 
                         return (
                           <li key={itemIndex} style={styles.serviceListItem}>
-                            <Check size={18} color="#39CC2F" strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
+                            <Check size={18} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                             <span>{cleanText}</span>
                           </li>
                         );
@@ -1019,8 +1099,8 @@ const ConStruct = () => {
       {/* Why Choose Us Section */}
       <section id="why-choose" style={styles.whyChooseSection}>
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff", textTransform: "uppercase" }} className="fade-in-up">
-            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONSTRUCT?</span>
+          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: colors.textPrimary, textTransform: "uppercase" }} className="fade-in-up">
+            WHY CHOOSE <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONSTRUCT?</span>
           </h2>
 
           <div style={styles.benefitsGrid}>
@@ -1028,32 +1108,32 @@ const ConStruct = () => {
               {
                 title: "Expert Leadership",
                 description: "Years of experience in academic research and corporate consulting with Doc May L. Francisco's deep understanding of research methodologies.",
-                icon: <Brain size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <Brain size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Comprehensive Support",
                 description: "End-to-end support from initial research design to final presentation of results, ensuring a seamless process.",
-                icon: <BookOpen size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <BookOpen size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Tailored Solutions",
                 description: "Every project is unique, and our approach is customized to meet specific needs of students, academics, or businesses.",
-                icon: <Target size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <Target size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Quality Assurance",
                 description: "Rigorous quality checks ensure accuracy, reliability, and adherence to international research standards.",
-                icon: <Globe size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <Globe size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Timely Delivery",
                 description: "Committed to meeting deadlines without compromising on quality, helping clients stay on track with their goals.",
-                icon: <TrendingUp size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <TrendingUp size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Affordable Excellence",
                 description: "High-quality services at competitive rates, making professional research support accessible to students and businesses alike.",
-                icon: <Award size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <Award size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
             ].map((benefit, index) => (
               <div key={index} className={`slide-in-right anim-delay-${(index % 6) + 1}`}>
@@ -1087,7 +1167,7 @@ const ConStruct = () => {
       {/* Clients Section */}
       <section id="clients" style={styles.clientsSection}>
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
+          <h2 style={{ ...styles.sectionTitle, color: colors.textPrimary, fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
             WHO WE SERVE
           </h2>
           

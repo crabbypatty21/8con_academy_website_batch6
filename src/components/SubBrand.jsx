@@ -5,6 +5,8 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Sun,
+  Moon,
 } from "lucide-react";
 import "../ConponentCSS/SubBrand.css";
 // Import the TradingBackground component
@@ -12,7 +14,7 @@ import TradingBackground from "./TradingBackground.jsx";
 
 const SubBrand = () => {
   const navigate = useNavigate();
-  const { isDark } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [subBrandsDropdownOpen, setSubBrandsDropdownOpen] = useState(false);
@@ -220,7 +222,7 @@ const SubBrand = () => {
           <div className="header-container">
             <a href="/" className="logo">
               <img
-                src={isDark ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
+                src={isDark || !scrolled ? "/assets/logo/8con Academy Logo White.png" : "/assets/logo/8con Academy Logo.png"}
                 alt="8Con Academy Logo"
                 className="logo-img"
               />
@@ -253,6 +255,14 @@ const SubBrand = () => {
                 </div>
               </div>
             </nav>
+
+            <button
+              className="theme-toggle-btn"
+              onClick={toggleTheme}
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -343,19 +353,19 @@ const SubBrand = () => {
               className={`carousel-title-container ${carouselInView ? 'track-animate' : 'track-hidden'}`}
               style={{ textAlign: 'center', marginBottom: '40px' }}
             >
-              <h2 style={{ 
-                color: 'white', 
-                fontSize: 'clamp(2rem, 5vw, 3.5rem)', 
-                fontWeight: 900, 
+              <h2 style={{
+                color: isDark ? 'white' : '#1a1a1a',
+                fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+                fontWeight: 900,
                 fontFamily: '"Unbounded", sans-serif',
-                margin: '0', 
-                lineHeight: '1.1', 
+                margin: '0',
+                lineHeight: '1.1',
                 letterSpacing: '1px'
               }}>
                 Explore Sub-Brands
               </h2>
-              <p style={{ 
-                color: '#e0e0e0', 
+              <p style={{
+                color: isDark ? '#e0e0e0' : '#4a4a4a',
                 fontSize: 'clamp(1rem, 2vw, 1.2rem)',
                 margin: '20px', 
                 marginTop: '-5px' 

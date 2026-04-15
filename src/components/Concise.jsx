@@ -18,10 +18,12 @@ import {
   CheckCircle,
   Check,
   Handshake,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const ConCise = () => {
-  const { colors, isDark } = useTheme();
+  const { colors, isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -150,7 +152,7 @@ const ConCise = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  // Premium Dark Theme Styles
+  // Premium Theme-Aware Styles
   const styles = {
     container: {
       minHeight: "100vh",
@@ -159,7 +161,7 @@ const ConCise = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
     },
 
     container2: {
@@ -172,8 +174,10 @@ const ConCise = () => {
 
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A",
+      backgroundImage: isDark
+        ? "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')"
+        : "linear-gradient(rgba(240, 244, 248, 0.75), rgba(240, 244, 248, 0.92)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: colors.bgSecondary,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -197,7 +201,7 @@ const ConCise = () => {
       zIndex: 2,
       maxWidth: "900px",
       margin: "0 auto",
-      marginTop: "-30vh", 
+      marginTop: "-30vh",
     },
 
     heroTopImage: {
@@ -207,29 +211,29 @@ const ConCise = () => {
       position: "relative",
       zIndex: 3,
       pointerEvents: "none",
-      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+      filter: isDark ? "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))" : "brightness(1.15) contrast(1.3) saturate(1.2)",
     },
 
     heroSubtitle: {
       fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
       fontWeight: "700",
-      marginTop: "0", 
+      marginTop: "0",
       marginBottom: "1rem",
-      color: "#ffffff",
+      color: colors.textPrimary,
       lineHeight: "1.3",
-      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 2px 10px rgba(0,0,0,0.5)" : "none",
       position: "relative",
       zIndex: 4,
     },
 
     heroDescription: {
       fontSize: "clamp(1rem, 2vw, 1.15rem)",
-      color: "#e2e8f0", 
+      color: colors.textMuted,
       lineHeight: "1.6",
       maxWidth: "800px",
       marginTop: "0",
       marginBottom: "2.5rem",
-      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 1px 5px rgba(0,0,0,0.5)" : "none",
     },
 
     heroForegroundContent: {
@@ -267,10 +271,10 @@ const ConCise = () => {
     },
 
     ctaButtonSecondary: {
-      background: "rgba(255, 255, 255, 0.15)",
+      background: isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)",
       backdropFilter: "blur(5px)",
-      color: "#ffffff",
-      border: "1px solid rgba(255, 255, 255, 0.6)",
+      color: colors.textPrimary,
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.6)" : "1px solid rgba(0, 0, 0, 0.3)",
       padding: "14px 36px",
       fontSize: "1rem",
       fontWeight: "700",
@@ -283,7 +287,7 @@ const ConCise = () => {
 
     ctaButtonRed: {
       background: "#ff1f2c",
-      color: "#ffffff",
+      color: colors.textPrimary,
       border: "none",
       padding: "14px 36px",
       fontSize: "1rem",
@@ -310,7 +314,7 @@ const ConCise = () => {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       textAlign: "center",
       marginBottom: "3rem",
       textTransform: "uppercase",
@@ -328,7 +332,7 @@ const ConCise = () => {
       fontSize: "clamp(2rem, 5vw, 2.8rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "1.5rem",
       textTransform: "uppercase",
     },
@@ -338,7 +342,7 @@ const ConCise = () => {
       lineHeight: "1.8",
       maxWidth: "800px",
       margin: "0 auto 2.5rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
     },
 
     ctaButtons: {
@@ -350,17 +354,17 @@ const ConCise = () => {
     },
 
     ctaHighlight: {
-      background: "#19232A",
+      background: colors.bgSecondary,
       padding: "1.5rem 2rem",
       borderRadius: "15px",
       fontSize: "clamp(1rem, 3vw, 1.3rem)",
       maxWidth: "800px",
       margin: "0 auto",
       border: "1px solid rgba(255, 255, 255, 0.05)",
-      color: "#ffffff",
+      color: colors.textPrimary,
       transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
-      boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+      boxShadow: isDark ? "0 10px 30px rgba(0,0,0,0.4)" : "0 10px 30px rgba(0,0,0,0.08)",
     },
   };
 
@@ -380,12 +384,12 @@ const ConCise = () => {
 
           /* ----- Beautiful CSS for the Cards ----- */
           .concise-card {
-            background: linear-gradient(145deg, #1c2730, #131b21);
+            background: ${isDark ? "linear-gradient(145deg, #1c2730, #131b21)" : "linear-gradient(145deg, #ffffff, #f0f4f8)"};
             padding: 2rem;
             border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: ${isDark ? "1px solid rgba(255, 255, 255, 0.03)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            border-top: ${isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            box-shadow: ${isDark ? "0 8px 20px rgba(0, 0, 0, 0.4)" : "0 8px 20px rgba(0, 0, 0, 0.08)"};
             backdrop-filter: blur(10px);
             height: 100%;
             display: flex;
@@ -403,7 +407,7 @@ const ConCise = () => {
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
             border-color: rgba(57, 204, 47, 0.3);
           }
-          
+
           /* ----- Grid 2x2 for 4-item Sections ----- */
           .grid-2x2 {
             display: grid;
@@ -411,7 +415,7 @@ const ConCise = () => {
             gap: 2.5rem;
             margin-top: 3rem;
           }
-          
+
           @media (max-width: 768px) {
             .grid-2x2 {
               grid-template-columns: 1fr;
@@ -429,18 +433,18 @@ const ConCise = () => {
             padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            font-weight: 900;
+            font-weight: 400;
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
-          
+
           .header.scrolled {
-            background-color: rgba(19, 27, 33, 0.98);
+            background-color: ${isDark ? "rgba(19, 27, 33, 0.98)" : "rgba(255, 255, 255, 0.98)"};
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, ${isDark ? "0.5" : "0.12"});
           }
-          
+
           .header-container {
             width: 100%;
             display: flex;
@@ -449,28 +453,28 @@ const ConCise = () => {
             padding-right: 5%;
             padding-left: 5%;
           }
-          
+
           .logo {
             display: flex;
             align-items: center;
             text-decoration: none;
             margin-right: auto;
           }
-          
+
           .logo-img { height: 40px; width: auto; }
-          
+
           .desktop-nav {
             display: flex;
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 400;
             position: relative;
           }
-          
+
           .nav-link {
             text-decoration: none;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#111111"};
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -481,29 +485,29 @@ const ConCise = () => {
             border: none;
             font-family: inherit;
           }
-          
+
           .nav-link:hover { transform: translateY(-2px); color: #0edb61; }
           .dropdown { position: relative; }
           .dropdown:hover .dropdown-content { display: block; }
-          
+
           .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: #1c2730;
+            background-color: ${isDark ? "#1c2730" : "#ffffff"};
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, ${isDark ? "0.3" : "0.12"});
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid ${isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(0, 0, 0, 0.08)"};
           }
-          
+
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#111111"};
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -512,22 +516,47 @@ const ConCise = () => {
             text-transform: uppercase;
           }
 
-          .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
+          .dropdown-link:hover { background-color: ${isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.05)"}; color: #0edb61; }
+
+          .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+            border-radius: 50%;
+          }
+          .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #0edb61;
+          }
+          html.light-mode .theme-toggle-btn {
+            color: #1a1a2e;
+          }
+          html.light-mode .theme-toggle-btn:hover {
+            background: rgba(5, 150, 105, 0.1);
+            color: #059669;
+          }
 
           .mobile-menu-toggle {
             background: none;
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#111111"};
             display: none;
             padding: 5px;
           }
 
           .mobile-nav {
-            background-color: rgba(19, 27, 33, 0.98);
+            background-color: ${isDark ? "rgba(19, 27, 33, 0.98)" : "rgba(255, 255, 255, 0.98)"};
             backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid ${isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.08)"};
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
@@ -537,8 +566,8 @@ const ConCise = () => {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: #ffffff;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: ${isDark ? "#ffffff" : "#111111"};
+            border-bottom: 1px solid ${isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.08)"};
             font-size: 16px;
             transition: background-color 0.3s ease;
             background: none;
@@ -548,10 +577,10 @@ const ConCise = () => {
             text-align: left;
             width: 100%;
           }
-          
+
           .mobile-nav-link:hover { background-color: rgba(14, 219, 97, 0.1); }
           .mobile-dropdown { position: relative; }
-          
+
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
@@ -559,7 +588,7 @@ const ConCise = () => {
           }
 
           .mobile-dropdown-content {
-            background-color: #131B21;
+            background-color: ${isDark ? "#131B21" : "#f0f4f8"};
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
@@ -568,21 +597,67 @@ const ConCise = () => {
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#111111"};
             text-decoration: none;
             font-size: 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid ${isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.06)"};
           }
-          
+
           .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
-          
+
           @media (max-width: 1024px) {
             .desktop-nav { display: none !important; }
             .mobile-menu-toggle { display: block !important; }
           }
+
+          html.light-mode .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .nav-link {
+            color: #373737;
+          }
+          html.light-mode .nav-link:hover {
+            color: #059669;
+          }
+          html.light-mode .dropdown-content {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .dropdown-link {
+            color: #373737;
+          }
+          html.light-mode .dropdown-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #059669;
+          }
+          html.light-mode .mobile-menu-toggle {
+            color: #373737;
+          }
+          html.light-mode .mobile-nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-nav-link {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-toggle {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-content {
+            background-color: #f0f4f8;
+          }
+          html.light-mode .mobile-nav-sublink {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          }
+
         `}
       </style>
-      
+
       {/* Header - Navigation */}
       <header className={`header ${scrolled ? "scrolled" : ""}`}>
         <div className="header-container">
@@ -622,6 +697,14 @@ const ConCise = () => {
             <button className="nav-link" onClick={() => handleSmoothScroll("benefits")}>Benefits</button>
             <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Contact</button>
           </nav>
+
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -702,11 +785,11 @@ const ConCise = () => {
                 style={styles.ctaButtonSecondary}
                 onClick={handleLearnMore}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.25)";
+                  e.currentTarget.style.background = isDark ? "rgba(255, 255, 255, 0.25)" : "rgba(0, 0, 0, 0.14)";
                   e.currentTarget.style.transform = "translateY(-3px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
+                  e.currentTarget.style.background = isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)";
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
@@ -718,15 +801,15 @@ const ConCise = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="services" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            SERVICES OFFERED BY <span style={{ color: "#39CC2F" }}>8CONCISE</span>
+            SERVICES OFFERED BY <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONCISE</span>
           </h2>
           <div className="grid-2x2">
             {[
               {
-                icon: <BookOpen size={40} color="#39CC2F" strokeWidth={1.5} />,
+                icon: <BookOpen size={40} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
                 title: "Licensure Exam Review",
                 description: "Comprehensive preparation for professional licensure exams including LET and Criminology Board Exams.",
                 items: [
@@ -748,7 +831,7 @@ const ConCise = () => {
                 ],
               },
               {
-                icon: <Target size={40} color="#39CC2F" strokeWidth={1.5} />,
+                icon: <Target size={40} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
                 title: "College Entrance Exam",
                 description: "Help high school students prepare for admission to top colleges and universities.",
                 items: [
@@ -770,22 +853,22 @@ const ConCise = () => {
                 ],
               },
             ].map((service, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
 
               return (
                 <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
                   <div className="concise-card">
                     {/* TOP COLOR BAR KEPT HERE */}
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
-                    
+
                     <div>{service.icon}</div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{service.title}</h3>
-                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{service.description}</p>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{service.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{service.description}</p>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
                       {service.items.map((item, itemIndex) => {
                         const cleanText = item.replace("• ", "");
                         return (
-                          <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                          <li key={itemIndex} style={{ fontSize: "0.95rem", color: colors.textMuted, marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
                             <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                             <span>{cleanText}</span>
                           </li>
@@ -801,15 +884,15 @@ const ConCise = () => {
       </section>
 
       {/* Highlights Section */}
-      <section id="highlights" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
+      <section id="highlights" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            PROGRAM <span style={{ color: "#39CC2F" }}>HIGHLIGHTS</span>
+            PROGRAM <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>HIGHLIGHTS</span>
           </h2>
           <div className="grid-2x2">
             {[
               {
-                icon: <Award size={50} color="#39CC2F" strokeWidth={1.5} />,
+                icon: <Award size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
                 title: "Expert-Led Instruction",
                 description: "All programs are led by Doc May L. Francisco, whose years of teaching and academic experience have prepared countless students to succeed.",
               },
@@ -819,7 +902,7 @@ const ConCise = () => {
                 description: "Reviewers, handouts, and practice questions are updated regularly to reflect the latest exam formats and trends.",
               },
               {
-                icon: <CheckCircle size={50} color="#39CC2F" strokeWidth={1.5} />,
+                icon: <CheckCircle size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
                 title: "Mock Exams & Simulations",
                 description: "Full-length practice tests designed to simulate actual exam conditions, helping students manage time effectively.",
               },
@@ -833,8 +916,8 @@ const ConCise = () => {
                 <div className="concise-card" style={{ justifyContent: "center" }}>
                   {/* NO TOP COLOR BAR HERE */}
                   <div>{highlight.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{highlight.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{highlight.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{highlight.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{highlight.description}</p>
                 </div>
               </div>
             ))}
@@ -843,17 +926,17 @@ const ConCise = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section id="why-choose" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="why-choose" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONCISE?</span>
+            WHY CHOOSE <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONCISE?</span>
           </h2>
           <div className="grid-2x2">
             {[
               {
                 title: "Proven Track Record",
                 description: "With Doc May's extensive background in education, 8ConCise has a history of producing successful passers across various licensure and entrance exams.",
-                icon: <Brain size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <Brain size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Student-Centric Approach",
@@ -863,7 +946,7 @@ const ConCise = () => {
               {
                 title: "Accessible and Flexible",
                 description: "With both on-site and online options, students can choose a mode of learning that works best for them.",
-                icon: <Network size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <Network size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Holistic Preparation",
@@ -875,8 +958,8 @@ const ConCise = () => {
                 <div className="concise-card" style={{ justifyContent: "center" }}>
                   {/* NO TOP COLOR BAR HERE */}
                   <div>{benefit.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{benefit.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{benefit.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{benefit.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{benefit.description}</p>
                 </div>
               </div>
             ))}
@@ -885,15 +968,15 @@ const ConCise = () => {
       </section>
 
       {/* Benefits Section */}
-      <section id="benefits" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
+      <section id="benefits" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            WHO CAN BENEFIT <span style={{ color: "#39CC2F" }}>FROM 8CONCISE?</span>
+            WHO CAN BENEFIT <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>FROM 8CONCISE?</span>
           </h2>
           <div style={styles.grid3Col}>
             {[
               {
-                icon: <Users size={60} color="#39CC2F" strokeWidth={1.5} />,
+                icon: <Users size={60} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
                 title: "Aspiring Professionals",
                 items: [
                   "Teachers preparing for LET",
@@ -911,7 +994,7 @@ const ConCise = () => {
                 ],
               },
               {
-                icon: <BookOpen size={60} color="#39CC2F" strokeWidth={1.5} />,
+                icon: <BookOpen size={60} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
                 title: "High School Students",
                 items: [
                   "College admission exam takers",
@@ -920,19 +1003,19 @@ const ConCise = () => {
                 ],
               },
             ].map((client, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
 
               return (
                 <div key={index} className={`scale-up anim-delay-${(index % 3) + 1}`}>
                   <div className="concise-card">
                     {/* NO TOP COLOR BAR HERE */}
                     <div>{client.icon}</div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{client.title}</h3>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{client.title}</h3>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
                       {client.items.map((item, itemIndex) => {
                         const cleanText = item.replace("• ", "");
                         return (
-                          <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                          <li key={itemIndex} style={{ fontSize: "0.95rem", color: colors.textMuted, marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
                             <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                             <span>{cleanText}</span>
                           </li>
@@ -948,7 +1031,7 @@ const ConCise = () => {
       </section>
 
       {/* CTA Section */}
-      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary, textAlign: "center" }}>
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             THE <span style={{ color: "#ff1f2c" }}>8CONCISE</span> ADVANTAGE
@@ -998,8 +1081,8 @@ const ConCise = () => {
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0) scale(1)";
-                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.05)";
-                e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.4)";
+                e.currentTarget.style.borderColor = isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.08)";
+                e.currentTarget.style.boxShadow = isDark ? "0 10px 30px rgba(0,0,0,0.4)" : "0 10px 30px rgba(0,0,0,0.08)";
               }}
             >
               <strong>

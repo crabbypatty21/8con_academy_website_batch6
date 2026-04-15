@@ -52,11 +52,11 @@ export const ThemeProvider = ({ children }) => {
     bgSurface: isDark ? "#121411" : "#f8f9fa",
     bgCard: isDark ? "#19232A" : "#ffffff",
 
-    textPrimary: isDark ? "#ffffff" : "#373737",
-    textSecondary: isDark ? "rgba(255,255,255,0.8)" : "#373737",
-    textMuted: isDark ? "#cccccc" : "#828282",
-    textHeading: isDark ? "#ffffff" : "#373737",
-    textBody: isDark ? "#E4EED3" : "#373737",
+    textPrimary: isDark ? "#ffffff" : "#1a1a2e",
+    textSecondary: isDark ? "rgba(255,255,255,0.8)" : "#2d2d44",
+    textMuted: isDark ? "#cccccc" : "#555770",
+    textHeading: isDark ? "#ffffff" : "#1a1a2e",
+    textBody: isDark ? "#E4EED3" : "#2d2d44",
 
     accentGreen: isDark ? "#0edb61" : "#059669",
     accentGreenLight: isDark ? "#75F94C" : "#10b981",
@@ -66,8 +66,8 @@ export const ThemeProvider = ({ children }) => {
     accentRedDark: isDark ? "#990f17" : "#b91c1c",
 
     cardBg: isDark ? "rgba(255,255,255,0.1)" : "#ffffff",
-    cardBorder: isDark ? "rgba(255,255,255,0.2)" : "#e2e8f0",
-    cardShadow: isDark ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.08)",
+    cardBorder: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.06)",
+    cardShadow: isDark ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.06)",
 
     headerScrolledBg: isDark ? "rgba(19,27,33,0.87)" : "rgba(255,255,255,0.95)",
 

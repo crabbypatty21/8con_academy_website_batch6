@@ -26,10 +26,12 @@ import {
   Lightbulb,
   Check,
   Zap,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const ConLift = () => {
-  const { colors, isDark } = useTheme();
+  const { colors, isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -167,7 +169,7 @@ const ConLift = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
     },
 
     container2: {
@@ -180,8 +182,8 @@ const ConLift = () => {
 
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A",
+      backgroundImage: isDark ? "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')" : "linear-gradient(rgba(233, 241, 249, 0.75), rgba(233, 241, 249, 0.92)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: colors.bgSecondary,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -215,7 +217,7 @@ const ConLift = () => {
       position: "relative",
       zIndex: 3,
       pointerEvents: "none",
-      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+      filter: isDark ? "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))" : "brightness(1.15) contrast(1.3) saturate(1.2)",
     },
 
     heroSubtitle: {
@@ -223,21 +225,21 @@ const ConLift = () => {
       fontWeight: "700",
       marginTop: "0", 
       marginBottom: "1rem",
-      color: "#ffffff",
+      color: colors.textPrimary,
       lineHeight: "1.3",
-      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 2px 10px rgba(0,0,0,0.5)" : "none",
       position: "relative",
       zIndex: 4,
     },
 
     heroDescription: {
       fontSize: "clamp(1rem, 2vw, 1.15rem)",
-      color: "#e2e8f0", 
+      color: colors.textMuted, 
       lineHeight: "1.6",
       maxWidth: "800px",
       marginTop: "0",
       marginBottom: "2.5rem",
-      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 1px 5px rgba(0,0,0,0.5)" : "none",
     },
 
     heroForegroundContent: {
@@ -277,10 +279,10 @@ const ConLift = () => {
     },
 
     ctaButtonSecondary: {
-      background: "rgba(255, 255, 255, 0.15)",
+      background: isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)",
       backdropFilter: "blur(5px)",
-      color: "#ffffff",
-      border: "1px solid rgba(255, 255, 255, 0.6)",
+      color: colors.textPrimary,
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.6)" : "1px solid rgba(0, 0, 0, 0.3)",
       padding: "14px 36px",
       fontSize: "1rem",
       fontWeight: "700",
@@ -295,7 +297,7 @@ const ConLift = () => {
 
     ctaButtonRed: {
       background: "#ff1f2c",
-      color: "#ffffff",
+      color: colors.textPrimary,
       border: "none",
       padding: "14px 36px",
       fontSize: "1rem",
@@ -324,7 +326,7 @@ const ConLift = () => {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       textAlign: "center",
       marginBottom: "3rem",
       textTransform: "uppercase",
@@ -334,7 +336,7 @@ const ConLift = () => {
       fontSize: "clamp(2rem, 5vw, 2.8rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "1.5rem",
       textTransform: "uppercase",
     },
@@ -344,7 +346,7 @@ const ConLift = () => {
       lineHeight: "1.8",
       maxWidth: "800px",
       margin: "0 auto 2.5rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
     },
 
     ctaButtons: {
@@ -358,14 +360,14 @@ const ConLift = () => {
     },
 
     ctaHighlight: {
-      background: "#19232A",
+      background: colors.bgSecondary,
       padding: "1.5rem 2rem",
       borderRadius: "15px",
       fontSize: "clamp(1rem, 3vw, 1.3rem)",
       maxWidth: "800px",
       margin: "0 auto",
       border: "1px solid rgba(255, 255, 255, 0.05)",
-      color: "#ffffff",
+      color: colors.textPrimary,
       transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
       boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
@@ -375,7 +377,7 @@ const ConLift = () => {
   // Data Arrays
   const initiativesData = [
     {
-      icon: <GraduationCap size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <GraduationCap size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Scholarships for Underserved Filipinos",
       description: "Provide financial assistance to deserving individuals who demonstrate potential and determination but lack resources for quality education.",
       items: [
@@ -397,7 +399,7 @@ const ConLift = () => {
       ]
     },
     {
-      icon: <ArrowRight size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <ArrowRight size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Enrollment to Employment",
       description: "Graduates of Forex Derivative Course Level II are guided through career opportunities aligned with their skills and goals.",
       items: [
@@ -422,7 +424,7 @@ const ConLift = () => {
 
   const benefitsData = [
     {
-      icon: <Star size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Star size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Empowering Individuals",
       description: "Provide access to education and training that equips beneficiaries with skills for lifelong success and personal growth."
     },
@@ -432,7 +434,7 @@ const ConLift = () => {
       description: "Through the 'Enrollment to Employment' program, graduates seamlessly transition from learning to earning, fostering financial independence."
     },
     {
-      icon: <Building size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Building size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Strengthening Communities",
       description: "By uplifting individuals, 8ConLift contributes to the economic and social growth of communities across the Philippines."
     },
@@ -445,7 +447,7 @@ const ConLift = () => {
 
   const whyChooseData = [
     {
-      icon: <Target size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Target size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Comprehensive Support",
       description: "Beyond education, beneficiaries receive mentorship, hands-on training, and career placement support throughout their journey."
     },
@@ -529,7 +531,7 @@ const ConLift = () => {
             padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            font-weight: 900;
+            font-weight: 400;
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
@@ -564,7 +566,7 @@ const ConLift = () => {
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 400;
             position: relative;
           }
           
@@ -613,6 +615,31 @@ const ConLift = () => {
           }
 
           .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
+
+          .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+            border-radius: 50%;
+          }
+          .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #0edb61;
+          }
+          html.light-mode .theme-toggle-btn {
+            color: #1a1a2e;
+          }
+          html.light-mode .theme-toggle-btn:hover {
+            background: rgba(5, 150, 105, 0.1);
+            color: #059669;
+          }
 
           .mobile-menu-toggle {
             background: none;
@@ -680,6 +707,62 @@ const ConLift = () => {
             .desktop-nav { display: none !important; }
             .mobile-menu-toggle { display: block !important; }
           }
+
+          html.light-mode .conlift-card {
+            background: linear-gradient(145deg, #ffffff, #f0f4f8);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .conlift-card:hover {
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12), 0 4px 15px rgba(5, 150, 105, 0.15);
+            border-color: rgba(5, 150, 105, 0.3);
+          }
+          html.light-mode .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .nav-link {
+            color: #373737;
+          }
+          html.light-mode .nav-link:hover {
+            color: #059669;
+          }
+          html.light-mode .dropdown-content {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .dropdown-link {
+            color: #373737;
+          }
+          html.light-mode .dropdown-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #059669;
+          }
+          html.light-mode .mobile-menu-toggle {
+            color: #373737;
+          }
+          html.light-mode .mobile-nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-nav-link {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-toggle {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-content {
+            background-color: #f0f4f8;
+          }
+          html.light-mode .mobile-nav-sublink {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          }
+
         `}
       </style>
 
@@ -721,6 +804,14 @@ const ConLift = () => {
             <button className="nav-link" onClick={() => handleSmoothScroll("why-choose")}>Why Choose Us</button>
             <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Join Us</button>
           </nav>
+
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -817,14 +908,14 @@ const ConLift = () => {
       </section>
 
       {/* Initiatives Section */}
-      <section id="initiatives" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="initiatives" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            KEY INITIATIVES UNDER <span style={{ color: "#39CC2F" }}>8CONLIFT</span>
+            KEY INITIATIVES UNDER <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONLIFT</span>
           </h2>
           <div className="grid-2x2">
             {initiativesData.map((data, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
 
               return (
                 <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
@@ -832,11 +923,11 @@ const ConLift = () => {
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
                     
                     <div>{data.icon}</div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
                       {data.items.map((item, itemIndex) => (
-                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: colors.textMuted, marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
                           <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                           <span>{item}</span>
                         </li>
@@ -851,7 +942,7 @@ const ConLift = () => {
       </section>
 
       {/* Benefits Section */}
-      <section id="benefits" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
+      <section id="benefits" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             BENEFITS OF <span style={{ color: "#ff1f2c" }}>8CONLIFT</span>
@@ -861,8 +952,8 @@ const ConLift = () => {
               <div key={index} className={`scale-up anim-delay-${(index % 4) + 1}`}>
                 <div className="conlift-card" style={{ justifyContent: "center" }}>
                   <div>{data.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                 </div>
               </div>
             ))}
@@ -871,18 +962,18 @@ const ConLift = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section id="why-choose" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="why-choose" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONLIFT?</span>
+            WHY CHOOSE <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONLIFT?</span>
           </h2>
           <div className="flex-centered-grid">
             {whyChooseData.map((data, index) => (
               <div key={index} style={{ flex: "1 1 350px", maxWidth: "450px", width: "100%" }} className={`fade-in-up anim-delay-${(index % 2) + 1}`}>
                 <div className="conlift-card" style={{ justifyContent: "center" }}>
                   <div>{data.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                 </div>
               </div>
             ))}
@@ -891,7 +982,7 @@ const ConLift = () => {
       </section>
 
       {/* CTA Section */}
-      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#19232A", textAlign: "center" }}>
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary, textAlign: "center" }}>
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             TRANSFORMING LIVES, <span style={{ color: "#ff1f2c" }}>ONE DREAM AT A TIME</span>
@@ -940,7 +1031,7 @@ const ConLift = () => {
               style={styles.ctaHighlight}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
-                e.currentTarget.style.borderColor = "#39CC2F";
+                e.currentTarget.style.borderColor = isDark ? "#39CC2F" : "#059669";
                 e.currentTarget.style.boxShadow = "0 15px 35px rgba(57, 204, 47, 0.3)";
               }}
               onMouseLeave={(e) => {

@@ -177,7 +177,7 @@ const RegistrationModal = ({ isOpen, onClose }) => {
 
                 <div className="privacy-policy-section">
                   <p className="privacy-title">Privacy Policy</p>
-                  <p className="privacy-text">Con Academy respects your privacy and is committed to protecting any personal information you provide when registering for our workshops, courses, or events.</p>
+                  <p className="privacy-text">8Con Academy respects your privacy and is committed to protecting any personal information you provide when registering for our workshops, courses, or events.</p>
                 </div>
 
                 <button type="submit" className="reserve-btn" disabled={isSubmitting}>

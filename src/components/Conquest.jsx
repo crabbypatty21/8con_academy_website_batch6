@@ -26,10 +26,12 @@ import {
   Zap,
   Check,
   Handshake,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const ConQuest = () => {
-  const { colors, isDark } = useTheme();
+  const { colors, isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -167,7 +169,7 @@ const ConQuest = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
     },
 
     container2: {
@@ -180,8 +182,10 @@ const ConQuest = () => {
 
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A",
+      backgroundImage: isDark
+        ? "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')"
+        : "linear-gradient(rgba(233, 241, 249, 0.75), rgba(233, 241, 249, 0.92)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: colors.bgSecondary,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -215,7 +219,7 @@ const ConQuest = () => {
       position: "relative",
       zIndex: 3,
       pointerEvents: "none",
-      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+      filter: isDark ? "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))" : "brightness(1.15) contrast(1.3) saturate(1.2)",
     },
 
     heroSubtitle: {
@@ -223,21 +227,21 @@ const ConQuest = () => {
       fontWeight: "700",
       marginTop: "0", 
       marginBottom: "1rem",
-      color: "#ffffff",
+      color: colors.textPrimary,
       lineHeight: "1.3",
-      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 2px 10px rgba(0,0,0,0.5)" : "none",
       position: "relative",
       zIndex: 4,
     },
 
     heroDescription: {
       fontSize: "clamp(1rem, 2vw, 1.15rem)",
-      color: "#e2e8f0", 
+      color: colors.textMuted,
       lineHeight: "1.6",
       maxWidth: "800px",
       marginTop: "0",
       marginBottom: "2.5rem",
-      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 1px 5px rgba(0,0,0,0.5)" : "none",
     },
 
     heroForegroundContent: {
@@ -277,10 +281,10 @@ const ConQuest = () => {
     },
 
     ctaButtonSecondary: {
-      background: "rgba(255, 255, 255, 0.15)",
+      background: isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)",
       backdropFilter: "blur(5px)",
-      color: "#ffffff",
-      border: "1px solid rgba(255, 255, 255, 0.6)",
+      color: colors.textPrimary,
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.6)" : "1px solid rgba(0, 0, 0, 0.3)",
       padding: "14px 36px",
       fontSize: "1rem",
       fontWeight: "700",
@@ -295,7 +299,7 @@ const ConQuest = () => {
 
     ctaButtonRed: {
       background: "#ff1f2c",
-      color: "#ffffff",
+      color: colors.textPrimary,
       border: "none",
       padding: "14px 36px",
       fontSize: "1rem",
@@ -324,7 +328,7 @@ const ConQuest = () => {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       textAlign: "center",
       marginBottom: "3rem",
       textTransform: "uppercase",
@@ -334,7 +338,7 @@ const ConQuest = () => {
       fontSize: "clamp(2rem, 5vw, 2.8rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "1.5rem",
       textTransform: "uppercase",
     },
@@ -344,7 +348,7 @@ const ConQuest = () => {
       lineHeight: "1.8",
       maxWidth: "800px",
       margin: "0 auto 2.5rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
     },
 
     ctaButtons: {
@@ -358,24 +362,24 @@ const ConQuest = () => {
     },
 
     ctaHighlight: {
-      background: "#19232A",
+      background: colors.bgSecondary,
       padding: "1.5rem 2rem",
       borderRadius: "15px",
       fontSize: "clamp(1rem, 3vw, 1.3rem)",
       maxWidth: "800px",
       margin: "0 auto",
-      border: "1px solid rgba(255, 255, 255, 0.05)",
-      color: "#ffffff",
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0.08)",
+      color: colors.textPrimary,
       transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
-      boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+      boxShadow: isDark ? "0 10px 30px rgba(0,0,0,0.4)" : "0 10px 30px rgba(0, 0, 0, 0.08)",
     },
   };
 
   // Data Arrays
   const focusAreasData = [
     {
-      icon: <FileText size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <FileText size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Thesis Coaching",
       description: "Work with seasoned mentors who specialize in academic research and writing, ensuring high-quality outputs with comprehensive support.",
       subtitle: "Comprehensive Support:",
@@ -397,7 +401,7 @@ const ConQuest = () => {
       ],
     },
     {
-      icon: <Lightbulb size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Lightbulb size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Entrepreneurship",
       description: "Learn from entrepreneurs and business leaders with proven success in building and scaling businesses from idea to execution.",
       subtitle: "From Idea to Execution:",
@@ -411,7 +415,7 @@ const ConQuest = () => {
 
   const whatSetsApartData = [
     {
-      icon: <Star size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Star size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Expert Mentors",
       description: "Access a team of academic and industry experts with years of experience in guiding students, professionals, and entrepreneurs."
     },
@@ -421,7 +425,7 @@ const ConQuest = () => {
       description: "Combines academic coaching, career mentorship, and entrepreneurial guidance to provide comprehensive support."
     },
     {
-      icon: <Target size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Target size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Customized Support",
       description: "Tailored solutions for individuals based on their unique goals, challenges, and aspirations."
     },
@@ -434,7 +438,7 @@ const ConQuest = () => {
 
   const whoBenefitsData = [
     {
-      icon: <GraduationCap size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <GraduationCap size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Students",
       description: "Undergraduate and postgraduate students needing support in completing their thesis, dissertations, or research projects."
     },
@@ -444,7 +448,7 @@ const ConQuest = () => {
       description: "Individuals looking to advance their careers or transition into new industries with expert coaching."
     },
     {
-      icon: <Zap size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Zap size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Aspiring Entrepreneurs",
       description: "Those seeking guidance on launching or scaling their businesses with proven strategies and mentorship."
     },
@@ -471,12 +475,12 @@ const ConQuest = () => {
 
           /* ----- Beautiful CSS for the Cards ----- */
           .conquest-card {
-            background: linear-gradient(145deg, #1c2730, #131b21);
+            background: ${isDark ? "linear-gradient(145deg, #1c2730, #131b21)" : "linear-gradient(145deg, #ffffff, #f0f4f8)"};
             padding: 2rem;
             border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: ${isDark ? "1px solid rgba(255, 255, 255, 0.03)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            border-top: ${isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            box-shadow: ${isDark ? "0 8px 20px rgba(0, 0, 0, 0.4)" : "0 8px 20px rgba(0, 0, 0, 0.08)"};
             backdrop-filter: blur(10px);
             height: 100%;
             display: flex;
@@ -491,7 +495,7 @@ const ConQuest = () => {
 
           .conquest-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
+            box-shadow: ${isDark ? "0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15)" : "0 12px 24px rgba(0, 0, 0, 0.12), 0 4px 15px rgba(57, 204, 47, 0.15)"};
             border-color: rgba(57, 204, 47, 0.3);
           }
           
@@ -528,16 +532,16 @@ const ConQuest = () => {
             padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            font-weight: 900;
+            font-weight: 400;
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
           
           .header.scrolled {
-            background-color: rgba(19, 27, 33, 0.98);
+            background-color: ${isDark ? "rgba(19, 27, 33, 0.98)" : "rgba(233, 241, 249, 0.98)"};
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: ${isDark ? "0 4px 20px rgba(0, 0, 0, 0.5)" : "0 4px 20px rgba(0, 0, 0, 0.1)"};
           }
           
           .header-container {
@@ -563,13 +567,13 @@ const ConQuest = () => {
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 400;
             position: relative;
           }
           
           .nav-link {
             text-decoration: none;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#373737"};
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -590,19 +594,19 @@ const ConQuest = () => {
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: #1c2730;
+            background-color: ${isDark ? "#1c2730" : "#ffffff"};
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: ${isDark ? "0 8px 25px rgba(0, 0, 0, 0.3)" : "0 8px 25px rgba(0, 0, 0, 0.12)"};
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: ${isDark ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0, 0, 0, 0.1)"};
           }
           
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#373737"};
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -611,22 +615,47 @@ const ConQuest = () => {
             text-transform: uppercase;
           }
 
-          .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
+          .dropdown-link:hover { background-color: ${isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.05)"}; color: #0edb61; }
+
+          .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+            border-radius: 50%;
+          }
+          .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #0edb61;
+          }
+          html.light-mode .theme-toggle-btn {
+            color: #1a1a2e;
+          }
+          html.light-mode .theme-toggle-btn:hover {
+            background: rgba(5, 150, 105, 0.1);
+            color: #059669;
+          }
 
           .mobile-menu-toggle {
             background: none;
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#373737"};
             display: none;
             padding: 5px;
           }
 
           .mobile-nav {
-            background-color: rgba(19, 27, 33, 0.98);
+            background-color: ${isDark ? "rgba(19, 27, 33, 0.98)" : "rgba(233, 241, 249, 0.98)"};
             backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: ${isDark ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0.08)"};
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
@@ -636,8 +665,8 @@ const ConQuest = () => {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: #ffffff;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: ${isDark ? "#ffffff" : "#373737"};
+            border-bottom: ${isDark ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0.08)"};
             font-size: 16px;
             transition: background-color 0.3s ease;
             background: none;
@@ -658,7 +687,7 @@ const ConQuest = () => {
           }
 
           .mobile-dropdown-content {
-            background-color: #131B21;
+            background-color: ${isDark ? "#131B21" : "#e2edf5"};
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
@@ -667,10 +696,10 @@ const ConQuest = () => {
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#373737"};
             text-decoration: none;
             font-size: 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: ${isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.08)"};
           }
           
           .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
@@ -679,6 +708,52 @@ const ConQuest = () => {
             .desktop-nav { display: none !important; }
             .mobile-menu-toggle { display: block !important; }
           }
+
+          html.light-mode .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .nav-link {
+            color: #373737;
+          }
+          html.light-mode .nav-link:hover {
+            color: #059669;
+          }
+          html.light-mode .dropdown-content {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .dropdown-link {
+            color: #373737;
+          }
+          html.light-mode .dropdown-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #059669;
+          }
+          html.light-mode .mobile-menu-toggle {
+            color: #373737;
+          }
+          html.light-mode .mobile-nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-nav-link {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-toggle {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-content {
+            background-color: #f0f4f8;
+          }
+          html.light-mode .mobile-nav-sublink {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          }
+
         `}
       </style>
 
@@ -720,6 +795,14 @@ const ConQuest = () => {
             <button className="nav-link" onClick={() => handleSmoothScroll("who-benefits")}>Who Benefits</button>
             <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Start Your Journey</button>
           </nav>
+
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -819,14 +902,14 @@ const ConQuest = () => {
       </section>
 
       {/* Key Focus Areas Section */}
-      <section id="focus-areas" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="focus-areas" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            KEY FOCUS AREAS OF <span style={{ color: "#39CC2F" }}>8CONQUEST</span>
+            KEY FOCUS AREAS OF <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONQUEST</span>
           </h2>
           <div className="flex-centered-grid">
             {focusAreasData.map((data, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
 
               return (
                 <div key={index} style={{ flex: "1 1 350px", maxWidth: "450px", width: "100%" }} className={`scale-up anim-delay-${(index % 3) + 1}`}>
@@ -834,14 +917,14 @@ const ConQuest = () => {
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
                     
                     <div>{data.icon}</div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                     
-                    {data.subtitle && <h4 style={{ fontSize: "1rem", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem", marginTop: "0.5rem", alignSelf: "flex-start" }}>{data.subtitle}</h4>}
+                    {data.subtitle && <h4 style={{ fontSize: "1rem", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem", marginTop: "0.5rem", alignSelf: "flex-start" }}>{data.subtitle}</h4>}
                     
                     <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%" }}>
                       {data.items.map((item, itemIndex) => (
-                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: colors.textMuted, marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
                           <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                           <span>{item}</span>
                         </li>
@@ -856,7 +939,7 @@ const ConQuest = () => {
       </section>
 
       {/* What Sets Us Apart Section */}
-      <section id="what-sets-apart" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
+      <section id="what-sets-apart" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             WHAT SETS <span style={{ color: "#ff1f2c" }}>8CONQUEST APART?</span>
@@ -866,8 +949,8 @@ const ConQuest = () => {
               <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
                 <div className="conquest-card" style={{ justifyContent: "center" }}>
                   <div>{data.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                 </div>
               </div>
             ))}
@@ -876,18 +959,18 @@ const ConQuest = () => {
       </section>
 
       {/* Who Benefits Section */}
-      <section id="who-benefits" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="who-benefits" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            WHO CAN BENEFIT <span style={{ color: "#39CC2F" }}>FROM 8CONQUEST?</span>
+            WHO CAN BENEFIT <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>FROM 8CONQUEST?</span>
           </h2>
           <div className="grid-2x2">
             {whoBenefitsData.map((data, index) => (
               <div key={index} className={`fade-in-up anim-delay-${(index % 4) + 1}`}>
                 <div className="conquest-card" style={{ justifyContent: "center" }}>
                   <div>{data.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                 </div>
               </div>
             ))}
@@ -896,7 +979,7 @@ const ConQuest = () => {
       </section>
 
       {/* CTA Section */}
-      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#19232A", textAlign: "center" }}>
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary, textAlign: "center" }}>
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
             EMPOWER YOUR JOURNEY <span style={{ color: "#ff1f2c" }}>WITH 8CONQUEST</span>
@@ -945,7 +1028,7 @@ const ConQuest = () => {
               style={styles.ctaHighlight}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
-                e.currentTarget.style.borderColor = "#39CC2F";
+                e.currentTarget.style.borderColor = isDark ? "#39CC2F" : "#059669";
                 e.currentTarget.style.boxShadow = "0 15px 35px rgba(57, 204, 47, 0.3)";
               }}
               onMouseLeave={(e) => {

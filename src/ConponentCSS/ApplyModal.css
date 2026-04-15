@@ -242,6 +242,52 @@
   border-color: #F95545;
 }
 
+/* ===== RESUME REMINDER NOTE ===== */
+.apply-resume-reminder {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(14, 216, 95, 0.2);
+  border-radius: 10px;
+  background: rgba(14, 216, 95, 0.06);
+}
+
+.apply-reminder-icon {
+  color: #0ED85F;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.apply-resume-reminder p {
+  margin: 0;
+  font-size: 13px;
+  font-family: "Geist Sans", sans-serif;
+  color: #8c9ba5;
+  line-height: 1.5;
+}
+
+.apply-resume-reminder a {
+  color: #0ED85F;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.apply-resume-reminder a:hover {
+  color: #2ae874;
+}
+
+/* Light mode reminder */
+.apply-modal-light .apply-resume-reminder {
+  border-color: rgba(14, 216, 95, 0.25);
+  background: rgba(14, 216, 95, 0.06);
+}
+
+.apply-modal-light .apply-resume-reminder p {
+  color: #475569;
+}
+
 /* ===== SUBMIT BUTTON ===== */
 .apply-submit {
   width: 100%;

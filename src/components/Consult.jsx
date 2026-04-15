@@ -24,10 +24,12 @@ import {
   Calendar,
   FileText,
   Handshake,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const ConSult = () => {
-  const { colors, isDark } = useTheme();
+  const { colors, isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -161,7 +163,7 @@ const ConSult = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
     },
 
     container2: {
@@ -174,8 +176,10 @@ const ConSult = () => {
 
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A",
+      backgroundImage: isDark
+        ? "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')"
+        : "linear-gradient(rgba(240, 244, 248, 0.75), rgba(240, 244, 248, 0.92)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: colors.bgSecondary,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -209,7 +213,7 @@ const ConSult = () => {
       position: "relative",
       zIndex: 3,
       pointerEvents: "none",
-      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+      filter: isDark ? "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))" : "brightness(1.15) contrast(1.3) saturate(1.2)",
     },
 
     heroSubtitle: {
@@ -217,21 +221,21 @@ const ConSult = () => {
       fontWeight: "700",
       marginTop: "0", 
       marginBottom: "1rem",
-      color: "#ffffff",
+      color: colors.textPrimary,
       lineHeight: "1.3",
-      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 2px 10px rgba(0,0,0,0.5)" : "none",
       position: "relative",
       zIndex: 4,
     },
 
     heroDescription: {
       fontSize: "clamp(1rem, 2vw, 1.15rem)",
-      color: "#e2e8f0", 
+      color: colors.textMuted,
       lineHeight: "1.6",
       maxWidth: "800px",
       marginTop: "0",
       marginBottom: "2.5rem",
-      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 1px 5px rgba(0,0,0,0.5)" : "none",
     },
 
     heroForegroundContent: {
@@ -271,10 +275,10 @@ const ConSult = () => {
     },
 
     ctaButtonSecondary: {
-      background: "rgba(255, 255, 255, 0.15)",
+      background: isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)",
       backdropFilter: "blur(5px)",
-      color: "#ffffff",
-      border: "1px solid rgba(255, 255, 255, 0.6)",
+      color: colors.textPrimary,
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.6)" : "1px solid rgba(0, 0, 0, 0.3)",
       padding: "14px 36px",
       fontSize: "1rem",
       fontWeight: "700",
@@ -289,7 +293,7 @@ const ConSult = () => {
 
     ctaButtonRed: {
       background: "#ff1f2c",
-      color: "#ffffff",
+      color: colors.textPrimary,
       border: "none",
       padding: "14px 36px",
       fontSize: "1rem",
@@ -318,7 +322,7 @@ const ConSult = () => {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       textAlign: "center",
       marginBottom: "3rem",
       textTransform: "uppercase",
@@ -336,7 +340,7 @@ const ConSult = () => {
       maxWidth: "900px",
       margin: "0 auto",
       fontSize: "1.1rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
       lineHeight: "1.8",
     },
 
@@ -352,13 +356,13 @@ const ConSult = () => {
       fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#39CC2F",
+      color: isDark ? "#39CC2F" : "#059669",
       marginBottom: "0.5rem",
     },
 
     statLabel: {
       fontSize: "1rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
       fontWeight: "600",
       textTransform: "uppercase",
       letterSpacing: "1px",
@@ -368,7 +372,7 @@ const ConSult = () => {
       fontSize: "clamp(2rem, 5vw, 2.8rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "1.5rem",
       textTransform: "uppercase",
     },
@@ -378,7 +382,7 @@ const ConSult = () => {
       lineHeight: "1.8",
       maxWidth: "800px",
       margin: "0 auto 2.5rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
     },
 
     ctaButtons: {
@@ -392,17 +396,17 @@ const ConSult = () => {
     },
 
     ctaHighlight: {
-      background: "#19232A",
+      background: colors.bgSecondary,
       padding: "1.5rem 2rem",
       borderRadius: "15px",
       fontSize: "clamp(1rem, 3vw, 1.3rem)",
       maxWidth: "800px",
       margin: "0 auto",
-      border: "1px solid rgba(255, 255, 255, 0.05)",
-      color: "#ffffff",
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0.08)",
+      color: colors.textPrimary,
       transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
-      boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+      boxShadow: isDark ? "0 10px 30px rgba(0,0,0,0.4)" : "0 10px 30px rgba(0,0,0,0.08)",
     },
   };
 
@@ -415,7 +419,7 @@ const ConSult = () => {
 
   const servicesData = [
     {
-      icon: <Lightbulb size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Lightbulb size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Startup Coaching",
       description: "Comprehensive guidance for aspiring entrepreneurs from ideation to execution, ensuring your startup is built on solid foundations.",
       items: [
@@ -435,7 +439,7 @@ const ConSult = () => {
       ]
     },
     {
-      icon: <TrendingUp size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <TrendingUp size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Sales Strategy & Growth",
       description: "Tailored game plans for scaling and market positioning, designed to accelerate your business growth and market penetration.",
       items: [
@@ -458,7 +462,7 @@ const ConSult = () => {
 
   const approachData = [
     {
-      icon: <Briefcase size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Briefcase size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Real-World Experience",
       description: "Benefit from decades of hands-on entrepreneurial experience, not just theoretical knowledge. Our advice comes from actual startup successes and lessons learned."
     },
@@ -468,7 +472,7 @@ const ConSult = () => {
       description: "Every business is unique. We develop customized strategies that align with your specific industry, market conditions, and growth objectives."
     },
     {
-      icon: <Users size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Users size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "End-to-End Support",
       description: "From initial concept to investor readiness, we provide comprehensive support throughout your entrepreneurial journey, ensuring no critical step is missed."
     },
@@ -481,7 +485,7 @@ const ConSult = () => {
 
   const clientsData = [
     {
-      icon: <UserCheck size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <UserCheck size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Aspiring Entrepreneurs",
       items: [
         "First-time founders with innovative ideas",
@@ -501,7 +505,7 @@ const ConSult = () => {
       ]
     },
     {
-      icon: <TrendingUp size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <TrendingUp size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Growing Businesses",
       items: [
         "SMEs ready for scaling operations",
@@ -538,12 +542,12 @@ const ConSult = () => {
 
           /* ----- Beautiful CSS for the Cards ----- */
           .consult-card {
-            background: linear-gradient(145deg, #1c2730, #131b21);
+            background: ${isDark ? "linear-gradient(145deg, #1c2730, #131b21)" : "linear-gradient(145deg, #ffffff, #f0f4f8)"};
             padding: 2rem;
             border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: ${isDark ? "1px solid rgba(255, 255, 255, 0.03)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            border-top: ${isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            box-shadow: ${isDark ? "0 8px 20px rgba(0, 0, 0, 0.4)" : "0 8px 20px rgba(0, 0, 0, 0.08)"};
             backdrop-filter: blur(10px);
             height: 100%;
             display: flex;
@@ -558,7 +562,7 @@ const ConSult = () => {
 
           .consult-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
+            box-shadow: ${isDark ? "0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15)" : "0 12px 24px rgba(0, 0, 0, 0.12), 0 4px 15px rgba(57, 204, 47, 0.15)"};
             border-color: rgba(57, 204, 47, 0.3);
           }
           
@@ -588,16 +592,16 @@ const ConSult = () => {
             padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            font-weight: 900;
+            font-weight: 400;
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
           
           .header.scrolled {
-            background-color: rgba(19, 27, 33, 0.98);
+            background-color: ${isDark ? "rgba(19, 27, 33, 0.98)" : "rgba(255, 255, 255, 0.98)"};
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: ${isDark ? "0 4px 20px rgba(0, 0, 0, 0.5)" : "0 4px 20px rgba(0, 0, 0, 0.1)"};
           }
           
           .header-container {
@@ -623,13 +627,13 @@ const ConSult = () => {
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 400;
             position: relative;
           }
           
           .nav-link {
             text-decoration: none;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#131B21"};
             padding: 10px 15px;
             border-radius: 6px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -650,19 +654,19 @@ const ConSult = () => {
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: #1c2730;
+            background-color: ${isDark ? "#1c2730" : "#ffffff"};
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: ${isDark ? "0 8px 25px rgba(0, 0, 0, 0.3)" : "0 8px 25px rgba(0, 0, 0, 0.12)"};
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: ${isDark ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0, 0, 0, 0.08)"};
           }
-          
+
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#131B21"};
             text-decoration: none;
             transition: all 0.3s ease;
             font-family: 'Montserrat', sans-serif;
@@ -671,22 +675,47 @@ const ConSult = () => {
             text-transform: uppercase;
           }
 
-          .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
+          .dropdown-link:hover { background-color: ${isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.05)"}; color: #0edb61; }
+
+          .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+            border-radius: 50%;
+          }
+          .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #0edb61;
+          }
+          html.light-mode .theme-toggle-btn {
+            color: #1a1a2e;
+          }
+          html.light-mode .theme-toggle-btn:hover {
+            background: rgba(5, 150, 105, 0.1);
+            color: #059669;
+          }
 
           .mobile-menu-toggle {
             background: none;
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#131B21"};
             display: none;
             padding: 5px;
           }
 
           .mobile-nav {
-            background-color: rgba(19, 27, 33, 0.98);
+            background-color: ${isDark ? "rgba(19, 27, 33, 0.98)" : "rgba(255, 255, 255, 0.98)"};
             backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: ${isDark ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0.08)"};
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
@@ -696,8 +725,8 @@ const ConSult = () => {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: #ffffff;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: ${isDark ? "#ffffff" : "#131B21"};
+            border-bottom: ${isDark ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0.06)"};
             font-size: 16px;
             transition: background-color 0.3s ease;
             background: none;
@@ -718,7 +747,7 @@ const ConSult = () => {
           }
 
           .mobile-dropdown-content {
-            background-color: #131B21;
+            background-color: ${isDark ? "#131B21" : "#f0f4f8"};
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
@@ -727,10 +756,10 @@ const ConSult = () => {
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: #ffffff;
+            color: ${isDark ? "#ffffff" : "#131B21"};
             text-decoration: none;
             font-size: 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: ${isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.06)"};
           }
           
           .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
@@ -739,6 +768,52 @@ const ConSult = () => {
             .desktop-nav { display: none !important; }
             .mobile-menu-toggle { display: block !important; }
           }
+
+          html.light-mode .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .nav-link {
+            color: #373737;
+          }
+          html.light-mode .nav-link:hover {
+            color: #059669;
+          }
+          html.light-mode .dropdown-content {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .dropdown-link {
+            color: #373737;
+          }
+          html.light-mode .dropdown-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #059669;
+          }
+          html.light-mode .mobile-menu-toggle {
+            color: #373737;
+          }
+          html.light-mode .mobile-nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-nav-link {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-toggle {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-content {
+            background-color: #f0f4f8;
+          }
+          html.light-mode .mobile-nav-sublink {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          }
+
         `}
       </style>
 
@@ -781,6 +856,14 @@ const ConSult = () => {
             <button className="nav-link" onClick={() => handleSmoothScroll("clients")}>Target Clients</button>
             <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Contact</button>
           </nav>
+
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -880,17 +963,17 @@ const ConSult = () => {
       </section>
 
       {/* Leadership Section */}
-      <section id="leadership" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="leadership" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            LED BY <span style={{ color: "#39CC2F" }}>ENTREPRENEURIAL EXCELLENCE</span>
+            LED BY <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>ENTREPRENEURIAL EXCELLENCE</span>
           </h2>
           <div style={styles.leadershipContent}>
             <div style={styles.aboutText} className="fade-in-up anim-delay-1">
-              <p style={{ marginBottom: "1.5rem", color: "#A0ABB5", lineHeight: "1.8" }}>
-                Spearheaded by <strong style={{ color: "#39CC2F" }}>Sir Nigel Santos</strong>, our Chief Business Development Officer, 8ConSult brings decades of real-world entrepreneurial experience to your business journey. Sir Nigel's proven track record in building successful ventures, navigating market challenges, and scaling businesses provides the foundation for our comprehensive advisory services.
+              <p style={{ marginBottom: "1.5rem", color: colors.textMuted, lineHeight: "1.8" }}>
+                Spearheaded by <strong style={{ color: isDark ? "#39CC2F" : "#059669" }}>Sir Nigel Santos</strong>, our Chief Business Development Officer, 8ConSult brings decades of real-world entrepreneurial experience to your business journey. Sir Nigel's proven track record in building successful ventures, navigating market challenges, and scaling businesses provides the foundation for our comprehensive advisory services.
               </p>
-              <p style={{ color: "#A0ABB5", lineHeight: "1.8" }}>
+              <p style={{ color: colors.textMuted, lineHeight: "1.8" }}>
                 With expertise spanning startup ecosystems, business model innovation, and investor relations, Sir Nigel ensures that every consultation delivers actionable insights and strategic direction tailored to your unique business goals.
               </p>
             </div>
@@ -912,14 +995,14 @@ const ConSult = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
+      <section id="services" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             OUR ADVISORY <span style={{ color: "#ff1f2c" }}>SERVICES</span>
           </h2>
           <div className="grid-2x2-strict">
             {servicesData.map((data, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
 
               return (
                 <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
@@ -927,11 +1010,11 @@ const ConSult = () => {
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
                     
                     <div>{data.icon}</div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
                       {data.items.map((item, itemIndex) => (
-                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: colors.textMuted, marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
                           <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                           <span>{item}</span>
                         </li>
@@ -946,18 +1029,18 @@ const ConSult = () => {
       </section>
 
       {/* Our Approach Section */}
-      <section id="approach" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="approach" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONSULT?</span>
+            WHY CHOOSE <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONSULT?</span>
           </h2>
           <div className="grid-2x2-strict">
             {approachData.map((data, index) => (
               <div key={index} className={`fade-in-up anim-delay-${(index % 4) + 1}`}>
                 <div className="consult-card" style={{ justifyContent: "center" }}>
                   <div>{data.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                 </div>
               </div>
             ))}
@@ -966,23 +1049,23 @@ const ConSult = () => {
       </section>
 
       {/* Target Clients Section */}
-      <section id="clients" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
+      <section id="clients" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             WHO WE <span style={{ color: "#ff1f2c" }}>SERVE</span>
           </h2>
           <div className="grid-2x2-strict">
             {clientsData.map((data, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
 
               return (
                 <div key={index} className={`scale-up anim-delay-${(index % 4) + 1}`}>
                   <div className="consult-card">
                     <div>{data.icon}</div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
                       {data.items.map((item, itemIndex) => (
-                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: colors.textMuted, marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
                           <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                           <span>{item}</span>
                         </li>
@@ -997,10 +1080,10 @@ const ConSult = () => {
       </section>
 
       {/* CTA Section */}
-      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary, textAlign: "center" }}>
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
-            READY TO TRANSFORM <span style={{ color: "#39CC2F" }}>YOUR BUSINESS VISION?</span>
+            READY TO TRANSFORM <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>YOUR BUSINESS VISION?</span>
           </h2>
           <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
             Achieve more with 8ConSult—where expert guidance meets your ambition. Whether you're taking your first entrepreneurial steps or scaling an existing venture, Sir Nigel Santos and our team provide the strategic insights and practical support you need to succeed.
@@ -1046,7 +1129,7 @@ const ConSult = () => {
               style={styles.ctaHighlight}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
-                e.currentTarget.style.borderColor = "#39CC2F";
+                e.currentTarget.style.borderColor = isDark ? "#39CC2F" : "#059669";
                 e.currentTarget.style.boxShadow = "0 15px 35px rgba(57, 204, 47, 0.3)";
               }}
               onMouseLeave={(e) => {

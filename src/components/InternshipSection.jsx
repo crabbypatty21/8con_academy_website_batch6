@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../ConponentCSS/Internship.css";
 import "../ConponentCSS/ApplyModal.css";
-import { Upload, X, CheckCircle, XCircle, Briefcase, Users } from "lucide-react";
+import { X, CheckCircle, XCircle, Briefcase, Users, Info } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
 import TradingBackground from "./TradingBackground.jsx";
+
+const WEB3FORMS_ACCESS_KEY = "5f8976e9-6357-4533-bd55-71314277e2f9";
 
 const internshipRoles = [
   {
@@ -46,7 +48,6 @@ const ApplicationModal = ({ isOpen, onClose, selectedPosition }) => {
     email: "",
     address: "",
     phoneNumber: "+63",
-    resumeFile: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -90,24 +91,6 @@ const ApplicationModal = ({ isOpen, onClose, selectedPosition }) => {
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleResumeChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.type !== "application/pdf") {
-        setErrors((prev) => ({ ...prev, resumeFile: "Only PDF files are allowed" }));
-        e.target.value = null;
-        return;
-      }
-      if (file.size > 10 * 1024 * 1024) {
-        setErrors((prev) => ({ ...prev, resumeFile: "File must be less than 10MB" }));
-        e.target.value = null;
-        return;
-      }
-      setFormData((prev) => ({ ...prev, resumeFile: file }));
-      if (errors.resumeFile) setErrors((prev) => ({ ...prev, resumeFile: "" }));
-    }
-  };
-
   const validate = () => {
     const newErrors = {};
     if (!formData.firstName || formData.firstName.trim().length < 2) newErrors.firstName = "Please enter your first name";
@@ -115,7 +98,6 @@ const ApplicationModal = ({ isOpen, onClose, selectedPosition }) => {
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) newErrors.email = "Please enter a valid email address";
     if (!formData.address || formData.address.trim().length < 2) newErrors.address = "Please enter your address";
     if (!/^\+63[0-9]{10}$/.test(formData.phoneNumber)) newErrors.phoneNumber = "Phone must be in format +63XXXXXXXXXX";
-    if (!formData.resumeFile) newErrors.resumeFile = "Please upload your resume";
     return newErrors;
   };
 
@@ -128,29 +110,28 @@ const ApplicationModal = ({ isOpen, onClose, selectedPosition }) => {
     try {
       const fullName = [formData.firstName, formData.middleName, formData.lastName].filter(Boolean).join(" ");
 
-      const payload = new FormData();
-      payload.append("firstName", formData.firstName);
-      payload.append("middleName", formData.middleName);
-      payload.append("lastName", formData.lastName);
-      payload.append("email", formData.email);
-      payload.append("address", formData.address);
-      payload.append("phoneNumber", formData.phoneNumber);
-      payload.append("selectedPosition", selectedPosition);
-      payload.append("resumeFile", formData.resumeFile);
-
-      const baseUrl = import.meta.env.MODE === "production"
-        ? "https://8conacademy.com"
-        : "http://localhost:3001";
-
-      const response = await fetch(`${baseUrl}/apply`, {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body: payload,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `Internship Application - ${fullName} for ${selectedPosition}`,
+          from_name: `${fullName} via 8Con Academy`,
+          name: fullName,
+          first_name: formData.firstName,
+          middle_name: formData.middleName,
+          last_name: formData.lastName,
+          email: formData.email,
+          address: formData.address,
+          phone_number: formData.phoneNumber,
+          position: selectedPosition,
+        }),
       });
       const data = await response.json();
 
-      if (response.ok || data.success) {
+      if (data.success) {
         setResultModal({ show: true, type: "success", message: "Your application has been submitted! We'll review it and get back to you soon." });
-        setFormData({ firstName: "", middleName: "", lastName: "", email: "", address: "", phoneNumber: "+63", resumeFile: null });
+        setFormData({ firstName: "", middleName: "", lastName: "", email: "", address: "", phoneNumber: "+63" });
       } else {
         setResultModal({ show: true, type: "error", message: data.message || "Failed to submit. Please try again." });
       }
@@ -256,45 +237,15 @@ const ApplicationModal = ({ isOpen, onClose, selectedPosition }) => {
               </div>
             </div>
 
-            <div className="apply-field">
-              <label className="apply-label">Resume (PDF only, max 10MB)</label>
-              <label className={`apply-upload-zone ${formData.resumeFile ? "has-file" : ""} ${errors.resumeFile ? "apply-input-error" : ""}`} htmlFor="apply-resume-input">
-                {formData.resumeFile ? (
-                  <>
-                    <Upload size={18} className="apply-upload-icon" />
-                    <a
-                      href={URL.createObjectURL(formData.resumeFile)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="apply-file-name"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {formData.resumeFile.name}
-                    </a>
-                    <button
-                      type="button"
-                      className="apply-file-remove"
-                      onClick={(e) => { e.preventDefault(); setFormData((prev) => ({ ...prev, resumeFile: null })); }}
-                    >
-                      <X size={12} />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Upload size={18} className="apply-upload-icon" />
-                    <span className="apply-upload-text">Click to upload your resume</span>
-                    <span className="apply-upload-hint">PDF format, up to 10MB</span>
-                  </>
-                )}
-              </label>
-              <input
-                id="apply-resume-input"
-                type="file"
-                accept=".pdf"
-                onChange={handleResumeChange}
-                style={{ display: "none" }}
-              />
-              {errors.resumeFile && <span className="apply-error">{errors.resumeFile}</span>}
+            <div className="apply-resume-reminder">
+              <Info size={18} className="apply-reminder-icon" />
+              <p>
+                Please send your resume (PDF) separately to{" "}
+                <a href="mailto:8ConAcademy@gmail.com">
+                  8ConAcademy@gmail.com
+                </a>
+                {" "}after submitting this form.
+              </p>
             </div>
 
             <button type="submit" className="apply-submit" disabled={isSubmitting}>

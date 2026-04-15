@@ -24,10 +24,12 @@ import {
   Zap,
   CheckCircle,
   Check,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const ConNect = () => {
-  const { colors, isDark } = useTheme();
+  const { colors, isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -161,7 +163,7 @@ const ConNect = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
     },
 
     container2: {
@@ -174,8 +176,8 @@ const ConNect = () => {
 
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A",
+      backgroundImage: isDark ? "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')" : "linear-gradient(rgba(233, 241, 249, 0.75), rgba(233, 241, 249, 0.92)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: colors.bgSecondary,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -209,7 +211,7 @@ const ConNect = () => {
       position: "relative",
       zIndex: 3,
       pointerEvents: "none",
-      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+      filter: isDark ? "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))" : "brightness(1.15) contrast(1.3) saturate(1.2)",
     },
 
     heroSubtitle: {
@@ -217,21 +219,21 @@ const ConNect = () => {
       fontWeight: "700",
       marginTop: "0", 
       marginBottom: "1rem",
-      color: "#ffffff",
+      color: colors.textPrimary,
       lineHeight: "1.3",
-      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 2px 10px rgba(0,0,0,0.5)" : "none",
       position: "relative",
       zIndex: 4,
     },
 
     heroDescription: {
       fontSize: "clamp(1rem, 2vw, 1.15rem)",
-      color: "#e2e8f0", 
+      color: colors.textMuted, 
       lineHeight: "1.6",
       maxWidth: "800px",
       marginTop: "0",
       marginBottom: "2.5rem",
-      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 1px 5px rgba(0,0,0,0.5)" : "none",
     },
 
     heroForegroundContent: {
@@ -271,10 +273,10 @@ const ConNect = () => {
     },
 
     ctaButtonSecondary: {
-      background: "rgba(255, 255, 255, 0.15)",
+      background: isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)",
       backdropFilter: "blur(5px)",
-      color: "#ffffff",
-      border: "1px solid rgba(255, 255, 255, 0.6)",
+      color: colors.textPrimary,
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.6)" : "1px solid rgba(0, 0, 0, 0.3)",
       padding: "14px 36px",
       fontSize: "1rem",
       fontWeight: "700",
@@ -289,7 +291,7 @@ const ConNect = () => {
 
     ctaButtonRed: {
       background: "#ff1f2c",
-      color: "#ffffff",
+      color: colors.textPrimary,
       border: "none",
       padding: "14px 36px",
       fontSize: "1rem",
@@ -318,7 +320,7 @@ const ConNect = () => {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       textAlign: "center",
       marginBottom: "3rem",
       textTransform: "uppercase",
@@ -326,13 +328,13 @@ const ConNect = () => {
 
     // A specific style for the features list inside Why Connect
     whyConnectFeature: {
-      background: "linear-gradient(145deg, #1c2730, #131b21)",
+      background: isDark ? "linear-gradient(145deg, #1c2730, #131b21)" : "linear-gradient(145deg, #ffffff, #f0f4f8)",
       padding: "1.5rem",
       borderRadius: "12px",
       display: "flex",
       alignItems: "flex-start",
       gap: "1rem",
-      border: "1px solid rgba(255, 255, 255, 0.03)",
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.03)" : "1px solid rgba(0, 0, 0, 0.08)",
       boxShadow: "0 8px 25px rgba(0, 0, 0, 0.3)",
       transition: "all 0.3s ease",
       cursor: "default",
@@ -342,13 +344,13 @@ const ConNect = () => {
       fontSize: "1.1rem",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "0.5rem",
     },
 
     featureDescription: {
       fontSize: "0.95rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
       lineHeight: "1.5",
     },
 
@@ -356,7 +358,7 @@ const ConNect = () => {
       fontSize: "clamp(2rem, 5vw, 2.8rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "1.5rem",
       textTransform: "uppercase",
     },
@@ -366,7 +368,7 @@ const ConNect = () => {
       lineHeight: "1.8",
       maxWidth: "800px",
       margin: "0 auto 2.5rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
     },
 
     ctaButtons: {
@@ -380,14 +382,14 @@ const ConNect = () => {
     },
 
     ctaHighlight: {
-      background: "#19232A",
+      background: colors.bgSecondary,
       padding: "1.5rem 2rem",
       borderRadius: "15px",
       fontSize: "clamp(1rem, 3vw, 1.3rem)",
       maxWidth: "800px",
       margin: "0 auto",
       border: "1px solid rgba(255, 255, 255, 0.05)",
-      color: "#ffffff",
+      color: colors.textPrimary,
       transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
       boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
@@ -397,7 +399,7 @@ const ConNect = () => {
   // Data Arrays
   const howItWorksData = [
     {
-      icon: <UserCheck size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <UserCheck size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Membership Program",
       description: "Entrepreneurs and business owners can join as members to access exclusive benefits and opportunities.",
       items: [
@@ -419,7 +421,7 @@ const ConNect = () => {
       ],
     },
     {
-      icon: <Heart size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Heart size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Community Building",
       description: "A harmonious community where members support one another through collaboration and growth initiatives.",
       items: [
@@ -444,7 +446,7 @@ const ConNect = () => {
 
   const benefitsData = [
     {
-      icon: <Network size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Network size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Networking Opportunities",
       description: "Build meaningful connections with like-minded entrepreneurs, exchange ideas, and expand your professional circle.",
     },
@@ -454,7 +456,7 @@ const ConNect = () => {
       description: "Gain exposure by pitching to fellow members, access new clients and markets through community referrals.",
     },
     {
-      icon: <Lightbulb size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Lightbulb size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Knowledge Sharing",
       description: "Stay updated with industry trends, tools, and strategies shared within the community and learn from experiences.",
     },
@@ -464,7 +466,7 @@ const ConNect = () => {
       description: "A harmonious network that thrives on collaboration rather than competition, with shared resources and insights.",
     },
     {
-      icon: <Star size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Star size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Branding & Visibility",
       description: "Enhance your business branding with expert guidance and gain visibility through events and marketing opportunities.",
     },
@@ -499,7 +501,7 @@ const ConNect = () => {
 
   const whoCanJoinData = [
     {
-      icon: <Building size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Building size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Local Entrepreneurs",
       description: "Business owners looking to expand their network and grow their ventures.",
     },
@@ -509,7 +511,7 @@ const ConNect = () => {
       description: "Established businesses seeking collaboration and referral opportunities.",
     },
     {
-      icon: <Lightbulb size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Lightbulb size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Startup Founders",
       description: "Early-stage entrepreneurs looking for mentorship and business connections.",
     },
@@ -600,7 +602,7 @@ const ConNect = () => {
             padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            font-weight: 900;
+            font-weight: 400;
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
@@ -635,7 +637,7 @@ const ConNect = () => {
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 400;
             position: relative;
           }
           
@@ -684,6 +686,31 @@ const ConNect = () => {
           }
 
           .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
+
+          .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+            border-radius: 50%;
+          }
+          .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #0edb61;
+          }
+          html.light-mode .theme-toggle-btn {
+            color: #1a1a2e;
+          }
+          html.light-mode .theme-toggle-btn:hover {
+            background: rgba(5, 150, 105, 0.1);
+            color: #059669;
+          }
 
           .mobile-menu-toggle {
             background: none;
@@ -751,6 +778,62 @@ const ConNect = () => {
             .desktop-nav { display: none !important; }
             .mobile-menu-toggle { display: block !important; }
           }
+
+          html.light-mode .connect-card {
+            background: linear-gradient(145deg, #ffffff, #f0f4f8);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .connect-card:hover {
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12), 0 4px 15px rgba(5, 150, 105, 0.15);
+            border-color: rgba(5, 150, 105, 0.3);
+          }
+          html.light-mode .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .nav-link {
+            color: #373737;
+          }
+          html.light-mode .nav-link:hover {
+            color: #059669;
+          }
+          html.light-mode .dropdown-content {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .dropdown-link {
+            color: #373737;
+          }
+          html.light-mode .dropdown-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #059669;
+          }
+          html.light-mode .mobile-menu-toggle {
+            color: #373737;
+          }
+          html.light-mode .mobile-nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-nav-link {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-toggle {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-content {
+            background-color: #f0f4f8;
+          }
+          html.light-mode .mobile-nav-sublink {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          }
+
         `}
       </style>
 
@@ -793,6 +876,14 @@ const ConNect = () => {
             <button className="nav-link" onClick={() => handleSmoothScroll("who-can-join")}>Who Can Join</button>
             <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Join Us</button>
           </nav>
+
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -890,14 +981,14 @@ const ConNect = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="how-it-works" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            HOW <span style={{ color: "#39CC2F" }}>8CONNECT</span> WORKS
+            HOW <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONNECT</span> WORKS
           </h2>
           <div className="grid-2x2">
             {howItWorksData.map((data, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
 
               return (
                 <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
@@ -905,11 +996,11 @@ const ConNect = () => {
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
                     
                     <div>{data.icon}</div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%", marginTop: "0.5rem" }}>
                       {data.items.map((item, itemIndex) => (
-                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: colors.textMuted, marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
                           <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                           <span>{item}</span>
                         </li>
@@ -924,7 +1015,7 @@ const ConNect = () => {
       </section>
 
       {/* Benefits Section */}
-      <section id="benefits" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
+      <section id="benefits" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             BENEFITS OF <span style={{ color: "#ff1f2c" }}>JOINING 8CONNECT</span>
@@ -934,8 +1025,8 @@ const ConNect = () => {
               <div key={index} style={{ flex: "1 1 350px", maxWidth: "400px", width: "100%" }} className={`scale-up anim-delay-${(index % 5) + 1}`}>
                 <div className="connect-card" style={{ justifyContent: "center" }}>
                   <div>{data.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                 </div>
               </div>
             ))}
@@ -944,14 +1035,14 @@ const ConNect = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section id="why-connect" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="why-connect" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONNECT?</span>
+            WHY CHOOSE <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONNECT?</span>
           </h2>
           <div className="grid-3col">
             {whyConnectData.map((data, index) => {
-              const iconColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const iconColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
               return (
                 <div
                   key={index}
@@ -981,7 +1072,7 @@ const ConNect = () => {
       </section>
 
       {/* Who Can Join Section */}
-      <section id="who-can-join" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
+      <section id="who-can-join" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             WHO CAN JOIN <span style={{ color: "#ff1f2c" }}>8CONNECT?</span>
@@ -991,8 +1082,8 @@ const ConNect = () => {
               <div key={index} className={`scale-up anim-delay-${(index % 4) + 1}`}>
                 <div className="connect-card" style={{ justifyContent: "center" }}>
                   <div>{data.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                 </div>
               </div>
             ))}
@@ -1001,10 +1092,10 @@ const ConNect = () => {
       </section>
 
       {/* CTA Section */}
-      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary, textAlign: "center" }}>
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
-            READY TO CONNECT AND <span style={{ color: "#39CC2F" }}>GROW?</span>
+            READY TO CONNECT AND <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>GROW?</span>
           </h2>
           <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
             Join 8ConNect today and become part of a thriving community of entrepreneurs dedicated to mutual growth and success. Build meaningful connections, share resources, and expand your professional circle.
@@ -1052,7 +1143,7 @@ const ConNect = () => {
               style={styles.ctaHighlight}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
-                e.currentTarget.style.borderColor = "#39CC2F";
+                e.currentTarget.style.borderColor = isDark ? "#39CC2F" : "#059669";
                 e.currentTarget.style.boxShadow = "0 15px 35px rgba(57, 204, 47, 0.3)";
               }}
               onMouseLeave={(e) => {

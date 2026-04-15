@@ -22,10 +22,12 @@ import {
   Zap,
   Heart,
   Check,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const ConPact = () => {
-  const { colors, isDark } = useTheme();
+  const { colors, isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -164,7 +166,7 @@ const ConPact = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
     },
 
     container2: {
@@ -177,8 +179,8 @@ const ConPact = () => {
 
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A",
+      backgroundImage: isDark ? "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')" : "linear-gradient(rgba(233, 241, 249, 0.75), rgba(233, 241, 249, 0.92)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: colors.bgSecondary,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -212,7 +214,7 @@ const ConPact = () => {
       position: "relative",
       zIndex: 3,
       pointerEvents: "none",
-      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+      filter: isDark ? "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))" : "brightness(1.15) contrast(1.3) saturate(1.2)",
     },
 
     heroSubtitle: {
@@ -220,21 +222,21 @@ const ConPact = () => {
       fontWeight: "700",
       marginTop: "0", 
       marginBottom: "1rem",
-      color: "#ffffff",
+      color: colors.textPrimary,
       lineHeight: "1.3",
-      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 2px 10px rgba(0,0,0,0.5)" : "none",
       position: "relative",
       zIndex: 4,
     },
 
     heroDescription: {
       fontSize: "clamp(1rem, 2vw, 1.15rem)",
-      color: "#e2e8f0", 
+      color: colors.textMuted, 
       lineHeight: "1.6",
       maxWidth: "800px",
       marginTop: "0",
       marginBottom: "2.5rem",
-      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 1px 5px rgba(0,0,0,0.5)" : "none",
     },
 
     heroForegroundContent: {
@@ -274,10 +276,10 @@ const ConPact = () => {
     },
 
     ctaButtonSecondary: {
-      background: "rgba(255, 255, 255, 0.15)",
+      background: isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)",
       backdropFilter: "blur(5px)",
-      color: "#ffffff",
-      border: "1px solid rgba(255, 255, 255, 0.6)",
+      color: colors.textPrimary,
+      border: isDark ? "1px solid rgba(255, 255, 255, 0.6)" : "1px solid rgba(0, 0, 0, 0.3)",
       padding: "14px 36px",
       fontSize: "1rem",
       fontWeight: "700",
@@ -292,7 +294,7 @@ const ConPact = () => {
 
     ctaButtonRed: {
       background: "#ff1f2c",
-      color: "#ffffff",
+      color: colors.textPrimary,
       border: "none",
       padding: "14px 36px",
       fontSize: "1rem",
@@ -321,7 +323,7 @@ const ConPact = () => {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       textAlign: "center",
       marginBottom: "3rem",
       textTransform: "uppercase",
@@ -331,7 +333,7 @@ const ConPact = () => {
       fontSize: "clamp(2rem, 5vw, 2.8rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "1.5rem",
       textTransform: "uppercase",
     },
@@ -341,7 +343,7 @@ const ConPact = () => {
       lineHeight: "1.8",
       maxWidth: "800px",
       margin: "0 auto 2.5rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
     },
 
     ctaButtons: {
@@ -355,14 +357,14 @@ const ConPact = () => {
     },
 
     ctaHighlight: {
-      background: "#19232A",
+      background: colors.bgSecondary,
       padding: "1.5rem 2rem",
       borderRadius: "15px",
       fontSize: "clamp(1rem, 3vw, 1.3rem)",
       maxWidth: "800px",
       margin: "0 auto",
       border: "1px solid rgba(255, 255, 255, 0.05)",
-      color: "#ffffff",
+      color: colors.textPrimary,
       transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
       cursor: "pointer",
       boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
@@ -372,7 +374,7 @@ const ConPact = () => {
   // Data Arrays
   const csrData = [
     {
-      icon: <Briefcase size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Briefcase size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Livelihood Programs",
       subtitle: "Skills Training for Local Communities",
       description: "Organizes skills training programs to equip individuals with market-relevant skills, including financial literacy, entrepreneurship, and specialized trades.",
@@ -396,7 +398,7 @@ const ConPact = () => {
       ],
     },
     {
-      icon: <DollarSign size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <DollarSign size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Economic Support",
       subtitle: "Employment Generation Projects",
       description: "Works with LGUs and private companies to design and implement employment generation initiatives, providing various career opportunities for graduates.",
@@ -411,7 +413,7 @@ const ConPact = () => {
 
   const advantageData = [
     {
-      icon: <Handshake size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Handshake size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Strategic Partnerships",
       description: "Collaborates with LGUs to align CSR programs with community needs, ensuring impactful and sustainable initiatives. Engages SMEs and private organizations to co-fund and implement projects that generate long-term value."
     },
@@ -421,7 +423,7 @@ const ConPact = () => {
       description: "Concentrates on initiatives with measurable outcomes in livelihood, education, and employment, driving real change at the grassroots level with targeted and effective solutions."
     },
     {
-      icon: <Star size={50} color="#39CC2F" strokeWidth={1.5} />,
+      icon: <Star size={50} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
       title: "Empowerment First",
       description: "Combines skills training and career development programs to create a holistic approach to community empowerment, ensuring sustainable growth and development."
     }
@@ -492,7 +494,7 @@ const ConPact = () => {
             padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            font-weight: 900;
+            font-weight: 400;
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
@@ -527,7 +529,7 @@ const ConPact = () => {
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 400;
             position: relative;
           }
           
@@ -576,6 +578,31 @@ const ConPact = () => {
           }
 
           .dropdown-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #0edb61; }
+
+          .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+            border-radius: 50%;
+          }
+          .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #0edb61;
+          }
+          html.light-mode .theme-toggle-btn {
+            color: #1a1a2e;
+          }
+          html.light-mode .theme-toggle-btn:hover {
+            background: rgba(5, 150, 105, 0.1);
+            color: #059669;
+          }
 
           .mobile-menu-toggle {
             background: none;
@@ -643,6 +670,62 @@ const ConPact = () => {
             .desktop-nav { display: none !important; }
             .mobile-menu-toggle { display: block !important; }
           }
+
+          html.light-mode .conpact-card {
+            background: linear-gradient(145deg, #ffffff, #f0f4f8);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .conpact-card:hover {
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12), 0 4px 15px rgba(5, 150, 105, 0.15);
+            border-color: rgba(5, 150, 105, 0.3);
+          }
+          html.light-mode .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .nav-link {
+            color: #373737;
+          }
+          html.light-mode .nav-link:hover {
+            color: #059669;
+          }
+          html.light-mode .dropdown-content {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          }
+          html.light-mode .dropdown-link {
+            color: #373737;
+          }
+          html.light-mode .dropdown-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #059669;
+          }
+          html.light-mode .mobile-menu-toggle {
+            color: #373737;
+          }
+          html.light-mode .mobile-nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-nav-link {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-toggle {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-content {
+            background-color: #f0f4f8;
+          }
+          html.light-mode .mobile-nav-sublink {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          }
+
         `}
       </style>
 
@@ -683,6 +766,14 @@ const ConPact = () => {
             <button className="nav-link" onClick={() => handleSmoothScroll("advantage")}>Our Advantage</button>
             <button className="nav-link" onClick={() => handleSmoothScroll("cta")}>Partner With Us</button>
           </nav>
+
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -780,14 +871,14 @@ const ConPact = () => {
       </section>
 
       {/* CSR Priorities Section */}
-      <section id="csr-priorities" style={{ ...styles.sectionCommon, backgroundColor: "#131B21" }}>
+      <section id="csr-priorities" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
-            HOW 8CONPACT ALIGNS WITH <span style={{ color: "#39CC2F" }}>CSR PRIORITIES</span>
+            HOW 8CONPACT ALIGNS WITH <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>CSR PRIORITIES</span>
           </h2>
           <div className="grid-3x3">
             {csrData.map((data, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
 
               return (
                 <div key={index} className={`scale-up anim-delay-${(index % 3) + 1}`}>
@@ -795,14 +886,14 @@ const ConPact = () => {
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "8px", backgroundColor: topColor }} />
                     
                     <div>{data.icon}</div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.2rem" }}>{data.title}</h3>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.2rem" }}>{data.title}</h3>
                     <h4 style={{ fontSize: "0.95rem", fontWeight: "600", color: "#ff1f2c", marginBottom: "0.5rem", textTransform: "uppercase", letterSpacing: "1px" }}>{data.subtitle}</h4>
-                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                     
-                    <h4 style={{ fontSize: "1rem", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem", marginTop: "0.5rem", alignSelf: "flex-start" }}>{data.featureTitle}</h4>
+                    <h4 style={{ fontSize: "1rem", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem", marginTop: "0.5rem", alignSelf: "flex-start" }}>{data.featureTitle}</h4>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0, textAlign: "left", width: "100%" }}>
                       {data.items.map((item, itemIndex) => (
-                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: "#A0ABB5", marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
+                        <li key={itemIndex} style={{ fontSize: "0.95rem", color: colors.textMuted, marginBottom: "0.8rem", lineHeight: "1.5", display: "flex", alignItems: "flex-start" }}>
                           <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                           <span>{item}</span>
                         </li>
@@ -817,7 +908,7 @@ const ConPact = () => {
       </section>
 
       {/* The 8ConPact Advantage Section */}
-      <section id="advantage" style={{ ...styles.sectionCommon, backgroundColor: "#19232A" }}>
+      <section id="advantage" style={{ ...styles.sectionCommon, backgroundColor: colors.bgSecondary }}>
         <div style={styles.container2}>
           <h2 style={styles.sectionTitle} className="fade-in-up">
             THE 8CONPACT <span style={{ color: "#ff1f2c" }}>ADVANTAGE</span>
@@ -827,8 +918,8 @@ const ConPact = () => {
               <div key={index} className={`fade-in-up anim-delay-${(index % 3) + 1}`}>
                 <div className="conpact-card" style={{ justifyContent: "center" }}>
                   <div>{data.icon}</div>
-                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem" }}>{data.title}</h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{data.description}</p>
+                  <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem" }}>{data.title}</h3>
+                  <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{data.description}</p>
                 </div>
               </div>
             ))}
@@ -837,10 +928,10 @@ const ConPact = () => {
       </section>
 
       {/* CTA Section */}
-      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: "#131B21", textAlign: "center" }}>
+      <section id="cta" style={{ ...styles.sectionCommon, backgroundColor: colors.bgPrimary, textAlign: "center" }}>
         <div style={styles.container2}>
           <h2 style={styles.ctaTitle} className="fade-in-up anim-delay-1">
-            JOIN 8CONPACT IN <span style={{ color: "#39CC2F" }}>DRIVING IMPACT</span>
+            JOIN 8CONPACT IN <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>DRIVING IMPACT</span>
           </h2>
           <p style={styles.ctaDescription} className="fade-in-up anim-delay-2">
             At 8ConPact, we bridge businesses, government units, and communities to create meaningful collaborations that uplift lives and foster sustainable growth. Through livelihood programs, scholarships, and employment initiatives, we contribute to building stronger, more self-reliant communities.
@@ -886,7 +977,7 @@ const ConPact = () => {
               style={styles.ctaHighlight}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-5px) scale(1.02)";
-                e.currentTarget.style.borderColor = "#39CC2F";
+                e.currentTarget.style.borderColor = isDark ? "#39CC2F" : "#059669";
                 e.currentTarget.style.boxShadow = "0 15px 35px rgba(57, 204, 47, 0.3)";
               }}
               onMouseLeave={(e) => {

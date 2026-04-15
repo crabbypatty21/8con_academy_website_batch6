@@ -32,7 +32,20 @@
       "Bash(FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --msg-filter 'sed \"/Co-Authored-By:.*[Cc]laude.*anthropic\\\\.com/d\"' --tag-name-filter cat -- --all)",
       "Bash(while read:*)",
       "Bash(do git:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(netsh advfirewall:*)",
+      "Bash(ipconfig)",
+      "Bash(__NEW_LINE_becee1b3b77dfc5b__ FILES=\"Construct.jsx Conedge.jsx Concise.jsx Converse.jsx Connect.jsx Conlift.jsx Conquest.jsx Conpact.jsx Conspace.jsx Consult.jsx\")",
+      "Bash(__NEW_LINE_becee1b3b77dfc5b__ for:*)",
+      "Bash(do)",
+      "Bash(sed -i 's|filter: \"\"drop-shadow\\(0px 8px 25px rgba\\(154, 205, 50, 0.8\\)\\)\"\"|filter: isDark ? \"\"drop-shadow\\(0px 8px 25px rgba\\(154, 205, 50, 0.8\\)\\)\"\" : \"\"none\"\"|g' \"$f\")",
+      "Bash(__NEW_LINE_becee1b3b77dfc5b__ echo:*)",
+      "Bash(for f:*)",
+      "Bash(do sed:*)",
+      "Bash(node:*)",
+      "Bash(python3 -c \"import docx; print\\('ok'\\)\")",
+      "Bash(pip install:*)",
+      "Bash(python generate_manuscript.py)"
     ]
   }
 }

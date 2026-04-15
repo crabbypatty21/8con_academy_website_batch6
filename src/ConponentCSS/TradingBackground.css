@@ -329,7 +329,7 @@ html.light-mode .trading-bg ~ * h3,
 html.light-mode .trading-bg ~ * p,
 html.light-mode .trading-bg ~ * span,
 html.light-mode .trading-bg ~ * label {
-  text-shadow: 0 0 10px var(--bg-primary), 0 0 20px var(--bg-primary), 0 0 40px var(--bg-primary);
+  text-shadow: none;
 }
 
 /* ===== VARIANTS ===== */

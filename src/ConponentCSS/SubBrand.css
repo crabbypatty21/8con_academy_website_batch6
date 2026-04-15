@@ -13,7 +13,7 @@
           background: transparent;
           padding: 10px 5%;
           font-size: 14px;
-          font-weight: 900;
+          font-weight: 400;
           text-transform: uppercase;
           transition: background-color 0.8s ease, box-shadow 0.8s ease;
         }
@@ -168,7 +168,7 @@
           align-items: center;
           gap: 2px;
           font-size: 14px;
-          font-weight: 600;
+          font-weight: 400;
           position: relative;
         }
 
@@ -230,7 +230,7 @@
           transition: background-color 0.3s ease, color 0.3s ease;
           font-family: "Montserrat", sans-serif;
           font-size: 14px;
-          font-weight: 900;
+          font-weight: 400;
           text-transform: uppercase;
         }
 
@@ -269,6 +269,25 @@
 
         .mobile-nav-link:hover {
           background-color: #f9fafb;
+        }
+
+        .theme-toggle-btn {
+          background: none;
+          border: none;
+          color: white;
+          cursor: pointer;
+          padding: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          margin-right: 12px;
+          border-radius: 50%;
+        }
+
+        .theme-toggle-btn:hover {
+          background: rgba(255, 255, 255, 0.15);
+          color: #0edb61;
         }
 
         .mobile-menu-toggle {
@@ -1348,7 +1367,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain; 
-  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15)); 
+  filter: none;
   transition: transform 0.3s ease;
 }
 
@@ -1506,11 +1525,10 @@
   border-radius: 24px;
   padding: 1.5rem; 
   box-sizing: border-box;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
-              opacity 0.6s ease, 
-              filter 0.6s ease,
-              box-shadow 0.3s ease;
+  box-shadow: none;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.6s ease,
+              filter 0.6s ease;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -1549,7 +1567,7 @@
 
 .coverflow-slide.active .card-learn-btn:hover {
   background-color: #f0fdf4 !important;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  box-shadow: none;
 }
 
 /* ACTIVE (Center) */
@@ -1558,7 +1576,7 @@
   z-index: 10;
   opacity: 1;
   filter: blur(0px); 
-  box-shadow: 0 10px 25px rgba(117, 249, 76, 0.4), 0 0 15px rgba(117, 249, 76, 0.5) !important;
+  box-shadow: none !important;
 }
 
 .coverflow-slide.active:hover .brand-image {
@@ -1826,57 +1844,41 @@
 /* ==========================================
    SUB-BRANDS LIGHT MODE
    ========================================== */
-html.light-mode .parallax-overlay {
-  background-color: rgba(0, 0, 0, 0.4);
+
+/* Background only — everything else stays same as dark mode */
+html.light-mode .parallax-bull {
+  color: #ffffff;
 }
 
-html.light-mode .carousel-section {
-  background-color: transparent;
+html.light-mode .app-container {
+  background: #EFF9FF;
 }
 
-html.light-mode .carousel-title-container h2 {
-  color: #373737 !important;
+html.light-mode .header.scrolled {
+  background-color: rgba(239, 249, 255, 0.95);
 }
 
-html.light-mode .carousel-title-container p {
-  color: #666666 !important;
+html.light-mode .header.scrolled .nav-link,
+html.light-mode .header.scrolled .mobile-menu-toggle,
+html.light-mode .header.scrolled .theme-toggle-btn {
+  color: #1a1a2e;
 }
 
-html.light-mode .coverflow-slide {
-  background-color: #059669;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+html.light-mode .header.scrolled .burger-line {
+  background-color: #1a1a2e;
 }
 
-html.light-mode .coverflow-slide.active {
-  box-shadow: 0 10px 25px rgba(5, 150, 105, 0.4), 0 0 15px rgba(5, 150, 105, 0.3) !important;
+html.light-mode .dropdown-content {
+  background-color: #ffffff;
 }
 
-html.light-mode .brand-name-display {
-  color: #ffffff !important;
+html.light-mode .dropdown-link {
+  color: #1a1a2e;
 }
 
-html.light-mode .brand-text-fx {
-  text-shadow: 0 0 10px rgba(5, 150, 105, 0.6);
-}
-
-html.light-mode .carousel-nav-btn {
+html.light-mode .dropdown-link:hover {
+  background-color: rgba(5, 150, 105, 0.08);
   color: #059669;
-}
-
-html.light-mode .carousel-nav-btn:hover {
-  color: #373737;
-}
-
-html.light-mode .pagination-dot {
-  background-color: #cbd5e1;
-}
-
-html.light-mode .pagination-dot.active {
-  background-color: #059669;
-}
-
-html.light-mode .card-learn-btn {
-  background: #dc2626 !important;
 }
 
 html.light-mode .mobile-nav {

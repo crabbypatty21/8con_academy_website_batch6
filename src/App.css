@@ -115,11 +115,11 @@ html.light-mode {
   --bg-quaternary: #cbd5e1;
   --bg-surface: #f8f9fa;
 
-  --text-primary: #373737;
-  --text-secondary: #373737;
-  --text-muted: #828282;
-  --text-heading: #373737;
-  --text-body: #373737;
+  --text-primary: #1a1a2e;
+  --text-secondary: #2d2d44;
+  --text-muted: #555770;
+  --text-heading: #1a1a2e;
+  --text-body: #2d2d44;
 
   --accent-green: #059669;
   --accent-green-light: #10b981;
@@ -137,11 +137,11 @@ html.light-mode {
 
   --header-scrolled-bg: #EFF9FF;
   --header-text: #ffffff;
-  --header-scrolled-text: #373737;
+  --header-scrolled-text: #1a1a2e;
   --header-dropdown-bg: #ffffff;
-  --header-dropdown-text: #000000;
+  --header-dropdown-text: #1a1a2e;
   --header-mobile-bg: rgba(255, 255, 255, 0.98);
-  --header-mobile-text: #373737;
+  --header-mobile-text: #2d2d44;
   --header-mobile-border: #e2e8f0;
 
   --contact-form-bg: #E9F1F9;
@@ -151,7 +151,7 @@ html.light-mode {
   --map-border: #d1d5db;
   --map-shadow: rgba(0, 0, 0, 0.1);
 
-  --form-label: #373737;
+  --form-label: #1a1a2e;
   --input-border: #d1d5db;
 
   --internship-bg: #E9F1F9;
@@ -159,8 +159,8 @@ html.light-mode {
   --intcard-shadow: rgba(0, 0, 0, 0.1);
   --intcard-shadow-hover: rgba(0, 0, 0, 0.18);
   --intcard-icon: #059669;
-  --intcard-title: #373737;
-  --intcard-desc: #373737;
+  --intcard-title: #1a1a2e;
+  --intcard-desc: #2d2d44;
   --intapply-bg: #75F94C;
   --intapply-text: #121411;
   --intapply-hover: #65e03e;

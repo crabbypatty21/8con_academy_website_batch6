@@ -21,6 +21,8 @@ import {
   BookOpen,
   Check,
   Handshake,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const ConEdge = () => {
@@ -158,7 +160,7 @@ const ConEdge = () => {
       color: colors.textPrimary,
       margin: 0,
       padding: 0,
-      backgroundColor: "#131B21", 
+      backgroundColor: colors.bgPrimary,
     },
 
     container2: {
@@ -171,8 +173,10 @@ const ConEdge = () => {
 
     heroSection: {
       minHeight: "100vh",
-      backgroundImage: "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')",
-      backgroundColor: "#19232A",
+      backgroundImage: isDark
+        ? "linear-gradient(rgba(25, 35, 42, 0.65), rgba(25, 35, 42, 0.9)), url('../src/assets/images/imagebg.png')"
+        : "linear-gradient(rgba(233, 241, 249, 0.75), rgba(233, 241, 249, 0.92)), url('../src/assets/images/imagebg.png')",
+      backgroundColor: colors.bgSecondary,
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -196,7 +200,7 @@ const ConEdge = () => {
       zIndex: 2,
       maxWidth: "900px",
       margin: "0 auto",
-      marginTop: "-30vh", 
+      marginTop: "-30vh",
     },
 
     heroTopImage: {
@@ -206,29 +210,29 @@ const ConEdge = () => {
       position: "relative",
       zIndex: 3,
       pointerEvents: "none",
-      filter: "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))",
+      filter: isDark ? "drop-shadow(0px 8px 25px rgba(154, 205, 50, 0.8))" : "brightness(1.15) contrast(1.3) saturate(1.2)",
     },
 
     heroSubtitle: {
       fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
       fontWeight: "700",
-      marginTop: "0", 
+      marginTop: "0",
       marginBottom: "1rem",
-      color: "#ffffff",
+      color: colors.textPrimary,
       lineHeight: "1.3",
-      textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 2px 10px rgba(0,0,0,0.5)" : "none",
       position: "relative",
       zIndex: 4,
     },
 
     heroDescription: {
       fontSize: "clamp(1rem, 2vw, 1.15rem)",
-      color: "#e2e8f0", 
+      color: colors.textMuted,
       lineHeight: "1.6",
       maxWidth: "800px",
       marginTop: "0",
       marginBottom: "2.5rem",
-      textShadow: "0 1px 5px rgba(0,0,0,0.5)",
+      textShadow: isDark ? "0 1px 5px rgba(0,0,0,0.5)" : "none",
     },
 
     heroForegroundContent: {
@@ -256,16 +260,16 @@ const ConEdge = () => {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      backgroundColor: "#131B21",
+      backgroundColor: colors.bgPrimary,
       textAlign: "center",
       position: "relative",
-      overflow: "hidden", 
+      overflow: "hidden",
     },
 
     sectionTitle: {
       fontSize: "clamp(2rem, 5vw, 2.5rem)",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       textAlign: "center",
       marginBottom: "2rem",
     },
@@ -281,13 +285,13 @@ const ConEdge = () => {
       fontSize: "clamp(2rem, 5vw, 3rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#39CC2F",
+      color: isDark ? "#39CC2F" : "#059669",
       marginBottom: "0.5rem",
     },
 
     statLabel: {
       fontSize: "1rem",
-      color: "#A0ABB5",
+      color: colors.textMuted,
       fontWeight: "600",
       textTransform: "uppercase",
       letterSpacing: "1px",
@@ -295,7 +299,7 @@ const ConEdge = () => {
 
     toolsSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      backgroundColor: "#19232A", 
+      backgroundColor: colors.bgSecondary,
       position: "relative",
       overflow: "hidden",
     },
@@ -313,14 +317,14 @@ const ConEdge = () => {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      backgroundColor: "#131B21", 
+      backgroundColor: colors.bgPrimary,
       position: "relative",
       overflow: "hidden",
     },
 
     ctaSection: {
       padding: "clamp(60px, 12vh, 80px) clamp(20px, 5vw, 40px)",
-      backgroundColor: "#19232A",
+      backgroundColor: colors.bgSecondary,
       textAlign: "center",
       minHeight: "80vh",
       display: "flex",
@@ -334,14 +338,14 @@ const ConEdge = () => {
       fontSize: "clamp(2rem, 5vw, 2.8rem)",
       fontFamily: "'Unbounded', sans-serif",
       fontWeight: "700",
-      color: "#ffffff",
+      color: colors.textPrimary,
       marginBottom: "1.5rem",
       textTransform: "uppercase",
     },
 
     ctaDescription: {
       fontSize: "clamp(1rem, 3vw, 1.2rem)",
-      color: "#A0ABB5",
+      color: colors.textMuted,
       lineHeight: "1.8",
       marginBottom: "2.5rem",
       maxWidth: "800px",
@@ -362,15 +366,15 @@ const ConEdge = () => {
             scroll-behavior: smooth;
             scroll-padding-top: 60px;
           }
-          
+
           /* ----- Beautiful CSS for the Cards ----- */
           .conedge-card {
-            background: linear-gradient(145deg, #1c2730, #131b21);
+            background: ${isDark ? "linear-gradient(145deg, #1c2730, #131b21)" : "linear-gradient(145deg, #ffffff, #f0f4f8)"};
             padding: 2rem;
             border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: ${isDark ? "1px solid rgba(255, 255, 255, 0.03)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            border-top: ${isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            box-shadow: ${isDark ? "0 8px 20px rgba(0, 0, 0, 0.4)" : "0 8px 20px rgba(0, 0, 0, 0.08)"};
             backdrop-filter: blur(10px);
             height: 100%;
             display: flex;
@@ -385,7 +389,7 @@ const ConEdge = () => {
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6), 0 4px 15px rgba(57, 204, 47, 0.15);
             border-color: rgba(57, 204, 47, 0.3);
           }
-          
+
           /* ----- Grid 2x2 for Why Choose Section ----- */
           .grid-2x2 {
             display: grid;
@@ -393,7 +397,7 @@ const ConEdge = () => {
             gap: 2rem;
             margin-top: 3rem;
           }
-          
+
           @media (max-width: 768px) {
             .grid-2x2 {
               grid-template-columns: 1fr;
@@ -407,7 +411,7 @@ const ConEdge = () => {
             border: none;
             padding: 14px 36px;
             font-size: 1rem;
-            font-weight: 700;
+            font-weight: 400;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -422,7 +426,7 @@ const ConEdge = () => {
           }
 
           .btn-secondary {
-            background: rgba(255, 255, 255, 0.15);
+            background: ${isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)"};
             backdrop-filter: blur(5px);
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.6);
@@ -452,18 +456,23 @@ const ConEdge = () => {
             padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
-            font-weight: 900;
+            font-weight: 700;
             text-transform: uppercase;
             transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
           }
-          
+
           .header.scrolled {
             background-color: rgba(19, 27, 33, 0.98);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
           }
-          
+
+          html.light-mode .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          }
+
           .header-container {
             width: 100%;
             display: flex;
@@ -472,28 +481,28 @@ const ConEdge = () => {
             padding-right: 5%;
             padding-left: 5%;
           }
-          
+
           .logo {
             display: flex;
             align-items: center;
             text-decoration: none;
             margin-right: auto;
           }
-          
+
           .logo-img {
             height: 40px;
             width: auto;
           }
-          
+
           .desktop-nav {
             display: flex;
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 400;
             position: relative;
           }
-          
+
           .nav-link {
             text-decoration: none;
             color: #ffffff;
@@ -507,20 +516,24 @@ const ConEdge = () => {
             border: none;
             font-family: inherit;
           }
-          
+
+          html.light-mode .nav-link {
+            color: #373737;
+          }
+
           .nav-link:hover {
             transform: translateY(-2px);
             color: #0edb61;
           }
-          
+
           .dropdown {
             position: relative;
           }
-          
+
           .dropdown:hover .dropdown-content {
             display: block;
           }
-          
+
           .dropdown-content {
             display: none;
             position: absolute;
@@ -534,7 +547,12 @@ const ConEdge = () => {
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.1);
           }
-          
+
+          html.light-mode .dropdown-content {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+          }
+
           .dropdown-link {
             display: block;
             padding: 12px 20px;
@@ -546,12 +564,68 @@ const ConEdge = () => {
             font-weight: 600;
             text-transform: uppercase;
           }
-          
+
+          html.light-mode .dropdown-link {
+            color: #373737;
+          }
+
           .dropdown-link:hover {
             background-color: rgba(255, 255, 255, 0.05);
             color: #0edb61;
           }
-          
+
+          html.light-mode .dropdown-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #059669;
+          }
+          html.light-mode .mobile-menu-toggle {
+            color: #373737;
+          }
+          html.light-mode .mobile-nav {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-nav-link {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-toggle {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          }
+          html.light-mode .mobile-dropdown-content {
+            background-color: #f0f4f8;
+          }
+          html.light-mode .mobile-nav-sublink {
+            color: #373737;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          }
+
+          .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-right: 12px;
+            border-radius: 50%;
+          }
+          .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #0edb61;
+          }
+          html.light-mode .theme-toggle-btn {
+            color: #1a1a2e;
+          }
+          html.light-mode .theme-toggle-btn:hover {
+            background: rgba(5, 150, 105, 0.1);
+            color: #059669;
+          }
+
           .mobile-menu-toggle {
             background: none;
             border: none;
@@ -561,7 +635,7 @@ const ConEdge = () => {
             display: none;
             padding: 5px;
           }
-          
+
           .mobile-nav {
             background-color: rgba(19, 27, 33, 0.98);
             backdrop-filter: blur(10px);
@@ -570,7 +644,7 @@ const ConEdge = () => {
             max-height: 80vh;
             overflow-y: auto;
           }
-          
+
           .mobile-nav-link {
             display: block;
             padding: 15px 20px;
@@ -585,28 +659,28 @@ const ConEdge = () => {
             width: 100%;
             text-align: left;
           }
-          
+
           .mobile-nav-link:hover {
             background-color: rgba(14, 219, 97, 0.1);
           }
-          
+
           .mobile-dropdown {
             position: relative;
           }
-          
+
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
           }
-          
+
           .mobile-dropdown-content {
             background-color: #131B21;
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
           }
-          
+
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
@@ -615,7 +689,7 @@ const ConEdge = () => {
             font-size: 14px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
           }
-          
+
           .rotate-180 {
             transform: rotate(180deg);
             transition: transform 0.3s ease;
@@ -677,6 +751,14 @@ const ConEdge = () => {
               Contact
             </button>
           </nav>
+
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -773,11 +855,11 @@ const ConEdge = () => {
       <section id="about" style={styles.aboutSection}>
         <div style={styles.container2}>
           <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up anim-delay-1">
-            ADVANCED <span style={{ color: "#39CC2F" }}>TRADING TECHNOLOGY</span>
+            ADVANCED <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>TRADING TECHNOLOGY</span>
           </h2>
           {/* Removed duplicate style prop here */}
           <p className="fade-in-up anim-delay-2" style={{ fontSize: "clamp(1rem, 3vw, 1.2rem)", color: colors.textMuted, lineHeight: "1.8", maxWidth: "800px", margin: "0 auto" }}>
-            8ConEdge delivers <strong style={{ color: "#39CC2F", fontWeight: "700" }}>cutting-edge proprietary Forex tools</strong> that revolutionize the way traders analyze markets, execute trades, and manage risk. Our advanced technology combines artificial intelligence, real-time market analysis, and sophisticated algorithms to provide traders with unparalleled insights and trading advantages.
+            8ConEdge delivers <strong style={{ color: isDark ? "#39CC2F" : "#059669", fontWeight: "700" }}>cutting-edge proprietary Forex tools</strong> that revolutionize the way traders analyze markets, execute trades, and manage risk. Our advanced technology combines artificial intelligence, real-time market analysis, and sophisticated algorithms to provide traders with unparalleled insights and trading advantages.
           </p>
           <div style={styles.statsGrid}>
             {[
@@ -799,13 +881,13 @@ const ConEdge = () => {
       {/* Tools Section */}
       <section id="tools" style={styles.toolsSection}>
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, color: "#ffffff", fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
+          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
             OUR PROPRIETARY TOOLS
           </h2>
           <div style={styles.toolsGrid}>
             {[
               {
-                icon: <BarChart3 size={40} color="#39CC2F" strokeWidth={1.5} />,
+                icon: <BarChart3 size={40} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
                 title: "Smart Market Analyzer",
                 description: "AI-powered market analysis tool that identifies profitable trading opportunities by analyzing multiple currency pairs simultaneously.",
                 features: ["Real-time market scanning", "Pattern recognition algorithms", "Automated signal generation"],
@@ -817,7 +899,7 @@ const ConEdge = () => {
                 features: ["Sub-second execution speed", "Advanced order management", "Multi-broker compatibility"],
               },
               {
-                icon: <Shield size={40} color="#39CC2F" strokeWidth={1.5} />,
+                icon: <Shield size={40} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
                 title: "Risk Guardian Pro",
                 description: "Comprehensive risk management system that protects your capital through advanced position sizing and automated stop-loss mechanisms.",
                 features: ["Dynamic position sizing", "Automated risk controls", "Portfolio protection alerts"],
@@ -829,7 +911,7 @@ const ConEdge = () => {
                 features: ["Automated profit scaling", "Momentum indicators", "Performance optimization"],
               },
               {
-                icon: <Users size={40} color="#39CC2F" strokeWidth={1.5} />,
+                icon: <Users size={40} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />,
                 title: "Social Trading Hub",
                 description: "Connect with professional traders, copy successful strategies, and learn from the best performers in our exclusive trading community.",
                 features: ["Strategy copying", "Performance leaderboards", "Community insights"],
@@ -841,18 +923,18 @@ const ConEdge = () => {
                 features: ["Historical data analysis", "Strategy validation", "Performance metrics"],
               },
             ].map((tool, index) => {
-              const topColor = index % 2 === 0 ? "#39CC2F" : "#ff1f2c";
+              const topColor = index % 2 === 0 ? (isDark ? "#39CC2F" : "#059669") : "#ff1f2c";
 
               return (
                 <div key={index} className={`slide-in-right anim-delay-${(index % 6) + 1}`}>
                   <div className="conedge-card">
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "4px", backgroundColor: topColor }} />
                     <div>{tool.icon}</div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "1rem", marginTop: "1rem" }}>{tool.title}</h3>
-                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6", marginBottom: "1.5rem" }}>{tool.description}</p>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "1rem", marginTop: "1rem" }}>{tool.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6", marginBottom: "1.5rem" }}>{tool.description}</p>
                     <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                       {tool.features.map((feature, idx) => (
-                        <li key={idx} style={{ fontSize: "0.95rem", color: "#A0ABB5", lineHeight: "1.6", marginBottom: "8px", paddingLeft: "0", display: "flex", alignItems: "flex-start" }}>
+                        <li key={idx} style={{ fontSize: "0.95rem", color: colors.textMuted, lineHeight: "1.6", marginBottom: "8px", paddingLeft: "0", display: "flex", alignItems: "flex-start" }}>
                           <Check size={18} color={topColor} strokeWidth={4} style={{ marginRight: "8px", flexShrink: 0, marginTop: "2px" }} />
                           <span>{feature}</span>
                         </li>
@@ -869,39 +951,39 @@ const ConEdge = () => {
       {/* Why Choose Us Section */}
       <section id="why-choose" style={styles.whyChooseSection}>
         <div style={styles.container2}>
-          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", color: "#ffffff", textTransform: "uppercase" }} className="fade-in-up">
-            WHY CHOOSE <span style={{ color: "#39CC2F" }}>8CONEDGE?</span>
+          <h2 style={{ ...styles.sectionTitle, fontFamily: "'Unbounded', sans-serif", textTransform: "uppercase" }} className="fade-in-up">
+            WHY CHOOSE <span style={{ color: isDark ? "#39CC2F" : "#059669" }}>8CONEDGE?</span>
           </h2>
-          
+
           <div className="grid-2x2">
             {[
               {
                 title: "Proprietary Technology",
                 description: "Our tools are built in-house by expert developers and traders, ensuring unique features and competitive advantages not available elsewhere.",
-                icon: <Brain size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <Brain size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Proven Performance",
                 description: "Track record of helping traders achieve consistent profitability with tools tested and refined by professional traders in live market conditions.",
-                icon: <TrendingUp size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <TrendingUp size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Continuous Innovation",
                 description: "Regular updates and new features based on market evolution and user feedback, keeping you ahead of market trends and opportunities.",
-                icon: <Rocket size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <Rocket size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
               {
                 title: "Expert Support",
                 description: "24/7 technical support from trading professionals who understand both the technology and the markets, ensuring you maximize your trading potential.",
-                icon: <Users size={48} color="#39CC2F" strokeWidth={1.5} />
+                icon: <Users size={48} color={isDark ? "#39CC2F" : "#059669"} strokeWidth={1.5} />
               },
             ].map((benefit, index) => (
               <div key={index} className={`slide-in-right anim-delay-${(index % 4) + 1}`}>
                 <div className="conedge-card" style={{ alignItems: "center", textAlign: "center" }}>
                   <div>{benefit.icon}</div>
                   <div>
-                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: "#ffffff", marginBottom: "0.5rem", marginTop: "1rem" }}>{benefit.title}</h3>
-                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: "#A0ABB5", lineHeight: "1.6" }}>{benefit.description}</p>
+                    <h3 style={{ fontSize: "clamp(1.1rem, 3vw, 1.4rem)", fontFamily: "'Unbounded', sans-serif", fontWeight: "700", color: colors.textPrimary, marginBottom: "0.5rem", marginTop: "1rem" }}>{benefit.title}</h3>
+                    <p style={{ fontSize: "clamp(0.9rem, 2.5vw, 1rem)", color: colors.textMuted, lineHeight: "1.6" }}>{benefit.description}</p>
                   </div>
                 </div>
               </div>
@@ -928,7 +1010,7 @@ const ConEdge = () => {
                 fontSize: "clamp(1rem, 2.5vw, 1.2rem)",
                 maxWidth: "800px",
                 margin: "0 auto",
-                color: "#ffffff",
+                color: colors.textPrimary,
                 cursor: "pointer",
                 transition: "all 0.3s ease",
                 boxShadow: "0 4px 15px rgba(14, 219, 97, 0.3)",

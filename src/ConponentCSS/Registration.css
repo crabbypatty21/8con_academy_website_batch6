@@ -18,8 +18,8 @@
     max-width: 900px;
     max-height: 90vh;
     overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
     border-radius: 12px;
     background-color: #1a2329;
     box-shadow: 0 0 40px rgba(255, 255, 255, 0.15),
@@ -28,7 +28,20 @@
 }
 
 .reg-modal-content::-webkit-scrollbar {
-    display: none;
+    width: 6px;
+}
+
+.reg-modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.reg-modal-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.reg-modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
 }
 
 /* ===== CLOSE BUTTON ===== */
@@ -67,7 +80,7 @@
     width: 100%;
     background-color: #1a2329;
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible;
     border: none;
 }
 
@@ -77,7 +90,7 @@
     padding: 24px 36px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .reg-modal-content .image-column {
@@ -344,13 +357,7 @@ html.light-mode .reg-modal-content .error-message {
     }
 
     .reg-modal-content .image-column {
-    width: 100%;
-    order: -1;
-    }
-
-    .reg-modal-content .workshop-image {
-    height: auto;
-    object-fit: contain;
+    display: none;
     }
 }
 
