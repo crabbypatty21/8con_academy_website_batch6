@@ -340,11 +340,15 @@ html.light-mode .trading-bg ~ * label {
 .trading-bg-v5 { opacity: 0.16; }
 
 /* ===== LIGHT MODE ===== */
-html.light-mode .trading-bg { opacity: 0.14; }
-html.light-mode .tb-label { color: rgba(0, 0, 0, 0.3); }
-html.light-mode .tb-level-mid { background: repeating-linear-gradient(90deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 4px, transparent 4px, transparent 12px); }
-html.light-mode .tb-bb-fill { fill: rgba(0, 0, 0, 0.01); }
-html.light-mode .tb-bb-upper, html.light-mode .tb-bb-lower { stroke: rgba(0, 0, 0, 0.15); }
+html.light-mode .trading-bg { opacity: 0.25; }
+html.light-mode .tb-label { color: rgba(0, 0, 0, 0.4); }
+html.light-mode .tb-level-mid { background: repeating-linear-gradient(90deg, rgba(0,0,0,0.1) 0, rgba(0,0,0,0.1) 4px, transparent 4px, transparent 12px); }
+html.light-mode .tb-bb-fill { fill: rgba(0, 0, 0, 0.03); }
+html.light-mode .tb-bb-upper, html.light-mode .tb-bb-lower { stroke: rgba(0, 0, 0, 0.25); }
+html.light-mode .tb-level-support { background: repeating-linear-gradient(90deg, #059669 0, #059669 8px, transparent 8px, transparent 16px); }
+html.light-mode .tb-level-support span { color: #059669; background: rgba(5,150,105,0.15); }
+html.light-mode .tb-level-resist { background: repeating-linear-gradient(90deg, #dc2626 0, #dc2626 8px, transparent 8px, transparent 16px); }
+html.light-mode .tb-level-resist span { color: #dc2626; background: rgba(220,38,38,0.15); }
 
 /* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {

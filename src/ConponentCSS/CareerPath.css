@@ -2,7 +2,7 @@
    CAREER PATH SECTION
    ========================================== */
 .section-careerpath {
-  background: var(--careerpath-bg);
+  background: var(--bg-secondary);
   font-family: "Geist Sans", sans-serif;
   display: flex;
   flex-direction: column;

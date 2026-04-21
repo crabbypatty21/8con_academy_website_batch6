@@ -2,13 +2,11 @@ import React from "react";
 import ScrollLink from "./ScrollLink";
 import { MoveRight } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
-import TradingBackground from "./TradingBackground.jsx";
 
 const AboutSection = () => {
   const { isDark } = useTheme();
   return (
     <section id="about" className="about-section">
-      <TradingBackground variant={3} />
       <div className="about-container" style={{ position: "relative", zIndex: 1 }}>
         <div className="about-header">
           <h1 className="aboutUsTitle fade-in">ABOUT US</h1>

@@ -1,6 +1,5 @@
 import React from "react";
 import "../ConponentCSS/CareerPath.css";
-import TradingBackground from "./TradingBackground.jsx";
 
 const CareerPathSection = () => {
   const careerPaths = [
@@ -32,7 +31,6 @@ const CareerPathSection = () => {
 
   return (
     <section id="careerpath" className="section section-careerpath" style={{ position: "relative" }}>
-      <TradingBackground variant={4} />
       <div className="careerpath-title fade-in-up" style={{ position: "relative", zIndex: 1 }}>
         <h2>CAREER PATH</h2>
         <div className="careerpath-underline"></div>

@@ -209,11 +209,13 @@ html {
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
+  background-color: #131B21;
 }
 
 body {
   font-family: "Geist Sans", sans-serif;
   color: var(--body-color);
+  background-color: var(--bg-primary);
   line-height: 1.6;
   margin: 0;
   padding: 0;

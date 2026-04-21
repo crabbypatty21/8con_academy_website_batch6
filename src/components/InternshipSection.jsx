@@ -3,7 +3,6 @@ import "../ConponentCSS/Internship.css";
 import "../ConponentCSS/ApplyModal.css";
 import { X, CheckCircle, XCircle, Briefcase, Users, Info } from "lucide-react";
 import { useTheme } from "../context/ThemeContext.jsx";
-import TradingBackground from "./TradingBackground.jsx";
 
 const WEB3FORMS_ACCESS_KEY = "5f8976e9-6357-4533-bd55-71314277e2f9";
 
@@ -269,8 +268,6 @@ const InternshipSection = ({
   handleCloseModal,
 }) => (
   <section id="internship" className="section section-internship" style={{ position: "relative" }}>
-    <TradingBackground variant={5} />
-
     <div className="internship-title fade-in-up" style={{ position: "relative", zIndex: 1 }}>
       <h2>INTERNSHIP</h2>
       <p>Join our team and kickstart your career</p>

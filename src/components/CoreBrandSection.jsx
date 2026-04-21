@@ -5,7 +5,7 @@ import "../ConponentCSS/Testimonials.css";
 const zigzagArrow = "/assets/images/arrow_edited.png";
 import { useTheme } from "../context/ThemeContext.jsx";
 import EnrollModal from "./EnrollModal.jsx";
-import TradingBackground from "./TradingBackground.jsx";
+
 
 const COURSE_FEATURES = [
   "In-depth curriculum covering market analysis, strategies, and risk management.",
@@ -83,10 +83,9 @@ const CoreBrandSection = ({
         id="core-brand"
         className="cb-page1"
         style={{
-          backgroundColor: isDark ? "#19232A" : "#E9F1F9",
+          backgroundColor: "#131B21",
         }}
       >
-        <TradingBackground variant={1} />
         <div className="cb-page1-inner">
           {/* Left Content */}
           <div className="slide-in-left cb-left-content">
@@ -187,10 +186,9 @@ const CoreBrandSection = ({
       <section
         className="cb-page2"
         style={{
-          backgroundColor: isDark ? "#19232A" : "#EFF9FF",
+          backgroundColor: isDark ? "#1a2630" : "#E1EBF4",
         }}
       >
-        <TradingBackground variant={2} />
         <div
           style={{
             width: "100%",

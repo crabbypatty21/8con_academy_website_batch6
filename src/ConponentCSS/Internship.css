@@ -2,7 +2,7 @@
    INTERNSHIP SECTION
    ========================================== */
 .section-internship {
-  background: var(--internship-bg);
+  background: var(--bg-primary);
   font-family: "Geist Sans", sans-serif;
   display: flex;
   flex-direction: column;

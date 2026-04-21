@@ -155,7 +155,7 @@ const ConSpace = () => {
   };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
   }, []);
 
   // Premium Dark Theme Styles
@@ -343,7 +343,7 @@ const ConSpace = () => {
     aboutText: {
       maxWidth: "900px",
       margin: "0 auto",
-      fontSize: "1.1rem",
+      fontSize: "clamp(1rem, 3vw, 1.2rem)",
       color: colors.textMuted,
       lineHeight: "1.8",
     },
@@ -375,7 +375,7 @@ const ConSpace = () => {
 
     ctaDescription: {
       fontSize: "clamp(1rem, 3vw, 1.2rem)",
-      lineHeight: "1.8",
+      lineHeight: "1.6",
       maxWidth: "800px",
       margin: "0 auto 2.5rem",
       color: colors.textMuted,
@@ -603,99 +603,137 @@ const ConSpace = () => {
 
           /* ----- Header CSS ----- */
           .header {
-            background-color: transparent;
-            box-shadow: none;
             position: fixed;
             top: 0;
-            z-index: 1000;
+            left: 0;
             width: 100%;
-            padding: 10px 0;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            text-transform: uppercase;
-            transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
+            height: 70px;
+            z-index: 1000;
+            background: transparent;
+            box-shadow: none;
+            padding: 0 60px;
+            font-family: "Geist Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease, height 0.3s ease, padding 0.3s ease;
+            display: flex;
+            align-items: center;
           }
-          
+
           .header.scrolled {
-            background-color: ${isDark ? "rgba(19, 27, 33, 0.98)" : "rgba(233, 241, 249, 0.98)"};
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: ${isDark ? "0 4px 20px rgba(0, 0, 0, 0.5)" : "0 4px 20px rgba(0, 0, 0, 0.1)"};
+            background: var(--header-scrolled-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.38);
           }
-          
+
           .header-container {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-right: 5%;
-            padding-left: 5%;
           }
-          
+
           .logo {
             display: flex;
             align-items: center;
             text-decoration: none;
             margin-right: auto;
           }
-          
-          .logo-img { height: 40px; width: auto; }
-          
+
+          .logo-img {
+            width: 120px;
+            height: 44px;
+            object-fit: contain;
+          }
+
           .desktop-nav {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            font-weight: 400;
-            position: relative;
+            gap: 20px;
           }
-          
+
           .nav-link {
             text-decoration: none;
-            color: ${isDark ? "#ffffff" : "#373737"};
-            padding: 10px 15px;
-            border-radius: 6px;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            color: #ffffff;
+            padding: 8px 4px;
+            background: none;
+            border: none;
+            font-family: "Geist Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.25s ease, transform 0.25s ease;
             position: relative;
             display: inline-block;
             cursor: pointer;
-            background: none;
-            border: none;
-            font-family: inherit;
+            white-space: nowrap;
           }
-          
-          .nav-link:hover { transform: translateY(-2px); color: #0edb61; }
-          .dropdown { position: relative; }
-          .dropdown:hover .dropdown-content { display: block; }
-          
-          .dropdown-content {
-            display: none;
+
+          .nav-link::before {
+            content: "";
             position: absolute;
-            top: 100%;
+            bottom: 0;
+            left: 10%;
+            width: 0;
+            height: 2px;
+            background: #ff1f2c;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+          }
+
+          .nav-link:hover::before {
+            width: 80%;
+          }
+
+          .nav-link:hover {
+            color: #2DB062;
+            transform: translateY(-2px);
+          }
+
+          .dropdown {
+            position: relative;
+          }
+
+          .dropdown-content {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            position: absolute;
+            top: calc(100% + 10px);
             left: 0;
-            background-color: ${isDark ? "#1c2730" : "#ffffff"};
+            background-color: var(--header-dropdown-bg, #1c2730);
             padding: 10px 0;
             min-width: 200px;
             z-index: 1000;
-            box-shadow: ${isDark ? "0 8px 25px rgba(0, 0, 0, 0.3)" : "0 8px 25px rgba(0, 0, 0, 0.12)"};
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            border: ${isDark ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+          }
+
+          .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
           }
 
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: ${isDark ? "#ffffff" : "#373737"};
+            color: var(--header-dropdown-text, #ffffff);
             text-decoration: none;
             transition: all 0.3s ease;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
+            font-family: "Geist Sans", sans-serif;
+            font-size: 13px;
             font-weight: 600;
-            text-transform: uppercase;
           }
 
-          .dropdown-link:hover { background-color: ${isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.05)"}; color: #0edb61; }
+          .dropdown-link:hover {
+            background-color: var(--accent-green-hover, rgba(255, 255, 255, 0.15));
+            color: #2DB062;
+          }
 
           .theme-toggle-btn {
             background: none;
@@ -727,15 +765,15 @@ const ConSpace = () => {
             border: none;
             font-size: 18px;
             cursor: pointer;
-            color: ${isDark ? "#ffffff" : "#373737"};
+            color: #ffffff;
             display: none;
             padding: 5px;
           }
 
           .mobile-nav {
-            background-color: ${isDark ? "rgba(19, 27, 33, 0.98)" : "rgba(233, 241, 249, 0.98)"};
+            background-color: rgba(19, 27, 33, 0.98);
             backdrop-filter: blur(10px);
-            border-top: ${isDark ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0.08)"};
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             padding: 10px 0;
             max-height: 80vh;
             overflow-y: auto;
@@ -745,29 +783,49 @@ const ConSpace = () => {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
-            color: ${isDark ? "#ffffff" : "#373737"};
-            border-bottom: ${isDark ? "1px solid rgba(255, 255, 255, 0.05)" : "1px solid rgba(0, 0, 0, 0.08)"};
-            font-size: 16px;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: "Geist Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
             transition: background-color 0.3s ease;
             background: none;
-            border: none;
-            font-family: inherit;
-            cursor: pointer;
-            text-align: left;
+            border-left: none;
+            border-right: none;
+            border-top: none;
             width: 100%;
+            text-align: left;
+            cursor: pointer;
           }
-          
-          .mobile-nav-link:hover { background-color: rgba(14, 219, 97, 0.1); }
-          .mobile-dropdown { position: relative; }
-          
+
+          .mobile-nav-link:hover {
+            background-color: rgba(14, 219, 97, 0.1);
+          }
+
+          .mobile-dropdown {
+            position: relative;
+          }
+
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            width: 100%;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: none;
+            border: none;
+            text-align: left;
+            font-family: "Geist Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
           }
 
           .mobile-dropdown-content {
-            background-color: ${isDark ? "#131B21" : "#e2ecf5"};
+            background-color: #131B21;
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
@@ -776,17 +834,46 @@ const ConSpace = () => {
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
-            color: ${isDark ? "#ffffff" : "#373737"};
+            color: #ffffff;
             text-decoration: none;
+            font-family: "Geist Sans", sans-serif;
             font-size: 14px;
-            border-bottom: ${isDark ? "1px solid rgba(255,255,255,0.05)" : "1px solid rgba(0,0,0,0.08)"};
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
           }
-          
-          .rotate-180 { transform: rotate(180deg); transition: transform 0.3s ease; }
-          
+
+          .rotate-180 {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+          }
+
           @media (max-width: 1024px) {
-            .desktop-nav { display: none !important; }
-            .mobile-menu-toggle { display: block !important; }
+            .header {
+              padding: 0 20px;
+            }
+            .desktop-nav {
+              display: none !important;
+            }
+            .mobile-menu-toggle {
+              display: block !important;
+            }
+          }
+
+          @media (min-width: 1025px) {
+            .mobile-nav {
+              display: none !important;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .header {
+              padding: 0 16px;
+            }
+          }
+
+          .heroForegroundContent * {
+            max-width: 100%;
+            word-wrap: break-word;
           }
 
           html.light-mode .header.scrolled {
@@ -794,10 +881,13 @@ const ConSpace = () => {
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
           }
           html.light-mode .nav-link {
-            color: #373737;
+            color: #1a1a2e;
           }
           html.light-mode .nav-link:hover {
             color: #059669;
+          }
+          html.light-mode .nav-link:hover::before {
+            background: #059669;
           }
           html.light-mode .dropdown-content {
             background-color: #ffffff;
@@ -863,6 +953,7 @@ const ConSpace = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       navigate(brand.route);
+                      window.scrollTo(0, 0);
                     }}
                   >
                     {brand.name}
@@ -913,7 +1004,7 @@ const ConSpace = () => {
               {mobileSubBrandsDropdownOpen && (
                 <div className="mobile-dropdown-content">
                   {subBrandsData.map((brand, index) => (
-                    <a key={index} href={brand.route} className="mobile-nav-sublink" onClick={(e) => { e.preventDefault(); navigate(brand.route); }}>
+                    <a key={index} href={brand.route} className="mobile-nav-sublink" onClick={(e) => { e.preventDefault(); navigate(brand.route); window.scrollTo(0, 0); }}>
                       {brand.name}
                     </a>
                   ))}

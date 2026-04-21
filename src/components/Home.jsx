@@ -10,6 +10,7 @@ import "../App.css";
 import "../ConponentCSS/Animations.css";
 import smoothscroll from "smoothscroll-polyfill";
 import CareerPathSection from "./CareerPathSection.jsx";
+import TradingBackground from "./TradingBackground.jsx";
 import { useTheme } from "../context/ThemeContext.jsx";
 
 smoothscroll.polyfill();
@@ -223,6 +224,10 @@ const Home = () => {
 
   return (
     <div className="app-container">
+      {/* Fixed animation overlay on top of all sections */}
+      <div style={{ position: "fixed", inset: 0, zIndex: 10, pointerEvents: "none", opacity: 0.3 }}>
+        <TradingBackground variant={3} />
+      </div>
       <Header />
       <main className="main-content">
         <HeroSection />

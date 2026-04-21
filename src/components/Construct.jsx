@@ -144,7 +144,7 @@ const ConStruct = () => {
   };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
   }, []);
 
   const handleLearnMore = () => {
@@ -449,7 +449,7 @@ const ConStruct = () => {
       overflow: "hidden",
     },
     ctaTitle: {
-      fontSize: "clamp(2rem, 5vw, 2.5rem)",
+      fontSize: "clamp(2rem, 5vw, 2.8rem)",
       fontWeight: "700",
       color: colors.textPrimary,
       marginBottom: "1.5rem",
@@ -494,27 +494,30 @@ const ConStruct = () => {
           }
           
           .header {
-            background-color: transparent;
-            box-shadow: none;
             position: fixed;
             top: 0;
-            z-index: 1000;
+            left: 0;
             width: 100%;
-            padding: 10px 0;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            text-transform: uppercase;
-            transition: background-color 0.8s ease, box-shadow 0.8s ease, backdrop-filter 0.3s ease;
+            height: 70px;
+            z-index: 1000;
+            background: transparent;
+            box-shadow: none;
+            padding: 0 60px;
+            font-family: "Geist Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease, height 0.3s ease, padding 0.3s ease;
+            display: flex;
+            align-items: center;
           }
-          
+
           .header.scrolled {
-            background-color: rgba(19, 27, 33, 0.98);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            background: var(--header-scrolled-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.38);
           }
-          
+
           .header-container {
             width: 100%;
             display: flex;
@@ -523,83 +526,120 @@ const ConStruct = () => {
             padding-right: 5%;
             padding-left: 5%;
           }
-          
+
           .logo {
             display: flex;
             align-items: center;
             text-decoration: none;
             margin-right: auto;
           }
-          
+
           .logo-img {
-            height: 40px;
-            width: auto;
+            width: 120px;
+            height: 44px;
+            object-fit: contain;
           }
-          
+
           .desktop-nav {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            font-weight: 400;
-            position: relative;
+            gap: 20px;
           }
-          
+
           .nav-link {
             text-decoration: none;
             color: #ffffff;
-            padding: 10px 15px;
-            border-radius: 6px;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            font-family: "Geist Sans", sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 22px;
+            padding: 5px 0;
             position: relative;
-            display: inline-block;
+            transition: color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
             cursor: pointer;
+            background: none;
+            border: none;
           }
-          
+
+          .nav-link::before {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            border-radius: 2px;
+            background: #ff1f2c;
+            transition: width 0.3s ease;
+          }
+
           .nav-link:hover {
+            color: #2DB062;
             transform: translateY(-2px);
-            color: #0edb61;
           }
-          
+
+          .nav-link:hover::before {
+            width: 80%;
+          }
+
           .dropdown {
             position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
           }
-          
-          .dropdown:hover .dropdown-content {
-            display: block;
-          }
-          
-          .dropdown-content {
-            display: none;
+
+          .dropdown::after {
+            content: "";
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: #1c2730;
-            padding: 10px 0;
-            min-width: 200px;
-            z-index: 1000;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            height: 12px;
           }
-          
+
+          .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+          }
+
+          .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--header-dropdown-bg, #1c2730);
+            min-width: 180px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            border-radius: 6px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            transform: translateY(10px);
+          }
+
           .dropdown-link {
             display: block;
             padding: 12px 20px;
-            color: #ffffff;
+            color: var(--header-dropdown-text, #ffffff);
             text-decoration: none;
-            transition: all 0.3s ease;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
+            transition: all 0.2s ease;
+            font-size: 14px;
             font-weight: 600;
-            text-transform: uppercase;
           }
-          
+
           .dropdown-link:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #0edb61;
+            background-color: rgba(45, 176, 98, 0.15);
+            color: #2DB062;
+            padding-left: 26px;
           }
-          
+
           .theme-toggle-btn {
             background: none;
             border: none;
@@ -611,11 +651,10 @@ const ConStruct = () => {
             justify-content: center;
             transition: all 0.3s ease;
             margin-right: 12px;
-            border-radius: 50%;
           }
           .theme-toggle-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #0edb61;
+            background: var(--accent-green-hover, rgba(255, 255, 255, 0.15));
+            color: #ffffff;
           }
           html.light-mode .theme-toggle-btn {
             color: #1a1a2e;
@@ -634,7 +673,7 @@ const ConStruct = () => {
             display: none;
             padding: 5px;
           }
-          
+
           .mobile-nav {
             background-color: rgba(19, 27, 33, 0.98);
             backdrop-filter: blur(10px);
@@ -643,25 +682,27 @@ const ConStruct = () => {
             max-height: 80vh;
             overflow-y: auto;
           }
-          
+
           .mobile-nav-link {
             display: block;
             padding: 15px 20px;
             text-decoration: none;
             color: #ffffff;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 16px;
+            font-family: "Geist Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
             transition: background-color 0.3s ease;
           }
-          
+
           .mobile-nav-link:hover {
             background-color: rgba(14, 219, 97, 0.1);
           }
-          
+
           .mobile-dropdown {
             position: relative;
           }
-          
+
           .mobile-dropdown-toggle {
             display: flex;
             align-items: center;
@@ -674,31 +715,34 @@ const ConStruct = () => {
             background: none;
             border: none;
             text-align: left;
-            font-size: 16px;
+            font-family: "Geist Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
           }
-          
+
           .mobile-dropdown-content {
             background-color: #131B21;
             border-radius: 0.5rem;
             margin: 0 20px;
             margin-bottom: 10px;
           }
-          
+
           .mobile-nav-sublink {
             display: block;
             padding: 12px 20px;
             color: #ffffff;
             text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
           }
-          
+
           .rotate-180 {
             transform: rotate(180deg);
             transition: transform 0.3s ease;
           }
-          
+
           @media (max-width: 1024px) {
             .desktop-nav {
               display: none !important;
@@ -707,7 +751,7 @@ const ConStruct = () => {
               display: block !important;
             }
           }
-          
+
           @media (min-width: 1025px) {
             .mobile-nav {
               display: none !important;
@@ -735,6 +779,9 @@ const ConStruct = () => {
           }
           html.light-mode .nav-link:hover {
             color: #059669;
+          }
+          html.light-mode .nav-link:hover::before {
+            background: #059669;
           }
           html.light-mode .dropdown-content {
             background-color: #ffffff;
@@ -799,6 +846,7 @@ const ConStruct = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       navigate(brand.route);
+                      window.scrollTo(0, 0);
                     }}
                   >
                     {brand.name}
@@ -874,6 +922,7 @@ const ConStruct = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         navigate(brand.route);
+                        window.scrollTo(0, 0);
                         setMobileMenuOpen(false);
                         setMobileSubBrandsDropdownOpen(false);
                       }}

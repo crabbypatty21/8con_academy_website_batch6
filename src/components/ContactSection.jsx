@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../ConponentCSS/Contact.css";
 import { ChevronDown, Phone, Mail, MapPin, CheckCircle, XCircle, X, Send } from "lucide-react";
-import TradingBackground from "./TradingBackground.jsx";
 
 const WEB3FORMS_ACCESS_KEY = "5f8976e9-6357-4533-bd55-71314277e2f9";
 
@@ -224,7 +223,6 @@ const ContactSection = () => {
       {/* CONTACT US SECTION             */}
       {/* ============================== */}
       <section id="contact" className="contact-section" style={{ position: "relative" }}>
-        <TradingBackground variant={1} />
         <div className="contact-wrapper" style={{ position: "relative", zIndex: 1 }}>
           <div className="contact-header">
             <h2 className="contact-title fade-in-up">CONTACT US</h2>
@@ -329,7 +327,6 @@ const ContactSection = () => {
       {/* FAQ SECTION                    */}
       {/* ============================== */}
       <section id="faq" className="faq-section" style={{ position: "relative" }}>
-        <TradingBackground variant={3} />
         <div className="faq-wrapper" style={{ position: "relative", zIndex: 1 }}>
           <div className="faq-header">
             <h2 className="faq-title fade-in-up">FAQ</h2>
