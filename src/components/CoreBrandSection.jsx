@@ -83,7 +83,7 @@ const CoreBrandSection = ({
         id="core-brand"
         className="cb-page1"
         style={{
-          backgroundColor: "#131B21",
+          backgroundColor: isDark ? "#131B21" : colors.bgPrimary,
         }}
       >
         <div className="cb-page1-inner">
@@ -101,7 +101,7 @@ const CoreBrandSection = ({
               }}
             >
               <span style={{ color: "#F95545" }}>Forex</span> Derivative <br />
-              Trading <span style={{ color: "#0ED85F" }}>Level II</span>
+              Trading <span style={{ color: colors.accentGreen }}>Level II</span>
             </h1>
 
             <p
@@ -113,7 +113,7 @@ const CoreBrandSection = ({
                 lineHeight: 1.5,
               }}
             >
-              An <span style={{ color: "#0ED85F", fontWeight: "bold" }}>Advanced Course</span>{" "}
+              An <span style={{ color: colors.accentGreen, fontWeight: "bold" }}>Advanced Course</span>{" "}
               designed to equip students with comprehensive knowledge and
               hands-on skills in{" "}
               <span style={{ color: "#F95545", fontWeight: "bold" }}>
@@ -136,7 +136,7 @@ const CoreBrandSection = ({
                 >
                   <span
                     style={{
-                      backgroundColor: "#0ED85F",
+                      backgroundColor: colors.accentGreen,
                       color: "#ffffff",
                       borderRadius: "50%",
                       width: "22px",
